@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WDBXEditor</RootNamespace>
+    <AssemblyName>WDBX Editor</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>WDBXEditor.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.6.0\lib\netstandard1.1\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Archives\CASC\Constants\Locales.cs" />
+    <Compile Include="Archives\CASC\Handlers\BuildConfig.cs" />
+    <Compile Include="Archives\CASC\Handlers\BuildInfo.cs" />
+    <Compile Include="Archives\CASC\Handlers\CASCHandler.cs" />
+    <Compile Include="Archives\CASC\Handlers\CDNConfig.cs" />
+    <Compile Include="Archives\CASC\Handlers\DataFile.cs" />
+    <Compile Include="Archives\CASC\Handlers\EncodingFile.cs" />
+    <Compile Include="Archives\CASC\Handlers\IndexFile.cs" />
+    <Compile Include="Archives\CASC\Handlers\RootFile.cs" />
+    <Compile Include="Archives\CASC\Misc\ByteArrayComparer.cs" />
+    <Compile Include="Archives\CASC\Misc\Extensions.cs" />
+    <Compile Include="Archives\CASC\Misc\Lookup3.cs" />
+    <Compile Include="Archives\CASC\Structures\BLTEChunk.cs" />
+    <Compile Include="Archives\CASC\Structures\BLTEEntry.cs" />
+    <Compile Include="Archives\CASC\Structures\EncodingEntry.cs" />
+    <Compile Include="Archives\CASC\Structures\IndexEntry.cs" />
+    <Compile Include="Archives\CASC\Structures\RootEntry.cs" />
+    <Compile Include="Archives\MPQ\MpqArchive.cs" />
+    <Compile Include="Archives\MPQ\MpqArchiveCompactingEventArgs.cs" />
+    <Compile Include="Archives\MPQ\MpqFileStream.cs" />
+    <Compile Include="Archives\MPQ\Native\Callbacks.cs" />
+    <Compile Include="Archives\MPQ\Native\MpqArchiveSafeHandle.cs" />
+    <Compile Include="Archives\MPQ\Native\MpqFileSafeHandle.cs" />
+    <Compile Include="Archives\MPQ\Native\NativeMethods.cs" />
+    <Compile Include="Archives\MPQ\Native\SFileInfoClass.cs" />
+    <Compile Include="Archives\MPQ\Native\SFileOpenArchiveFlags.cs" />
+    <Compile Include="Archives\MPQ\Native\Win32Methods.cs" />
+    <Compile Include="Common\AutoProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\BufferedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\DBRowComparer.cs" />
+    <Compile Include="Common\DropdownCheckList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Common\DropdownCheckList.Designer.cs">
+      <DependentUpon>DropdownCheckList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\FormHandler.cs" />
+    <Compile Include="Forms\ErrorReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ErrorReport.Designer.cs">
+      <DependentUpon>ErrorReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InputBox.cs" />
+    <Compile Include="EditDefinition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDefinition.Designer.cs">
+      <DependentUpon>EditDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FindReplace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FindReplace.Designer.cs">
+      <DependentUpon>FindReplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoadDefinition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoadDefinition.Designer.cs">
+      <DependentUpon>LoadDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WD5Parser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WD5Parser.Designer.cs">
+      <DependentUpon>WD5Parser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoadCSV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoadCSV.Designer.cs">
+      <DependentUpon>LoadCSV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoadMPQ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoadMPQ.Designer.cs">
+      <DependentUpon>LoadMPQ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoadSQL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoadSQL.Designer.cs">
+      <DependentUpon>LoadSQL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WotLKItemFix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WotLKItemFix.Designer.cs">
+      <DependentUpon>WotLKItemFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reader\DBHeader.cs" />
+    <Compile Include="Reader\DBReader.cs" />
+    <Compile Include="Reader\DBReaderExtensions.cs" />
+    <Compile Include="Reader\FileTypes\WCH5.cs" />
+    <Compile Include="Reader\FileTypes\WCH7.cs" />
+    <Compile Include="Reader\FileTypes\WDB.cs" />
+    <Compile Include="Reader\FileTypes\WDB2.cs" />
+    <Compile Include="Reader\FileTypes\WDB5.cs" />
+    <Compile Include="Reader\FileTypes\WDBC.cs" />
+    <Compile Include="Reader\FieldStructureEntry.cs" />
+    <Compile Include="Storage\DBEntry.cs" />
+    <Compile Include="Storage\Definition.cs" />
+    <Compile Include="Storage\Database.cs" />
+    <Compile Include="Reader\StringTable.cs" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\DropdownCheckList.resx">
+      <DependentUpon>DropdownCheckList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDefinition.resx">
+      <DependentUpon>EditDefinition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ErrorReport.resx">
+      <DependentUpon>ErrorReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FindReplace.resx">
+      <DependentUpon>FindReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoadDefinition.resx">
+      <DependentUpon>LoadDefinition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WD5Parser.resx">
+      <DependentUpon>WD5Parser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoadCSV.resx">
+      <DependentUpon>LoadCSV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoadMPQ.resx">
+      <DependentUpon>LoadMPQ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoadSQL.resx">
+      <DependentUpon>LoadSQL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WotLKItemFix.resx">
+      <DependentUpon>WotLKItemFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Help.chm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdvancedDataGridView\AdvancedDataGridView.csproj">
+      <Project>{6EBA0A55-B390-4479-A564-58D46094998D}</Project>
+      <Name>AdvancedDataGridView</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\csv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sql.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tick.png" />
+    <None Include="Resources\save_file.png" />
+    <None Include="Resources\LoadDef.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\table.png" />
+    <None Include="Resources\icon.ico" />
+    <None Include="Resources\reload.png" />
+    <None Include="Resources\sqlfile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Definitions\Cata 4.3.4 %2815595%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Definitions\Classic 1.12.1 %285875%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Definitions\Legion 7.0.3 %2822248%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Definitions\MoP 5.4.8 %2818414%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Definitions\TBC 2.4.3 %288606%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Definitions\WoD 6.2.4 %2821742%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Definitions\WotLK 3.3.5 %2812340%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x64\StormLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\StormLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\hide.png" />
+    <None Include="Resources\toggle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

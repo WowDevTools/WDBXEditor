@@ -1,0 +1,20 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Help.chm
+Contents file=help.hhc
+Default topic=Introduction.htm
+Display compile progress=No
+Index file=help.hhk
+Language=0x809 English (United Kingdom)
+
+
+[FILES]
+Import_Export.htm
+Introduction.htm
+Menu_Items.htm
+Tools.htm
+DataGrid.htm
+FindReplace.htm
+
+[INFOTYPES]
+

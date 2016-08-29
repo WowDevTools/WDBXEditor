@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WDBXEditor", "WDBXEditor\WDBXEditor.csproj", "{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedDataGridView", "AdvancedDataGridView\AdvancedDataGridView.csproj", "{6EBA0A55-B390-4479-A564-58D46094998D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EBA0A55-B390-4479-A564-58D46094998D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EBA0A55-B390-4479-A564-58D46094998D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EBA0A55-B390-4479-A564-58D46094998D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EBA0A55-B390-4479-A564-58D46094998D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

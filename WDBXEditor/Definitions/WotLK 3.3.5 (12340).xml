@@ -1,0 +1,2508 @@
+<?xml version="1.0"?>
+<Definition xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Table Name="Achievement" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_faction" Type="int" />
+    <Field Name="m_instance_id" Type="int" />
+    <Field Name="m_supercedes" Type="int" />
+    <Field Name="m_title_lang" Type="loc" />
+    <Field Name="m_description_lang" Type="loc" />
+    <Field Name="m_category" Type="int" />
+    <Field Name="m_points" Type="int" />
+    <Field Name="m_ui_order" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_iconID" Type="int" />
+    <Field Name="m_reward_lang" Type="loc" />
+    <Field Name="m_minimum_criteria" Type="int" />
+    <Field Name="m_shares_criteria" Type="int" />
+  </Table>
+  <Table Name="Achievement_Category" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_parent" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_ui_order" Type="int" />
+  </Table>
+  <Table Name="Achievement_Criteria" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_achievement_id" Type="int" />
+    <Field Name="m_type" Type="int" />
+    <Field Name="m_asset_id" Type="int" />
+    <Field Name="m_quantity" Type="int" />
+    <Field Name="m_start_event" Type="int" />
+    <Field Name="m_start_asset" Type="int" />
+    <Field Name="m_fail_event" Type="int" />
+    <Field Name="m_fail_asset" Type="int" />
+    <Field Name="m_description_lang" Type="loc" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_timer_start_event" Type="int" />
+    <Field Name="m_timer_asset_id" Type="int" />
+    <Field Name="m_timer_time" Type="int" />
+    <Field Name="m_ui_order" Type="int" />
+  </Table>
+  <Table Name="AnimationData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Name" Type="string" />
+    <Field Name="m_Weaponflags" Type="int" />
+    <Field Name="m_Bodyflags" Type="int" />
+    <Field Name="m_Flags" Type="int" />
+    <Field Name="m_Fallback" Type="int" />
+    <Field Name="m_BehaviorID" Type="int" />
+    <Field Name="m_BehaviorTier" Type="int" />
+  </Table>
+  <Table Name="AnimKit" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_oneShotDuration" Type="int" />
+    <Field Name="m_oneShotStopAnimKitID" Type="int" />
+  </Table>
+  <Table Name="AnimKitBoneSet" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_boneDataID" Type="int" />
+    <Field Name="m_parentAnimKitBoneSetID" Type="int" />
+    <Field Name="m_extraBoneCount" Type="int" />
+    <Field Name="m_altAnimKitBoneSetID" Type="int" />
+  </Table>
+  <Table Name="AnimKitBoneSetAlias" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_boneDataID" Type="int" />
+    <Field Name="m_animKitBoneSetID" Type="int" />
+  </Table>
+  <Table Name="AnimKitConfig" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_configFlags" Type="int" />
+  </Table>
+  <Table Name="AnimKitConfigBoneSet" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_parentAnimKitConfigID" Type="int" />
+    <Field Name="m_animKitBoneSetID" Type="int" />
+    <Field Name="m_animKitPriorityID" Type="int" />
+  </Table>
+  <Table Name="AnimKitPriority" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_priority" Type="int" />
+  </Table>
+  <Table Name="AnimKitSegment" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_parentAnimKitID" Type="int" />
+    <Field Name="m_animID" Type="int" />
+    <Field Name="m_animStartTime" Type="int" />
+    <Field Name="m_animKitConfigID" Type="int" />
+    <Field Name="m_startCondition" Type="int" />
+    <Field Name="m_startConditionParam" Type="int" />
+    <Field Name="m_startConditionDelay" Type="int" />
+    <Field Name="m_endCondition" Type="int" />
+    <Field Name="m_endConditionParam" Type="int" />
+    <Field Name="m_endConditionDelay" Type="int" />
+    <Field Name="m_speed" Type="float" />
+    <Field Name="m_segmentFlags" Type="int" />
+    <Field Name="m_forcedVariation" Type="int" />
+    <Field Name="m_overrideConfigFlags" Type="int" />
+    <Field Name="m_loopToSegmentIndex" Type="int" />
+  </Table>
+  <Table Name="AnimReplacement" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_srcAnimID" Type="int" />
+    <Field Name="m_dstAnimID" Type="int" />
+    <Field Name="m_parentAnimReplacementSetID" Type="int" />
+  </Table>
+  <Table Name="AnimReplacementSet" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_execOrder" Type="int" />
+  </Table>
+  <Table Name="AreaAssignment" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_MapID" Type="int" />
+    <Field Name="m_AreaID" Type="int" />
+    <Field Name="m_ChunkX" Type="int" />
+    <Field Name="m_ChunkY" Type="int" />
+  </Table>
+  <Table Name="AreaGroup" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_areaID" Type="int" ArraySize="6" />
+    <Field Name="m_nextAreaID" Type="int" />
+  </Table>
+  <Table Name="AreaPOI" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_importance" Type="int" />
+    <Field Name="m_icon" Type="int" ArraySize="9" />
+    <Field Name="m_factionID" Type="int" />
+    <Field Name="m_x" Type="float" />
+    <Field Name="m_y" Type="float" />
+    <Field Name="m_z" Type="float" />
+    <Field Name="m_continentID" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_areaID" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_description_lang" Type="loc" />
+    <Field Name="m_worldStateID" Type="int" />
+    <Field Name="m_worldMapLink" Type="int" />
+  </Table>
+  <Table Name="AreaTable" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ContinentID" Type="int" />
+    <Field Name="m_ParentAreaID" Type="int" />
+    <Field Name="m_AreaBit" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_SoundProviderPref" Type="int" />
+    <Field Name="m_SoundProviderPrefUnderwater" Type="int" />
+    <Field Name="m_AmbienceID" Type="int" />
+    <Field Name="m_ZoneMusic" Type="int" />
+    <Field Name="m_introSound" Type="int" />
+    <Field Name="m_ExplorationLevel" Type="int" />
+    <Field Name="m_AreaName_lang" Type="loc" />
+    <Field Name="m_factionGroupMask" Type="int" />
+    <Field Name="m_liquidTypeID" Type="int" ArraySize="4" />
+    <Field Name="m_minElevation" Type="float" />
+    <Field Name="m_ambient_multiplier" Type="float" />
+    <Field Name="m_lightid" Type="int" />
+  </Table>
+  <Table Name="AreaTrigger" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ContinentID" Type="int" />
+    <Field Name="m_x" Type="float" />
+    <Field Name="m_y" Type="float" />
+    <Field Name="m_z" Type="float" />
+    <Field Name="m_radius" Type="float" />
+    <Field Name="m_box_length" Type="float" />
+    <Field Name="m_box_width" Type="float" />
+    <Field Name="m_box_height" Type="float" />
+    <Field Name="m_box_yaw" Type="float" />
+  </Table>
+  <Table Name="Armorlocation" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_clothmodifier" Type="float" />
+    <Field Name="m_leathermodifier" Type="float" />
+    <Field Name="m_chainmodifier" Type="float" />
+    <Field Name="m_platemodifier" Type="float" />
+    <Field Name="m_modifier" Type="float" />
+  </Table>
+  <Table Name="AttackAnimKits" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Animation" Type="int" />
+    <Field Name="m_Type" Type="int" />
+    <Field Name="m_Flags" Type="int" />
+    <Field Name="m_Unknown" Type="int" />
+  </Table>
+  <Table Name="AttackAnimTypes" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Name" Type="string" />
+  </Table>
+  <Table Name="AuctionHouse" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_factionID" Type="int" />
+    <Field Name="m_depositRate" Type="int" />
+    <Field Name="m_consignmentRate" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="BankBagSlotPrices" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Cost" Type="int" />
+  </Table>
+  <Table Name="BannedAddOns" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_nameMD5_" Type="int" ArraySize="4" />
+    <Field Name="m_versionMD5_" Type="int" ArraySize="4" />
+    <Field Name="m_lastModified" Type="int" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="BarberShopStyle" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_type" Type="int" />
+    <Field Name="m_DisplayName_lang" Type="loc" />
+    <Field Name="m_Description_lang" Type="loc" />
+    <Field Name="m_Cost_Modifier" Type="float" />
+    <Field Name="m_race" Type="int" />
+    <Field Name="m_sex" Type="int" />
+    <Field Name="m_data" Type="int" />
+  </Table>
+  <Table Name="BattlemasterList" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" ArraySize="8" />
+    <Field Name="m_instanceType" Type="int" />
+    <Field Name="m_groupsAllowed" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_maxGroupSize" Type="int" />
+    <Field Name="m_holidayWorldState" Type="int" />
+    <Field Name="m_minlevel" Type="int" />
+    <Field Name="m_maxlevel" Type="int" />
+  </Table>
+  <Table Name="CameraShakes" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_shakeType" Type="int" />
+    <Field Name="m_direction" Type="int" />
+    <Field Name="m_amplitude" Type="float" />
+    <Field Name="m_frequency" Type="float" />
+    <Field Name="m_duration" Type="float" />
+    <Field Name="m_phase" Type="float" />
+    <Field Name="m_coefficient" Type="float" />
+  </Table>
+  <Table Name="Cfg_Categories" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_localeMask" Type="int" />
+    <Field Name="m_charsetMask" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="Cfg_Configs" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_ID" Type="int" />
+    <Field Name="m_realmType" Type="int" />
+    <Field Name="m_playerKillingAllowed" Type="int" />
+    <Field Name="m_roleplaying" Type="int" />
+  </Table>
+  <Table Name="CharacterFacialHairStyles" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_raceID" Type="int" />
+    <Field Name="m_sexID" Type="int" />
+    <Field Name="m_VariationID" Type="int" />
+    <Field Name="m_Geoset" Type="int" ArraySize="5" />
+  </Table>
+  <Table Name="CharBaseInfo" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_raceID" Type="byte" />
+    <Field Name="m_classID" Type="byte" />
+  </Table>
+  <Table Name="CharHairGeosets" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_RaceID" Type="int" />
+    <Field Name="m_SexID" Type="int" />
+    <Field Name="m_VariationID" Type="int" />
+    <Field Name="m_GeosetID" Type="int" />
+    <Field Name="m_Showscalp" Type="int" />
+  </Table>
+  <Table Name="CharHairTextures" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Race" Type="int" />
+    <Field Name="m_Gender" Type="bool" />
+    <Field Name="m_Unknown" Type="bool" />
+    <Field Name="m_unknownInt" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="CharSections" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_raceID" Type="int" />
+    <Field Name="m_sexID" Type="int" />
+    <Field Name="m_baseSection" Type="int" />
+    <Field Name="m_TextureName" Type="string" ArraySize="3" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_variationIndex" Type="int" />
+    <Field Name="m_colorIndex" Type="int" />
+  </Table>
+  <Table Name="CharStartOutfit" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_raceID" Type="byte" />
+    <Field Name="m_classID" Type="byte" />
+    <Field Name="m_sexID" Type="byte" />
+    <Field Name="m_outfitID" Type="byte" />
+    <Field Name="m_ItemID" Type="int" ArraySize="24" />
+    <Field Name="m_DisplayItemID" Type="int" ArraySize="24" />
+    <Field Name="m_InventoryType" Type="int" ArraySize="24" />
+  </Table>
+  <Table Name="CharTitles" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Condition_ID" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_name1_lang" Type="loc" />
+    <Field Name="m_mask_ID" Type="int" />
+  </Table>
+  <Table Name="ChatChannels" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_factionGroup" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_shortcut_lang" Type="loc" />
+  </Table>
+  <Table Name="ChatProfanity" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_text" Type="string" />
+    <Field Name="m_Language" Type="int" />
+  </Table>
+  <Table Name="ChrClasses" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Unknown" Type="int" />
+    <Field Name="m_DisplayPower" Type="int" />
+    <Field Name="m_petNameToken" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_name_female_lang" Type="loc" />
+    <Field Name="m_name_male_lang" Type="loc" />
+    <Field Name="m_filename" Type="string" />
+    <Field Name="m_spellClassSet" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_cinematicSequenceID" Type="int" />
+    <Field Name="m_required_expansion" Type="int" />
+  </Table>
+  <Table Name="ChrRaces" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_factionID" Type="int" />
+    <Field Name="m_ExplorationSoundID" Type="int" />
+    <Field Name="m_MaleDisplayId" Type="int" />
+    <Field Name="m_FemaleDisplayId" Type="int" />
+    <Field Name="m_ClientPrefix" Type="string" />
+    <Field Name="m_BaseLanguage" Type="int" />
+    <Field Name="m_creatureType" Type="int" />
+    <Field Name="m_ResSicknessSpellID" Type="int" />
+    <Field Name="m_SplashSoundID" Type="int" />
+    <Field Name="m_clientFilestring" Type="string" />
+    <Field Name="m_cinematicSequenceID" Type="int" />
+    <Field Name="m_alliance" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_name_female_lang" Type="loc" />
+    <Field Name="m_name_male_lang" Type="loc" />
+    <Field Name="m_facialHairCustomization" Type="string" ArraySize="2" />
+    <Field Name="m_hairCustomization" Type="string" />
+    <Field Name="m_required_expansion" Type="int" />
+  </Table>
+  <Table Name="CinematicCamera" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_model" Type="string" />
+    <Field Name="m_soundID" Type="int" />
+    <Field Name="m_originX" Type="float" />
+    <Field Name="m_originY" Type="float" />
+    <Field Name="m_originZ" Type="float" />
+    <Field Name="m_originFacing" Type="float" />
+  </Table>
+  <Table Name="CinematicSequences" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_soundID" Type="int" />
+    <Field Name="m_camera" Type="int" ArraySize="8" />
+  </Table>
+  <Table Name="CreatureDisplayInfo" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_modelID" Type="int" />
+    <Field Name="m_soundID" Type="int" />
+    <Field Name="m_extendedDisplayInfoID" Type="int" />
+    <Field Name="m_creatureModelScale" Type="float" />
+    <Field Name="m_creatureModelAlpha" Type="int" />
+    <Field Name="m_textureVariation" Type="string" ArraySize="3" />
+    <Field Name="m_portraitTextureName" Type="string" />
+    <Field Name="m_bloodID" Type="int" />
+    <Field Name="m_NPCSoundID" Type="int" />
+    <Field Name="m_particleColorID" Type="int" />
+    <Field Name="m_creatureGeosetData" Type="int" />
+    <Field Name="m_objectEffectPackageID" Type="int" />
+    <Field Name="m_animReplacementSetID" Type="int" />
+  </Table>
+  <Table Name="CreatureDisplayInfoExtra" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_DisplayRaceID" Type="int" />
+    <Field Name="m_DisplaySexID" Type="int" />
+    <Field Name="m_SkinID" Type="int" />
+    <Field Name="m_FaceID" Type="int" />
+    <Field Name="m_HairStyleID" Type="int" />
+    <Field Name="m_HairColorID" Type="int" />
+    <Field Name="m_FacialHairID" Type="int" />
+    <Field Name="m_NPCItemDisplay" Type="int" ArraySize="11" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_BakeName" Type="string" />
+  </Table>
+  <Table Name="CreatureFamily" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_minScale" Type="float" />
+    <Field Name="m_minScaleLevel" Type="int" />
+    <Field Name="m_maxScale" Type="float" />
+    <Field Name="m_maxScaleLevel" Type="int" />
+    <Field Name="m_skillLine" Type="int" ArraySize="2" />
+    <Field Name="m_petFoodMask" Type="int" />
+    <Field Name="m_petTalentType" Type="int" />
+    <Field Name="m_categoryEnumID" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_iconFile" Type="string" />
+  </Table>
+  <Table Name="CreatureModelData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_ModelName" Type="string" />
+    <Field Name="m_sizeClass" Type="int" />
+    <Field Name="m_modelScale" Type="float" />
+    <Field Name="m_bloodID" Type="int" />
+    <Field Name="m_footprintTextureID" Type="int" />
+    <Field Name="m_footprintTextureLength" Type="float" />
+    <Field Name="m_footprintTextureWidth" Type="float" />
+    <Field Name="m_footprintParticleScale" Type="float" />
+    <Field Name="m_foleyMaterialID" Type="int" />
+    <Field Name="m_footstepShakeSize" Type="int" />
+    <Field Name="m_deathThudShakeSize" Type="int" />
+    <Field Name="m_soundID" Type="int" />
+    <Field Name="m_collisionWidth" Type="float" />
+    <Field Name="m_collisionHeight" Type="float" />
+    <Field Name="m_mountHeight" Type="float" />
+    <Field Name="m_geoBoxMinX" Type="float" />
+    <Field Name="m_geoBoxMinY" Type="float" />
+    <Field Name="m_geoBoxMinZ" Type="float" />
+    <Field Name="m_geoBoxMaxX" Type="float" />
+    <Field Name="m_geoBoxMaxY" Type="float" />
+    <Field Name="m_geoBoxMaxZ" Type="float" />
+    <Field Name="m_worldEffectScale" Type="float" />
+    <Field Name="m_attachedEffectScale" Type="float" />
+    <Field Name="m_missileCollisionRadius" Type="float" />
+    <Field Name="m_missileCollisionPush" Type="float" />
+    <Field Name="m_missileCollisionRaise" Type="float" />
+  </Table>
+  <Table Name="CreatureMovementInfo" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_smoothFacingChaseRate" Type="float" />
+  </Table>
+  <Table Name="CreatureSoundData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_soundExertionID" Type="int" />
+    <Field Name="m_soundExertionCriticalID" Type="int" />
+    <Field Name="m_soundInjuryID" Type="int" />
+    <Field Name="m_soundInjuryCriticalID" Type="int" />
+    <Field Name="m_soundInjuryCrushingBlowID" Type="int" />
+    <Field Name="m_soundDeathID" Type="int" />
+    <Field Name="m_soundStunID" Type="int" />
+    <Field Name="m_soundStandID" Type="int" />
+    <Field Name="m_soundFootstepID" Type="int" />
+    <Field Name="m_soundAggroID" Type="int" />
+    <Field Name="m_soundWingFlapID" Type="int" />
+    <Field Name="m_soundWingGlideID" Type="int" />
+    <Field Name="m_soundAlertID" Type="int" />
+    <Field Name="m_soundFidget" Type="int" ArraySize="5" />
+    <Field Name="m_customAttack" Type="int" ArraySize="4" />
+    <Field Name="m_NPCSoundID" Type="int" />
+    <Field Name="m_loopSoundID" Type="int" />
+    <Field Name="m_creatureImpactType" Type="int" />
+    <Field Name="m_soundJumpStartID" Type="int" />
+    <Field Name="m_soundJumpEndID" Type="int" />
+    <Field Name="m_soundPetAttackID" Type="int" />
+    <Field Name="m_soundPetOrderID" Type="int" />
+    <Field Name="m_soundPetDismissID" Type="int" />
+    <Field Name="m_fidgetDelaySecondsMin" Type="float" />
+    <Field Name="m_fidgetDelaySecondsMax" Type="float" />
+    <Field Name="m_birthSoundID" Type="int" />
+    <Field Name="m_spellCastDirectedSoundID" Type="int" />
+    <Field Name="m_submergeSoundID" Type="int" />
+    <Field Name="m_submergedSoundID" Type="int" />
+    <Field Name="m_creatureSoundDataIDPet" Type="int" />
+  </Table>
+  <Table Name="CreatureSpellData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_spells" Type="int" ArraySize="4" />
+    <Field Name="m_availability" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="CreatureType" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="CurrencyCategory" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="CurrencyTypes" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_itemID" Type="int" />
+    <Field Name="m_categoryID" Type="int" />
+    <Field Name="m_bitIndex" Type="int" />
+  </Table>
+  <Table Name="DanceMoves" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_type" Type="int" />
+    <Field Name="m_param" Type="int" />
+    <Field Name="m_fallback" Type="int" />
+    <Field Name="m_racemask" Type="int" />
+    <Field Name="m_internal_name" Type="string" />
+    <Field Name="m_Name_lang" Type="loc" />
+    <Field Name="m_lockID" Type="int" />
+  </Table>
+  <Table Name="DeathThudLookups" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_SizeClass" Type="int" />
+    <Field Name="m_TerraintypeSoundID" Type="int" />
+    <Field Name="m_SoundEntryID" Type="int" />
+    <Field Name="m_SoundEntryIDWater" Type="int" />
+  </Table>
+  <Table Name="DeclinedWord" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_word" Type="string" />
+  </Table>
+  <Table Name="DeclinedWordCases" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_declinedWordID" Type="int" />
+    <Field Name="m_caseIndex" Type="int" />
+    <Field Name="m_declinedWord" Type="string" />
+  </Table>
+  <Table Name="DestructibleModelData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_state0Wmo" Type="int" />
+    <Field Name="m_state0DestructionDoodadSet" Type="int" />
+    <Field Name="m_state0ImpactEffectDoodadSet" Type="int" />
+    <Field Name="m_state0AmbientDoodadSet" Type="int" />
+    <Field Name="m_state1Wmo" Type="int" />
+    <Field Name="m_state1DestructionDoodadSet" Type="int" />
+    <Field Name="m_state1ImpactEffectDoodadSet" Type="int" />
+    <Field Name="m_state1AmbientDoodadSet" Type="int" />
+    <Field Name="m_state2Wmo" Type="int" />
+    <Field Name="m_state2DestructionDoodadSet" Type="int" />
+    <Field Name="m_state2ImpactEffectDoodadSet" Type="int" />
+    <Field Name="m_state2AmbientDoodadSet" Type="int" />
+    <Field Name="m_state3Wmo" Type="int" />
+    <Field Name="m_state3DestructionDoodadSet" Type="int" />
+    <Field Name="m_state3ImpactEffectDoodadSet" Type="int" />
+    <Field Name="m_state3AmbientDoodadSet" Type="int" />
+    <Field Name="m_Unknown" Type="int" />
+    <Field Name="m_Unknown1" Type="int" />
+  </Table>
+  <Table Name="DungeonEncounter" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_difficulty" Type="int" />
+    <Field Name="m_orderIndex" Type="int" />
+    <Field Name="m_Bit" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_spellIconID" Type="int" />
+  </Table>
+  <Table Name="DungeonMap" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_floorIndex" Type="int" />
+    <Field Name="m_minX" Type="float" />
+    <Field Name="m_maxX" Type="float" />
+    <Field Name="m_minY" Type="float" />
+    <Field Name="m_maxY" Type="float" />
+    <Field Name="m_parentWorldMapID" Type="int" />
+  </Table>
+  <Table Name="DungeonMapChunk" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_wmoGroupID" Type="int" />
+    <Field Name="m_dungeonMapID" Type="int" />
+    <Field Name="m_minZ" Type="float" />
+  </Table>
+  <Table Name="DurabilityCosts" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_weaponSubClassCost" Type="int" ArraySize="21" />
+    <Field Name="m_armorSubClassCost" Type="int" ArraySize="8" />
+  </Table>
+  <Table Name="DurabilityQuality" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="Emotes" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_EmoteSlashCommand" Type="string" />
+    <Field Name="m_AnimID" Type="int" />
+    <Field Name="m_EmoteFlags" Type="int" />
+    <Field Name="m_EmoteSpecProc" Type="int" />
+    <Field Name="m_EmoteSpecProcParam" Type="int" />
+    <Field Name="m_EventSoundID" Type="int" />
+  </Table>
+  <Table Name="EmotesText" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_emoteID" Type="int" />
+    <Field Name="m_emoteText" Type="int" ArraySize="16" />
+  </Table>
+  <Table Name="EmotesTextData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_text_lang" Type="loc" />
+  </Table>
+  <Table Name="EmotesTextSound" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_emotesTextID" Type="int" />
+    <Field Name="m_raceID" Type="int" />
+    <Field Name="m_sexID" Type="int" />
+    <Field Name="m_soundID" Type="int" />
+  </Table>
+  <Table Name="EnvironmentalDamage" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_EnumID" Type="int" />
+    <Field Name="m_VisualkitID" Type="int" />
+  </Table>
+  <Table Name="Exhaustion" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_xp" Type="int" />
+    <Field Name="m_factor" Type="float" />
+    <Field Name="m_outdoorHours" Type="float" />
+    <Field Name="m_innHours" Type="float" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_threshold" Type="float" />
+  </Table>
+  <Table Name="Faction" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_reputationIndex" Type="int" />
+    <Field Name="m_reputationRaceMask" Type="int" ArraySize="4" />
+    <Field Name="m_reputationClassMask" Type="int" ArraySize="4" />
+    <Field Name="m_reputationBase" Type="int" ArraySize="4" />
+    <Field Name="m_reputationFlags" Type="int" ArraySize="4" />
+    <Field Name="m_parentFactionID" Type="int" />
+    <Field Name="m_parentFactionMod" Type="float" ArraySize="2" />
+    <Field Name="m_parentFactionCap" Type="int" ArraySize="2" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_description_lang" Type="loc" />
+  </Table>
+  <Table Name="FactionGroup" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_maskID" Type="int" />
+    <Field Name="m_internalName" Type="string" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="FactionTemplate" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_faction" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_factionGroup" Type="int" />
+    <Field Name="m_friendGroup" Type="int" />
+    <Field Name="m_enemyGroup" Type="int" />
+    <Field Name="m_enemies" Type="int" ArraySize="4" />
+    <Field Name="m_friend" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="FileData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_filename" Type="string" />
+    <Field Name="m_filepath" Type="string" />
+  </Table>
+  <Table Name="FootprintTextures" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_FootstepFilename" Type="string" />
+  </Table>
+  <Table Name="FootstepTerrainLookup" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_CreatureFootstepID" Type="int" />
+    <Field Name="m_TerrainSoundID" Type="int" />
+    <Field Name="m_SoundID" Type="int" />
+    <Field Name="m_SoundIDSplash" Type="int" />
+  </Table>
+  <Table Name="GameObjectArtKit" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_textureVariation" Type="string" ArraySize="3" />
+    <Field Name="m_attachModel" Type="string" ArraySize="4" />
+  </Table>
+  <Table Name="GameObjectDisplayInfo" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_modelName" Type="string" />
+    <Field Name="m_Sound" Type="int" ArraySize="10" />
+    <Field Name="m_geoBoxMinX" Type="float" />
+    <Field Name="m_geoBoxMinY" Type="float" />
+    <Field Name="m_geoBoxMinZ" Type="float" />
+    <Field Name="m_geoBoxMaxX" Type="float" />
+    <Field Name="m_geoBoxMaxY" Type="float" />
+    <Field Name="m_geoBoxMaxZ" Type="float" />
+    <Field Name="m_objectEffectPackageID" Type="int" />
+  </Table>
+  <Table Name="GameTables" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_numRows" Type="int" />
+    <Field Name="m_numColumns" Type="int" />
+  </Table>
+  <Table Name="GameTips" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_text_lang" Type="loc" />
+  </Table>
+  <Table Name="GemProperties" Build="12340">
+    <Field Name="m_id" Type="int" IsIndex="true" />
+    <Field Name="m_enchant_id" Type="int" />
+    <Field Name="m_maxcount_inv" Type="int" />
+    <Field Name="m_maxcount_item" Type="int" />
+    <Field Name="m_type" Type="int" />
+  </Table>
+  <Table Name="GlyphProperties" Build="12340">
+    <Field Name="m_id" Type="int" IsIndex="true" />
+    <Field Name="m_spellID" Type="int" />
+    <Field Name="m_glyphSlotFlags" Type="int" />
+    <Field Name="m_spellIconID" Type="int" />
+  </Table>
+  <Table Name="GlyphSlot" Build="12340">
+    <Field Name="m_id" Type="int" IsIndex="true" />
+    <Field Name="m_type" Type="int" />
+    <Field Name="m_tooltip" Type="int" />
+  </Table>
+  <Table Name="GMSurveyAnswers" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Sort_Index" Type="int" />
+    <Field Name="m_GMSurveyQuestionID" Type="int" />
+    <Field Name="m_Answer_lang" Type="loc" />
+  </Table>
+  <Table Name="GMSurveyCurrentSurvey" Build="12340">
+    <Field Name="m_LANGID" Type="int" IsIndex="true" />
+    <Field Name="m_GMSURVEY_ID" Type="int" />
+  </Table>
+  <Table Name="GMSurveyQuestions" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Question_lang" Type="loc" />
+  </Table>
+  <Table Name="GMSurveySurveys" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Q" Type="int" ArraySize="10" />
+  </Table>
+  <Table Name="GMTicketCategory" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_category_lang" Type="loc" />
+  </Table>
+  <Table Name="GroundEffectDoodad" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_doodadpath" Type="string" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="GroundEffectTexture" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_doodadId" Type="int" ArraySize="4" />
+    <Field Name="m_doodadWeight" Type="int" ArraySize="4" />
+    <Field Name="m_density" Type="int" />
+    <Field Name="m_sound" Type="int" />
+  </Table>
+  <Table Name="gtBarberShopCostBase" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtChanceToMeleeCrit" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtChanceToMeleeCritBase" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtChanceToSpellCrit" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtChanceToSpellCritBase" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtCombatRatings" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtNPCManaCostScaler" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtOCTClassCombatRatingScalar" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtOCTRegenHP" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtOCTRegenMP" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtRegenHPPerSpt" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtRegenMPPerSpt" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="gtSpellScaling" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="HelmetGeosetVisData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_hideGeoset" Type="int" ArraySize="7" />
+  </Table>
+  <Table Name="HolidayDescriptions" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_description_lang" Type="loc" />
+  </Table>
+  <Table Name="HolidayNames" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="Holidays" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_duration" Type="int" ArraySize="10" />
+    <Field Name="m_date" Type="int" ArraySize="26" />
+    <Field Name="m_region" Type="int" />
+    <Field Name="m_looping" Type="int" />
+    <Field Name="m_calendarFlags" Type="int" ArraySize="10" />
+    <Field Name="m_holidayNameID" Type="int" />
+    <Field Name="m_holidayDescriptionID" Type="int" />
+    <Field Name="m_textureFilename" Type="string" />
+    <Field Name="m_priority" Type="int" />
+    <Field Name="m_calendarFilterType" Type="int" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="Item" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_classID" Type="int" />
+    <Field Name="m_subclassID" Type="int" />
+    <Field Name="m_sound_override_subclassid" Type="int" />
+    <Field Name="m_material" Type="int" />
+    <Field Name="m_displayInfoID" Type="int" />
+    <Field Name="m_inventoryType" Type="int" />
+    <Field Name="m_sheatheType" Type="int" />
+  </Table>
+  <Table Name="ItemArmorQuality" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_qualitymod" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemArmorShield" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_itemLevel" Type="int" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+  </Table>
+  <Table Name="ItemArmorTotal" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_itemLevel" Type="int" />
+    <Field Name="m_cloth" Type="float" />
+    <Field Name="m_leather" Type="float" />
+    <Field Name="m_mail" Type="float" />
+    <Field Name="m_plate" Type="float" />
+  </Table>
+  <Table Name="ItemBagFamily" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="ItemClass" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_classID" Type="int" />
+    <Field Name="m_subclassMapID" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_className_lang" Type="loc" />
+  </Table>
+  <Table Name="ItemCondExtCosts" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Unknown" Type="int" />
+    <Field Name="m_ItemExtendedCost" Type="int" />
+    <Field Name="m_Unknown1" Type="int" />
+  </Table>
+  <Table Name="ItemDamageAmmo" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDamageOneHand" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDamageOneHandCaster" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDamageRanged" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDamageThrown" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDamageTwoHand" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDamageTwoHandCaster" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDamageWand" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_quality" Type="float" ArraySize="7" />
+    <Field Name="m_itemLevel" Type="int" />
+  </Table>
+  <Table Name="ItemDisplayInfo" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_modelName" Type="string" ArraySize="2" />
+    <Field Name="m_modelTexture" Type="string" ArraySize="2" />
+    <Field Name="m_inventoryIcon" Type="string" ArraySize="2" />
+    <Field Name="m_geosetGroup" Type="int" ArraySize="3" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_spellVisualID" Type="int" />
+    <Field Name="m_groupSoundIndex" Type="int" />
+    <Field Name="m_helmetGeosetVis" Type="int" ArraySize="2" />
+    <Field Name="m_texture" Type="string" ArraySize="8" />
+    <Field Name="m_itemVisual" Type="int" />
+    <Field Name="m_particleColorID" Type="int" />
+  </Table>
+  <Table Name="ItemExtendedCost" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_honorPoints" Type="int" />
+    <Field Name="m_arenaPoints" Type="int" />
+    <Field Name="m_arenaBracket" Type="int" />
+    <Field Name="m_itemID" Type="int" ArraySize="5" />
+    <Field Name="m_itemCount" Type="int" ArraySize="5" />
+    <Field Name="m_requiredArenaRating" Type="int" />
+    <Field Name="m_itemPurchaseGroup" Type="int" />
+  </Table>
+  <Table Name="ItemGroupSounds" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_sound" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="ItemLimitCategory" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_quantity" Type="int" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="ItemPetFood" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Name_lang" Type="loc" />
+  </Table>
+  <Table Name="ItemPurchaseGroup" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_itemID" Type="int" ArraySize="8" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="ItemRandomProperties" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Name" Type="string" />
+    <Field Name="m_Enchantment" Type="int" ArraySize="5" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="ItemRandomSuffix" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_internalName" Type="string" />
+    <Field Name="m_enchantment" Type="int" ArraySize="5" />
+    <Field Name="m_allocationPct" Type="int" ArraySize="5" />
+  </Table>
+  <Table Name="ItemSet" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_itemID" Type="int" ArraySize="17" />
+    <Field Name="m_setSpellID" Type="int" ArraySize="8" />
+    <Field Name="m_setThreshold" Type="int" ArraySize="8" />
+    <Field Name="m_requiredSkill" Type="int" />
+    <Field Name="m_requiredSkillRank" Type="int" />
+  </Table>
+  <Table Name="ItemSubClass" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_classID" Type="int" />
+    <Field Name="m_subClassID" Type="int" />
+    <Field Name="m_prerequisiteProficiency" Type="int" />
+    <Field Name="m_postrequisiteProficiency" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_displayFlags" Type="int" />
+    <Field Name="m_weaponParrySeq" Type="int" />
+    <Field Name="m_weaponReadySeq" Type="int" />
+    <Field Name="m_weaponAttackSeq" Type="int" />
+    <Field Name="m_WeaponSwingSize" Type="int" />
+    <Field Name="m_displayName_lang" Type="loc" />
+    <Field Name="m_verboseName_lang" Type="loc" />
+  </Table>
+  <Table Name="ItemSubClassMask" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_classID" Type="int" />
+    <Field Name="m_mask" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="ItemVisualEffects" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Model" Type="string" />
+  </Table>
+  <Table Name="ItemVisuals" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Slot" Type="int" ArraySize="5" />
+  </Table>
+  <Table Name="Languages" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="LanguageWords" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_languageID" Type="int" />
+    <Field Name="m_word" Type="string" />
+  </Table>
+  <Table Name="LfgDungeonExpansion" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_lfg_id" Type="int" />
+    <Field Name="m_expansion_level" Type="int" />
+    <Field Name="m_random_id" Type="int" />
+    <Field Name="m_hard_level_min" Type="int" />
+    <Field Name="m_hard_level_max" Type="int" />
+    <Field Name="m_target_level_min" Type="int" />
+    <Field Name="m_target_level_max" Type="int" />
+  </Table>
+  <Table Name="LfgDungeonGroup" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_order_index" Type="int" />
+    <Field Name="m_parent_group_id" Type="int" />
+    <Field Name="m_typeid" Type="int" />
+  </Table>
+  <Table Name="LfgDungeons" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_minLevel" Type="int" />
+    <Field Name="m_maxLevel" Type="int" />
+    <Field Name="m_target_level" Type="int" />
+    <Field Name="m_target_level_min" Type="int" />
+    <Field Name="m_target_level_max" Type="int" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_difficulty" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_typeID" Type="int" />
+    <Field Name="m_faction" Type="int" />
+    <Field Name="m_textureFilename" Type="string" />
+    <Field Name="m_expansionLevel" Type="int" />
+    <Field Name="m_order_index" Type="int" />
+    <Field Name="m_group_id" Type="int" />
+    <Field Name="m_description_lang" Type="loc" />
+  </Table>
+  <Table Name="Light" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_continentID" Type="int" />
+    <Field Name="m_x" Type="float" />
+    <Field Name="m_y" Type="float" />
+    <Field Name="m_z" Type="float" />
+    <Field Name="m_falloffStart" Type="float" />
+    <Field Name="m_falloffEnd" Type="float" />
+    <Field Name="m_lightParamsID" Type="int" ArraySize="8" />
+  </Table>
+  <Table Name="LightfloatBand" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_num" Type="int" />
+    <Field Name="m_time" Type="int" ArraySize="16" />
+    <Field Name="m_data" Type="float" ArraySize="16" />
+  </Table>
+  <Table Name="LightintBand" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_num" Type="int" />
+    <Field Name="m_time" Type="int" ArraySize="16" />
+    <Field Name="m_data" Type="int" ArraySize="16" />
+  </Table>
+  <Table Name="LightParams" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_highlightSky" Type="int" />
+    <Field Name="m_lightSkyboxID" Type="int" />
+    <Field Name="m_cloudTypeID" Type="int" />
+    <Field Name="m_glow" Type="float" />
+    <Field Name="m_waterShallowAlpha" Type="float" />
+    <Field Name="m_waterDeepAlpha" Type="float" />
+    <Field Name="m_oceanShallowAlpha" Type="float" />
+    <Field Name="m_oceanDeepAlpha" Type="float" />
+  </Table>
+  <Table Name="LightSkybox" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="LiquidMaterial" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_LVF" Type="int" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="LiquidType" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_type" Type="int" />
+    <Field Name="m_soundID" Type="int" />
+    <Field Name="m_spellID" Type="int" />
+    <Field Name="m_maxDarkenDepth" Type="float" />
+    <Field Name="m_fogDarkenintensity" Type="float" />
+    <Field Name="m_ambDarkenintensity" Type="float" />
+    <Field Name="m_dirDarkenintensity" Type="float" />
+    <Field Name="m_lightID" Type="int" />
+    <Field Name="m_particleScale" Type="float" />
+    <Field Name="m_particleMovement" Type="int" />
+    <Field Name="m_particleTexSlots" Type="int" />
+    <Field Name="m_materialID" Type="int" />
+    <Field Name="m_texture" Type="string" ArraySize="6" />
+    <Field Name="m_color" Type="int" ArraySize="2" />
+    <Field Name="m_float" Type="float" ArraySize="18" />
+    <Field Name="m_int" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="LoadingScreens" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_fileName" Type="string" />
+    <Field Name="m_hasWideScreen" Type="int" />
+  </Table>
+  <Table Name="LoadingScreenTaxiSplines" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_PathID" Type="int" />
+    <Field Name="m_locx" Type="float" ArraySize="8" />
+    <Field Name="m_locy" Type="float" ArraySize="8" />
+    <Field Name="m_LegIndex" Type="int" />
+  </Table>
+  <Table Name="lock" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Type" Type="int" ArraySize="8" />
+    <Field Name="m_Index" Type="int" ArraySize="8" />
+    <Field Name="m_Skill" Type="int" ArraySize="8" />
+    <Field Name="m_Action" Type="int" ArraySize="8" />
+  </Table>
+  <Table Name="lockType" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_resourceName_lang" Type="loc" />
+    <Field Name="m_verb_lang" Type="loc" />
+    <Field Name="m_cursorName" Type="string" />
+  </Table>
+  <Table Name="MailTemplate" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_subject_lang" Type="loc" />
+    <Field Name="m_body_lang" Type="loc" />
+  </Table>
+  <Table Name="Map" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Directory" Type="string" />
+    <Field Name="m_InstanceType" Type="int" />
+    <Field Name="m_Flags" Type="int" />
+    <Field Name="m_PVP" Type="int" />
+    <Field Name="m_MapName_lang" Type="loc" />
+    <Field Name="m_areaTableID" Type="int" />
+    <Field Name="m_MapDescription0_lang" Type="loc" />
+    <Field Name="m_MapDescription1_lang" Type="loc" />
+    <Field Name="m_LoadingScreenID" Type="int" />
+    <Field Name="m_minimapIconScale" Type="float" />
+    <Field Name="m_corpseMapID" Type="int" />
+    <Field Name="m_corpseX" Type="float" />
+    <Field Name="m_corpseY" Type="float" />
+    <Field Name="m_timeOfDayOverride" Type="int" />
+    <Field Name="m_expansionID" Type="int" />
+    <Field Name="m_raidOffset" Type="int" />
+    <Field Name="m_maxPlayers" Type="int" />
+  </Table>
+  <Table Name="MapDifficulty" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_difficulty" Type="int" />
+    <Field Name="m_message_lang" Type="loc" />
+    <Field Name="m_raidDuration" Type="int" />
+    <Field Name="m_maxPlayers" Type="int" />
+    <Field Name="m_difficultystring" Type="string" />
+  </Table>
+  <Table Name="Material" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_foleySoundID" Type="int" />
+    <Field Name="m_sheatheSoundID" Type="int" />
+    <Field Name="m_unsheatheSoundID" Type="int" />
+  </Table>
+  <Table Name="Movie" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_filename" Type="string" />
+    <Field Name="m_volume" Type="int" />
+  </Table>
+  <Table Name="MovieFileData" Build="12340">
+    <Field Name="m_FileDataID" Type="int" IsIndex="true" />
+    <Field Name="m_resolution" Type="int" />
+  </Table>
+  <Table Name="MovieVariation" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_movieID" Type="int" />
+    <Field Name="m_fileDataID" Type="int" />
+  </Table>
+  <Table Name="NameGen" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_raceID" Type="int" />
+    <Field Name="m_sex" Type="int" />
+  </Table>
+  <Table Name="NamesProfanity" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Name" Type="string" />
+    <Field Name="m_Language" Type="int" />
+  </Table>
+  <Table Name="NamesReserved" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Name" Type="string" />
+    <Field Name="m_Language" Type="int" />
+  </Table>
+  <Table Name="NPCSounds" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_SoundID" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="ObjectEffect" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_objectEffectGroupID" Type="int" />
+    <Field Name="m_triggerType" Type="int" />
+    <Field Name="m_eventType" Type="int" />
+    <Field Name="m_effectRecType" Type="int" />
+    <Field Name="m_effectRecID" Type="int" />
+    <Field Name="m_attachment" Type="int" />
+    <Field Name="m_offsetX" Type="float" />
+    <Field Name="m_offsetY" Type="float" />
+    <Field Name="m_offsetZ" Type="float" />
+    <Field Name="m_objectEffectModifierID" Type="int" />
+  </Table>
+  <Table Name="ObjectEffectGroup" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+  </Table>
+  <Table Name="ObjectEffectModifier" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_inputType" Type="int" />
+    <Field Name="m_mapType" Type="int" />
+    <Field Name="m_outputType" Type="int" />
+    <Field Name="m_param" Type="float" ArraySize="4" />
+  </Table>
+  <Table Name="ObjectEffectPackage" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+  </Table>
+  <Table Name="ObjectEffectPackageElem" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_objectEffectPackageID" Type="int" />
+    <Field Name="m_objectEffectGroupID" Type="int" />
+    <Field Name="m_stateType" Type="int" />
+  </Table>
+  <Table Name="OverrideSpellData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_spells" Type="int" ArraySize="10" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="Package" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_icon" Type="string" />
+    <Field Name="m_cost" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="PageTextMaterial" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+  </Table>
+  <Table Name="PaperDollItemFrame" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_ItemButtonName" Type="string" />
+    <Field Name="m_SlotIcon" Type="string" />
+    <Field Name="m_SlotNumber" Type="int" />
+  </Table>
+  <Table Name="ParticleColor" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_start" Type="int" ArraySize="3" />
+    <Field Name="m_mid" Type="int" ArraySize="3" />
+    <Field Name="m_end" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="PetitionType" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_RefName" Type="int" />
+    <Field Name="m_Unknown" Type="int" />
+  </Table>
+  <Table Name="PetPersonality" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_happinessThreshold" Type="int" ArraySize="3" />
+    <Field Name="m_happinessDamage" Type="float" ArraySize="3" />
+  </Table>
+  <Table Name="Phase" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_phaseShift" Type="int" />
+    <Field Name="m_childMap" Type="int" ArraySize="5" />
+  </Table>
+  <Table Name="PowerDisplay" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_actualType" Type="int" />
+    <Field Name="m_globalstringBaseTag" Type="string" />
+    <Field Name="m_red" Type="byte" />
+    <Field Name="m_green" Type="byte" />
+    <Field Name="m_blue" Type="byte" />
+  </Table>
+  <Table Name="PvpDifficulty" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_rangeIndex" Type="int" />
+    <Field Name="m_minLevel" Type="int" />
+    <Field Name="m_maxLevel" Type="int" />
+    <Field Name="m_difficulty" Type="int" />
+  </Table>
+  <Table Name="QuestFactionReward" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Difficulty" Type="int" ArraySize="10" />
+  </Table>
+  <Table Name="QuestInfo" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_InfoName_lang" Type="loc" />
+  </Table>
+  <Table Name="QuestSort" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_SortName_lang" Type="loc" />
+  </Table>
+  <Table Name="QuestXP" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_difficulty" Type="int" ArraySize="10" />
+  </Table>
+  <Table Name="RandPropPoints" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Epic" Type="int" ArraySize="5" />
+    <Field Name="m_Superior" Type="int" ArraySize="5" />
+    <Field Name="m_Good" Type="int" ArraySize="5" />
+  </Table>
+  <Table Name="Resistances" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Flags" Type="int" />
+    <Field Name="m_FizzleSoundID" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="ScalingStatDistribution" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_statID" Type="int" ArraySize="10" />
+    <Field Name="m_bonus" Type="int" ArraySize="10" />
+    <Field Name="m_maxlevel" Type="int" />
+  </Table>
+  <Table Name="ScalingStatValues" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_charlevel" Type="int" />
+    <Field Name="m_shoulderBudget" Type="int" />
+    <Field Name="m_trinketBudget" Type="int" />
+    <Field Name="m_weaponBudget1H" Type="int" />
+    <Field Name="m_rangedBudget" Type="int" />
+    <Field Name="m_clothShoulderArmor" Type="int" />
+    <Field Name="m_leatherShoulderArmor" Type="int" />
+    <Field Name="m_mailShoulderArmor" Type="int" />
+    <Field Name="m_plateShoulderArmor" Type="int" />
+    <Field Name="m_weaponDPS1H" Type="int" />
+    <Field Name="m_weaponDPS2H" Type="int" />
+    <Field Name="m_spellcasterDPS1H" Type="int" />
+    <Field Name="m_spellcasterDPS2H" Type="int" />
+    <Field Name="m_rangedDPS" Type="int" />
+    <Field Name="m_wandDPS" Type="int" />
+    <Field Name="m_spellPower" Type="int" />
+    <Field Name="m_primaryBudget" Type="int" />
+    <Field Name="m_tertiaryBudget" Type="int" />
+    <Field Name="m_clothCloakArmor" Type="int" />
+    <Field Name="m_clothChestArmor" Type="int" />
+    <Field Name="m_leatherChestArmor" Type="int" />
+    <Field Name="m_mailChestArmor" Type="int" />
+    <Field Name="m_plateChestArmor" Type="int" />
+  </Table>
+  <Table Name="ScreenEffect" Build="12340">
+    <Field Name="m_id" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_effect" Type="int" />
+    <Field Name="m_param" Type="int" ArraySize="4" />
+    <Field Name="m_lightParamsID" Type="int" />
+    <Field Name="m_soundAmbienceID" Type="int" />
+    <Field Name="m_zoneMusicID" Type="int" />
+  </Table>
+  <Table Name="ServerMessages" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Text_lang" Type="loc" />
+  </Table>
+  <Table Name="SheatheSoundLookups" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_itemClass" Type="int" />
+    <Field Name="m_itemSubclass" Type="int" />
+    <Field Name="m_itemEnvTypes" Type="int" />
+    <Field Name="m_isShield" Type="int" />
+    <Field Name="m_sheathSoundID" Type="int" />
+    <Field Name="m_unsheathSoundID" Type="int" />
+  </Table>
+  <Table Name="SkillCostsData" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_skillCostsID" Type="int" />
+    <Field Name="m_cost" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="SkillLine" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_categoryID" Type="int" />
+    <Field Name="m_skillCostsID" Type="int" />
+    <Field Name="m_displayName_lang" Type="loc" />
+    <Field Name="m_description_lang" Type="loc" />
+    <Field Name="m_spellIconID" Type="int" />
+    <Field Name="m_alternateVerb_lang" Type="loc" />
+    <Field Name="m_canLink" Type="int" />
+  </Table>
+  <Table Name="SkillLineAbility" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_skillLine" Type="int" />
+    <Field Name="m_spell" Type="int" />
+    <Field Name="m_raceMask" Type="int" />
+    <Field Name="m_classMask" Type="int" />
+    <Field Name="m_minSkillLineRank" Type="int" />
+    <Field Name="m_supercededBySpell" Type="int" />
+    <Field Name="m_acquireMethod" Type="int" />
+    <Field Name="m_trivialSkillLineRankHigh" Type="int" />
+    <Field Name="m_trivialSkillLineRankLow" Type="int" />
+    <Field Name="m_characterPoints" Type="int" ArraySize="2" />
+    <Field Name="m_tradeSkillCategoryID" Type="int" />
+  </Table>
+  <Table Name="SkillLineCategory" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_sortIndex" Type="int" />
+  </Table>
+  <Table Name="SkillRaceClassInfo" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_skillID" Type="int" />
+    <Field Name="m_raceMask" Type="int" />
+    <Field Name="m_classMask" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_minLevel" Type="int" />
+    <Field Name="m_skillTierID" Type="int" />
+    <Field Name="m_skillCostIndex" Type="int" />
+  </Table>
+  <Table Name="SkillTiers" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_cost" Type="int" ArraySize="16" />
+    <Field Name="m_value" Type="int" ArraySize="16" />
+  </Table>
+  <Table Name="SoundAmbience" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_AmbienceID" Type="int" ArraySize="2" />
+  </Table>
+  <Table Name="SoundEmitters" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_positionX" Type="float" />
+    <Field Name="m_positionY" Type="float" />
+    <Field Name="m_positionZ" Type="float" />
+    <Field Name="m_directionX" Type="float" />
+    <Field Name="m_directionY" Type="float" />
+    <Field Name="m_directionZ" Type="float" />
+    <Field Name="m_soundEntriesID" Type="int" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_name" Type="string" />
+  </Table>
+  <Table Name="SoundEntries" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_soundType" Type="int" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_File" Type="string" ArraySize="10" />
+    <Field Name="m_Freq" Type="int" ArraySize="10" />
+    <Field Name="m_DirectoryBase" Type="string" />
+    <Field Name="m_volumefloat" Type="float" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_minDistance" Type="float" />
+    <Field Name="m_distanceCutoff" Type="float" />
+    <Field Name="m_EAXDef" Type="int" />
+    <Field Name="m_soundEntriesAdvancedID" Type="int" />
+  </Table>
+  <Table Name="SoundEntriesAdvanced" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_soundEntryID" Type="int" />
+    <Field Name="m_innerRadius2D" Type="float" />
+    <Field Name="m_timeA" Type="int" />
+    <Field Name="m_timeB" Type="int" />
+    <Field Name="m_timeC" Type="int" />
+    <Field Name="m_timeD" Type="int" />
+    <Field Name="m_randomOffsetRange" Type="int" />
+    <Field Name="m_usage" Type="int" />
+    <Field Name="m_timeintervalMin" Type="int" />
+    <Field Name="m_timeintervalMax" Type="int" />
+    <Field Name="m_volumeSliderCategory" Type="int" />
+    <Field Name="m_duckToSFX" Type="float" />
+    <Field Name="m_duckToMusic" Type="float" />
+    <Field Name="m_duckToAmbience" Type="float" />
+    <Field Name="m_innerRadiusOfInfluence" Type="float" />
+    <Field Name="m_outerRadiusOfInfluence" Type="float" />
+    <Field Name="m_timeToDuck" Type="int" />
+    <Field Name="m_timeToUnduck" Type="int" />
+    <Field Name="m_insideAngle" Type="float" />
+    <Field Name="m_outsideAngle" Type="float" />
+    <Field Name="m_outsideVolume" Type="float" />
+    <Field Name="m_outerRadius2D" Type="float" />
+    <Field Name="m_name" Type="string" />
+  </Table>
+  <Table Name="SoundFilter" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+  </Table>
+  <Table Name="SoundFilterElem" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_soundFilterID" Type="int" />
+    <Field Name="m_orderIndex" Type="int" />
+    <Field Name="m_filterType" Type="int" />
+    <Field Name="m_params" Type="float" ArraySize="9" />
+  </Table>
+  <Table Name="SoundProviderPreferences" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Description" Type="string" />
+    <Field Name="m_Flags" Type="int" />
+    <Field Name="m_EAXEnvironmentSelection" Type="int" />
+    <Field Name="m_EAXDecayTime" Type="float" />
+    <Field Name="m_EAX2EnvironmentSize" Type="float" />
+    <Field Name="m_EAX2EnvironmentDiffusion" Type="float" />
+    <Field Name="m_EAX2Room" Type="int" />
+    <Field Name="m_EAX2RoomHF" Type="int" />
+    <Field Name="m_EAX2DecayHFRatio" Type="float" />
+    <Field Name="m_EAX2Reflections" Type="int" />
+    <Field Name="m_EAX2ReflectionsDelay" Type="float" />
+    <Field Name="m_EAX2Reverb" Type="int" />
+    <Field Name="m_EAX2ReverbDelay" Type="float" />
+    <Field Name="m_EAX2RoomRolloff" Type="float" />
+    <Field Name="m_EAX2AirAbsorption" Type="float" />
+    <Field Name="m_EAX3RoomLF" Type="int" />
+    <Field Name="m_EAX3DecayLFRatio" Type="float" />
+    <Field Name="m_EAX3EchoTime" Type="float" />
+    <Field Name="m_EAX3EchoDepth" Type="float" />
+    <Field Name="m_EAX3ModulationTime" Type="float" />
+    <Field Name="m_EAX3ModulationDepth" Type="float" />
+    <Field Name="m_EAX3HFReference" Type="float" />
+    <Field Name="m_EAX3LFReference" Type="float" />
+  </Table>
+  <Table Name="SoundSamplePreferences" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_field2" Type="int" />
+    <Field Name="m_field3" Type="int" />
+    <Field Name="m_field4" Type="int" />
+    <Field Name="m_field5" Type="int" />
+    <Field Name="m_field6" Type="int" />
+    <Field Name="m_field7" Type="int" />
+    <Field Name="m_field8" Type="int" />
+    <Field Name="m_field9" Type="float" />
+    <Field Name="m_field10" Type="float" />
+    <Field Name="m_field11" Type="int" />
+    <Field Name="m_field12" Type="int" />
+    <Field Name="m_field13" Type="int" />
+    <Field Name="m_field14" Type="float" />
+    <Field Name="m_field15" Type="int" />
+    <Field Name="m_field16" Type="float" />
+    <Field Name="m_field17" Type="int" />
+  </Table>
+  <Table Name="SoundWaterType" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_liquidTypeID" Type="int" />
+    <Field Name="m_fluidSpeed" Type="int" />
+    <Field Name="m_SoundID" Type="int" />
+  </Table>
+  <Table Name="SpamMessages" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_text" Type="string" />
+  </Table>
+  <Table Name="Spell" Build="12340">
+    <Field Name="m_ID" Type="uint" IsIndex="true" />
+    <Field Name="m_category" Type="uint" />
+    <Field Name="m_dispelType" Type="uint" />
+    <Field Name="m_mechanic" Type="uint" />
+    <Field Name="m_attributes" Type="uint" />
+    <Field Name="m_attributesEx" Type="uint" />
+    <Field Name="m_attributesExB" Type="uint" />
+    <Field Name="m_attributesExC" Type="uint" />
+    <Field Name="m_attributesExD" Type="uint" />
+    <Field Name="m_attributesExE" Type="uint" />
+    <Field Name="m_attributesExF" Type="uint" />
+    <Field Name="m_attributesExG" Type="uint" />
+    <Field Name="m_shapeshiftMask" Type="ulong" />
+    <Field Name="m_shapeshiftExclude" Type="ulong" />
+    <Field Name="m_targets" Type="uint" />
+    <Field Name="m_targetCreatureType" Type="uint" />
+    <Field Name="m_requiresSpellFocus" Type="uint" />
+    <Field Name="m_facingCasterFlags" Type="uint" />
+    <Field Name="m_casterAuraState" Type="uint" />
+    <Field Name="m_targetAuraState" Type="uint" />
+    <Field Name="m_excludeCasterAuraState" Type="uint" />
+    <Field Name="m_excludeTargetAuraState" Type="uint" />
+    <Field Name="m_casterAuraSpell" Type="uint" />
+    <Field Name="m_targetAuraSpell" Type="uint" />
+    <Field Name="m_excludeCasterAuraSpell" Type="uint" />
+    <Field Name="m_excludeTargetAuraSpell" Type="uint" />
+    <Field Name="m_castingTimeIndex" Type="uint" />
+    <Field Name="m_recoveryTime" Type="uint" />
+    <Field Name="m_categoryRecoveryTime" Type="uint" />
+    <Field Name="m_interruptFlags" Type="uint" />
+    <Field Name="m_auraInterruptFlags" Type="uint" />
+    <Field Name="m_channelInterruptFlags" Type="uint" />
+    <Field Name="m_procTypeMask" Type="uint" />
+    <Field Name="m_procChance" Type="uint" />
+    <Field Name="m_procCharges" Type="uint" />
+    <Field Name="m_maxLevel" Type="uint" />
+    <Field Name="m_baseLevel" Type="uint" />
+    <Field Name="m_spellLevel" Type="uint" />
+    <Field Name="m_durationIndex" Type="uint" />
+    <Field Name="m_powerType" Type="int" />
+    <Field Name="m_manaCost" Type="uint" />
+    <Field Name="m_manaCostPerLevel" Type="uint" />
+    <Field Name="m_manaPerSecond" Type="uint" />
+    <Field Name="m_manaPerSecondPerLevel" Type="uint" />
+    <Field Name="m_rangeIndex" Type="uint" />
+    <Field Name="m_speed" Type="float" />
+    <Field Name="m_modalNextSpell" Type="uint" />
+    <Field Name="m_cumulativeAura" Type="uint" />
+    <Field Name="m_totem_1" Type="uint" />
+    <Field Name="m_totem_2" Type="uint" />
+    <Field Name="m_reagent_1" Type="int" />
+    <Field Name="m_reagent_2" Type="int" />
+    <Field Name="m_reagent_3" Type="int" />
+    <Field Name="m_reagent_4" Type="int" />
+    <Field Name="m_reagent_5" Type="int" />
+    <Field Name="m_reagent_6" Type="int" />
+    <Field Name="m_reagent_7" Type="int" />
+    <Field Name="m_reagent_8" Type="int" />
+    <Field Name="m_reagentCount_1" Type="int" />
+    <Field Name="m_reagentCount_2" Type="int" />
+    <Field Name="m_reagentCount_3" Type="int" />
+    <Field Name="m_reagentCount_4" Type="int" />
+    <Field Name="m_reagentCount_5" Type="int" />
+    <Field Name="m_reagentCount_6" Type="int" />
+    <Field Name="m_reagentCount_7" Type="int" />
+    <Field Name="m_reagentCount_8" Type="int" />
+    <Field Name="m_equippedItemClass" Type="int" />
+    <Field Name="m_equippedItemSubclass" Type="int" />
+    <Field Name="m_equippedItemInvTypes" Type="int" />
+    <Field Name="m_effect_1" Type="uint" />
+    <Field Name="m_effect_2" Type="uint" />
+    <Field Name="m_effect_3" Type="uint" />
+    <Field Name="m_effectDieSides_1" Type="int" />
+    <Field Name="m_effectDieSides_2" Type="int" />
+    <Field Name="m_effectDieSides_3" Type="int" />
+    <Field Name="m_effectRealPointsPerLevel_1" Type="float" />
+    <Field Name="m_effectRealPointsPerLevel_2" Type="float" />
+    <Field Name="m_effectRealPointsPerLevel_3" Type="float" />
+    <Field Name="m_effectBasePoints_1" Type="int" />
+    <Field Name="m_effectBasePoints_2" Type="int" />
+    <Field Name="m_effectBasePoints_3" Type="int" />
+    <Field Name="m_effectMechanic_1" Type="uint" />
+    <Field Name="m_effectMechanic_2" Type="uint" />
+    <Field Name="m_effectMechanic_3" Type="uint" />
+    <Field Name="m_implicitTargetA_1" Type="uint" />
+    <Field Name="m_implicitTargetA_2" Type="uint" />
+    <Field Name="m_implicitTargetA_3" Type="uint" />
+    <Field Name="m_implicitTargetB_1" Type="uint" />
+    <Field Name="m_implicitTargetB_2" Type="uint" />
+    <Field Name="m_implicitTargetB_3" Type="uint" />
+    <Field Name="m_effectRadiusIndex_1" Type="uint" />
+    <Field Name="m_effectRadiusIndex_2" Type="uint" />
+    <Field Name="m_effectRadiusIndex_3" Type="uint" />
+    <Field Name="m_effectAura_1" Type="uint" />
+    <Field Name="m_effectAura_2" Type="uint" />
+    <Field Name="m_effectAura_3" Type="uint" />
+    <Field Name="m_effectAuraPeriod_1" Type="uint" />
+    <Field Name="m_effectAuraPeriod_2" Type="uint" />
+    <Field Name="m_effectAuraPeriod_3" Type="uint" />
+    <Field Name="m_effectAmplitude_1" Type="float" />
+    <Field Name="m_effectAmplitude_2" Type="float" />
+    <Field Name="m_effectAmplitude_3" Type="float" />
+    <Field Name="m_effectChainTargets_1" Type="uint" />
+    <Field Name="m_effectChainTargets_2" Type="uint" />
+    <Field Name="m_effectChainTargets_3" Type="uint" />
+    <Field Name="m_effectItemType_1" Type="uint" />
+    <Field Name="m_effectItemType_2" Type="uint" />
+    <Field Name="m_effectItemType_3" Type="uint" />
+    <Field Name="m_effectMiscValue_1" Type="int" />
+    <Field Name="m_effectMiscValue_2" Type="int" />
+    <Field Name="m_effectMiscValue_3" Type="int" />
+    <Field Name="m_effectMiscValueB_1" Type="int" />
+    <Field Name="m_effectMiscValueB_2" Type="int" />
+    <Field Name="m_effectMiscValueB_3" Type="int" />
+    <Field Name="m_effectTriggerSpell_1" Type="uint" />
+    <Field Name="m_effectTriggerSpell_2" Type="uint" />
+    <Field Name="m_effectTriggerSpell_3" Type="uint" />
+    <Field Name="m_effectPointsPerCombo_1" Type="float" />
+    <Field Name="m_effectPointsPerCombo_2" Type="float" />
+    <Field Name="m_effectPointsPerCombo_3" Type="float" />
+    <Field Name="m_effectSpellClassMaskA_1" Type="uint" />
+    <Field Name="m_effectSpellClassMaskA_2" Type="uint" />
+    <Field Name="m_effectSpellClassMaskA_3" Type="uint" />
+    <Field Name="m_effectSpellClassMaskB_1" Type="uint" />
+    <Field Name="m_effectSpellClassMaskB_2" Type="uint" />
+    <Field Name="m_effectSpellClassMaskB_3" Type="uint" />
+    <Field Name="m_effectSpellClassMaskC_1" Type="uint" />
+    <Field Name="m_effectSpellClassMaskC_2" Type="uint" />
+    <Field Name="m_effectSpellClassMaskC_3" Type="uint" />
+    <Field Name="m_spellVisualID_1" Type="uint" />
+    <Field Name="m_spellVisualID_2" Type="uint" />
+    <Field Name="m_spellIconID" Type="uint" />
+    <Field Name="m_activeIconID" Type="uint" />
+    <Field Name="m_spellPriority" Type="uint" />
+    <Field Name="m_name_lang_1" Type="string" />
+    <Field Name="m_name_lang_2" Type="string" />
+    <Field Name="m_name_lang_3" Type="string" />
+    <Field Name="m_name_lang_4" Type="string" />
+    <Field Name="m_name_lang_5" Type="string" />
+    <Field Name="m_name_lang_6" Type="string" />
+    <Field Name="m_name_lang_7" Type="string" />
+    <Field Name="m_name_lang_8" Type="string" />
+    <Field Name="m_name_lang_9" Type="string" />
+    <Field Name="m_name_lang_10" Type="string" />
+    <Field Name="m_name_lang_11" Type="string" />
+    <Field Name="m_name_lang_12" Type="string" />
+    <Field Name="m_name_lang_13" Type="string" />
+    <Field Name="m_name_lang_14" Type="string" />
+    <Field Name="m_name_lang_15" Type="string" />
+    <Field Name="m_name_lang_16" Type="string" />
+    <Field Name="m_name_flag" Type="uint" />
+    <Field Name="m_nameSubtext_lang_1" Type="string" />
+    <Field Name="m_nameSubtext_lang_2" Type="string" />
+    <Field Name="m_nameSubtext_lang_3" Type="string" />
+    <Field Name="m_nameSubtext_lang_4" Type="string" />
+    <Field Name="m_nameSubtext_lang_5" Type="string" />
+    <Field Name="m_nameSubtext_lang_6" Type="string" />
+    <Field Name="m_nameSubtext_lang_7" Type="string" />
+    <Field Name="m_nameSubtext_lang_8" Type="string" />
+    <Field Name="m_nameSubtext_lang_9" Type="string" />
+    <Field Name="m_nameSubtext_lang_10" Type="string" />
+    <Field Name="m_nameSubtext_lang_11" Type="string" />
+    <Field Name="m_nameSubtext_lang_12" Type="string" />
+    <Field Name="m_nameSubtext_lang_13" Type="string" />
+    <Field Name="m_nameSubtext_lang_14" Type="string" />
+    <Field Name="m_nameSubtext_lang_15" Type="string" />
+    <Field Name="m_nameSubtext_lang_16" Type="string" />
+    <Field Name="m_nameSubtext_flag" Type="uint" />
+    <Field Name="m_description_lang_1" Type="string" />
+    <Field Name="m_description_lang_2" Type="string" />
+    <Field Name="m_description_lang_3" Type="string" />
+    <Field Name="m_description_lang_4" Type="string" />
+    <Field Name="m_description_lang_5" Type="string" />
+    <Field Name="m_description_lang_6" Type="string" />
+    <Field Name="m_description_lang_7" Type="string" />
+    <Field Name="m_description_lang_8" Type="string" />
+    <Field Name="m_description_lang_9" Type="string" />
+    <Field Name="m_description_lang_10" Type="string" />
+    <Field Name="m_description_lang_11" Type="string" />
+    <Field Name="m_description_lang_12" Type="string" />
+    <Field Name="m_description_lang_13" Type="string" />
+    <Field Name="m_description_lang_14" Type="string" />
+    <Field Name="m_description_lang_15" Type="string" />
+    <Field Name="m_description_lang_16" Type="string" />
+    <Field Name="m_description_flag" Type="uint" />
+    <Field Name="m_auraDescription_lang_1" Type="string" />
+    <Field Name="m_auraDescription_lang_2" Type="string" />
+    <Field Name="m_auraDescription_lang_3" Type="string" />
+    <Field Name="m_auraDescription_lang_4" Type="string" />
+    <Field Name="m_auraDescription_lang_5" Type="string" />
+    <Field Name="m_auraDescription_lang_6" Type="string" />
+    <Field Name="m_auraDescription_lang_7" Type="string" />
+    <Field Name="m_auraDescription_lang_8" Type="string" />
+    <Field Name="m_auraDescription_lang_9" Type="string" />
+    <Field Name="m_auraDescription_lang_10" Type="string" />
+    <Field Name="m_auraDescription_lang_11" Type="string" />
+    <Field Name="m_auraDescription_lang_12" Type="string" />
+    <Field Name="m_auraDescription_lang_13" Type="string" />
+    <Field Name="m_auraDescription_lang_14" Type="string" />
+    <Field Name="m_auraDescription_lang_15" Type="string" />
+    <Field Name="m_auraDescription_lang_16" Type="string" />
+    <Field Name="m_auraDescription_flag" Type="uint" />
+    <Field Name="m_manaCostPct" Type="uint" />
+    <Field Name="m_startRecoveryCategory" Type="uint" />
+    <Field Name="m_startRecoveryTime" Type="uint" />
+    <Field Name="m_maxTargetLevel" Type="uint" />
+    <Field Name="m_spellClassSet" Type="uint" />
+    <Field Name="m_spellClassMask_1" Type="uint" />
+    <Field Name="m_spellClassMask_2" Type="uint" />
+    <Field Name="m_spellClassMask_3" Type="uint" />
+    <Field Name="m_maxTargets" Type="uint" />
+    <Field Name="m_defenseType" Type="uint" />
+    <Field Name="m_preventionType" Type="uint" />
+    <Field Name="m_stanceBarOrder" Type="uint" />
+    <Field Name="m_effectChainAmplitude_1" Type="float" />
+    <Field Name="m_effectChainAmplitude_2" Type="float" />
+    <Field Name="m_effectChainAmplitude_3" Type="float" />
+    <Field Name="m_minFactionID" Type="uint" />
+    <Field Name="m_minReputation" Type="uint" />
+    <Field Name="m_requiredAuraVision" Type="uint" />
+    <Field Name="m_requiredTotemCategoryID_1" Type="uint" />
+    <Field Name="m_requiredTotemCategoryID_2" Type="uint" />
+    <Field Name="m_requiredAreasID" Type="int" />
+    <Field Name="m_schoolMask" Type="uint" />
+    <Field Name="m_runeCostID" Type="uint" />
+    <Field Name="m_spellMissileID" Type="uint" />
+    <Field Name="m_powerDisplayID" Type="int" />
+    <Field Name="m_unk1_1" Type="float" />
+    <Field Name="m_unk1_2" Type="float" />
+    <Field Name="m_unk1_3" Type="float" />
+    <Field Name="m_spellDescriptionVariableID" Type="uint" />
+    <Field Name="m_spellDifficultyID" Type="uint" />
+  </Table>
+  <Table Name="SpellCastTimes" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_base" Type="int" />
+    <Field Name="m_perLevel" Type="int" />
+    <Field Name="m_minimum" Type="int" />
+  </Table>
+  <Table Name="SpellCategory" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="SpellChainEffects" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_AvgSegLen" Type="float" />
+    <Field Name="m_Width" Type="float" />
+    <Field Name="m_NoiseScale" Type="float" />
+    <Field Name="m_TexCoordScale" Type="float" />
+    <Field Name="m_SegDuration" Type="int" />
+    <Field Name="m_SegDelay" Type="int" />
+    <Field Name="m_Texture" Type="string" />
+    <Field Name="m_Flags" Type="int" />
+    <Field Name="m_JointCount" Type="int" />
+    <Field Name="m_JointOffsetRadius" Type="float" />
+    <Field Name="m_JointsPerMinorJoint" Type="int" />
+    <Field Name="m_MinorJointsPerMajorJoint" Type="int" />
+    <Field Name="m_MinorJointScale" Type="float" />
+    <Field Name="m_MajorJointScale" Type="float" />
+    <Field Name="m_JointMoveSpeed" Type="float" />
+    <Field Name="m_JointSmoothness" Type="float" />
+    <Field Name="m_MinDurationBetweenJointJumps" Type="float" />
+    <Field Name="m_MaxDurationBetweenJointJumps" Type="float" />
+    <Field Name="m_WaveHeight" Type="float" />
+    <Field Name="m_WaveFreq" Type="float" />
+    <Field Name="m_WaveSpeed" Type="float" />
+    <Field Name="m_MinWaveAngle" Type="float" />
+    <Field Name="m_MaxWaveAngle" Type="float" />
+    <Field Name="m_MinWaveSpin" Type="float" />
+    <Field Name="m_MaxWaveSpin" Type="float" />
+    <Field Name="m_ArcHeight" Type="float" />
+    <Field Name="m_MinArcAngle" Type="float" />
+    <Field Name="m_MaxArcAngle" Type="float" />
+    <Field Name="m_MinArcSpin" Type="float" />
+    <Field Name="m_MaxArcSpin" Type="float" />
+    <Field Name="m_DelayBetweenEffects" Type="float" />
+    <Field Name="m_MinFlickerOnDuration" Type="float" />
+    <Field Name="m_MaxFlickerOnDuration" Type="float" />
+    <Field Name="m_MinFlickerOffDuration" Type="float" />
+    <Field Name="m_MaxFlickerOffDuration" Type="float" />
+    <Field Name="m_PulseSpeed" Type="float" />
+    <Field Name="m_PulseOnLength" Type="float" />
+    <Field Name="m_PulseFadeLength" Type="float" />
+    <Field Name="m_Alpha" Type="byte" />
+    <Field Name="m_Red" Type="byte" />
+    <Field Name="m_Green" Type="byte" />
+    <Field Name="m_Blue" Type="byte" />
+    <Field Name="m_BlendMode" Type="byte" />
+    <Field Name="m_Combo" Type="string" />
+    <Field Name="m_RenderLayer" Type="int" />
+    <Field Name="m_TextureLength" Type="float" />
+    <Field Name="m_WavePhase" Type="float" />
+  </Table>
+  <Table Name="SpellDescriptionVariables" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_variables" Type="string" />
+  </Table>
+  <Table Name="SpellDifficulty" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_difficultySpellID" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="SpellDispelType" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_mask" Type="int" />
+    <Field Name="m_immunityPossible" Type="int" />
+    <Field Name="m_internalName" Type="string" />
+  </Table>
+  <Table Name="SpellDuration" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_duration" Type="int" />
+    <Field Name="m_durationPerLevel" Type="int" />
+    <Field Name="m_maxDuration" Type="int" />
+  </Table>
+  <Table Name="SpellEffectCameraShakes" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_CameraShake" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="SpellFocusObject" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+  </Table>
+  <Table Name="SpellIcon" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_textureFilename" Type="string" />
+  </Table>
+  <Table Name="SpellItemEnchantment" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_charges" Type="int" />
+    <Field Name="m_effect" Type="int" ArraySize="3" />
+    <Field Name="m_effectPointsMin" Type="int" ArraySize="3" />
+    <Field Name="m_effectPointsMax" Type="int" ArraySize="3" />
+    <Field Name="m_effectArg" Type="int" ArraySize="3" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_itemVisual" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_src_itemID" Type="int" />
+    <Field Name="m_condition_id" Type="int" />
+    <Field Name="m_requiredSkillID" Type="int" />
+    <Field Name="m_requiredSkillRank" Type="int" />
+    <Field Name="m_minLevel" Type="int" />
+  </Table>
+  <Table Name="SpellItemEnchantmentCondition" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_lt_operandType" Type="byte" ArraySize="5" />
+    <Field Name="m_lt_operand" Type="int" ArraySize="5" />
+    <Field Name="m_operator" Type="byte" ArraySize="5" />
+    <Field Name="m_rt_operandType" Type="byte" ArraySize="5" />
+    <Field Name="m_rt_operand" Type="int" ArraySize="5" />
+    <Field Name="m_logic" Type="byte" ArraySize="5" />
+  </Table>
+  <Table Name="SpellMechanic" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_stateName_lang" Type="loc" />
+  </Table>
+  <Table Name="SpellMissile" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_defaultPitchMin" Type="float" />
+    <Field Name="m_defaultPitchMax" Type="float" />
+    <Field Name="m_defaultSpeedMin" Type="float" />
+    <Field Name="m_defaultSpeedMax" Type="float" />
+    <Field Name="m_randomizeFacingMin" Type="float" />
+    <Field Name="m_randomizeFacingMax" Type="float" />
+    <Field Name="m_randomizePitchMin" Type="float" />
+    <Field Name="m_randomizePitchMax" Type="float" />
+    <Field Name="m_randomizeSpeedMin" Type="float" />
+    <Field Name="m_randomizeSpeedMax" Type="float" />
+    <Field Name="m_gravity" Type="float" />
+    <Field Name="m_maxDuration" Type="float" />
+    <Field Name="m_collisionRadius" Type="float" />
+  </Table>
+  <Table Name="SpellMissileMotion" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_scriptBody" Type="string" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_missileCount" Type="int" />
+  </Table>
+  <Table Name="SpellRadius" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_radius" Type="float" />
+    <Field Name="m_radiusPerLevel" Type="float" />
+    <Field Name="m_radiusMax" Type="float" />
+  </Table>
+  <Table Name="SpellRange" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_rangeMin" Type="float" ArraySize="2" />
+    <Field Name="m_rangeMax" Type="float" ArraySize="2" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_displayName_lang" Type="loc" />
+    <Field Name="m_displayNameShort_lang" Type="loc" />
+  </Table>
+  <Table Name="SpellRuneCost" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_blood" Type="int" />
+    <Field Name="m_unholy" Type="int" />
+    <Field Name="m_frost" Type="int" />
+    <Field Name="m_runicPower" Type="int" />
+  </Table>
+  <Table Name="SpellScaling" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_castTimeMin" Type="int" />
+    <Field Name="m_castTimeMax" Type="int" />
+    <Field Name="m_castTimeMaxLevel" Type="int" />
+    <Field Name="m_class" Type="int" />
+    <Field Name="m_coefficient" Type="float" ArraySize="3" />
+    <Field Name="m_variance" Type="float" ArraySize="3" />
+    <Field Name="m_comboPointsCoefficient" Type="float" ArraySize="3" />
+  </Table>
+  <Table Name="SpellShapeshiftForm" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_bonusActionBar" Type="int" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_creatureType" Type="int" />
+    <Field Name="m_attackIconID" Type="int" />
+    <Field Name="m_combatRoundTime" Type="int" />
+    <Field Name="m_creatureDisplayID" Type="int" ArraySize="4" />
+    <Field Name="m_presetSpellID" Type="int" ArraySize="8" />
+  </Table>
+  <Table Name="SpellVisual" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_precastKit" Type="int" />
+    <Field Name="m_castKit" Type="int" />
+    <Field Name="m_impactKit" Type="int" />
+    <Field Name="m_stateKit" Type="int" />
+    <Field Name="m_stateDoneKit" Type="int" />
+    <Field Name="m_channelKit" Type="int" />
+    <Field Name="m_hasMissile" Type="int" />
+    <Field Name="m_missileModel" Type="int" />
+    <Field Name="m_missilePathType" Type="int" />
+    <Field Name="m_missileDestinationAttachment" Type="int" />
+    <Field Name="m_missileSound" Type="int" />
+    <Field Name="m_animEventSoundID" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_casterImpactKit" Type="int" />
+    <Field Name="m_targetImpactKit" Type="int" />
+    <Field Name="m_missileAttachment" Type="int" />
+    <Field Name="m_missileFollowGroundHeight" Type="int" />
+    <Field Name="m_missileFollowGroundDropSpeed" Type="int" />
+    <Field Name="m_missileFollowGroundApproach" Type="int" />
+    <Field Name="m_missileFollowGroundFlags" Type="int" />
+    <Field Name="m_missileMotion" Type="int" />
+    <Field Name="m_missileTargetingKit" Type="int" />
+    <Field Name="m_instantAreaKit" Type="int" />
+    <Field Name="m_impactAreaKit" Type="int" />
+    <Field Name="m_persistentAreaKit" Type="int" />
+    <Field Name="m_missileCastOffsetX" Type="float" />
+    <Field Name="m_missileCastOffsetY" Type="float" />
+    <Field Name="m_missileCastOffsetZ" Type="float" />
+    <Field Name="m_missileImpactOffsetX" Type="float" />
+    <Field Name="m_missileImpactOffsetY" Type="float" />
+    <Field Name="m_missileImpactOffsetZ" Type="float" />
+  </Table>
+  <Table Name="SpellVisualEffectName" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_fileName" Type="string" />
+    <Field Name="m_areaEffectSize" Type="float" />
+    <Field Name="m_scale" Type="float" />
+    <Field Name="m_minAllowedScale" Type="float" />
+    <Field Name="m_maxAllowedScale" Type="float" />
+  </Table>
+  <Table Name="SpellVisualKit" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_startAnimID" Type="int" />
+    <Field Name="m_animID" Type="int" />
+    <Field Name="m_animKitID" Type="int" />
+    <Field Name="m_headEffect" Type="int" />
+    <Field Name="m_chestEffect" Type="int" />
+    <Field Name="m_baseEffect" Type="int" />
+    <Field Name="m_leftHandEffect" Type="int" />
+    <Field Name="m_rightHandEffect" Type="int" />
+    <Field Name="m_breathEffect" Type="int" />
+    <Field Name="m_leftWeaponEffect" Type="int" />
+    <Field Name="m_rightWeaponEffect" Type="int" />
+    <Field Name="m_specialEffect" Type="int" ArraySize="3" />
+    <Field Name="m_worldEffect" Type="int" />
+    <Field Name="m_soundID" Type="int" />
+    <Field Name="m_shakeID" Type="int" />
+    <Field Name="m_charProc" Type="int" ArraySize="4" />
+    <Field Name="m_charParamZero" Type="float" ArraySize="4" />
+    <Field Name="m_charParamOne" Type="float" ArraySize="4" />
+    <Field Name="m_charParamTwo" Type="float" ArraySize="4" />
+    <Field Name="m_charParamThree" Type="float" ArraySize="4" />
+  </Table>
+  <Table Name="SpellVisualKitAreaModel" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_enumID" Type="int" />
+  </Table>
+  <Table Name="SpellVisualKitModelAttach" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_parentSpellVisualKitID" Type="int" />
+    <Field Name="m_spellVisualEffectNameID" Type="int" />
+    <Field Name="m_attachmentID" Type="int" />
+    <Field Name="m_offsetX" Type="float" />
+    <Field Name="m_offsetY" Type="float" />
+    <Field Name="m_offsetZ" Type="float" />
+    <Field Name="m_yaw" Type="float" />
+    <Field Name="m_pitch" Type="float" />
+    <Field Name="m_roll" Type="float" />
+  </Table>
+  <Table Name="SpellVisualPrecastTransitions" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_loadAnimation" Type="string" />
+    <Field Name="m_holdAnimation" Type="string" />
+  </Table>
+  <Table Name="StableSlotPrices" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_cost" Type="int" />
+  </Table>
+  <Table Name="Startup_strings" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name" Type="string" />
+    <Field Name="m_message_lang" Type="loc" />
+  </Table>
+  <Table Name="Stationery" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_itemID" Type="int" />
+    <Field Name="m_texture" Type="string" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="stringLookups" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_string" Type="string" />
+  </Table>
+  <Table Name="SummonProperties" Build="12340">
+    <Field Name="m_id" Type="int" IsIndex="true" />
+    <Field Name="m_control" Type="int" />
+    <Field Name="m_faction" Type="int" />
+    <Field Name="m_title" Type="int" />
+    <Field Name="m_slot" Type="int" />
+    <Field Name="m_flags" Type="int" />
+  </Table>
+  <Table Name="Talent" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_tabID" Type="int" />
+    <Field Name="m_tierID" Type="int" />
+    <Field Name="m_columnIndex" Type="int" />
+    <Field Name="m_spellRank" Type="int" ArraySize="9" />
+    <Field Name="m_prereqTalent" Type="int" ArraySize="3" />
+    <Field Name="m_prereqRank" Type="int" ArraySize="3" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_requiredSpellID" Type="int" />
+    <Field Name="m_categoryMask" Type="int" ArraySize="2" />
+  </Table>
+  <Table Name="TalentTab" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_spellIconID" Type="int" />
+    <Field Name="m_raceMask" Type="int" />
+    <Field Name="m_classMask" Type="int" />
+    <Field Name="m_petTalentMask" Type="int" />
+    <Field Name="m_orderIndex" Type="int" />
+    <Field Name="m_backgroundFile" Type="string" />
+  </Table>
+  <Table Name="TaxiNodes" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ContinentID" Type="int" />
+    <Field Name="m_X" Type="float" />
+    <Field Name="m_Y" Type="float" />
+    <Field Name="m_Z" Type="float" />
+    <Field Name="m_Name_lang" Type="loc" />
+    <Field Name="m_MountCreatureID" Type="int" ArraySize="2" />
+  </Table>
+  <Table Name="TaxiPath" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_FromTaxiNode" Type="int" />
+    <Field Name="m_ToTaxiNode" Type="int" />
+    <Field Name="m_Cost" Type="int" />
+  </Table>
+  <Table Name="TaxiPathNode" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_PathID" Type="int" />
+    <Field Name="m_NodeIndex" Type="int" />
+    <Field Name="m_ContinentID" Type="int" />
+    <Field Name="m_locX" Type="float" />
+    <Field Name="m_locY" Type="float" />
+    <Field Name="m_locZ" Type="float" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_delay" Type="int" />
+    <Field Name="m_arrivalEventID" Type="int" />
+    <Field Name="m_departureEventID" Type="int" />
+  </Table>
+  <Table Name="TeamContributionPoints" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_data" Type="float" />
+  </Table>
+  <Table Name="Terraintype" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_TerrainID" Type="int" />
+    <Field Name="m_TerrainDesc" Type="string" />
+    <Field Name="m_FootstepSprayRun" Type="int" />
+    <Field Name="m_FootstepSprayWalk" Type="int" />
+    <Field Name="m_SoundID" Type="int" />
+    <Field Name="m_Flags" Type="int" />
+  </Table>
+  <Table Name="TerraintypeSounds" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+  </Table>
+  <Table Name="TotemCategory" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_name_lang" Type="loc" />
+    <Field Name="m_totemCategoryType" Type="int" />
+    <Field Name="m_totemCategoryMask" Type="int" />
+  </Table>
+  <Table Name="TransportAnimation" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_TransportID" Type="int" />
+    <Field Name="m_TimeIndex" Type="int" />
+    <Field Name="m_PosX" Type="float" />
+    <Field Name="m_PosY" Type="float" />
+    <Field Name="m_PosZ" Type="float" />
+    <Field Name="m_SequenceID" Type="int" />
+  </Table>
+  <Table Name="TransportPhysics" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_waveAmp" Type="float" />
+    <Field Name="m_waveTimeScale" Type="float" />
+    <Field Name="m_rollAmp" Type="float" />
+    <Field Name="m_rollTimeScale" Type="float" />
+    <Field Name="m_pitchAmp" Type="float" />
+    <Field Name="m_pitchTimeScale" Type="float" />
+    <Field Name="m_maxBank" Type="float" />
+    <Field Name="m_maxBankTurnSpeed" Type="float" />
+    <Field Name="m_speedDampThresh" Type="float" />
+    <Field Name="m_speedDamp" Type="float" />
+  </Table>
+  <Table Name="TransportRotation" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_GameObjectsID" Type="int" />
+    <Field Name="m_TimeIndex" Type="int" />
+    <Field Name="m_RotX" Type="float" />
+    <Field Name="m_RotY" Type="float" />
+    <Field Name="m_RotZ" Type="float" />
+    <Field Name="m_RotW" Type="float" />
+  </Table>
+  <Table Name="UISoundLookups" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_SoundID" Type="int" />
+    <Field Name="m_Name" Type="string" />
+  </Table>
+  <Table Name="UnitBlood" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_CombatBloodSpurtFront" Type="int" ArraySize="2" />
+    <Field Name="m_CombatBloodSpurtBack" Type="int" ArraySize="2" />
+    <Field Name="m_GroundBlood" Type="string" ArraySize="5" />
+  </Table>
+  <Table Name="UnitBloodLevels" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Violencelevel" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="Vehicle" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_turnSpeed" Type="float" />
+    <Field Name="m_pitchSpeed" Type="float" />
+    <Field Name="m_pitchMin" Type="float" />
+    <Field Name="m_pitchMax" Type="float" />
+    <Field Name="m_seatID" Type="int" ArraySize="8" />
+    <Field Name="m_mouseLookOffsetPitch" Type="float" />
+    <Field Name="m_cameraFadeDistScalarMin" Type="float" />
+    <Field Name="m_cameraFadeDistScalarMax" Type="float" />
+    <Field Name="m_cameraPitchOffset" Type="float" />
+    <Field Name="m_facingLimitRight" Type="float" />
+    <Field Name="m_facingLimitLeft" Type="float" />
+    <Field Name="m_msslTrgtTurnLingering" Type="float" />
+    <Field Name="m_msslTrgtPitchLingering" Type="float" />
+    <Field Name="m_msslTrgtMouseLingering" Type="float" />
+    <Field Name="m_msslTrgtEndOpacity" Type="float" />
+    <Field Name="m_msslTrgtArcSpeed" Type="float" />
+    <Field Name="m_msslTrgtArcRepeat" Type="float" />
+    <Field Name="m_msslTrgtArcWidth" Type="float" />
+    <Field Name="m_msslTrgtImpactRadius" Type="float" ArraySize="2" />
+    <Field Name="m_msslTrgtArcTexture" Type="string" />
+    <Field Name="m_msslTrgtImpactTexture" Type="string" />
+    <Field Name="m_msslTrgtImpactModel" Type="string" ArraySize="2" />
+    <Field Name="m_cameraYawOffset" Type="float" />
+    <Field Name="m_uilocomotionType" Type="int" />
+    <Field Name="m_msslTrgtImpactTexRadius" Type="float" />
+    <Field Name="m_vehicleUIIndicatorID" Type="int" />
+    <Field Name="m_powerDisplayID" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="VehicleSeat" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_attachmentID" Type="int" />
+    <Field Name="m_attachmentOffsetX" Type="float" />
+    <Field Name="m_attachmentOffsetY" Type="float" />
+    <Field Name="m_attachmentOffsetZ" Type="float" />
+    <Field Name="m_enterPreDelay" Type="float" />
+    <Field Name="m_enterSpeed" Type="float" />
+    <Field Name="m_enterGravity" Type="float" />
+    <Field Name="m_enterMinDuration" Type="float" />
+    <Field Name="m_enterMaxDuration" Type="float" />
+    <Field Name="m_enterMinArcHeight" Type="float" />
+    <Field Name="m_enterMaxArcHeight" Type="float" />
+    <Field Name="m_enterAnimStart" Type="int" />
+    <Field Name="m_enterAnimLoop" Type="int" />
+    <Field Name="m_rideAnimStart" Type="int" />
+    <Field Name="m_rideAnimLoop" Type="int" />
+    <Field Name="m_rideUpperAnimStart" Type="int" />
+    <Field Name="m_rideUpperAnimLoop" Type="int" />
+    <Field Name="m_exitPreDelay" Type="float" />
+    <Field Name="m_exitSpeed" Type="float" />
+    <Field Name="m_exitGravity" Type="float" />
+    <Field Name="m_exitMinDuration" Type="float" />
+    <Field Name="m_exitMaxDuration" Type="float" />
+    <Field Name="m_exitMinArcHeight" Type="float" />
+    <Field Name="m_exitMaxArcHeight" Type="float" />
+    <Field Name="m_exitAnimStart" Type="int" />
+    <Field Name="m_exitAnimLoop" Type="int" />
+    <Field Name="m_exitAnimEnd" Type="int" />
+    <Field Name="m_passengerYaw" Type="float" />
+    <Field Name="m_passengerPitch" Type="float" />
+    <Field Name="m_passengerRoll" Type="float" />
+    <Field Name="m_passengerAttachmentID" Type="int" />
+    <Field Name="m_vehicleEnterAnim" Type="int" />
+    <Field Name="m_vehicleExitAnim" Type="int" />
+    <Field Name="m_vehicleRideAnimLoop" Type="int" />
+    <Field Name="m_vehicleEnterAnimBone" Type="int" />
+    <Field Name="m_vehicleExitAnimBone" Type="int" />
+    <Field Name="m_vehicleRideAnimLoopBone" Type="int" />
+    <Field Name="m_vehicleEnterAnimDelay" Type="float" />
+    <Field Name="m_vehicleExitAnimDelay" Type="float" />
+    <Field Name="m_vehicleAbilityDisplay" Type="int" />
+    <Field Name="m_enterUISoundID" Type="int" />
+    <Field Name="m_exitUISoundID" Type="int" />
+    <Field Name="m_uiSkin" Type="int" />
+    <Field Name="m_flagsB" Type="int" />
+    <Field Name="m_cameraEnteringDelay" Type="float" />
+    <Field Name="m_cameraEnteringDuration" Type="float" />
+    <Field Name="m_cameraExitingDelay" Type="float" />
+    <Field Name="m_cameraExitingDuration" Type="float" />
+    <Field Name="m_cameraOffsetX" Type="float" />
+    <Field Name="m_cameraOffsetY" Type="float" />
+    <Field Name="m_cameraOffsetZ" Type="float" />
+    <Field Name="m_cameraPosChaseRate" Type="float" />
+    <Field Name="m_cameraFacingChaseRate" Type="float" />
+    <Field Name="m_cameraEnteringZoom" Type="float" />
+    <Field Name="m_cameraSeatZoomMin" Type="float" />
+    <Field Name="m_cameraSeatZoomMax" Type="float" />
+  </Table>
+  <Table Name="VehicleUIIndicator" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_backgroundTexture" Type="string" />
+  </Table>
+  <Table Name="VehicleUIIndSeat" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_vehicleUIIndicatorID" Type="int" />
+    <Field Name="m_virtualSeatIndex" Type="int" />
+    <Field Name="m_xPos" Type="float" />
+    <Field Name="m_yPos" Type="float" />
+  </Table>
+  <Table Name="VideoHardware" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_vendorID" Type="int" />
+    <Field Name="m_deviceID" Type="int" />
+    <Field Name="m_farclipIdx" Type="int" />
+    <Field Name="m_terrainLODDistIdx" Type="int" />
+    <Field Name="m_terrainShadowLOD" Type="int" />
+    <Field Name="m_detailDoodadDensityIdx" Type="int" />
+    <Field Name="m_detailDoodadAlpha" Type="int" />
+    <Field Name="m_animatingDoodadIdx" Type="int" />
+    <Field Name="m_trilinear" Type="int" />
+    <Field Name="m_numLights" Type="int" />
+    <Field Name="m_specularity" Type="int" />
+    <Field Name="m_waterLODIdx" Type="int" />
+    <Field Name="m_particleDensityIdx" Type="int" />
+    <Field Name="m_unitDrawDistIdx" Type="int" />
+    <Field Name="m_smallCullDistIdx" Type="int" />
+    <Field Name="m_resolutionIdx" Type="int" />
+    <Field Name="m_baseMipLevel" Type="int" />
+    <Field Name="m_oglOverrides" Type="string" />
+    <Field Name="m_d3dOverrides" Type="string" />
+    <Field Name="m_fixLag" Type="int" />
+    <Field Name="m_multisample" Type="int" />
+    <Field Name="m_atlasdisable" Type="int" />
+  </Table>
+  <Table Name="VocalUISounds" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_vocalUIEnum" Type="int" />
+    <Field Name="m_raceID" Type="int" />
+    <Field Name="m_NormalSoundID" Type="int" ArraySize="2" />
+    <Field Name="m_PissedSoundID" Type="int" ArraySize="2" />
+  </Table>
+  <Table Name="WeaponImpactSounds" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_WeaponSubClassID" Type="int" />
+    <Field Name="m_ParrySoundType" Type="int" />
+    <Field Name="m_impactSoundID" Type="int" ArraySize="10" />
+    <Field Name="m_critImpactSoundID" Type="int" ArraySize="10" />
+  </Table>
+  <Table Name="WeaponSwingSounds2" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_SwingType" Type="int" />
+    <Field Name="m_Crit" Type="int" />
+    <Field Name="m_SoundID" Type="int" />
+  </Table>
+  <Table Name="Weather" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ambienceID" Type="int" />
+    <Field Name="m_effectType" Type="int" />
+    <Field Name="m_transitionSkyBox" Type="float" />
+    <Field Name="m_effectColor" Type="float" ArraySize="3" />
+    <Field Name="m_effectTexture" Type="string" />
+  </Table>
+  <Table Name="WMOAreaTable" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_WMOID" Type="int" />
+    <Field Name="m_NameSetID" Type="int" />
+    <Field Name="m_WMOGroupID" Type="int" />
+    <Field Name="m_SoundProviderPref" Type="int" />
+    <Field Name="m_SoundProviderPrefUnderwater" Type="int" />
+    <Field Name="m_AmbienceID" Type="int" />
+    <Field Name="m_ZoneMusic" Type="int" />
+    <Field Name="m_introSound" Type="int" />
+    <Field Name="m_flags" Type="int" />
+    <Field Name="m_AreaTableID" Type="int" />
+    <Field Name="m_AreaName_lang" Type="loc" />
+  </Table>
+  <Table Name="WorldChunkSounds" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_WorldMapContinentID" Type="int" />
+    <Field Name="m_ChunkX" Type="int" />
+    <Field Name="m_ChunkY" Type="int" />
+    <Field Name="m_SubchunkX" Type="int" />
+    <Field Name="m_SubchunkY" Type="int" />
+    <Field Name="m_ZoneintroMusicID" Type="int" />
+    <Field Name="m_ZoneMusicID" Type="int" />
+    <Field Name="m_SoundAmbienceID" Type="int" />
+    <Field Name="m_SoundProviderPreferencesID" Type="int" />
+  </Table>
+  <Table Name="WorldMapArea" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_areaID" Type="int" />
+    <Field Name="m_areaName" Type="string" />
+    <Field Name="m_locLeft" Type="float" />
+    <Field Name="m_locRight" Type="float" />
+    <Field Name="m_locTop" Type="float" />
+    <Field Name="m_locBottom" Type="float" />
+    <Field Name="m_displayMapID" Type="int" />
+    <Field Name="m_defaultDungeonFloor" Type="int" />
+    <Field Name="m_parentWorldMapID" Type="int" />
+  </Table>
+  <Table Name="WorldMapContinent" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_leftBoundary" Type="int" />
+    <Field Name="m_rightBoundary" Type="int" />
+    <Field Name="m_topBoundary" Type="int" />
+    <Field Name="m_bottomBoundary" Type="int" />
+    <Field Name="m_continentOffsetX" Type="float" />
+    <Field Name="m_continentOffsetY" Type="float" />
+    <Field Name="m_scale" Type="float" />
+    <Field Name="m_taxiMinX" Type="float" />
+    <Field Name="m_taxiMinY" Type="float" />
+    <Field Name="m_taxiMaxX" Type="float" />
+    <Field Name="m_taxiMaxY" Type="float" />
+    <Field Name="m_worldMapID" Type="int" />
+  </Table>
+  <Table Name="WorldMapOverlay" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapAreaID" Type="int" />
+    <Field Name="m_areaID" Type="int" ArraySize="4" />
+    <Field Name="m_mapPointX" Type="int" />
+    <Field Name="m_mapPointY" Type="int" />
+    <Field Name="m_textureName" Type="string" />
+    <Field Name="m_textureWidth" Type="int" />
+    <Field Name="m_textureHeight" Type="int" />
+    <Field Name="m_offsetX" Type="int" />
+    <Field Name="m_offsetY" Type="int" />
+    <Field Name="m_hitRectTop" Type="int" />
+    <Field Name="m_hitRectLeft" Type="int" />
+    <Field Name="m_hitRectBottom" Type="int" />
+    <Field Name="m_hitRectRight" Type="int" />
+  </Table>
+  <Table Name="WorldMapTransforms" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_regionMinX" Type="float" />
+    <Field Name="m_regionMinY" Type="float" />
+    <Field Name="m_regionMaxX" Type="float" />
+    <Field Name="m_regionMaxY" Type="float" />
+    <Field Name="m_newMapID" Type="int" />
+    <Field Name="m_regionOffsetX" Type="float" />
+    <Field Name="m_regionOffsetY" Type="float" />
+    <Field Name="m_newDungeonMapID" Type="int" />
+  </Table>
+  <Table Name="WorldSafelocs" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_continent" Type="int" />
+    <Field Name="m_locX" Type="float" />
+    <Field Name="m_locY" Type="float" />
+    <Field Name="m_locZ" Type="float" />
+    <Field Name="m_AreaName_lang" Type="loc" />
+  </Table>
+  <Table Name="WorldStateUI" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_mapID" Type="int" />
+    <Field Name="m_areaID" Type="int" />
+    <Field Name="m_phaseShift" Type="int" />
+    <Field Name="m_icon" Type="string" />
+    <Field Name="m_string_lang" Type="loc" />
+    <Field Name="m_tooltip_lang" Type="loc" />
+    <Field Name="m_stateVariable" Type="int" />
+    <Field Name="m_type" Type="int" />
+    <Field Name="m_dynamicIcon" Type="string" />
+    <Field Name="m_dynamicTooltip_lang" Type="loc" />
+    <Field Name="m_extendedUI" Type="string" />
+    <Field Name="m_extendedUIStateVariable" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="WorldStateZoneSounds" Build="12340">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_WorldStateID" Type="int" />
+    <Field Name="m_WorldStateValue" Type="int" />
+    <Field Name="m_AreaID" Type="int" />
+    <Field Name="m_WMOAreaID" Type="int" />
+    <Field Name="m_ZoneintroMusicID" Type="int" />
+    <Field Name="m_ZoneMusicID" Type="int" />
+    <Field Name="m_SoundAmbienceID" Type="int" />
+    <Field Name="m_SoundProviderPreferencesID" Type="int" />
+  </Table>
+  <Table Name="WowError_Strings" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_errorName" Type="string" />
+    <Field Name="m_errorString" Type="loc" />
+  </Table>
+  <Table Name="ZoneintroMusicTable" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_Name" Type="string" />
+    <Field Name="m_SoundID" Type="int" />
+    <Field Name="m_Priority" Type="int" />
+    <Field Name="m_MinDelayMinutes" Type="int" />
+  </Table>
+  <Table Name="ZoneMusic" Build="12340">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_SetName" Type="string" />
+    <Field Name="m_SilenceintervalMin" Type="int" ArraySize="2" />
+    <Field Name="m_SilenceintervalMax" Type="int" ArraySize="2" />
+    <Field Name="m_Sounds" Type="int" ArraySize="2" />
+  </Table>
+</Definition>
