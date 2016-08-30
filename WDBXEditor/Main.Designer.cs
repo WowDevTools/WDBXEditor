@@ -351,6 +351,7 @@ namespace WDBXEditor
             // 
             this.loadFilesToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.open;
             this.loadFilesToolStripMenuItem.Name = "loadFilesToolStripMenuItem";
+            this.loadFilesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.loadFilesToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.loadFilesToolStripMenuItem.Text = "Open File(s)";
             this.loadFilesToolStripMenuItem.Click += new System.EventHandler(this.loadFilesToolStripMenuItem_Click);
