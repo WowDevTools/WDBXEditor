@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WDBXEditor</RootNamespace>
     <AssemblyName>WDBX Editor</AssemblyName>
@@ -94,7 +94,8 @@
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>WDBXEditor.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
@@ -168,6 +169,7 @@
     </Compile>
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\FormHandler.cs" />
+    <Compile Include="MainConsole.cs" />
     <Compile Include="Forms\ErrorReport.cs">
       <SubType>Form</SubType>
     </Compile>
