@@ -919,11 +919,7 @@ namespace WDBXEditor
 
         private void Reload()
         {
-            if(LoadedEntry == null)
-            {
-                MessageBox.Show($"Can't reload nothing ;)");
-                return;
-            }
+            if (!isLoaded) return;
 
             ProgressStart();
             Task.Run(() => Database.LoadFiles(new string[] { LoadedEntry.FilePath }))
