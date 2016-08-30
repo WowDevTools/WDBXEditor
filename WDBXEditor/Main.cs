@@ -919,6 +919,8 @@ namespace WDBXEditor
 
         private void Reload()
         {
+            if (!isLoaded) return;
+
             ProgressStart();
             Task.Run(() => Database.LoadFiles(new string[] { LoadedEntry.FilePath }))
             .ContinueWith(x =>
