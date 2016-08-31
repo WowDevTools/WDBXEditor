@@ -425,7 +425,6 @@ namespace WDBXEditor.Storage
             error = string.Empty;
 
             DataTable importTable = Data.Clone(); //Clone table structure to help with mapping
-            string header = headerrow ? "Yes" : "No";
 
             List<int> usedids = new List<int>();
             int idcolumn = Data.Columns[Key].Ordinal;
@@ -562,14 +561,21 @@ namespace WDBXEditor.Storage
         {
             error = string.Empty;
             DataTable importTable = Data.Clone(); //Clone table structure to help with mapping
+            Parallel.For(0, importTable.Columns.Count, c => importTable.Columns[c].AllowDBNull = true); //Allow null values
+
             using (MySqlConnection connection = new MySqlConnection(connectionstring))
             using (MySqlCommand command = new MySqlCommand($"SELECT {columns} FROM `{table}`", connection))
             using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
             {
                 try
                 {
-                    adapter.FillSchema(Data, SchemaType.Source); //Enforce schema
+                    adapter.FillSchema(importTable, SchemaType.Source); //Enforce schema
                     adapter.Fill(importTable);
+                }
+                catch(ConstraintException ex)
+                {
+                    error = ex.Message;
+                    return false;
                 }
                 catch (Exception ex)
                 {
@@ -577,6 +583,14 @@ namespace WDBXEditor.Storage
                     return false;
                 }
             }
+
+            //Replace DBNulls with default value
+            Parallel.For(0, importTable.Rows.Count, r =>
+            {
+                for (int i = 0; i < importTable.Columns.Count; i++)
+                    if (importTable.Rows[r][i] == DBNull.Value)
+                        importTable.Rows[r][i] = importTable.Columns[i].DefaultValue;
+            });
 
             switch (Data.ShallowCompare(importTable))
             {
@@ -621,6 +635,8 @@ namespace WDBXEditor.Storage
                     Data = importTable.Copy();
                     break;
             }
+
+            Parallel.For(0, Data.Columns.Count, c => Data.Columns[c].AllowDBNull = false); //Disallow null values
         }
 
         #endregion
