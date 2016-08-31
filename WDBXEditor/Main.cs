@@ -636,7 +636,7 @@ namespace WDBXEditor
                 {
                     case DialogResult.OK:
                         SetSource(getEntry(), false);
-                        ProgressStop();
+                        advancedDataGridView.CacheData();
                         MessageBox.Show("CSV import succeeded.");
                         break;
                     case DialogResult.Abort:
@@ -647,6 +647,8 @@ namespace WDBXEditor
                             MessageBox.Show("CSV import failed due to incorrect file format.");
                         break;
                 }
+
+                ProgressStop();
             }
         }
 
@@ -665,6 +667,7 @@ namespace WDBXEditor
                 {
                     case DialogResult.OK:
                         SetSource(getEntry(), false);
+                        advancedDataGridView.CacheData();
                         MessageBox.Show("SQL import succeeded.");
                         break;
                     case DialogResult.Abort:
@@ -674,6 +677,8 @@ namespace WDBXEditor
                             MessageBox.Show("SQL import failed due to incorrect file format.");
                         break;
                 }
+
+                ProgressStop();
             }
         }
 

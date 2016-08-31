@@ -212,6 +212,11 @@ namespace ADGV
             undoStack.Clear();
         }
 
+        public void CacheData()
+        {
+            Task.Run(() => Cache.Init(true));
+        }
+
         #region Internal Methods
         protected virtual void OnUndoRedoChanged(EventArgs e)
         {
