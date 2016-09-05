@@ -39,18 +39,8 @@ namespace WDBXEditor.Common
             if (!d1Types.Equals(d2Types, StringComparison.CurrentCultureIgnoreCase))
                 return CompareResult.Type;
 
-            //Deleted column check
-            var columntypes = d1.Columns.Cast<DataColumn>().Select(x => x.DataType).ToArray();
-            var result = Parallel.For(0, d2.Columns.Count, (i, state) =>
-            {
-                if (checktype && d2.AsEnumerable().Any(x => x.ItemArray[i].GetType() != columntypes[i])) //DBNull check
-                    state.Stop();
-
-                d2.Columns[i].ColumnName = d1.Columns[i].ColumnName; //Enforce column names
-            });
-
-            if(!result.IsCompleted)
-                return CompareResult.DBNull;
+            //Enforce column names
+            Parallel.For(0, d2.Columns.Count, (i, state) => d2.Columns[i].ColumnName = d1.Columns[i].ColumnName); 
 
             return CompareResult.OK;
         }
@@ -70,7 +60,7 @@ namespace WDBXEditor.Common
             foreach (var d in dkey)
                 yield return dt1[d];
         }
-        
+
         /// <summary>
         /// Converts a DataColumnCollection to an ALTER TABLE Column string
         /// </summary>
@@ -114,7 +104,7 @@ namespace WDBXEditor.Common
                         sb.Append($" `{col.ColumnName}` FLOAT NOT NULL DEFAULT '0',");
                         break;
                     case "String":
-                        sb.Append($" `{col.ColumnName}` TEXT NOT NULL,");
+                        sb.Append($" `{col.ColumnName}` TEXT NOT NULL DEFAULT '',");
                         break;
                     default:
                         throw new Exception($"Unknown data type {col.ColumnName} : {col.DataType.Name}");
@@ -184,7 +174,7 @@ namespace WDBXEditor.Common
         {
             if (t.IsValueType && Nullable.GetUnderlyingType(t) == null)
                 return Activator.CreateInstance(t);
-            else if(t == typeof(string))
+            else if (t == typeof(string))
                 return string.Empty;
             else
                 return null;
