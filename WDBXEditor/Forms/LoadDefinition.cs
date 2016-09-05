@@ -19,6 +19,12 @@ namespace WDBXEditor
             openFileDialog.InitialDirectory = DEFINITION_DIR;
         }
 
+        public void UpdateFiles(IEnumerable<string> files)
+        {
+            Files = Files.Concat(files);
+            LoadBuilds();
+        }
+
         private void LoadDefinition_Load(object sender, EventArgs e)
         {
             btnLoad.Enabled = false;
@@ -37,6 +43,15 @@ namespace WDBXEditor
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void btnNewWindow_Click(object sender, EventArgs e)
+        {
+            if (InstanceManager.LoadNewInstance(Files))
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
         }
 
         private void lbDefinitions_SelectedValueChanged(object sender, EventArgs e)
@@ -64,26 +79,29 @@ namespace WDBXEditor
                 return;
             }
 
-            var builds = Database.Definitions.Tables.Select(x => x.Build).ToList().Distinct().OrderBy(x => x);
-
-            if ((Files?.Count() ?? 0) > 0)
+            if (Files?.Count() == 0)
             {
-                //Get compatible builds only
-                bool db2 = Files.Any(x => Path.GetExtension(x).IndexOf("db2", StringComparison.CurrentCultureIgnoreCase) >= 0);
-                bool adb = Files.Any(x => Path.GetExtension(x).IndexOf("adb", StringComparison.CurrentCultureIgnoreCase) >= 0);
-                var files = Files.Select(x => Path.GetFileNameWithoutExtension(x).ToLower());
-                builds = Database.Definitions.Tables.Where(x => files.Contains(x.Name.ToLower()))
-                                                   .Select(x => x.Build).ToList().Distinct()
-                                                   .OrderBy(x => x);
-                //Filter out non DB2/ADB clients
-                if (db2 || adb)
-                    builds = builds.Where(x => x > (int)ExpansionFinalBuild.WotLK).OrderBy(x => x);
+                lbDefinitions.DataSource = null;
+                MessageBox.Show("No files to load.");
+                return;
             }
 
-            //Create a datasource of true build number and nice text i.e. 12340, "WotLK 3.3.5 - 12340" 
-            lbDefinitions.BeginUpdate();
+            //Get compatible builds only
+            bool db2 = Files.Any(x => Path.GetExtension(x).IndexOf("db2", IGNORECASE) >= 0);
+            bool adb = Files.Any(x => Path.GetExtension(x).IndexOf("adb", IGNORECASE) >= 0);
 
-            var datasource = builds.Select(x => new { Key = x, Value = BuildText(x) });
+            var files = Files.Select(x => Path.GetFileNameWithoutExtension(x).ToLower());
+            var datasource = Database.Definitions.Tables
+                                                 .Where(x => files.Contains(x.Name.ToLower()))
+                                                 .Select(x => new { Key = x.Build, Value = x.BuildText })
+                                                 .Distinct()
+                                                 .OrderBy(x => x.Key);
+            //Filter out non DB2/ADB clients
+            if (db2 || adb)
+                datasource = datasource.Where(x => x.Key > (int)ExpansionFinalBuild.WotLK).OrderBy(x => x.Key);
+
+            lbDefinitions.BeginUpdate();
+            
             if (datasource.Count() == 0)
             {
                 lbDefinitions.DataSource = null;
