@@ -34,6 +34,8 @@ namespace WDBXEditor.Storage
             List<string> _errors = new List<string>();
             Queue<string> files = new Queue<string>(filenames.OrderByDescending(x => Path.GetExtension(x)));
 
+            filenames = filenames.Distinct(); //Prevent loading multiple times
+
             var batchBlock = new BatchBlock<string>(100, new GroupingDataflowBlockOptions { BoundedCapacity = 100 });
             var actionBlock = new ActionBlock<string[]>(t =>
             {
