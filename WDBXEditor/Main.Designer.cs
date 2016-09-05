@@ -60,6 +60,7 @@ namespace WDBXEditor
             this.openFromMPQToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFromCASCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +81,7 @@ namespace WDBXEditor
             this.toSQLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toMPQToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromSQLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,8 +102,8 @@ namespace WDBXEditor
             this.insertLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.columnFilter = new WDBXEditor.Common.DropdownCheckList();
             this.advancedDataGridView = new ADGV.AdvancedDataGridView();
+            this.columnFilter = new WDBXEditor.Common.DropdownCheckList();
             this.gbFiles.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.filecontextMenuStrip.SuspendLayout();
@@ -339,6 +341,7 @@ namespace WDBXEditor
             this.openFromMPQToolStripMenuItem,
             this.openFromCASCToolStripMenuItem,
             this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
             this.saveAllToolStripMenuItem,
             this.reloadToolStripMenuItem,
             this.closeToolStripMenuItem,
@@ -351,7 +354,8 @@ namespace WDBXEditor
             // 
             this.loadFilesToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.open;
             this.loadFilesToolStripMenuItem.Name = "loadFilesToolStripMenuItem";
-            this.loadFilesToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.loadFilesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.loadFilesToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.loadFilesToolStripMenuItem.Text = "Open File(s)";
             this.loadFilesToolStripMenuItem.Click += new System.EventHandler(this.loadFilesToolStripMenuItem_Click);
             // 
@@ -359,7 +363,7 @@ namespace WDBXEditor
             // 
             this.openFromMPQToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.open;
             this.openFromMPQToolStripMenuItem.Name = "openFromMPQToolStripMenuItem";
-            this.openFromMPQToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.openFromMPQToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.openFromMPQToolStripMenuItem.Text = "Open from MPQ";
             this.openFromMPQToolStripMenuItem.Click += new System.EventHandler(this.openFromMPQToolStripMenuItem_Click);
             // 
@@ -367,7 +371,7 @@ namespace WDBXEditor
             // 
             this.openFromCASCToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.open;
             this.openFromCASCToolStripMenuItem.Name = "openFromCASCToolStripMenuItem";
-            this.openFromCASCToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.openFromCASCToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.openFromCASCToolStripMenuItem.Text = "Open from CASC";
             this.openFromCASCToolStripMenuItem.Click += new System.EventHandler(this.openFromCASCToolStripMenuItem_Click);
             // 
@@ -376,9 +380,18 @@ namespace WDBXEditor
             this.saveToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.save_file;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.save_file;
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveAllToolStripMenuItem
             // 
@@ -386,7 +399,7 @@ namespace WDBXEditor
             this.saveAllToolStripMenuItem.Name = "saveAllToolStripMenuItem";
             this.saveAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAllToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.saveAllToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.saveAllToolStripMenuItem.Text = "Save All";
             this.saveAllToolStripMenuItem.Click += new System.EventHandler(this.saveAllToolStripMenuItem_Click);
             // 
@@ -395,7 +408,7 @@ namespace WDBXEditor
             this.reloadToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.reload;
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
             this.reloadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
@@ -404,7 +417,7 @@ namespace WDBXEditor
             this.closeToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.close;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
             this.closeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -412,7 +425,9 @@ namespace WDBXEditor
             // 
             this.closeAllToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.close;
             this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.closeAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.W)));
+            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.closeAllToolStripMenuItem.Text = "Close All";
             this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.closeAllToolStripMenuItem_Click);
             // 
@@ -512,7 +527,8 @@ namespace WDBXEditor
             this.toSQLToolStripMenuItem,
             this.toSQLFileToolStripMenuItem,
             this.toCSVToolStripMenuItem,
-            this.toMPQToolStripMenuItem});
+            this.toMPQToolStripMenuItem,
+            this.toJSONToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.exportToolStripMenuItem.Text = "Export";
@@ -548,6 +564,14 @@ namespace WDBXEditor
             this.toMPQToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.toMPQToolStripMenuItem.Text = "To MPQ";
             this.toMPQToolStripMenuItem.Click += new System.EventHandler(this.toMPQToolStripMenuItem_Click);
+            // 
+            // toJSONToolStripMenuItem
+            // 
+            this.toJSONToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.sqlfile;
+            this.toJSONToolStripMenuItem.Name = "toJSONToolStripMenuItem";
+            this.toJSONToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.toJSONToolStripMenuItem.Text = "To JSON";
+            this.toJSONToolStripMenuItem.Click += new System.EventHandler(this.toJSONToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 
@@ -709,21 +733,9 @@ namespace WDBXEditor
             this.deleteLineToolStripMenuItem.Text = "Delete Line";
             this.deleteLineToolStripMenuItem.Click += new System.EventHandler(this.deleteLineToolStripMenuItem_Click);
             // 
-            // columnFilter
-            // 
-            this.columnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.columnFilter.ListHeight = 200;
-            this.columnFilter.Location = new System.Drawing.Point(656, 3);
-            this.columnFilter.Name = "columnFilter";
-            this.columnFilter.Size = new System.Drawing.Size(276, 21);
-            this.columnFilter.TabIndex = 8;
-            this.columnFilter.TabStop = false;
-            this.columnFilter.ItemCheckChanged += new System.Windows.Forms.ItemCheckEventHandler(this.columnFilter_ItemCheckChanged);
-            this.columnFilter.HideEmptyPressed += new System.EventHandler(this.columnFilter_HideEmptyPressed);
-            // 
             // advancedDataGridView
             // 
+            this.advancedDataGridView.AllowDrop = true;
             this.advancedDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -742,10 +754,24 @@ namespace WDBXEditor
             this.advancedDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.advancedDataGridView_CellValueChanged);
             this.advancedDataGridView.CurrentCellChanged += new System.EventHandler(this.advancedDataGridView_CurrentCellChanged);
             this.advancedDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.advancedDataGridView_DataBindingComplete);
-            this.advancedDataGridView.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.advancedDataGridView_DefaultValuesNeeded);
             this.advancedDataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.advancedDataGridView_RowsAdded);
             this.advancedDataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.advancedDataGridView_RowsRemoved);
+            this.advancedDataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.advancedDataGridView_DragDrop);
+            this.advancedDataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.advancedDataGridView_DragEnter);
             this.advancedDataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.advancedDataGridView_MouseDown);
+            // 
+            // columnFilter
+            // 
+            this.columnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.columnFilter.ListHeight = 200;
+            this.columnFilter.Location = new System.Drawing.Point(656, 3);
+            this.columnFilter.Name = "columnFilter";
+            this.columnFilter.Size = new System.Drawing.Size(276, 21);
+            this.columnFilter.TabIndex = 8;
+            this.columnFilter.TabStop = false;
+            this.columnFilter.ItemCheckChanged += new System.Windows.Forms.ItemCheckEventHandler(this.columnFilter_ItemCheckChanged);
+            this.columnFilter.HideEmptyPressed += new System.EventHandler(this.columnFilter_HideEmptyPressed);
             // 
             // Main
             // 
@@ -852,6 +878,8 @@ namespace WDBXEditor
         private System.Windows.Forms.ToolStripMenuItem newLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem deleteLineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toJSONToolStripMenuItem;
     }
 }
 

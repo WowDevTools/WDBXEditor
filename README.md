@@ -27,8 +27,9 @@ You will need [Microsoft .NET Framework 4.6.1](https://www.microsoft.com/en-us/d
 * WotLK Item Import to remove the dreaded red question mark from custom items
 * WDB5 Parser which is an attempt to automatically parse the structure of WDB5 files
 
-##Contribution:
-The goal of this project is to create a communal program that is compatible with all file variants, is feature rich and negates the need to use multiple different programs.  
+##Project Goal:
+The goal of this project is to create a communal program that is compatible with all file variants, is feature rich and negates the need to use multiple different programs.
+This means any and all contribution in the form of commits, change requests, issues etc are more than welcome!
 
 ##Credits:
 Credits go to Ladislav Zezula for the awesome StormLib and thanks to all those that contribute to the WoWDev wiki.
