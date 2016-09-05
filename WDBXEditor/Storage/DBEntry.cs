@@ -15,6 +15,8 @@ using WDBXEditor.Reader.FileTypes;
 using System.Text.RegularExpressions;
 using static WDBXEditor.Common.Extensions;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Web.Script.Serialization;
 
 namespace WDBXEditor.Storage
 {
@@ -37,7 +39,7 @@ namespace WDBXEditor.Storage
             this.Header = header;
             this.FilePath = filepath;
             this.TableStructure = Database.Definitions.Tables.FirstOrDefault(x =>
-                                          x.Name.Equals(Path.GetFileNameWithoutExtension(filepath), StringComparison.CurrentCultureIgnoreCase) &&
+                                          x.Name.Equals(Path.GetFileNameWithoutExtension(filepath), IGNORECASE) &&
                                           x.Build == Database.BuildNumber);
 
             LoadDefinition();
@@ -200,7 +202,7 @@ namespace WDBXEditor.Storage
         /// <returns></returns>
         public bool IsFileOf(string filename, Expansion expansion)
         {
-            return TableStructure.Name.Equals(filename, StringComparison.CurrentCultureIgnoreCase) && IsBuild(Build, expansion);
+            return TableStructure.Name.Equals(filename, IGNORECASE) && IsBuild(Build, expansion);
         }
 
         /// <summary>
@@ -299,7 +301,7 @@ namespace WDBXEditor.Storage
         /// Generates a SQL string to DROP and ADD a table then INSERT the records
         /// </summary>
         /// <returns></returns>
-        public string ToSql()
+        public string ToSQL()
         {
             string tableName = $"db_{TableStructure.Name}_{Build}";
 
@@ -316,7 +318,7 @@ namespace WDBXEditor.Storage
         /// Uses MysqlBulkCopy to import the data directly into a database
         /// </summary>
         /// <param name="connectionstring"></param>
-        public void ToSqlTable(string connectionstring)
+        public void ToSQLTable(string connectionstring)
         {
             string tableName = $"db_{TableStructure.Name}_{Build}";
             string csvName = Path.Combine(TEMP_FOLDER, tableName + ".csv");
@@ -325,7 +327,7 @@ namespace WDBXEditor.Storage
             sb.AppendLine($"CREATE TABLE `{tableName}` ({Data.Columns.ToSql(Key)}) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci; ");
 
             using (StreamWriter csv = new StreamWriter(csvName))
-                csv.Write(ToCsv());
+                csv.Write(ToCSV());
 
             using (MySqlConnection connection = new MySqlConnection(connectionstring))
             {
@@ -354,7 +356,7 @@ namespace WDBXEditor.Storage
         /// Generates a CSV file string
         /// </summary>
         /// <returns></returns>
-        public string ToCsv()
+        public string ToCSV()
         {
             StringBuilder sb = new StringBuilder();
             IEnumerable<string> columnNames = Data.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
@@ -377,8 +379,19 @@ namespace WDBXEditor.Storage
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="version"></param>
-        public void ToMPQ(string filename, MpqArchiveVersion version)
+        public void ToMPQ(string filename)
         {
+            MpqArchiveVersion version = MpqArchiveVersion.Version2;
+            if (this.Build <= (int)ExpansionFinalBuild.WotLK)
+                version = MpqArchiveVersion.Version2;
+            else if (this.Build <= (int)ExpansionFinalBuild.MoP)
+                version = MpqArchiveVersion.Version4;
+            else
+            {
+                MessageBox.Show("Only clients before WoD support MPQ archives.");
+                return;
+            }
+
             try
             {
                 MpqArchive archive = null;
@@ -416,6 +429,29 @@ namespace WDBXEditor.Storage
                 MessageBox.Show($"Error exporting to MPQ archive {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Generates a JSON string
+        /// </summary>
+        /// <returns></returns>
+        public string ToJSON()
+        {
+            string[] columns = Data.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
+            ConcurrentBag<Dictionary<string, object>> Rows = new ConcurrentBag<Dictionary<string, object>>();
+            Parallel.For(0, Data.Rows.Count, r =>
+            {
+                object[] data = Data.Rows[r].ItemArray;
+
+                Dictionary<string, object> row = new Dictionary<string, object>();
+                for (int x = 0; x < columns.Length; x++)
+                    row.Add(columns[x], data[x]);
+
+                Rows.Add(row);
+            });
+            
+            return new JavaScriptSerializer() { MaxJsonLength = int.MaxValue }.Serialize(Rows);
+        }
+
         #endregion
 
 
@@ -425,7 +461,6 @@ namespace WDBXEditor.Storage
             error = string.Empty;
 
             DataTable importTable = Data.Clone(); //Clone table structure to help with mapping
-            string header = headerrow ? "Yes" : "No";
 
             List<int> usedids = new List<int>();
             int idcolumn = Data.Columns[Key].Ordinal;
@@ -562,14 +597,21 @@ namespace WDBXEditor.Storage
         {
             error = string.Empty;
             DataTable importTable = Data.Clone(); //Clone table structure to help with mapping
+            Parallel.For(0, importTable.Columns.Count, c => importTable.Columns[c].AllowDBNull = true); //Allow null values
+
             using (MySqlConnection connection = new MySqlConnection(connectionstring))
             using (MySqlCommand command = new MySqlCommand($"SELECT {columns} FROM `{table}`", connection))
             using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
             {
                 try
                 {
-                    adapter.FillSchema(Data, SchemaType.Source); //Enforce schema
+                    adapter.FillSchema(importTable, SchemaType.Source); //Enforce schema
                     adapter.Fill(importTable);
+                }
+                catch(ConstraintException ex)
+                {
+                    error = ex.Message;
+                    return false;
                 }
                 catch (Exception ex)
                 {
@@ -577,6 +619,14 @@ namespace WDBXEditor.Storage
                     return false;
                 }
             }
+
+            //Replace DBNulls with default value
+            Parallel.For(0, importTable.Rows.Count, r =>
+            {
+                for (int i = 0; i < importTable.Columns.Count; i++)
+                    if (importTable.Rows[r][i] == DBNull.Value)
+                        importTable.Rows[r][i] = importTable.Columns[i].DefaultValue;
+            });
 
             switch (Data.ShallowCompare(importTable))
             {
@@ -621,6 +671,8 @@ namespace WDBXEditor.Storage
                     Data = importTable.Copy();
                     break;
             }
+
+            Parallel.For(0, Data.Columns.Count, c => Data.Columns[c].AllowDBNull = false); //Disallow null values
         }
 
         #endregion
