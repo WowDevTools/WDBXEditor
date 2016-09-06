@@ -92,13 +92,12 @@ namespace WDBXEditor.Reader
         {
             if (map == null)
                 return br.ReadInt32();
+            
+            byte[] b = new byte[sizeof(int)];
+            for (int i = 0; i < map.ByteCount; i++)
+                b[i] = br.ReadByte();
 
-            byte[] b = br.ReadBytes(map.ByteCount);
-            int i32 = 0;
-            for (int i = 0; i < b.Length; i++)
-                i32 |= (b[i] << i * 8);
-
-            return i32;
+            return BitConverter.ToInt32(b, 0);
         }
 
         public static uint ReadUInt32(this BinaryReader br, FieldStructureEntry map = null)
@@ -106,12 +105,11 @@ namespace WDBXEditor.Reader
             if (map == null)
                 return br.ReadUInt32();
 
-            byte[] b = br.ReadBytes(map.ByteCount);
-            uint u32 = 0;
-            for (int i = 0; i < b.Length; i++)
-                u32 |= ((uint)b[i] << i * 8);
+            byte[] b = new byte[sizeof(uint)];
+            for (int i = 0; i < map.ByteCount; i++)
+                b[i] = br.ReadByte();
 
-            return u32;
+            return BitConverter.ToUInt32(b, 0);
         }
 
         public static long ReadInt64(this BinaryReader br, FieldStructureEntry map = null)
@@ -119,12 +117,11 @@ namespace WDBXEditor.Reader
             if (map == null)
                 return br.ReadInt64();
 
-            byte[] b = br.ReadBytes(map.ByteCount);
-            long i64 = 0;
-            for (int i = 0; i < b.Length; i++)
-                i64 |= ((long)b[i] << i * 8);
+            byte[] b = new byte[sizeof(long)];
+            for (int i = 0; i < map.ByteCount; i++)
+                b[i] = br.ReadByte();
 
-            return i64;
+            return BitConverter.ToInt64(b, 0);
         }
 
         public static ulong ReadUInt64(this BinaryReader br, FieldStructureEntry map = null)
@@ -132,12 +129,11 @@ namespace WDBXEditor.Reader
             if (map == null)
                 return br.ReadUInt64();
 
-            byte[] b = br.ReadBytes(map.ByteCount);
-            ulong u64 = 0;
-            for (int i = 0; i < b.Length; i++)
-                u64 |= ((ulong)b[i] << i * 8);
+            byte[] b = new byte[sizeof(ulong)];
+            for (int i = 0; i < map.ByteCount; i++)
+                b[i] = br.ReadByte();
 
-            return u64;
+            return BitConverter.ToUInt64(b, 0);
         }
 
         public static void Scrub(this BinaryReader br, long pos)
