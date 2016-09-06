@@ -38,12 +38,18 @@ namespace WDBXEditor.Reader.FileTypes
             HeaderSize = 0x30;
         }
 
+        public WCH5(string filename)
+        {
+            HeaderSize = 0x30;
+            this.FileName = filename;
+        }
+
         #region Read
         public override void ReadHeader(ref BinaryReader dbReader, string signature)
         {
             string _filename = Path.GetFileNameWithoutExtension(FileName).ToLower();
             WDB5CounterPart = Database.Entries
-                            .FirstOrDefault(x => x.Header.IsWDB5File && Path.GetFileNameWithoutExtension(x.FileName).ToLower() == _filename)?
+                            .FirstOrDefault(x => x.Header.IsTypeOf<WDB5>() && Path.GetFileNameWithoutExtension(x.FileName).ToLower() == _filename)?
                             .Header as WDB5;
 
             if (WDB5CounterPart == null)

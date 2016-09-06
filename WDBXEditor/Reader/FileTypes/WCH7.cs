@@ -19,6 +19,13 @@ namespace WDBXEditor.Reader.FileTypes
             HeaderSize = 0x34;
         }
 
+        public WCH7(string filename)
+        {
+            StringTableOffset = 0x14;
+            HeaderSize = 0x34;
+            this.FileName = filename;
+        }
+
         public override byte[] ReadData(BinaryReader dbReader, long pos)
         {
             Dictionary<int, byte[]> CopyTable = ReadOffsetData(dbReader, pos);
