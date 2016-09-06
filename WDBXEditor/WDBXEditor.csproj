@@ -242,6 +242,7 @@
     <Compile Include="Reader\DBReaderExtensions.cs" />
     <Compile Include="Reader\FileTypes\WCH5.cs" />
     <Compile Include="Reader\FileTypes\WCH7.cs" />
+    <Compile Include="Reader\FileTypes\WCH8.cs" />
     <Compile Include="Reader\FileTypes\WDB.cs" />
     <Compile Include="Reader\FileTypes\WDB2.cs" />
     <Compile Include="Reader\FileTypes\WDB5.cs" />

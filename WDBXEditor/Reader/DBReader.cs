@@ -46,12 +46,13 @@ namespace WDBXEditor.Reader
                     header = new WDB5();
                     break;
                 case "WCH5":
-                    header = new WCH5();
-                    (header as WCH5).FileName = FileName;
+                    header = new WCH5(FileName);
                     break;
                 case "WCH7":
-                    header = new WCH7();
-                    (header as WCH7).FileName = FileName;
+                    header = new WCH7(FileName);
+                    break;
+                case "WCH8":
+                    header = new WCH8(FileName);
                     break;
                 case "WMOB":
                 case "WGOB":
@@ -91,7 +92,7 @@ namespace WDBXEditor.Reader
                 if (entry.TableStructure == null)
                     throw new Exception("Definition missing.");
 
-                if (header.IsWDBCFile || header.IsWDB2File)
+                if (header.IsTypeOf<WDBC>() || header.IsTypeOf<WDB2>())
                 {
                     long stringTableStart = dbReader.BaseStream.Position += header.RecordCount * header.RecordSize;
                     Dictionary<int, string> StringTable = new StringTable().Read(dbReader, stringTableStart); //Get stringtable
@@ -102,7 +103,7 @@ namespace WDBXEditor.Reader
                     stream.Dispose();
                     return entry;
                 }
-                else if (header.IsWDB5File || header.IsWCH5File)
+                else if (header.IsTypeOf<WDB5>() || header.IsTypeOf<WCH5>())
                 {
                     WDB5 wdb5 = (header as WDB5);
                     WCH5 wch5 = (header as WCH5);
@@ -131,17 +132,17 @@ namespace WDBXEditor.Reader
                     }
 
                     //Cleanup
-                    if (header.IsWDB5File)
+                    if (header.IsTypeOf<WDB5>())
                         wdb5.OffsetLengths = null;
-                    else if (header.IsWCH5File)
+                    else if (header.IsTypeOf<WCH5>())
                         wch5.OffsetLengths = null;
-                    else if (header.IsWCH7File)
+                    else if (header.IsTypeOf<WCH7>())
                         wch7.OffsetLengths = null;
 
                     stream.Dispose();
                     return entry;
                 }
-                else if (header.IsWDBFile)
+                else if (header.IsTypeOf<WDB>())
                 {
                     WDB wdb = (WDB)header;
                     wdb.ReadExtendedHeader(dbReader, entry.Build);
@@ -244,7 +245,7 @@ namespace WDBXEditor.Reader
                             dbReader.BaseStream.Position += sizeof(float) * padding[j];
                             break;
                         case TypeCode.String:
-                            if (entry.Header.IsWDBFile || entry.Header.HasOffsetTable)
+                            if (entry.Header.IsTypeOf<WDB>() || entry.Header.HasOffsetTable)
                                 row.SetField(entry.Data.Columns[j], dbReader.ReadStringNull());
                             else
                             {
@@ -286,7 +287,7 @@ namespace WDBXEditor.Reader
                 StringTable st = new StringTable(entry.Header.ExtendedStringTable); //Preloads null byte(s)
                 entry.Header.WriteHeader(bw, entry);
 
-                if (entry.Header.IsWDB5File && !entry.Header.HasOffsetTable)
+                if (entry.Header.IsTypeOf<WDB5>() && !entry.Header.HasOffsetTable)
                     ReadIntoFile(entry, bw, entry.GetUniqueRows().ToArray(), ref st); //Insert unique rows
                 else
                     ReadIntoFile(entry, bw, entry.Data.AsEnumerable(), ref st); //Insert all rows
@@ -306,7 +307,7 @@ namespace WDBXEditor.Reader
                 if (entry.Header.IsLegionFile)
                 {
                     //WCH7 Map
-                    if (entry.Header.IsWCH7File)
+                    if (entry.Header.IsTypeOf<WCH7>())
                         bw.WriteArray(((WCH7)entry.Header).WCH7Table);
 
                     //OffsetMap
@@ -328,7 +329,7 @@ namespace WDBXEditor.Reader
                         entry.Header.WriteIndexTable(bw, entry);
 
                     //CopyTable - WDB5 only
-                    if (entry.Header.IsWDB5File)
+                    if (entry.Header.IsTypeOf<WDB5>())
                         ((WDB5)entry.Header).WriteCopyTable(bw, entry);
                 }
 
@@ -345,9 +346,9 @@ namespace WDBXEditor.Reader
             var bits = entry.GetBits();
 
             bool duplicates = false;
-            if (entry.Header.IsWDB2File && ((WDB2)entry.Header).MaxId != 0) //WDB2 with MaxId > 0 allows duplicates
+            if (entry.Header.IsTypeOf<WDB2>() && ((WDB2)entry.Header).MaxId != 0) //WDB2 with MaxId > 0 allows duplicates
                 duplicates = true;
-            else if (entry.Header.IsWCH7File && ((WCH7)entry.Header).UnknownWCH7 != 0) //WCH7 with Unknown > 0 allows duplicates
+            else if (entry.Header.IsTypeOf<WCH7>() && ((WCH7)entry.Header).UnknownWCH7 != 0) //WCH7 with Unknown > 0 allows duplicates
                 duplicates = true;
 
             var lastrow = entry.Data.Rows[entry.Data.Rows.Count - 1];
@@ -364,7 +365,7 @@ namespace WDBXEditor.Reader
                     if (entry.Header.HasIndexTable && j == 0) //Inline Id so skip
                         continue;
 
-                    if (entry.Header.IsWCH5File && entry.Header.HasOffsetTable && j == 0) //Inline Id so skip
+                    if (entry.Header.IsTypeOf<WCH5>() && entry.Header.HasOffsetTable && j == 0) //Inline Id so skip
                         continue;
 
                     switch (columnTypes[j])
@@ -427,7 +428,7 @@ namespace WDBXEditor.Reader
                     OffsetMap.Add(new Tuple<int, short>((int)offset, (short)(bw.BaseStream.Position - offset)));
 
                 //WDB5 + OffsetMap without SecondIndex for the last row pads to next mod 4
-                if (entry.Header.IsWDB5File && entry.Header.HasOffsetTable && !entry.Header.HasSecondIndex && row == lastrow)
+                if (entry.Header.IsTypeOf<WDB5>() && entry.Header.HasOffsetTable && !entry.Header.HasSecondIndex && row == lastrow)
                 {
                     long rem = bw.BaseStream.Position % 4;
                     bw.BaseStream.Position += (rem == 0 ? 0 : (4 - rem));
