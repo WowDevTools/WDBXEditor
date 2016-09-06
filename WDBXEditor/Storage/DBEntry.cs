@@ -27,6 +27,7 @@ namespace WDBXEditor.Storage
         public bool Changed { get; set; } = false;
         public string FilePath { get; private set; }
         public string FileName => Path.GetFileName(this.FilePath);
+        public string SavePath { get; set; }
         public Table TableStructure { get; private set; }
 
         public string Key { get; private set; }
@@ -38,6 +39,7 @@ namespace WDBXEditor.Storage
         {
             this.Header = header;
             this.FilePath = filepath;
+            this.SavePath = filepath;
             this.TableStructure = Database.Definitions.Tables.FirstOrDefault(x =>
                                           x.Name.Equals(Path.GetFileNameWithoutExtension(filepath), IGNORECASE) &&
                                           x.Build == Database.BuildNumber);
@@ -212,7 +214,7 @@ namespace WDBXEditor.Storage
         public FieldStructureEntry[] GetBits()
         {
             FieldStructureEntry[] bits = new FieldStructureEntry[Data.Columns.Count];
-            if (!Header.IsWDB5File)
+            if (!Header.IsTypeOf<WDB5>())
                 return bits;
 
             int c = 0;

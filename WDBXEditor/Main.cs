@@ -865,29 +865,25 @@ namespace WDBXEditor
         {
             if (!isLoaded) return;
             bool save = !saveas;
-            string filename = LoadedEntry.FilePath;
 
             //Get the correct save settings if save as
             if (saveas)
             {
                 using (var sfd = new SaveFileDialog())
                 {
-                    sfd.InitialDirectory = Path.GetDirectoryName(LoadedEntry.FilePath);
-                    sfd.FileName = LoadedEntry.FileName;
+                    sfd.InitialDirectory = Path.GetDirectoryName(LoadedEntry.SavePath);
+                    sfd.FileName = LoadedEntry.SavePath;
 
                     //Set the correct filter
                     switch (Path.GetExtension(LoadedEntry.FilePath).ToLower().TrimStart('.'))
                     {
                         case "dbc":
-                            sfd.FileName = LoadedEntry.TableStructure.Name + ".dbc";
                             sfd.Filter = "DBC Files|*.dbc";
                             break;
                         case "db2":
-                            sfd.FileName = LoadedEntry.TableStructure.Name + ".db2";
                             sfd.Filter = "DB2 Files|*.db2";
                             break;
                         case "adb":
-                            sfd.FileName = LoadedEntry.TableStructure.Name + ".adb";
                             sfd.Filter = "ADB Files|*.adb";
                             break;
                         case "wdb":
@@ -898,7 +894,7 @@ namespace WDBXEditor
                     if (sfd.ShowDialog(this) == DialogResult.OK)
                     {
                         save = true;
-                        filename = sfd.FileName;
+                        LoadedEntry.SavePath = sfd.FileName;
                     }
                 }
             }
@@ -907,7 +903,7 @@ namespace WDBXEditor
             if (save)
             {
                 ProgressStart();
-                Task.Factory.StartNew(() => new DBReader().Write(LoadedEntry, filename))
+                Task.Factory.StartNew(() => new DBReader().Write(LoadedEntry, LoadedEntry.SavePath))
                 .ContinueWith(x =>
                 {
                     ProgressStop();
