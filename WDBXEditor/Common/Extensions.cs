@@ -104,7 +104,7 @@ namespace WDBXEditor.Common
                         sb.Append($" `{col.ColumnName}` FLOAT NOT NULL DEFAULT '0',");
                         break;
                     case "String":
-                        sb.Append($" `{col.ColumnName}` TEXT NOT NULL DEFAULT '',");
+                        sb.Append($" `{col.ColumnName}` TEXT NULL,");
                         break;
                     default:
                         throw new Exception($"Unknown data type {col.ColumnName} : {col.DataType.Name}");

@@ -325,6 +325,7 @@ namespace WDBXEditor.Storage
             string tableName = $"db_{TableStructure.Name}_{Build}";
             string csvName = Path.Combine(TEMP_FOLDER, tableName + ".csv");
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION';");
             sb.AppendLine($"DROP TABLE IF EXISTS `{tableName}`; ");
             sb.AppendLine($"CREATE TABLE `{tableName}` ({Data.Columns.ToSql(Key)}) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci; ");
 
@@ -623,11 +624,12 @@ namespace WDBXEditor.Storage
             }
 
             //Replace DBNulls with default value
+            var defaultVals = importTable.Columns.Cast<DataColumn>().Select(x => x.DefaultValue).ToArray();
             Parallel.For(0, importTable.Rows.Count, r =>
             {
                 for (int i = 0; i < importTable.Columns.Count; i++)
                     if (importTable.Rows[r][i] == DBNull.Value)
-                        importTable.Rows[r][i] = importTable.Columns[i].DefaultValue;
+                        importTable.Rows[r][i] = defaultVals[i];
             });
 
             switch (Data.ShallowCompare(importTable))
