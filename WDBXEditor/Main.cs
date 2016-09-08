@@ -132,7 +132,7 @@ namespace WDBXEditor
                 }
                 catch (WebException ex)
                 {
-                    MessageBox.Show("Version check faild:\n" + ex.ToString());
+                    MessageBox.Show("Version check failed:\n" + ex.ToString());
                 }
             }
         }
