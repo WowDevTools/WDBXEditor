@@ -14,11 +14,14 @@ using System.Threading.Tasks;
 using WDBXEditor.Forms;
 using WDBXEditor.Common;
 using System.Text.RegularExpressions;
+using System.Net;
+using System.Web.Script.Serialization;
 
 namespace WDBXEditor
 {
     public partial class Main : Form
     {
+        static string Version = "1.0.2";
         protected DBEntry LoadedEntry;
 
         private BindingSource _bindingsource = new BindingSource();
@@ -50,6 +53,9 @@ namespace WDBXEditor
             //Create temp directory
             if (!Directory.Exists(TEMP_FOLDER))
                 Directory.CreateDirectory(TEMP_FOLDER);
+
+            //Check for Update
+            CheckForUpdate();
 
             //Set open dialog filters
             openFileDialog.Filter = string.Join("|", SupportedFileTypes.Select(x => $"{x.Key} ({x.Value})|{x.Value}"));
@@ -97,6 +103,37 @@ namespace WDBXEditor
                     FormHandler.Close();
                 }
                 catch { /*Just a cleanup exercise*/ }
+            }
+        }
+
+        private void CheckForUpdate()
+        {
+            using (var client = new WebClient())
+            {
+                string realaseUrl = Properties.Settings.Default["ReleaseAPI"].ToString();
+                string userAgent = Properties.Settings.Default["UserAgent"].ToString();
+                client.Headers["User-Agent"] = userAgent + Version;
+
+                try
+                {
+                    string json = client.DownloadString(realaseUrl);
+                    var serializer = new JavaScriptSerializer();
+                    IList<GithubRealaseModel> model = serializer.Deserialize<IList<GithubRealaseModel>>(json);
+                    if(model.Count > 0 && model[0].tag_name == Version)
+                    {
+                        string text = $"Your {this.Text} version is outdated. Click on \"Yes\" to download the new version {model[0].tag_name}.";
+                        DialogResult dialogResult = MessageBox.Show(text, this.Text, MessageBoxButtons.YesNo);
+
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(model[0].zipball_url);
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show("Version check faild:\n" + ex.ToString());
+                }
             }
         }
 
