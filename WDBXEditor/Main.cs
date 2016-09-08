@@ -119,7 +119,7 @@ namespace WDBXEditor
                     string json = client.DownloadString(realaseUrl);
                     var serializer = new JavaScriptSerializer();
                     IList<GithubRealaseModel> model = serializer.Deserialize<IList<GithubRealaseModel>>(json);
-                    if(model.Count > 0 && model[0].tag_name == Version)
+                    if(model.Count > 0 && model[0].tag_name != Version)
                     {
                         string text = $"Your {this.Text} version is outdated. Click on \"Yes\" to download the new version {model[0].tag_name}.";
                         DialogResult dialogResult = MessageBox.Show(text, this.Text, MessageBoxButtons.YesNo);
