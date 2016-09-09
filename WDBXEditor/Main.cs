@@ -21,7 +21,6 @@ namespace WDBXEditor
 {
     public partial class Main : Form
     {
-        static string Version = "1.0.2";
         protected DBEntry LoadedEntry;
 
         private BindingSource _bindingsource = new BindingSource();
@@ -112,14 +111,14 @@ namespace WDBXEditor
             {
                 string realaseUrl = Properties.Settings.Default["ReleaseAPI"].ToString();
                 string userAgent = Properties.Settings.Default["UserAgent"].ToString();
-                client.Headers["User-Agent"] = userAgent + Version;
+                client.Headers["User-Agent"] = userAgent + VERSION;
 
                 try
                 {
                     string json = client.DownloadString(realaseUrl);
                     var serializer = new JavaScriptSerializer();
                     IList<GithubRealaseModel> model = serializer.Deserialize<IList<GithubRealaseModel>>(json);
-                    if(model.Count > 0 && model[0].tag_name != Version)
+                    if(model.Count > 0 && model[0].tag_name != VERSION)
                     {
                         string text = $"Your {this.Text} version is outdated. Click on \"Yes\" to download the new version {model[0].tag_name}.";
                         DialogResult dialogResult = MessageBox.Show(text, this.Text, MessageBoxButtons.YesNo);
