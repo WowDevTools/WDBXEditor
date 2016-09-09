@@ -73,7 +73,7 @@ namespace WDBXEditor.Common
                 while (bgw.CancellationPending || this.Value != 0)
                 {
                     this.Invoke((MethodInvoker)delegate { this.Value = 0; });
-                    Task.Delay(50);
+                    Task.Delay(50).Wait();
                 }
             });
         }
