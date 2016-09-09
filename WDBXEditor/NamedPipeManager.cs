@@ -41,9 +41,13 @@ namespace WDBXEditor
         {
             using (var server = new NamedPipeServerStream(NamedPipeName, PipeDirection.InOut, -1))
             {
-                server.WaitForConnection();
-                using (StreamReader reader = new StreamReader(server))
-                    e.Result = reader.ReadToEnd();
+                try
+                {
+                    server.WaitForConnection();
+                    using (StreamReader reader = new StreamReader(server))
+                        e.Result = reader.ReadToEnd();
+                }
+                catch { e.Result = ""; }
             }
         }
 
