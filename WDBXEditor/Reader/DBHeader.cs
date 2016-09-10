@@ -25,14 +25,9 @@ namespace WDBXEditor.Reader
         public int HeaderSize = 0x20;
         public int StringTableOffset = 0x10;
 
-        public bool IsWDBFile => this is WDB;
-        public bool IsWDBCFile => this is WDBC;
-        public bool IsWDB2File => this is WDB2;
-        public bool IsWDB5File => this is WDB5;
-        public bool IsWCH5File => this is WCH5;
-        public bool IsWCH7File => this is WCH7;
-        public bool IsLegionFile => this is WDB5 || this is WCH5 || this is WCH7;
-        public bool IsValidFile => (IsWDBFile || IsWDB2File || IsWDBCFile || IsLegionFile);
+        public bool IsTypeOf<T>() => this is T;
+        public bool IsLegionFile => this is WDB5 || this is WCH5 || this is WCH7 || this is WCH8;
+        public bool IsValidFile => (IsTypeOf<WDB>() || IsTypeOf<WDB2>() || IsTypeOf<WDBC>() || IsLegionFile);
 
         public virtual bool ExtendedStringTable => false;
         public virtual bool HasIndexTable => false;
@@ -46,7 +41,7 @@ namespace WDBXEditor.Reader
             this.Signature = signature;
             RecordCount = dbReader.ReadUInt32();
 
-            if (IsWCH7File)
+            if (IsTypeOf<WCH7>())
                 UnknownWCH7 = dbReader.ReadUInt32();
 
             FieldCount = dbReader.ReadUInt32();
@@ -62,17 +57,17 @@ namespace WDBXEditor.Reader
             bw.Write(Encoding.UTF8.GetBytes(Signature));
 
             //Record count
-            if (IsWDB5File && !(this as WDB5).HasOffsetTable)
+            if (IsTypeOf<WDB5>() && !(this as WDB5).HasOffsetTable)
                 bw.Write(entry.GetUniqueRows().Count());
             else
                 bw.Write(entry.Data.Rows.Count);
 
             //WCH7 specific field
-            if (IsWCH7File)
+            if (IsTypeOf<WCH7>())
                 bw.Write(UnknownWCH7);
 
             //FieldCount
-            if (IsWDB5File)
+            if (IsTypeOf<WDB5>())
                 bw.Write(((WDB5)this).HasIndexTable ? FieldCount - 1 : FieldCount); //Index Table
             else
                 bw.Write(FieldCount);
@@ -81,7 +76,7 @@ namespace WDBXEditor.Reader
             bw.Write(RecordSize);
 
             //StringBlockSize placeholder
-            if (IsWDB5File || IsWCH7File)
+            if (IsTypeOf<WDB5>() || IsTypeOf<WCH7>())
                 bw.Write((uint)2);
             else
                 bw.Write((uint)1);

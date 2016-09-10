@@ -11,10 +11,11 @@ using System.Windows.Forms;
 using static WDBXEditor.Common.Constants;
 using static WDBXEditor.Forms.InputBox;
 using System.Threading.Tasks;
-using System.Threading;
 using WDBXEditor.Forms;
 using WDBXEditor.Common;
-using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
+using System.Net;
+using System.Web.Script.Serialization;
 
 namespace WDBXEditor
 {
@@ -27,7 +28,6 @@ namespace WDBXEditor
 
         private bool isLoaded => (LoadedEntry != null && _bindingsource.DataSource != null);
         private DBEntry getEntry() => Database.Entries.FirstOrDefault(x => x.FileName == txtCurEntry.Text && x.BuildName == txtCurDefinition.Text);
-        private string autorun = string.Empty;
 
         public Main()
         {
@@ -37,14 +37,14 @@ namespace WDBXEditor
             advancedDataGridView.DataSource = _bindingsource;
         }
 
-        public Main(string filename)
+        public Main(string[] filenames)
         {
             InitializeComponent();
 
             _bindingsource.DataSource = null;
             advancedDataGridView.DataSource = _bindingsource;
 
-            autorun = filename;
+            Parallel.For(0, filenames.Length, f => InstanceManager.AutoRun.Enqueue(filenames[f]));
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -52,6 +52,9 @@ namespace WDBXEditor
             //Create temp directory
             if (!Directory.Exists(TEMP_FOLDER))
                 Directory.CreateDirectory(TEMP_FOLDER);
+
+            //Check for Update
+            CheckForUpdate();
 
             //Set open dialog filters
             openFileDialog.Filter = string.Join("|", SupportedFileTypes.Select(x => $"{x.Key} ({x.Value})|{x.Value}"));
@@ -68,6 +71,16 @@ namespace WDBXEditor
 
             //Start FileWatcher
             Watcher();
+
+            //Setup Single Instance Delegate
+            InstanceManager.AutoRunAdded += delegate
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    InstanceManager.FlashWindow(this);
+                    AutoRun();
+                });
+            };
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -76,7 +89,7 @@ namespace WDBXEditor
                 if (MessageBox.Show("You have unsaved changes. Do you wish to exit?", "Unsaved Changes", MessageBoxButtons.YesNo) == DialogResult.No)
                     e.Cancel = true;
 
-            if(!e.Cancel)
+            if (!e.Cancel)
             {
                 try { File.Delete(TEMP_FOLDER); }
                 catch { /*Not really import*/ }
@@ -89,6 +102,37 @@ namespace WDBXEditor
                     FormHandler.Close();
                 }
                 catch { /*Just a cleanup exercise*/ }
+            }
+        }
+
+        private void CheckForUpdate()
+        {
+            using (var client = new WebClient())
+            {
+                string realaseUrl = Properties.Settings.Default["ReleaseAPI"].ToString();
+                string userAgent = Properties.Settings.Default["UserAgent"].ToString();
+                client.Headers["User-Agent"] = userAgent + VERSION;
+
+                try
+                {
+                    string json = client.DownloadString(realaseUrl);
+                    var serializer = new JavaScriptSerializer();
+                    IList<GithubRealaseModel> model = serializer.Deserialize<IList<GithubRealaseModel>>(json);
+                    if(model.Count > 0 && model[0].tag_name != VERSION)
+                    {
+                        string text = $"Your {this.Text} version is outdated. Click on \"Yes\" to download the new version {model[0].tag_name}.";
+                        DialogResult dialogResult = MessageBox.Show(text, this.Text, MessageBoxButtons.YesNo);
+
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(model[0].zipball_url);
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show("Version check failed:\n" + ex.ToString());
+                }
             }
         }
 
@@ -106,13 +150,13 @@ namespace WDBXEditor
 
                 if (_bindingsource.IsSorted)
                     _bindingsource.RemoveSort(); //Remove Sort
-                 
+
                 if (!string.IsNullOrWhiteSpace(_bindingsource.Filter))
                     _bindingsource.RemoveFilter(); //Remove Filter
 
                 _bindingsource.DataSource = dt.Data; //Change dataset
-                _bindingsource.ResetBindings(true);               
-                
+                _bindingsource.ResetBindings(true);
+
                 columnFilter.Reset(dt.Data.Columns, resetcolumns); //Reset column filter
                 wotLKItemFixToolStripMenuItem.Enabled = LoadedEntry.IsFileOf("Item", Expansion.WotLK); //Control WotLK Item Fix
 
@@ -201,9 +245,26 @@ namespace WDBXEditor
             }
         }
 
-        private void advancedDataGridView_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        private void advancedDataGridView_UndoRedoChanged(object sender, EventArgs e)
         {
-            DefaultRowValues(e.Row.Index);
+            undoToolStripMenuItem.Enabled = advancedDataGridView.CanUndo;
+            redoToolStripMenuItem.Enabled = advancedDataGridView.CanRedo;
+        }
+
+        private void advancedDataGridView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void advancedDataGridView_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+                if (Regex.IsMatch(file, Constants.FileRegexPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase))
+                    InstanceManager.AutoRun.Enqueue(file);
+
+            AutoRun();
         }
         #endregion
 
@@ -216,8 +277,11 @@ namespace WDBXEditor
         private void advancedDataGridView_MouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo info = advancedDataGridView.HitTest(e.X, e.Y);
-            if (e.Button == MouseButtons.Right && info.Type == DataGridViewHitTestType.RowHeader)
+            if (e.Button == MouseButtons.Right && (info.Type == DataGridViewHitTestType.RowHeader || info.Type == DataGridViewHitTestType.Cell))
             {
+                if (advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex].IsInEditMode)
+                    return;
+
                 advancedDataGridView.SelectRow(info.RowIndex);
                 contextMenuStrip.Show(Cursor.Position);
             }
@@ -385,6 +449,12 @@ namespace WDBXEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!isLoaded) return;
+            SaveFile(false);
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!isLoaded) return;
             SaveFile();
         }
 
@@ -420,19 +490,7 @@ namespace WDBXEditor
 
         private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(_bindingsource.Filter))
-                _bindingsource.RemoveFilter();
-
-            if (_bindingsource.IsSorted)
-                _bindingsource.RemoveSort();
-
-            for (int i = 0; i < Database.Entries.Count; i++)
-                Database.Entries[i].Dispose();
-            Database.Entries.Clear();
-            Database.Entries.TrimExcess();
-
-            SetSource(null);
-            UpdateListBox();
+            CloseAllFiles();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -482,7 +540,7 @@ namespace WDBXEditor
                 if (sql.ShowDialog(this) == DialogResult.OK)
                 {
                     ProgressStart();
-                    Task.Factory.StartNew(() => { LoadedEntry.ToSqlTable(sql.ConnectionString); })
+                    Task.Factory.StartNew(() => { LoadedEntry.ToSQLTable(sql.ConnectionString); })
                     .ContinueWith(x =>
                     {
                         if (x.IsFaulted)
@@ -514,7 +572,7 @@ namespace WDBXEditor
                     {
                         using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
                         {
-                            string sql = LoadedEntry.ToSql();
+                            string sql = LoadedEntry.ToSQL();
                             byte[] data = Encoding.UTF8.GetBytes(sql);
                             fs.Write(data, 0, data.Length);
                         }
@@ -554,7 +612,7 @@ namespace WDBXEditor
                     {
                         using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
                         {
-                            string sql = LoadedEntry.ToCsv();
+                            string sql = LoadedEntry.ToCSV();
                             byte[] data = Encoding.UTF8.GetBytes(sql);
                             fs.Write(data, 0, data.Length);
                         }
@@ -582,17 +640,6 @@ namespace WDBXEditor
         {
             if (!isLoaded) return;
 
-            MpqArchiveVersion version = MpqArchiveVersion.Version2;
-            if (LoadedEntry.Build <= (int)ExpansionFinalBuild.WotLK)
-                version = MpqArchiveVersion.Version2;
-            else if (LoadedEntry.Build <= (int)ExpansionFinalBuild.MoP)
-                version = MpqArchiveVersion.Version4;
-            else
-            {
-                MessageBox.Show("Only clients before WoD support MPQ archives.");
-                return;
-            }
-
             //Get the correct save settings
             using (var sfd = new SaveFileDialog())
             {
@@ -614,7 +661,47 @@ namespace WDBXEditor
                 }
 
                 if (sfd.ShowDialog(this) == DialogResult.OK)
-                    LoadedEntry.ToMPQ(sfd.FileName, version);
+                    LoadedEntry.ToMPQ(sfd.FileName);
+            }
+        }
+
+        /// <summary>
+        /// Exports the current dataset to a JSON file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!isLoaded) return;
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.FileName = LoadedEntry.TableStructure.Name + ".json";
+                sfd.Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt";
+
+                if (sfd.ShowDialog(this) == DialogResult.OK)
+                {
+                    ProgressStart();
+                    Task.Factory.StartNew(() =>
+                    {
+                        using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
+                        {
+                            string sql = LoadedEntry.ToJSON();
+                            byte[] data = Encoding.UTF8.GetBytes(sql);
+                            fs.Write(data, 0, data.Length);
+                        }
+                    })
+                    .ContinueWith(x =>
+                    {
+                        ProgressStop();
+
+                        if (x.IsFaulted)
+                            MessageBox.Show($"Error generating JSON file {x.Exception.Message}");
+                        else
+                            MessageBox.Show($"File successfully exported to {sfd.FileName}");
+
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                }
             }
         }
 
@@ -775,9 +862,9 @@ namespace WDBXEditor
                 return;
 
             //Refresh the data if the file was reloaded
-            if (LoadedEntry != null && fileNames.Any(x => x.Equals(LoadedEntry.FileName, StringComparison.CurrentCultureIgnoreCase)))
+            if (LoadedEntry != null && fileNames.Any(x => x.Equals(LoadedEntry.FileName, IGNORECASE)))
             {
-                var entry = (DBEntry)lbFiles.SelectedValue;                
+                var entry = (DBEntry)lbFiles.SelectedValue;
                 txtCurEntry.Text = entry.FileName;
                 txtCurDefinition.Text = entry.BuildName;
                 txtStats.Text = $"{entry.Data.Columns.Count} fields, {entry.Data.Rows.Count} rows";
@@ -810,59 +897,59 @@ namespace WDBXEditor
                 txtCurDefinition.Text = LoadedEntry.BuildName;
         }
 
-        /// <summary>
-        /// Provides a SaveFileDialog to save the current file
-        /// </summary>
-        private void SaveFile()
+        private void SaveFile(bool saveas = true)
         {
             if (!isLoaded) return;
+            bool save = !saveas;
 
-            //Get the correct save settings
-            using (var sfd = new SaveFileDialog())
+            //Get the correct save settings if save as
+            if (saveas)
             {
-                sfd.InitialDirectory = Path.GetDirectoryName(LoadedEntry.FilePath);
-                sfd.FileName = LoadedEntry.FileName;
-
-                //Set the correct filter
-                switch (Path.GetExtension(LoadedEntry.FilePath).ToLower().TrimStart('.'))
+                using (var sfd = new SaveFileDialog())
                 {
-                    case "dbc":
-                        sfd.FileName = LoadedEntry.TableStructure.Name + ".dbc";
-                        sfd.Filter = "DBC Files|*.dbc";
-                        break;
-                    case "db2":
-                        sfd.FileName = LoadedEntry.TableStructure.Name + ".db2";
-                        sfd.Filter = "DB2 Files|*.db2";
-                        break;
-                    case "adb":
-                        sfd.FileName = LoadedEntry.TableStructure.Name + ".adb";
-                        sfd.Filter = "ADB Files|*.adb";
-                        break;
-                    case "wdb":
-                        MessageBox.Show("Saving is not implemented for WDB files.");
-                        return;
-                }
+                    sfd.InitialDirectory = Path.GetDirectoryName(LoadedEntry.SavePath);
+                    sfd.FileName = LoadedEntry.SavePath;
 
-                if (sfd.ShowDialog(this) == DialogResult.OK)
-                {
-                    ProgressStart();
-                    Task.Factory.StartNew(() =>
+                    //Set the correct filter
+                    switch (Path.GetExtension(LoadedEntry.FilePath).ToLower().TrimStart('.'))
                     {
-                        new DBReader().Write(LoadedEntry, sfd.FileName);
-                    })
-                    .ContinueWith(x =>
-                    {
-                        ProgressStop();
-                        LoadedEntry.Changed = false;
-                        UpdateListBox();
-
-                        if (x.IsFaulted)
-                        {
-                            MessageBox.Show($"Error exporting to file {x.Exception.Message}");
+                        case "dbc":
+                            sfd.Filter = "DBC Files|*.dbc";
+                            break;
+                        case "db2":
+                            sfd.Filter = "DB2 Files|*.db2";
+                            break;
+                        case "adb":
+                            sfd.Filter = "ADB Files|*.adb";
+                            break;
+                        case "wdb":
+                            MessageBox.Show("Saving is not implemented for WDB files.");
                             return;
-                        }
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    }
+
+                    if (sfd.ShowDialog(this) == DialogResult.OK)
+                    {
+                        save = true;
+                        LoadedEntry.SavePath = sfd.FileName;
+                    }
                 }
+            }
+
+            //Do the actual save
+            if (save)
+            {
+                ProgressStart();
+                Task.Factory.StartNew(() => new DBReader().Write(LoadedEntry, LoadedEntry.SavePath))
+                .ContinueWith(x =>
+                {
+                    ProgressStop();
+                    LoadedEntry.Changed = false;
+                    UpdateListBox();
+
+                    if (x.IsFaulted)
+                        MessageBox.Show($"Error exporting to file {x.Exception.Message}");
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
@@ -958,9 +1045,27 @@ namespace WDBXEditor
             UpdateListBox();
         }
 
+        private void CloseAllFiles()
+        {
+            if (!string.IsNullOrWhiteSpace(_bindingsource.Filter))
+                _bindingsource.RemoveFilter();
+
+            if (_bindingsource.IsSorted)
+                _bindingsource.RemoveSort();
+
+            for (int i = 0; i < Database.Entries.Count; i++)
+                Database.Entries[i].Dispose();
+
+            Database.Entries.Clear();
+            Database.Entries.TrimExcess();
+
+            SetSource(null);
+            UpdateListBox();
+        }
+
         private void Undo()
         {
-            advancedDataGridView.Undo();            
+            advancedDataGridView.Undo();
         }
 
         private void Redo()
@@ -1063,7 +1168,6 @@ namespace WDBXEditor
         }
         #endregion
 
-
         private void UpdateListBox()
         {
             //Update the DB list, remove old and add new
@@ -1097,7 +1201,7 @@ namespace WDBXEditor
         private void KeyDownEvent(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.S) //Save
-                SaveFile();
+                SaveFile(false);
             else if (e.Control && e.KeyCode == Keys.G) //Goto
                 GotoLine();
             else if (e.Control && e.Shift && e.KeyCode == Keys.S) //Save All
@@ -1118,6 +1222,10 @@ namespace WDBXEditor
                 NewLine();
             else if (e.Control && e.KeyCode == Keys.I) //Insert
                 InsertLine();
+            else if (e.KeyCode == Keys.F12) //Save As
+                SaveFile();
+            else if (e.Control && e.Shift && e.KeyCode == Keys.W) //Close All
+                CloseAllFiles();
         }
 
         public void ProgressStart()
@@ -1139,34 +1247,47 @@ namespace WDBXEditor
             gbSettings.Enabled = true;
             gbFilter.Enabled = true;
             advancedDataGridView.ReadOnly = false;
+            advancedDataGridView.Refresh();
         }
 
         private void AutoRun()
         {
-            if (File.Exists(autorun))
+            if (InstanceManager.AutoRun.Any(x => File.Exists(x)))
             {
-                string[] FileNames = new string[] { autorun };
-                using (var loaddefs = new LoadDefinition())
+                //Dequeue all stored files
+                IEnumerable<string> filenames = InstanceManager.GetFilesToOpen();
+
+                //See if we can use an existing LoadDefinition
+                var loaddef = Application.OpenForms.Cast<Form>().FirstOrDefault(x => x.GetType() == typeof(LoadDefinition)) as LoadDefinition;
+                if(loaddef != null)
                 {
-                    loaddefs.Files = FileNames;
-                    if (loaddefs.ShowDialog(this) != DialogResult.OK)
-                        return;
+                    loaddef.UpdateFiles(filenames);
+                    return;
                 }
 
+                //Load definition picker
+                using (var loaddefs = new LoadDefinition())
+                {
+                    loaddefs.Files = filenames;
+                    if (loaddefs.ShowDialog(this) != DialogResult.OK)
+                        return;
+                    else
+                        filenames = loaddefs.Files;
+                }
+
+                //Load the files
                 ProgressStart();
-                Task.Run(() => Database.LoadFiles(FileNames))
+                Task.Run(() => Database.LoadFiles(filenames))
                 .ContinueWith(x =>
                 {
                     if (x.Result.Count > 0)
                         new ErrorReport() { Errors = x.Result }.ShowDialog(this);
 
-                    LoadFiles(FileNames);
+                    LoadFiles(filenames);
                     ProgressStop();
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
-
-            autorun = string.Empty;
         }
 
         private void Watcher()
@@ -1179,10 +1300,5 @@ namespace WDBXEditor
             watcher.Changed += delegate { Task.Run(() => Database.LoadDefinitions()); };
         }
 
-        private void advancedDataGridView_UndoRedoChanged(object sender, EventArgs e)
-        {
-            undoToolStripMenuItem.Enabled = advancedDataGridView.CanUndo;
-            redoToolStripMenuItem.Enabled = advancedDataGridView.CanRedo;
-        }
     }
 }

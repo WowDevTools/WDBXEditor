@@ -80,6 +80,10 @@ namespace ADGV
             undoStack.Push(new ChangeSet(row, ChangeAction.Add, e.Row.Index));//Store change
             redoStack.Clear();//Clear redo
 
+            //Commit
+            ((BindingSource)DataSource).EndEdit();
+            this.EndEdit();
+
             this.Invoke(UndoRedoChanged); //Tell the main form things have changed
         }
 

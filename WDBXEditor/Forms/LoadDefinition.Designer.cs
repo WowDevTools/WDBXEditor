@@ -30,11 +30,15 @@ namespace WDBXEditor
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbDefinitions = new WDBXEditor.Common.BufferedListBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnNewWindow = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.lblFiles = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbDefinitions
@@ -49,7 +53,7 @@ namespace WDBXEditor
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(197, 230);
+            this.btnClose.Location = new System.Drawing.Point(197, 233);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 2;
@@ -59,7 +63,7 @@ namespace WDBXEditor
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(116, 230);
+            this.btnLoad.Location = new System.Drawing.Point(116, 233);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 1;
@@ -76,9 +80,29 @@ namespace WDBXEditor
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(9, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(231, 13);
+            this.label3.Size = new System.Drawing.Size(193, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Build numbers will be limited to available options";
+            this.label3.Text = "Builds will be limited to available options";
+            // 
+            // btnNewWindow
+            // 
+            this.btnNewWindow.Image = global::WDBXEditor.Properties.Resources.open_new;
+            this.btnNewWindow.Location = new System.Drawing.Point(12, 233);
+            this.btnNewWindow.Name = "btnNewWindow";
+            this.btnNewWindow.Size = new System.Drawing.Size(29, 23);
+            this.btnNewWindow.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.btnNewWindow, "Opens in a new instance of the program");
+            this.btnNewWindow.UseVisualStyleBackColor = true;
+            this.btnNewWindow.Click += new System.EventHandler(this.btnNewWindow_Click);
+            // 
+            // lblFiles
+            // 
+            this.lblFiles.Location = new System.Drawing.Point(208, 9);
+            this.lblFiles.Name = "lblFiles";
+            this.lblFiles.Size = new System.Drawing.Size(64, 13);
+            this.lblFiles.TabIndex = 13;
+            this.lblFiles.Text = "0 Files";
+            this.lblFiles.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // LoadDefinition
             // 
@@ -86,6 +110,8 @@ namespace WDBXEditor
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.lblFiles);
+            this.Controls.Add(this.btnNewWindow);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnClose);
@@ -111,5 +137,8 @@ namespace WDBXEditor
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnNewWindow;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label lblFiles;
     }
 }

@@ -309,10 +309,6 @@ namespace WDBXEditor.Forms
                 {
                     var row = rows.Dequeue();
                     var filename = Path.GetFileName((string)row.Cells["File"].Value);
-
-                    if (filename.StartsWith("Diff"))
-                        Console.WriteLine("");
-
                     var s = streams.FirstOrDefault(x => Path.GetFileName(x.Key).Equals(filename, StringComparison.CurrentCultureIgnoreCase));
                     if (casc)
                         Parse(s.Value, s.Key);
