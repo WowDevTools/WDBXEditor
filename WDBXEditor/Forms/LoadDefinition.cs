@@ -19,18 +19,19 @@ namespace WDBXEditor
             openFileDialog.InitialDirectory = DEFINITION_DIR;
         }
 
-        public void UpdateFiles(IEnumerable<string> files)
-        {
-            Files = Files.Concat(files);
-            LoadBuilds();
-        }
-
         private void LoadDefinition_Load(object sender, EventArgs e)
         {
             btnLoad.Enabled = false;
             LoadBuilds();
         }
 
+        public void UpdateFiles(IEnumerable<string> files)
+        {
+            Files = Files.Concat(files);
+            LoadBuilds();
+        }
+
+        #region Button Events
         private void btnLoad_Click(object sender, EventArgs e)
         {
             int build = (int)lbDefinitions.SelectedValue;
@@ -53,7 +54,9 @@ namespace WDBXEditor
                 this.Close();
             }
         }
+        #endregion
 
+        #region Listbox
         private void lbDefinitions_SelectedValueChanged(object sender, EventArgs e)
         {
             btnLoad.Enabled = lbDefinitions.SelectedItems.Count > 0;
@@ -70,6 +73,7 @@ namespace WDBXEditor
                 this.Close();
             }
         }
+        #endregion
 
         private void LoadBuilds()
         {
@@ -81,6 +85,7 @@ namespace WDBXEditor
 
             if (Files?.Count() == 0)
             {
+                SetFileText();
                 lbDefinitions.DataSource = null;
                 MessageBox.Show("No files to load.");
                 return;
@@ -113,7 +118,13 @@ namespace WDBXEditor
                 lbDefinitions.ValueMember = "Key";
             }
 
+            SetFileText();
             lbDefinitions.EndUpdate();
+        }
+
+        private void SetFileText()
+        {
+            lblFiles.Text = Files.Count() == 1 ? "1 file" : Files.Count() + " files";
         }
     }
 }
