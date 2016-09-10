@@ -117,50 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="csv" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\csv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="load_definition" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LoadDef.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sql" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sql.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="save_file" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\save_file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="tick" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sqlfile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sqlfile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="reload" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="table" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="toggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\toggle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="hide" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="open_new" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\open-new.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="target" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\target.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAIEAAAAEACACoCAAAFgAAACgAAAAgAAAAQAAAAAEACAAAAAAAgAQAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAwMDAAMDcwADwyqYABAQEAAgICAAMDAwAERERABYW
+        FgAcHBwAIiIiACkpKQBVVVUATU1NAEJCQgA5OTkAgHz/AFBQ/wCTANYA/+zMAMbW7wDW5+cAkKmtAAAA
+        MwAAAGYAAACZAAAAzAAAMwAAADMzAAAzZgAAM5kAADPMAAAz/wAAZgAAAGYzAABmZgAAZpkAAGbMAABm
+        /wAAmQAAAJkzAACZZgAAmZkAAJnMAACZ/wAAzAAAAMwzAADMZgAAzJkAAMzMAADM/wAA/2YAAP+ZAAD/
+        zAAzAAAAMwAzADMAZgAzAJkAMwDMADMA/wAzMwAAMzMzADMzZgAzM5kAMzPMADMz/wAzZgAAM2YzADNm
+        ZgAzZpkAM2bMADNm/wAzmQAAM5kzADOZZgAzmZkAM5nMADOZ/wAzzAAAM8wzADPMZgAzzJkAM8zMADPM
+        /wAz/zMAM/9mADP/mQAz/8wAM///AGYAAABmADMAZgBmAGYAmQBmAMwAZgD/AGYzAABmMzMAZjNmAGYz
+        mQBmM8wAZjP/AGZmAABmZjMAZmZmAGZmmQBmZswAZpkAAGaZMwBmmWYAZpmZAGaZzABmmf8AZswAAGbM
+        MwBmzJkAZszMAGbM/wBm/wAAZv8zAGb/mQBm/8wAzAD/AP8AzACZmQAAmTOZAJkAmQCZAMwAmQAAAJkz
+        MwCZAGYAmTPMAJkA/wCZZgAAmWYzAJkzZgCZZpkAmWbMAJkz/wCZmTMAmZlmAJmZmQCZmcwAmZn/AJnM
+        AACZzDMAZsxmAJnMmQCZzMwAmcz/AJn/AACZ/zMAmcxmAJn/mQCZ/8wAmf//AMwAAACZADMAzABmAMwA
+        mQDMAMwAmTMAAMwzMwDMM2YAzDOZAMwzzADMM/8AzGYAAMxmMwCZZmYAzGaZAMxmzACZZv8AzJkAAMyZ
+        MwDMmWYAzJmZAMyZzADMmf8AzMwAAMzMMwDMzGYAzMyZAMzMzADMzP8AzP8AAMz/MwCZ/2YAzP+ZAMz/
+        zADM//8AzAAzAP8AZgD/AJkAzDMAAP8zMwD/M2YA/zOZAP8zzAD/M/8A/2YAAP9mMwDMZmYA/2aZAP9m
+        zADMZv8A/5kAAP+ZMwD/mWYA/5mZAP+ZzAD/mf8A/8wAAP/MMwD/zGYA/8yZAP/MzAD/zP8A//8zAMz/
+        ZgD//5kA///MAGZm/wBm/2YAZv//AP9mZgD/Zv8A//9mACEApQBfX18Ad3d3AIaGhgCWlpYAy8vLALKy
+        sgDX19cA3d3dAOPj4wDq6uoA8fHxAPj4+ADw+/8ApKCgAICAgAAAAP8AAP8AAAD//wD/AAAA/wD/AP//
+        AAD///8AIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyoqTDIyMjIyMjIyMjIyMjIyMTExMTEx
+        MjIyMjIyMjIqKypSSUNJSUlJIg5DUFBQUHN5mX5+mZl4SWYPER0PFSMqKlJJSUlJSSIQUFF4UVFQSlBR
+        eVh5UUpJFBEREEkVIyorUkpJSUkiEEpdXXlRV3lXUUpKKChKUVAOFREVFREqKitSSklJEBBJSXlRSh0K
+        Snl5eV1dXXh4cg4iFRERECorK1JKSRAiSShReEoqDxTq7+1DSkpKKErs60pJEBARKisrUlAiEElKSlB5
+        UBVKGuoKCgwPEw4UD0Qa7UlJEQ8qKytSSiIiSUpKSlFRFA7zvETtHErzSrzr7HLz6uoPDCsxK1JJIhVJ
+        SlBKUHhRDvPzFXNEInNQSiJD6vOZFA8MKzErUkkiSUpKUFBKUHMo77wMKChReXh4USIUZu3vFRErMStS
+        SUNJSlBQUFBKUFBQvEpzUXmZeZkcUBQMQ+/tEzFSK1JJSUpKUEpJUClKUErtUXmZn5+fn5l4FAwO6+0O
+        MVMrUkpJSkpKSkpJKChKSlB5mV1+XVd4HHLrDw4KCgpTWStSUEpKSlBQSiIiIiJKSnl5XV1RUEpRch0M
+        EAwKCllZK1J4ckpQUEpJSkpQKCJQeVhdUSkpIkpQUUkMDgoMWVkrUlBQUFBQSUpRUVFRIhBRUVApIiIV
+        IkN4mUkMCgxZWStSUEpQUEpKUFF5eVFKFUpLKEpKUVhKEEl4eRMKCllZK1JRSlBQUFBReZlRSkpKeXNK
+        S3RYXXlKIklJEQoKU1krUnhQSlBQUFF5UXR5FQ5Kc0t0mZqaRA4OSkkPCgpTUytSUFBQUFBQUVFReVEQ
+        SkQdIkt0dBAPcxUiSg4KDlJTK1IoSVBQUVBQUVFKCm56ehUKIklJESN66hBzDB0KMTIrUlB4UFdQUFBK
+        SikODkQPCkpzUFBQShAOREoKCgpSUitSUH5QSlBQSkpKSiIMCiJReV15eHhYWFBKSgwKCitSK1JJUCIi
+        SkpKSlFRFRUiFVFYXXh4eVFXeXlKDgwKKzErUhUiKCgoSlFKUFFRUFBYXVh4eHhRUVBKeEkODAoqMStS
+        KSgpKEopSlBQUVF4eHlRUEpQUFFRUVBKIg4KCioxKlJKSSgoKChJSSgoSihKSkpRUVFReHl5UQ4KDAoK
+        KjEqUiJQUFBKSkpKSkpKSlBQUVFzeHnl5XlKCgwKCgoqMSpSDBVzeHhzUVFQUFBRc3N4c3hY5eV5SgoK
+        CgoKCioxKioqKioqKysrKysxMTEyMjIyMTExMSsrKysqKioqKzExMjIyMjIyMjI4ODhZWVlZWVl6mpp6
+        WVlZWVk4ODg4OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAA
+</value>
   </data>
 </root>
