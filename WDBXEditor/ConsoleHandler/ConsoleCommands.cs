@@ -108,7 +108,7 @@ namespace WDBXEditor.ConsoleHandler
             Console.WriteLine("");
         }
 
-        [ConsoleHelp("Extracts files matching a filter", "-f Filter, -s Source (MPQ or CASC location), -o Output Location", @"load -f ""*.dbc"" -s ""E:\WoW\Data\Patch-3.mpq"" -o ""C:\WotLK\""")]
+        [ConsoleHelp("Extracts files matching a filter", "-f Filter, -s Source (MPQ or CASC location), -o Output Location", @"extract -f ""*.dbc"" -s ""E:\WoW\Data\Patch-3.mpq"" -o ""C:\WotLK\""")]
         public static void ExtractCommand(string[] args)
         {
             var pmap = ConsoleManager.ParseCommand(args);
@@ -186,7 +186,7 @@ namespace WDBXEditor.ConsoleHandler
         
         #region Export
         /// <summary>
-        /// Exports a file to either SQL or CSV
+        /// Exports a file to either SQL, JSON or CSV
         /// <para>-export -f "*.dbc" -s ".mpq/wow dir" -b 11802 -o "*.sql|*.csv"</para>
         /// </summary>
         /// <param name="args"></param>
@@ -221,7 +221,7 @@ namespace WDBXEditor.ConsoleHandler
             }
         }
 
-        [ConsoleHelp("Exports a file to either SQL or CSV", "-f Filename, -o Output Filename, -b Build Number", @"export -f ""Achievement.dbc"" -o ""Achievement.csv"" -b 22248")]
+        [ConsoleHelp("Exports a file to either SQL, JSON or CSV", "-f Filename, -o Output Filename, -b Build Number", @"export -f ""Achievement.dbc"" -o ""Achievement.csv"" -b 22248")]
         public static void ExportConCommand(string[] args)
         {
             var pmap = ConsoleManager.ParseCommand(args);
@@ -404,14 +404,14 @@ namespace WDBXEditor.ConsoleHandler
 
         private static OutputType GetOutputType(string output)
         {
-            string extension = Path.GetExtension(output).ToLower().TrimStart('.');
+            string extension = Path.GetExtension(output).ToLower();
             switch (extension)
             {
-                case "csv":
+                case ".csv":
                     return OutputType.CSV;
-                case "sql":
+                case ".sql":
                     return OutputType.SQL;
-                case "json":
+                case ".json":
                     return OutputType.JSON;
             }
 
