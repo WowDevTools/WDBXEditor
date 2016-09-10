@@ -53,14 +53,21 @@ namespace ADGV
 
             if (!Compare(current, this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
             {
-                var row = (DataGridViewRow)Rows[e.RowIndex].Clone();
-                for (int i = 0; i < Columns.Count; i++)
-                    row.Cells[i].Value = (i == e.ColumnIndex ? current : Rows[e.RowIndex].Cells[i].Value);
+                if(this.Rows[e.RowIndex].IsNewRow) //Technically OnUserAddedRow but fires this method
+                {
+                    OnUserAddedRow(new DataGridViewRowEventArgs(this.Rows[e.RowIndex]));
+                }
+                else
+                {
+                    var row = (DataGridViewRow)Rows[e.RowIndex].Clone();
+                    for (int i = 0; i < Columns.Count; i++)
+                        row.Cells[i].Value = (i == e.ColumnIndex ? current : Rows[e.RowIndex].Cells[i].Value);
 
-                undoStack.Push(new ChangeSet(row, ChangeAction.Update)); //Store undo
-                redoStack.Clear(); //Clear redo
+                    undoStack.Push(new ChangeSet(row, ChangeAction.Update)); //Store undo
+                    redoStack.Clear(); //Clear redo
+                    Cache.ChangeValue(ToDataRow(this.Rows[e.RowIndex]));
+                }
 
-                Cache.ChangeValue(ToDataRow(this.Rows[e.RowIndex]));
                 this.Invoke(UndoRedoChanged);
             }
         }
@@ -104,7 +111,11 @@ namespace ADGV
 
         public void Undo()
         {
-            if (undoStack.Count == 0) return;
+            if (undoStack.Count == 0)
+            {
+                this.Invoke(UndoRedoChanged);
+                return;
+            }
 
             ChangeSet redo;
             if (!undoStack.TryPop(out redo))
@@ -158,7 +169,11 @@ namespace ADGV
 
         public void Redo()
         {
-            if (redoStack.Count == 0) return;
+            if (redoStack.Count == 0)
+            {
+                this.Invoke(UndoRedoChanged);
+                return;
+            }
 
             ChangeSet undo;
             if (!redoStack.TryPop(out undo))
