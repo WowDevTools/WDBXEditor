@@ -81,6 +81,9 @@ namespace WDBXEditor
                     AutoRun();
                 });
             };
+
+            //Load ColumnAutoSizeMode dropdown
+            LoadColumnSizeDropdown();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -96,9 +99,9 @@ namespace WDBXEditor
 
                 try
                 {
+                    ProgressStop();
+                    InstanceManager.Stop();
                     watcher.EnableRaisingEvents = false;
-                    watcher.Dispose();
-                    advancedDataGridView.Dispose();
                     FormHandler.Close();
                 }
                 catch { /*Just a cleanup exercise*/ }
@@ -118,7 +121,7 @@ namespace WDBXEditor
                     string json = client.DownloadString(realaseUrl);
                     var serializer = new JavaScriptSerializer();
                     IList<GithubRealaseModel> model = serializer.Deserialize<IList<GithubRealaseModel>>(json);
-                    if(model.Count > 0 && model[0].tag_name != VERSION)
+                    if (model.Count > 0 && model[0].tag_name != VERSION)
                     {
                         string text = $"Your {this.Text} version is outdated. Click on \"Yes\" to download the new version {model[0].tag_name}.";
                         DialogResult dialogResult = MessageBox.Show(text, this.Text, MessageBoxButtons.YesNo);
@@ -139,6 +142,7 @@ namespace WDBXEditor
         private void SetSource(DBEntry dt, bool resetcolumns = true)
         {
             advancedDataGridView.RowHeadersVisible = false;
+            advancedDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             advancedDataGridView.ColumnHeadersVisible = false;
             advancedDataGridView.SuspendLayout(); //Performance
 
@@ -191,6 +195,9 @@ namespace WDBXEditor
             advancedDataGridView.ColumnHeadersVisible = true;
             advancedDataGridView.ResumeLayout(false);
 
+            if (cbColumnMode.SelectedItem != null)
+                advancedDataGridView.AutoSizeColumnsMode = ((KeyValuePair<string, DataGridViewAutoSizeColumnsMode>)cbColumnMode.SelectedItem).Value;
+
             ProgressStop();
         }
 
@@ -234,6 +241,11 @@ namespace WDBXEditor
 
             foreach (var c in advancedDataGridView.GetEmptyColumns())
                 columnFilter.SetItemChecked(c, false);
+        }
+
+        private void cbColumnMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            advancedDataGridView.AutoSizeColumnsMode = ((KeyValuePair<string, DataGridViewAutoSizeColumnsMode>)cbColumnMode.SelectedItem).Value;
         }
 
         private void advancedDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -1168,6 +1180,18 @@ namespace WDBXEditor
         }
         #endregion
 
+        private void LoadColumnSizeDropdown()
+        {
+            cbColumnMode.Items.Add(new KeyValuePair<string, DataGridViewAutoSizeColumnsMode>("None", DataGridViewAutoSizeColumnsMode.None));
+            cbColumnMode.Items.Add(new KeyValuePair<string, DataGridViewAutoSizeColumnsMode>("Column Header", DataGridViewAutoSizeColumnsMode.ColumnHeader));
+            cbColumnMode.Items.Add(new KeyValuePair<string, DataGridViewAutoSizeColumnsMode>("Displayed Cells", DataGridViewAutoSizeColumnsMode.DisplayedCells));
+            cbColumnMode.Items.Add(new KeyValuePair<string, DataGridViewAutoSizeColumnsMode>("Displayed Cells Except Header", DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader));
+
+            cbColumnMode.ValueMember = "Value";
+            cbColumnMode.DisplayMember = "Key";
+            cbColumnMode.SelectedIndex = 0;
+        }
+
         private void UpdateListBox()
         {
             //Update the DB list, remove old and add new
@@ -1216,7 +1240,7 @@ namespace WDBXEditor
                 CloseFile();
             else if (e.Control && e.KeyCode == Keys.Z) //Undo
                 Undo();
-            else if (e.Control && e.KeyCode == Keys.Y) //Redo
+            else if (e.Control && e.Shift && e.KeyCode == Keys.Z) //Redo
                 Redo();
             else if (e.Control && e.KeyCode == Keys.N) //Newline
                 NewLine();
@@ -1259,7 +1283,7 @@ namespace WDBXEditor
 
                 //See if we can use an existing LoadDefinition
                 var loaddef = Application.OpenForms.Cast<Form>().FirstOrDefault(x => x.GetType() == typeof(LoadDefinition)) as LoadDefinition;
-                if(loaddef != null)
+                if (loaddef != null)
                 {
                     loaddef.UpdateFiles(filenames);
                     return;
@@ -1298,6 +1322,11 @@ namespace WDBXEditor
             watcher.Filter = "*.xml";
             watcher.EnableRaisingEvents = true;
             watcher.Changed += delegate { Task.Run(() => Database.LoadDefinitions()); };
+        }
+
+        private void playerLocationRecorderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new PlayerLocation().Show();
         }
 
     }

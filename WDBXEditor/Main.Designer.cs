@@ -40,12 +40,10 @@ namespace WDBXEditor
             this.label6 = new System.Windows.Forms.Label();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.lbFiles = new WDBXEditor.Common.BufferedListBox();
             this.filecontextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gbSettings = new System.Windows.Forms.GroupBox();
-            this.progressBar = new WDBXEditor.Common.AutoProgressBar();
             this.txtStats = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtCurrentCell = new System.Windows.Forms.TextBox();
@@ -89,6 +87,7 @@ namespace WDBXEditor
             this.editDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wotLKItemFixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wdb5ParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playerLocationRecorderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +102,11 @@ namespace WDBXEditor
             this.clearLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedDataGridView = new ADGV.AdvancedDataGridView();
+            this.cbColumnMode = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.columnFilter = new WDBXEditor.Common.DropdownCheckList();
+            this.progressBar = new WDBXEditor.Common.AutoProgressBar();
+            this.lbFiles = new WDBXEditor.Common.BufferedListBox();
             this.gbFiles.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.filecontextMenuStrip.SuspendLayout();
@@ -188,19 +191,6 @@ namespace WDBXEditor
             this.label7.TabIndex = 1;
             this.label7.Text = "Filter";
             // 
-            // lbFiles
-            // 
-            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbFiles.FormattingEnabled = true;
-            this.lbFiles.Location = new System.Drawing.Point(6, 19);
-            this.lbFiles.Name = "lbFiles";
-            this.lbFiles.Size = new System.Drawing.Size(444, 173);
-            this.lbFiles.Sorted = true;
-            this.lbFiles.TabIndex = 1;
-            this.lbFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDoubleClick);
-            this.lbFiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDown);
-            // 
             // filecontextMenuStrip
             // 
             this.filecontextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -243,13 +233,6 @@ namespace WDBXEditor
             this.gbSettings.TabIndex = 2;
             this.gbSettings.TabStop = false;
             this.gbSettings.Text = "Statistics";
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(9, 172);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(215, 20);
-            this.progressBar.TabIndex = 10;
             // 
             // txtStats
             // 
@@ -452,21 +435,21 @@ namespace WDBXEditor
             // 
             this.newLineToolStripMenuItem.Name = "newLineToolStripMenuItem";
             this.newLineToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newLineToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.newLineToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.newLineToolStripMenuItem.Text = "New Line";
             this.newLineToolStripMenuItem.Click += new System.EventHandler(this.newLineToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
             // 
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Enabled = false;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
@@ -474,34 +457,35 @@ namespace WDBXEditor
             // 
             this.redoToolStripMenuItem.Enabled = false;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Z)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(171, 6);
             // 
             // goToToolStripMenuItem
             // 
             this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
             this.goToToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.goToToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.goToToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.goToToolStripMenuItem.Text = "&Go To...";
             this.goToToolStripMenuItem.Click += new System.EventHandler(this.gotoIdToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
             this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.findToolStripMenuItem.Text = "&Find...";
             this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
@@ -509,7 +493,7 @@ namespace WDBXEditor
             // 
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
             this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.replaceToolStripMenuItem.Text = "&Replace...";
             this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
@@ -517,7 +501,7 @@ namespace WDBXEditor
             // 
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
             this.insertToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.insertToolStripMenuItem.Text = "Insert Line";
             this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
             // 
@@ -603,7 +587,8 @@ namespace WDBXEditor
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editDefinitionsToolStripMenuItem,
             this.wotLKItemFixToolStripMenuItem,
-            this.wdb5ParserToolStripMenuItem});
+            this.wdb5ParserToolStripMenuItem,
+            this.playerLocationRecorderToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.optionsToolStripMenuItem.Text = "Tools";
@@ -612,7 +597,7 @@ namespace WDBXEditor
             // 
             this.editDefinitionsToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.load_definition;
             this.editDefinitionsToolStripMenuItem.Name = "editDefinitionsToolStripMenuItem";
-            this.editDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.editDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.editDefinitionsToolStripMenuItem.Text = "Definition Editor";
             this.editDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.editDefinitionsToolStripMenuItem_Click);
             // 
@@ -621,7 +606,7 @@ namespace WDBXEditor
             this.wotLKItemFixToolStripMenuItem.Enabled = false;
             this.wotLKItemFixToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.sql;
             this.wotLKItemFixToolStripMenuItem.Name = "wotLKItemFixToolStripMenuItem";
-            this.wotLKItemFixToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.wotLKItemFixToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.wotLKItemFixToolStripMenuItem.Text = "WotLK Item Import";
             this.wotLKItemFixToolStripMenuItem.Click += new System.EventHandler(this.wotLKItemFixToolStripMenuItem_Click);
             // 
@@ -629,9 +614,17 @@ namespace WDBXEditor
             // 
             this.wdb5ParserToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.table;
             this.wdb5ParserToolStripMenuItem.Name = "wdb5ParserToolStripMenuItem";
-            this.wdb5ParserToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.wdb5ParserToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.wdb5ParserToolStripMenuItem.Text = "WDB5 Parser";
             this.wdb5ParserToolStripMenuItem.Click += new System.EventHandler(this.legionToolStripMenuItem_Click);
+            // 
+            // playerLocationRecorderToolStripMenuItem
+            // 
+            this.playerLocationRecorderToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.target;
+            this.playerLocationRecorderToolStripMenuItem.Name = "playerLocationRecorderToolStripMenuItem";
+            this.playerLocationRecorderToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.playerLocationRecorderToolStripMenuItem.Text = "Player Location Recorder";
+            this.playerLocationRecorderToolStripMenuItem.Click += new System.EventHandler(this.playerLocationRecorderToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -739,6 +732,7 @@ namespace WDBXEditor
             this.advancedDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.advancedDataGridView.EnableHeadersVisualStyles = false;
             this.advancedDataGridView.FilterAndSortEnabled = true;
             this.advancedDataGridView.HeaderContext = null;
@@ -760,6 +754,25 @@ namespace WDBXEditor
             this.advancedDataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.advancedDataGridView_DragEnter);
             this.advancedDataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.advancedDataGridView_MouseDown);
             // 
+            // cbColumnMode
+            // 
+            this.cbColumnMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbColumnMode.FormattingEnabled = true;
+            this.cbColumnMode.Location = new System.Drawing.Point(432, 3);
+            this.cbColumnMode.Name = "cbColumnMode";
+            this.cbColumnMode.Size = new System.Drawing.Size(165, 21);
+            this.cbColumnMode.TabIndex = 10;
+            this.cbColumnMode.SelectedIndexChanged += new System.EventHandler(this.cbColumnMode_SelectedIndexChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(346, 7);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(80, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Columns Mode:";
+            // 
             // columnFilter
             // 
             this.columnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -773,11 +786,33 @@ namespace WDBXEditor
             this.columnFilter.ItemCheckChanged += new System.Windows.Forms.ItemCheckEventHandler(this.columnFilter_ItemCheckChanged);
             this.columnFilter.HideEmptyPressed += new System.EventHandler(this.columnFilter_HideEmptyPressed);
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(9, 172);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(215, 20);
+            this.progressBar.TabIndex = 10;
+            // 
+            // lbFiles
+            // 
+            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbFiles.FormattingEnabled = true;
+            this.lbFiles.Location = new System.Drawing.Point(6, 19);
+            this.lbFiles.Name = "lbFiles";
+            this.lbFiles.Size = new System.Drawing.Size(444, 173);
+            this.lbFiles.Sorted = true;
+            this.lbFiles.TabIndex = 1;
+            this.lbFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDoubleClick);
+            this.lbFiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDown);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 601);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.cbColumnMode);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.columnFilter);
             this.Controls.Add(this.gbSettings);
@@ -880,6 +915,9 @@ namespace WDBXEditor
         private System.Windows.Forms.ToolStripMenuItem deleteLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toJSONToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playerLocationRecorderToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cbColumnMode;
+        private System.Windows.Forms.Label label8;
     }
 }
 
