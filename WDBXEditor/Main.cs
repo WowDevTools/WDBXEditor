@@ -109,23 +109,35 @@ namespace WDBXEditor
         {
             using (var client = new WebClient())
             {
-                string realaseUrl = Properties.Settings.Default["ReleaseAPI"].ToString();
+                string realaseURL = Properties.Settings.Default["ReleaseURL"].ToString();
+                string realaseAPI = Properties.Settings.Default["ReleaseAPI"].ToString();
                 string userAgent = Properties.Settings.Default["UserAgent"].ToString();
                 client.Headers["User-Agent"] = userAgent + VERSION;
 
                 try
                 {
-                    string json = client.DownloadString(realaseUrl);
+                    string json = client.DownloadString(realaseAPI);
                     var serializer = new JavaScriptSerializer();
                     IList<GithubRealaseModel> model = serializer.Deserialize<IList<GithubRealaseModel>>(json);
                     if(model.Count > 0 && model[0].tag_name != VERSION)
                     {
-                        string text = $"Your {this.Text} version is outdated. Click on \"Yes\" to download the new version {model[0].tag_name}.";
+                        string text = $"Your {this.Text} version is outdated.";
+
+                        if(model[0].assets.Count > 0)
+                        {
+                            text += $" Click on \"Yes\" to download the new version {model[0].tag_name}.";
+                            realaseURL = model[0].assets[0].browser_download_url;
+                        }
+                        else
+                        {
+                            text += " Click on \"Yes\" to open the github release page.";
+                        }
+
                         DialogResult dialogResult = MessageBox.Show(text, this.Text, MessageBoxButtons.YesNo);
 
                         if (dialogResult == DialogResult.Yes)
                         {
-                            System.Diagnostics.Process.Start(model[0].zipball_url);
+                            System.Diagnostics.Process.Start(realaseURL);
                         }
                     }
                 }
