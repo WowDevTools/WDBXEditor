@@ -1,3 +1,25 @@
+## 1.0.3
+
+### Changes
+* WCH8 (the new Legion ADB format) is now supported for both reading and writing
+* Save As (F12) has been added meaning Save doesn't prompt for file location
+* SQL Exort now works with all "sql_mode"s
+* SQL import now automatically fixes NULL values
+* Datagrid context menu has been added to all cells as well row headers
+* Supports opening multiple selected files at once
+* Supports drag and drop files to open (based on Windows permissions)
+* Added JSON as an export type
+* Added version check based on Github releases
+
+The application now runs as a single instance when launched in GUI mode. This means any files opened thereafter are sent to the running instance instead of opening the application multiple times. In certain situations this is not ideal, so a button has been added to the Load Definition screen which will open a new instance of the application for all files waiting to be loaded.
+
+A range of command line arguments have been added (this is still early stages). This is the beginning of providing an interface so tasks can be automated/invoked via batch scripts and external programs.
+Commands currently include (see the help file for more information):
+* Console Mode which opens the software in a console session
+* Extract which will extract all DBC/DB2 files from a MPQ archive or CASC directory based on a filter string
+* Export which exports a specific file to CSV, JSON or SQL
+* SQL dump which dumps a file's data directly into a MySQL database table
+
 ## 1.0.2
 
 ### Changes
