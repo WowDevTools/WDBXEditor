@@ -3,7 +3,7 @@
 ### Changes
 * WCH8 (the new Legion ADB format) is now supported for both reading and writing
 * Save As (F12) has been added meaning Save doesn't prompt for file location
-* SQL Exort now works with all "sql_mode"s
+* SQL export now works with all "sql_mode"s
 * SQL import now automatically fixes NULL values
 * Datagrid context menu has been added to all cells as well row headers
 * Supports opening multiple selected files at once
