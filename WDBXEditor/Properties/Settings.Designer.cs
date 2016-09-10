@@ -73,18 +73,6 @@ namespace WDBXEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/barncastle/WDBXEditor/releases")]
-        public string ReleaseURL {
-            get {
-                return ((string)(this["ReleaseURL"]));
-            }
-            set {
-                this["ReleaseURL"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows" +
             " NT 5.1; WDBXEditor ")]
         public string UserAgent {
@@ -98,7 +86,19 @@ namespace WDBXEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://api.github.com/repos/barncastle/WDBXEditor/releases")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/WowDevTools/WDBXEditor/releases")]
+        public string ReleaseURL {
+            get {
+                return ((string)(this["ReleaseURL"]));
+            }
+            set {
+                this["ReleaseURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://api.github.com/repos/WowDevTools/WDBXEditor/releases")]
         public string ReleaseAPI {
             get {
                 return ((string)(this["ReleaseAPI"]));
