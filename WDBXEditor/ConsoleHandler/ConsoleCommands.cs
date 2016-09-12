@@ -24,7 +24,6 @@ namespace WDBXEditor.ConsoleHandler
         /// </summary>
         /// <param name="args"></param>
         /// 
-        [ConsoleHelp("Loads a file into the console", "-f File Location (full location if not MPQ or CASC), -s Source (optional : MPQ or CASC location), -b Build Number", @"load -f ""Achievement.dbc"" -s ""E:\WoW\Data\Patch-3.mpq"" -b 11802")]
         public static void LoadCommand(string[] args)
         {
             var pmap = ConsoleManager.ParseCommand(args);
@@ -108,7 +107,6 @@ namespace WDBXEditor.ConsoleHandler
             Console.WriteLine("");
         }
 
-        [ConsoleHelp("Extracts files matching a filter", "-f Filter, -s Source (MPQ or CASC location), -o Output Location", @"extract -f ""*.dbc"" -s ""E:\WoW\Data\Patch-3.mpq"" -o ""C:\WotLK\""")]
         public static void ExtractCommand(string[] args)
         {
             var pmap = ConsoleManager.ParseCommand(args);
@@ -221,46 +219,6 @@ namespace WDBXEditor.ConsoleHandler
             }
         }
 
-        [ConsoleHelp("Exports a file to either SQL, JSON or CSV", "-f Filename, -o Output Filename, -b Build Number", @"export -f ""Achievement.dbc"" -o ""Achievement.csv"" -b 22248")]
-        public static void ExportConCommand(string[] args)
-        {
-            var pmap = ConsoleManager.ParseCommand(args);
-            string file = ParamCheck<string>(pmap, "-f");
-            string filename = Path.GetFileName(file);
-            int build = ParamCheck<int>(pmap, "-b", false);
-            string output = ParamCheck<string>(pmap, "-o");
-            OutputType oType = GetOutputType(output);
-
-            if (build == 0 && !Database.Entries.Any(x => x.FileName.Equals(filename, IGNORECASE)))
-                throw new Exception("   File not loaded. Use the 'load' command first.");
-            else if (build != 0 && !Database.Entries.Any(x => x.FileName.Equals(filename, IGNORECASE) && x.Build == build))
-                throw new Exception("   File not loaded. Use the 'load' command first.");
-
-            var entry = Database.Entries.First(x => x.FileName.Equals(filename, IGNORECASE));
-            if (build != 0 && entry.Build != build)
-                entry = Database.Entries.First(x => x.FileName.Equals(filename, IGNORECASE) && x.Build == build);
-
-            using (FileStream fs = new FileStream(output, FileMode.Create))
-            {
-                byte[] data = new byte[0];
-                switch (oType)
-                {
-                    case OutputType.CSV:
-                        data = Encoding.UTF8.GetBytes(entry.ToCSV());
-                        break;
-                    case OutputType.JSON:
-                        data = Encoding.UTF8.GetBytes(entry.ToJSON());
-                        break;
-                    case OutputType.SQL:
-                        data = Encoding.UTF8.GetBytes(entry.ToSQL());
-                        break;
-                }
-
-                fs.Write(data, 0, data.Length);
-
-                Console.WriteLine($"Successfully exported to {output}.");
-            }
-        }
         #endregion
         
         #region SQL Dump
@@ -291,66 +249,7 @@ namespace WDBXEditor.ConsoleHandler
             }
         }
 
-        [ConsoleHelp("Exports a file directly into a SQL database", "-f Filename, -b Build Number -c MySQL Connection", @"sqldump -f ""Achievement.dbc"" -b 11802 -c ""Server=127.0.0.1;Database=TestDb;Uid=User;Pwd=Password;""")]
-        public static void SqlDumpConCommand(string[] args)
-        {
-            var pmap = ConsoleManager.ParseCommand(args);
-            string file = ParamCheck<string>(pmap, "-f");
-            string filename = Path.GetFileName(file);
-            int build = ParamCheck<int>(pmap, "-b", false);
-            string connection = ParamCheck<string>(pmap, "-c");
-
-            if (build == 0 && !Database.Entries.Any(x => x.FileName.Equals(filename, IGNORECASE)))
-                throw new Exception("   File not loaded. Use the 'load' command first.");
-            else if (build != 0 && !Database.Entries.Any(x => x.FileName.Equals(filename, IGNORECASE) && x.Build == build))
-                throw new Exception("   File not loaded. Use the 'load' command first.");
-
-            var entry = Database.Entries.First(x => x.FileName.Equals(filename, IGNORECASE));
-            if (build != 0 && entry.Build != build)
-                entry = Database.Entries.First(x => x.FileName.Equals(filename, IGNORECASE) && x.Build == build);
-
-            using (MySqlConnection conn = new MySqlConnection(connection))
-            {
-                try
-                {
-                    conn.Open();
-                }
-                catch { throw new Exception("   Incorrect MySQL login details."); }
-
-                entry.ToSQLTable(connection);
-
-                Console.WriteLine($"Successfully exported to {conn.Database}.");
-                Console.WriteLine("");
-            }
-        }
-        #endregion
-        
-        #region Help Command
-        public static void HelpCommand(string[] args)
-        {
-            bool empty = !(args != null && args.Length > 0);
-
-            if (!empty && ConsoleManager.CommandHandlers.ContainsKey(args[0].ToLower()))
-            {
-                var type = ConsoleManager.CommandHandlers[args[0].ToLower()].Method;
-                ConsoleHelpAttribute help = (ConsoleHelpAttribute)Attribute.GetCustomAttribute(type, typeof(ConsoleHelpAttribute));
-                if (help != null)
-                    help.Print();
-                Console.WriteLine("");
-            }
-            else
-            {
-                if (!empty)
-                    Console.WriteLine($"Unknown command '{args[0]}'. Available commands are:");
-                else
-                    Console.WriteLine("Available commands are:");
-
-                foreach (var c in ConsoleManager.CommandHandlers.Keys.OrderBy(x => x))
-                    Console.WriteLine("   " + c);
-                Console.WriteLine("");
-            }
-        }
-        #endregion
+        #endregion  
 
         #region Helpers
         private static T ParamCheck<T>(Dictionary<string, string> map, string field, bool required = true)
@@ -372,19 +271,6 @@ namespace WDBXEditor.ConsoleHandler
 
             object defaultval = (typeof(T) == typeof(string) ? (object)string.Empty : (object)0);
             return (T)Convert.ChangeType(defaultval, typeof(T));
-        }
-
-        private static bool IsValidPath(string path)
-        {
-            try
-            {
-                Path.GetFullPath(path);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         private static SourceType GetSourceType(string source)

@@ -6,6 +6,7 @@ using System.Linq;
 using static WDBXEditor.Common.Constants;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace WDBXEditor.Forms
 {
@@ -100,14 +101,12 @@ namespace WDBXEditor.Forms
             if (Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") == "x86")
                 return false;
 
-            bool isWow64;
-            IsWow64Process(process.Handle, out isWow64);
-            return !isWow64;
+            byte[] data = new byte[4096];
+            using (Stream s = new FileStream(process.MainModule.FileName, FileMode.Open, FileAccess.Read))
+                s.Read(data, 0, 4096);
+
+            int PE_HEADER_ADDR = BitConverter.ToInt32(data, 0x3C);
+            return BitConverter.ToUInt16(data, PE_HEADER_ADDR + 0x4) != 0x014c; //32bit check
         }
-
-        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool IsWow64Process([In] IntPtr process, [Out] out bool wow64Process);
-
     }
 }

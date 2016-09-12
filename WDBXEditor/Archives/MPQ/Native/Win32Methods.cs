@@ -27,9 +27,6 @@ namespace WDBXEditor.Archives.MPQ.Native
             uint dwFlags
             );
 
-        [DllImport("kernel32", SetLastError = false, ExactSpelling = false)]
-        public static extern int GetLastError();
-
         public static string GetFileNameOfMemoryMappedFile(MemoryMappedFile file)
         {
             const uint size = 522;

@@ -168,6 +168,7 @@ namespace WDBXEditor
 
         public static bool FlashWindow(Form form)
         {
+#if !MONO
             FLASHWINFO fInfo = new FLASHWINFO();
 
             uint FLASHW_ALL = 3;
@@ -180,8 +181,12 @@ namespace WDBXEditor
             fInfo.dwTimeout = 0;
 
             return FlashWindowEx(ref fInfo);
+#else
+            return true;
+#endif
+
         }
-        #endregion
+#endregion
 
     }
 }

@@ -18,37 +18,28 @@ namespace WDBXEditor
         {
             InstanceManager.InstanceCheck(args); //Check to see if we can run this instance
             InstanceManager.LoadDll("StormLib.dll"); //Loads the correct StormLib library
-            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             if (args != null && args.Length > 0)
             {
+                
+
                 ConsoleManager.LoadCommandDefinitions();
 
                 if (ConsoleManager.CommandHandlers.ContainsKey(args[0].ToLower()))
-                {
-                    if (!AttachConsole(-1)) //Attempt to attach to existing console window
-                        AllocConsole(); //Create a new console
-
                     ConsoleManager.ConsoleMain(args); //Console mode
-                }
                 else
-                {
                     Application.Run(new Main(args)); //Load file(s)
-                }
             }
             else
             {
+                
                 Application.Run(new Main()); //Default
             }            
 
             InstanceManager.Stop();
-        }
-
-        [DllImport("kernel32.dll")]
-        private static extern bool AllocConsole();
-        [DllImport("kernel32.dll")]
-        private static extern bool AttachConsole(int pid);        
+        }    
     }
 }

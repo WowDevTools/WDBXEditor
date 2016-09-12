@@ -31,23 +31,23 @@ namespace WDBXEditor.Archives.MPQ
                 throw new Win32Exception(); // Implicitly calls GetLastError
         }
 
-        public MpqArchive(MemoryMappedFile file, FileAccess accessType)
-        {
-            _accessType = accessType;
-            string fileName = Win32Methods.GetFileNameOfMemoryMappedFile(file);
-            if (fileName == null)
-                throw new ArgumentException("Could not retrieve the name of the file to initialize.");
+        //public MpqArchive(MemoryMappedFile file, FileAccess accessType)
+        //{
+        //    _accessType = accessType;
+        //    string fileName = Win32Methods.GetFileNameOfMemoryMappedFile(file);
+        //    if (fileName == null)
+        //        throw new ArgumentException("Could not retrieve the name of the file to initialize.");
 
-            SFileOpenArchiveFlags flags = SFileOpenArchiveFlags.TypeIsMemoryMapped;
-            if (accessType == FileAccess.Read)
-                flags |= SFileOpenArchiveFlags.AccessReadOnly;
-            else
-                flags |= SFileOpenArchiveFlags.AccessReadWriteShare;
+        //    SFileOpenArchiveFlags flags = SFileOpenArchiveFlags.TypeIsMemoryMapped;
+        //    if (accessType == FileAccess.Read)
+        //        flags |= SFileOpenArchiveFlags.AccessReadOnly;
+        //    else
+        //        flags |= SFileOpenArchiveFlags.AccessReadWriteShare;
 
-            // constant 2 = SFILE_OPEN_HARD_DISK_FILE
-            if (!NativeMethods.SFileOpenArchive(fileName, 2, flags, out _handle))
-                throw new Win32Exception(); // Implicitly calls GetLastError
-        }
+        //    // constant 2 = SFILE_OPEN_HARD_DISK_FILE
+        //    if (!NativeMethods.SFileOpenArchive(fileName, 2, flags, out _handle))
+        //        throw new Win32Exception(); // Implicitly calls GetLastError
+        //}
 
         private MpqArchive(string filePath, MpqArchiveVersion version, MpqFileStreamAttributes listfileAttributes, MpqFileStreamAttributes attributesFileAttributes, int maxFileCount)
         {

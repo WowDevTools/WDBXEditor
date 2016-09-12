@@ -141,15 +141,6 @@ namespace WDBXEditor.Reader.Memory
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CloseHandle(IntPtr hObject);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
-
-        [DllImport("kernel32.dll")]
-        static extern bool WriteProcessMemory(int hProcess, int lpBaseAddress, byte[] buffer, int size, int lpNumberOfBytesWritten);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
         private enum ProcessAccess
         {
             AllAccess = 0x2 | 0x40 | 0x400 | 0x200 | 0x1 | 0x8 | 0x10 | 0x20 | 0x100000

@@ -98,11 +98,7 @@ namespace WDBXEditor.Archives.MPQ
             }
 
             if (!success)
-            {
-                int lastError = Win32Methods.GetLastError();
-                if (lastError != 38) // EOF
-                    throw new Win32Exception(lastError);
-            }
+                throw new Exception("Unable to read file");
 
             return unchecked((int)read);
         }

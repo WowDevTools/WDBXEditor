@@ -152,7 +152,6 @@
     <Compile Include="Archives\MPQ\Native\NativeMethods.cs" />
     <Compile Include="Archives\MPQ\Native\SFileInfoClass.cs" />
     <Compile Include="Archives\MPQ\Native\SFileOpenArchiveFlags.cs" />
-    <Compile Include="Archives\MPQ\Native\Win32Methods.cs" />
     <Compile Include="Common\AutoProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -171,7 +170,6 @@
     <Compile Include="Common\FormHandler.cs" />
     <Compile Include="Common\GithubRealaseModel.cs" />
     <Compile Include="ConsoleHandler\ConsoleCommands.cs" />
-    <Compile Include="ConsoleHandler\ConsoleHelpAttribute.cs" />
     <Compile Include="ConsoleHandler\ConsoleManager.cs" />
     <Compile Include="Forms\ErrorReport.cs">
       <SubType>Form</SubType>
