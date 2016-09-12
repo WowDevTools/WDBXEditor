@@ -168,7 +168,7 @@ namespace WDBXEditor
 
         public static bool FlashWindow(Form form)
         {
-#if !MONO
+#if !__MonoCS__
             FLASHWINFO fInfo = new FLASHWINFO();
 
             uint FLASHW_ALL = 3;
