@@ -17,8 +17,8 @@ namespace WDBXEditor
         static void Main(string[] args)
         {
             InstanceManager.InstanceCheck(args); //Check to see if we can run this instance
-
-            SetDllDirectory(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), (Environment.Is64BitProcess ? "x64" : "x86")));
+            InstanceManager.LoadDll(); //Loads the correct StormLib library
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -46,9 +46,7 @@ namespace WDBXEditor
             InstanceManager.Stop();
         }
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool SetDllDirectory(string path);
-        [DllImport("kernel32")]
+        [DllImport("kernel32.dll")]
         private static extern bool AllocConsole();
         [DllImport("kernel32.dll")]
         private static extern bool AttachConsole(int pid);        

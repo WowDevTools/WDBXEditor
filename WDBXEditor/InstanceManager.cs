@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -44,6 +45,32 @@ namespace WDBXEditor
                     pipeServer.ReceiveString += OpenRequest;
                     pipeServer.StartServer();
                 }
+            }
+        }
+
+        public static void LoadDll()
+        {
+            string lib = "StormLib.dll";
+            string startupDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            string stormlibPath = Path.Combine(startupDirectory, lib);
+            bool copyDll = true;
+
+            if (File.Exists(stormlibPath)) //If the file exists check if it is the right architecture
+            {
+                byte[] data = new byte[4096];
+                using (Stream s = new FileStream(stormlibPath, FileMode.Open, FileAccess.Read))
+                    s.Read(data, 0, 4096);
+
+                int PE_HEADER_ADDR = BitConverter.ToInt32(data, 0x3C);
+                bool x86 = BitConverter.ToUInt16(data, PE_HEADER_ADDR + 0x4) == 0x014c; //32bit check
+                copyDll = (x86 != !Environment.Is64BitProcess);
+            }
+
+            if (copyDll)
+            {
+                string copypath = Path.Combine(startupDirectory, Environment.Is64BitProcess ? "x64" : "x86", lib);
+                if (File.Exists(copypath))
+                    File.Copy(copypath, stormlibPath, true);
             }
         }
 
