@@ -48,9 +48,8 @@ namespace WDBXEditor
             }
         }
 
-        public static void LoadDll()
+        public static void LoadDll(string lib)
         {
-            string lib = "StormLib.dll";
             string startupDirectory = Path.GetDirectoryName(Application.ExecutablePath);
             string stormlibPath = Path.Combine(startupDirectory, lib);
             bool copyDll = true;

@@ -17,7 +17,7 @@ namespace WDBXEditor
         static void Main(string[] args)
         {
             InstanceManager.InstanceCheck(args); //Check to see if we can run this instance
-            InstanceManager.LoadDll(); //Loads the correct StormLib library
+            InstanceManager.LoadDll("StormLib.dll"); //Loads the correct StormLib library
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
