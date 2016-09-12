@@ -1,6 +1,6 @@
 ﻿namespace WDBXEditor.Forms
 {
-    partial class PlayerLocation
+    partial class PlayerLocation 
     {
         /// <summary>
         /// Required designer variable.

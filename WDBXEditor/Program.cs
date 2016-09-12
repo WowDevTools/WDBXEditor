@@ -24,8 +24,6 @@ namespace WDBXEditor
 
             if (args != null && args.Length > 0)
             {
-                
-
                 ConsoleManager.LoadCommandDefinitions();
 
                 if (ConsoleManager.CommandHandlers.ContainsKey(args[0].ToLower()))
@@ -35,7 +33,6 @@ namespace WDBXEditor
             }
             else
             {
-                
                 Application.Run(new Main()); //Default
             }            
 
