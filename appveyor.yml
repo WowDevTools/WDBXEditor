@@ -1,8 +1,6 @@
 version: 1.0.{build}
 configuration:
   - Release
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 before_build:
   - nuget restore
 build:
@@ -10,9 +8,7 @@ build:
   project: WDBXEditor.sln
   verbosity: quiet
 after_build:
-  - 7z a WDBXEditor.zip %APPVEYOR_BUILD_FOLDER%\WDBXEditor\WDBXEditor\bin\Release
+  - 7z a WDBXEditor.zip %APPVEYOR_BUILD_FOLDER%\wdbxeditor\WDBXEditor\bin\Release
 artifacts:
   - path: WDBXEditor.zip
     name: WDBXEditor
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
