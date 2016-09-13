@@ -8,7 +8,7 @@ build:
   project: WDBXEditor.sln
   verbosity: quiet
 after_build:
-  - 7z a WDBXEditor.zip %APPVEYOR_BUILD_FOLDER%\wdbxeditor\WDBXEditor\bin\Release
+  - 7z a WDBXEditor.zip %APPVEYOR_BUILD_FOLDER%\WDBXEditor\bin\Release
 artifacts:
   - path: WDBXEditor.zip
     name: WDBXEditor
