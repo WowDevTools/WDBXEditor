@@ -14,6 +14,7 @@ namespace WDBXEditor.Forms
     {
         private MemoryReader reader = null;
         private OffsetMap offsets;
+        private bool _closing = false;
 
         public PlayerLocation()
         {
@@ -108,5 +109,24 @@ namespace WDBXEditor.Forms
             int PE_HEADER_ADDR = BitConverter.ToInt32(data, 0x3C);
             return BitConverter.ToUInt16(data, PE_HEADER_ADDR + 0x4) != 0x014c; //32bit check
         }
+
+        #region Form Events
+        private void PlayerLocation_Activated(object sender, EventArgs e)
+        {
+            if (_closing) return;
+            this.Opacity = 1;
+        }
+
+        private void PlayerLocation_Deactivate(object sender, EventArgs e)
+        {
+            if (_closing) return;
+            this.Opacity = 0.75f;
+        }
+
+        private void PlayerLocation_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _closing = true;
+        }
+        #endregion
     }
 }

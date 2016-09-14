@@ -21,14 +21,14 @@ namespace WDBXEditor
         private RegexOptions replaceOptions = RegexOptions.IgnoreCase | RegexOptions.Multiline;
         private StringComparison compare = StringComparison.CurrentCultureIgnoreCase;
 
-        public FindReplace(ref AdvancedDataGridView dgv)
+        public FindReplace()
         {
             InitializeComponent();
-            _data = dgv;
         }
 
         private void FindReplace_Load(object sender, EventArgs e)
         {
+            _data = (AdvancedDataGridView)((Main)Owner).Controls.Find("advancedDataGridView", true)[0];
             SetScreenType(Replace);
         }
 

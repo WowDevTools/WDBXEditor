@@ -192,6 +192,7 @@
             this.Activated += new System.EventHandler(this.ColourConverter_Activated);
             this.Deactivate += new System.EventHandler(this.ColourConverter_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ColourConverter_FormClosing);
+            this.Load += new System.EventHandler(this.ColourConverter_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picColour)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using WDBXEditor.Common;
 
 namespace WDBXEditor.Forms
 {
@@ -18,11 +19,15 @@ namespace WDBXEditor.Forms
         };
 
         #region Colour Events
-        public ColourConverter(Form owner)
+        public ColourConverter()
         {
             InitializeComponent();
-            _data = (AdvancedDataGridView)((Main)owner).Controls.Find("advancedDataGridView", true)[0];
             colourWheelChanged(colourWheel, null);
+        }
+
+        private void ColourConverter_Load(object sender, EventArgs e)
+        {
+            _data = (AdvancedDataGridView)((Main)Owner).Controls.Find("advancedDataGridView", true)[0];
         }
 
         private void colourWheelChanged(object sender, EventArgs e)
@@ -131,8 +136,8 @@ namespace WDBXEditor.Forms
             _closing = true;
         }
 
-        #endregion
 
+        #endregion
 
     }
 }

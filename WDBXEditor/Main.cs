@@ -62,9 +62,6 @@ namespace WDBXEditor
             //Allow keyboard shortcuts
             Parallel.ForEach(this.Controls.Cast<Control>(), c => c.KeyDown += new KeyEventHandler(KeyDownEvent));
 
-            //Init Find and Replace
-            FormHandler.Init(advancedDataGridView);
-
             //Load definitions
             Task.Run(() => Database.LoadDefinitions())
                 .ContinueWith(x => AutoRun(), TaskScheduler.FromCurrentSynchronizationContext());
@@ -1339,12 +1336,12 @@ namespace WDBXEditor
 
         private void playerLocationRecorderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new PlayerLocation().Show();
+            FormHandler.Show<PlayerLocation>();
         }
 
         private void colourPickerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ColourConverter(this).Show();
+            FormHandler.Show<ColourConverter>();
         }
     }
 }

@@ -32,11 +32,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbProcessSelector = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnUntarget = new System.Windows.Forms.Button();
+            this.btnTarget = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.cbBuildSelector = new System.Windows.Forms.ComboBox();
-            this.btnTarget = new System.Windows.Forms.Button();
-            this.btnUntarget = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +73,33 @@
             this.panel1.Size = new System.Drawing.Size(427, 297);
             this.panel1.TabIndex = 2;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(6, 30);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(200, 264);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Offsets";
+            // 
+            // btnUntarget
+            // 
+            this.btnUntarget.Image = global::WDBXEditor.Properties.Resources.close;
+            this.btnUntarget.Location = new System.Drawing.Point(393, 2);
+            this.btnUntarget.Name = "btnUntarget";
+            this.btnUntarget.Size = new System.Drawing.Size(29, 23);
+            this.btnUntarget.TabIndex = 5;
+            this.btnUntarget.UseVisualStyleBackColor = true;
+            // 
+            // btnTarget
+            // 
+            this.btnTarget.Image = global::WDBXEditor.Properties.Resources.target;
+            this.btnTarget.Location = new System.Drawing.Point(358, 2);
+            this.btnTarget.Name = "btnTarget";
+            this.btnTarget.Size = new System.Drawing.Size(29, 23);
+            this.btnTarget.TabIndex = 4;
+            this.btnTarget.UseVisualStyleBackColor = true;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -91,33 +118,6 @@
             this.cbBuildSelector.Size = new System.Drawing.Size(121, 21);
             this.cbBuildSelector.TabIndex = 2;
             // 
-            // btnTarget
-            // 
-            this.btnTarget.Image = global::WDBXEditor.Properties.Resources.target;
-            this.btnTarget.Location = new System.Drawing.Point(358, 2);
-            this.btnTarget.Name = "btnTarget";
-            this.btnTarget.Size = new System.Drawing.Size(29, 23);
-            this.btnTarget.TabIndex = 4;
-            this.btnTarget.UseVisualStyleBackColor = true;
-            // 
-            // btnUntarget
-            // 
-            this.btnUntarget.Image = global::WDBXEditor.Properties.Resources.close;
-            this.btnUntarget.Location = new System.Drawing.Point(393, 2);
-            this.btnUntarget.Name = "btnUntarget";
-            this.btnUntarget.Size = new System.Drawing.Size(29, 23);
-            this.btnUntarget.TabIndex = 5;
-            this.btnUntarget.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(6, 30);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 264);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Offsets";
-            // 
             // PlayerLocation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -127,6 +127,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PlayerLocation";
             this.Text = "Player Location Reader";
+            this.Activated += new System.EventHandler(this.PlayerLocation_Activated);
+            this.Deactivate += new System.EventHandler(this.PlayerLocation_Deactivate);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PlayerLocation_FormClosing);
             this.Load += new System.EventHandler(this.PlayerLocation_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
