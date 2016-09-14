@@ -158,6 +158,9 @@
     <Compile Include="Common\BufferedListBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Common\ColourWheel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DBRowComparer.cs" />
     <Compile Include="Common\DropdownCheckList.cs">
@@ -171,6 +174,12 @@
     <Compile Include="Common\GithubRealaseModel.cs" />
     <Compile Include="ConsoleHandler\ConsoleCommands.cs" />
     <Compile Include="ConsoleHandler\ConsoleManager.cs" />
+    <Compile Include="Forms\ColourConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ColourConverter.Designer.cs">
+      <DependentUpon>ColourConverter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ErrorReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -267,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditDefinition.resx">
       <DependentUpon>EditDefinition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ColourConverter.resx">
+      <DependentUpon>ColourConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ErrorReport.resx">
       <DependentUpon>ErrorReport.cs</DependentUpon>

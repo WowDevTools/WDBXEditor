@@ -202,9 +202,15 @@ namespace WDBXEditor.Storage
         /// <param name="filename"></param>
         /// <param name="expansion"></param>
         /// <returns></returns>
+        /// 
         public bool IsFileOf(string filename, Expansion expansion)
         {
             return TableStructure.Name.Equals(filename, IGNORECASE) && IsBuild(Build, expansion);
+        }
+
+        public bool IsFileOf(string filename)
+        {
+            return TableStructure.Name.Equals(filename, IGNORECASE);
         }
 
         /// <summary>

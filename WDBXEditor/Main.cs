@@ -175,6 +175,7 @@ namespace WDBXEditor
 
                 columnFilter.Reset(dt.Data.Columns, resetcolumns); //Reset column filter
                 wotLKItemFixToolStripMenuItem.Enabled = LoadedEntry.IsFileOf("Item", Expansion.WotLK); //Control WotLK Item Fix
+                colourPickerToolStripMenuItem.Enabled = (LoadedEntry.IsFileOf("LightIntBand") || LoadedEntry.IsFileOf("LightData")); //Colour picker
 
                 advancedDataGridView.Columns[LoadedEntry.Key].ReadOnly = true; //Set primary key as readonly
                 advancedDataGridView.ClearSelection();
@@ -1341,5 +1342,9 @@ namespace WDBXEditor
             new PlayerLocation().Show();
         }
 
+        private void colourPickerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ColourConverter(this).Show();
+        }
     }
 }

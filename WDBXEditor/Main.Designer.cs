@@ -104,6 +104,7 @@ namespace WDBXEditor
             this.advancedDataGridView = new ADGV.AdvancedDataGridView();
             this.cbColumnMode = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.colourPickerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.columnFilter = new WDBXEditor.Common.DropdownCheckList();
             this.progressBar = new WDBXEditor.Common.AutoProgressBar();
             this.lbFiles = new WDBXEditor.Common.BufferedListBox();
@@ -588,7 +589,8 @@ namespace WDBXEditor
             this.editDefinitionsToolStripMenuItem,
             this.wotLKItemFixToolStripMenuItem,
             this.wdb5ParserToolStripMenuItem,
-            this.playerLocationRecorderToolStripMenuItem});
+            this.playerLocationRecorderToolStripMenuItem,
+            this.colourPickerToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.optionsToolStripMenuItem.Text = "Tools";
@@ -773,6 +775,14 @@ namespace WDBXEditor
             this.label8.TabIndex = 11;
             this.label8.Text = "Columns Mode:";
             // 
+            // colourPickerToolStripMenuItem
+            // 
+            this.colourPickerToolStripMenuItem.Enabled = false;
+            this.colourPickerToolStripMenuItem.Name = "colourPickerToolStripMenuItem";
+            this.colourPickerToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.colourPickerToolStripMenuItem.Text = "Colour Picker";
+            this.colourPickerToolStripMenuItem.Click += new System.EventHandler(this.colourPickerToolStripMenuItem_Click);
+            // 
             // columnFilter
             // 
             this.columnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -918,6 +928,7 @@ namespace WDBXEditor
         private System.Windows.Forms.ToolStripMenuItem playerLocationRecorderToolStripMenuItem;
         private System.Windows.Forms.ComboBox cbColumnMode;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ToolStripMenuItem colourPickerToolStripMenuItem;
     }
 }
 
