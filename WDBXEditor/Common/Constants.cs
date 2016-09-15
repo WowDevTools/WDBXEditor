@@ -116,22 +116,27 @@ namespace WDBXEditor.Common
         public static string BuildText(int build)
         {
             var first = Builds.First();
-            int lastbuild = Builds.Keys.Reverse().Skip(1).First(); //Get last comparable build
+            var last = Builds.Last();
             string lastText = $"{first.Value} ({first.Key})";
+
+            if (build <= first.Key)
+                return lastText; //First build
+            else if(build >= last.Key)
+                return $"{last.Value} ({last.Key})"; //Last build
 
             foreach (var b in Builds)
             {
-                if (build < b.Key && build <= lastbuild)
+                if (build < b.Key)
                     return lastText;
 
-                lastText = $"{b.Value} ({build})";
+                lastText = $"{b.Value} ({b.Key})";
             }
 
-            return $"{Builds.Values.Last()} ({build})"; //Must be the latest build
+            return lastText;
         }
 
         #region Client Builds
-        private static readonly Dictionary<int, string> Builds = new Dictionary<int, string>()
+        private static readonly SortedDictionary<int, string> Builds = new SortedDictionary<int, string>()
         {
             {3368,"Alpha 0.5.3"},
             {3494,"Alpha 0.5.5"},
@@ -255,7 +260,8 @@ namespace WDBXEditor.Common
             {20574,"WoD 6.2.2"},
             {20886,"WoD 6.2.3"},
             {21742,"WoD 6.2.4"},
-            {22371,"Legion 7.0.3"},
+            {21953,"Legion 7.0.3"},
+            {22578,"Legion 7.1.0"},
         };
         #endregion
 
