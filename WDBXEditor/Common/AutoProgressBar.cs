@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -50,7 +51,8 @@ namespace WDBXEditor.Common
 
         void bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            this.Invoke((MethodInvoker)delegate { Value = e.ProgressPercentage; });
+            if (!bgw.CancellationPending)
+                this.Invoke((MethodInvoker)delegate { Value = e.ProgressPercentage; });
         }
 
         void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -58,12 +60,13 @@ namespace WDBXEditor.Common
             Task.Run(() => ClearValue());
         }
 
-        public void Stop()
+        public void Stop(bool clear = true)
         {
             if (bgw.IsBusy)
                 bgw.CancelAsync();
 
-            Task.Run(() => ClearValue());
+            if (clear)
+                Task.Run(() => ClearValue());
         }
 
         private async Task ClearValue()

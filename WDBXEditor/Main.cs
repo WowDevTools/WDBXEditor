@@ -91,17 +91,12 @@ namespace WDBXEditor
 
             if (!e.Cancel)
             {
-                try { File.Delete(TEMP_FOLDER); }
-                catch { /*Not really import*/ }
+                try { File.Delete(TEMP_FOLDER); } catch { }
 
-                try
-                {
-                    ProgressStop();
-                    InstanceManager.Stop();
-                    watcher.EnableRaisingEvents = false;
-                    FormHandler.Close();
-                }
-                catch { /*Just a cleanup exercise*/ }
+                ProgressStop(false);
+                InstanceManager.Stop();
+                watcher.EnableRaisingEvents = false;
+                FormHandler.Close();
             }
         }
 
@@ -123,7 +118,7 @@ namespace WDBXEditor
                     {
                         string text = $"Your {this.Text} version is outdated.";
 
-                        if(model[0].assets.Count > 0)
+                        if (model[0].assets.Count > 0)
                         {
                             text += $" Click on \"Yes\" to download the new version {model[0].tag_name}.";
                             realaseURL = model[0].assets[0].browser_download_url;
@@ -1272,9 +1267,9 @@ namespace WDBXEditor
             advancedDataGridView.ReadOnly = true;
         }
 
-        private void ProgressStop()
+        private void ProgressStop(bool clear = true)
         {
-            progressBar.Stop();
+            progressBar.Stop(clear);
             progressBar.Value = 0;
             menuStrip.Enabled = true;
             columnFilter.Enabled = true;

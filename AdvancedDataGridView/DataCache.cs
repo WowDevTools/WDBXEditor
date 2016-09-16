@@ -51,15 +51,14 @@ namespace ADGV
 
             Parallel.ForEach(table.Rows.Cast<DataRow>(), row =>
             {
-                try
-                {
-                    int key = (int)row[PrimaryKey.ColumnName];
-                    var data = row.ItemArray;
+                if ((row?.ItemArray.Length ?? 0) == 0)
+                    return;
 
-                    Cache.TryAdd(key, new JavaScriptSerializer().Serialize(data)); //Store the JSON variant
-                    GetColumnDataCount(data); //Update the empty column count
-                }
-                catch { }
+                int key = (int)row[PrimaryKey.ColumnName];
+                var data = row.ItemArray;
+
+                Cache.TryAdd(key, new JavaScriptSerializer().Serialize(data)); //Store the JSON variant
+                GetColumnDataCount(data); //Update the empty column count
             });
 
 #if DEBUG

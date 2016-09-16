@@ -96,7 +96,11 @@ namespace WDBXEditor
 
         public static void Stop()
         {
-            pipeServer?.StopServer();
+            if(pipeServer != null)
+            {
+                pipeServer.ReceiveString -= OpenRequest;
+                pipeServer.StopServer();
+            }
         }
 
         /// <summary>
