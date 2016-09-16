@@ -13,8 +13,8 @@ namespace WDBXEditor.Reader.Memory
         /// </summary>
         public static OffsetMap Classic => new OffsetMap()
         {
-            ObjectManager = 0x00B41414,
-            ObjectManagerOffset = 0x0, //Unused
+            ClientConnection = 0x00B41414,
+            ObjectManager = 0x0, //Unused
             FirstObjectOffset = 0xAC,
             LocalGuidOffset = 0xC0,
             NextObjectOffset = 0x3C,
@@ -32,8 +32,8 @@ namespace WDBXEditor.Reader.Memory
         /// </summary>
         public static OffsetMap TBC => new OffsetMap()
         {
-            ObjectManager = 0x00D43318,
-            ObjectManagerOffset = 0x2218,
+            ClientConnection = 0x00D43318,
+            ObjectManager = 0x2218,
             FirstObjectOffset = 0xAC,
             LocalGuidOffset = 0xC0,
             NextObjectOffset = 0x3C,
@@ -51,8 +51,8 @@ namespace WDBXEditor.Reader.Memory
         /// </summary>
         public static OffsetMap WotLK => new OffsetMap()
         {
-            ObjectManager = 0x00C79CE0,
-            ObjectManagerOffset = 0x2ED0,
+            ClientConnection = 0x00C79CE0,
+            ObjectManager = 0x2ED0,
             FirstObjectOffset = 0xAC,
             LocalGuidOffset = 0xC0,
             NextObjectOffset = 0x3C,
@@ -70,8 +70,8 @@ namespace WDBXEditor.Reader.Memory
         /// </summary>
         public static OffsetMap Cata => new OffsetMap()
         {
-            ObjectManager = 0x9BE7E0,
-            ObjectManagerOffset = 0x463C,
+            ClientConnection = 0x9BE7E0,
+            ObjectManager = 0x463C,
             FirstObjectOffset = 0xC0,
             LocalGuidOffset = 0x30,
             NextObjectOffset = 0x3C,
@@ -89,8 +89,8 @@ namespace WDBXEditor.Reader.Memory
         /// </summary>
         public static OffsetMap Mopx86 => new OffsetMap()
         {
-            ObjectManager = 0xCB47C4,
-            ObjectManagerOffset = 0x0, //??
+            ClientConnection = 0xCB47C4,
+            ObjectManager = 0x0, //??
             FirstObjectOffset = 0xC0,
             LocalGuidOffset = 0x30,
             NextObjectOffset = 0x3C,
@@ -104,19 +104,19 @@ namespace WDBXEditor.Reader.Memory
         };
     }
 
-    public struct OffsetMap
+    public class OffsetMap
     {
-        public uint ObjectManager { get; set; }
-        public uint ObjectManagerOffset { get; set; }
-        public uint FirstObjectOffset { get; set; }
-        public uint LocalGuidOffset { get; set; }
-        public uint NextObjectOffset { get; set; }
-        public uint LocalPlayerGUID { get; set; }
-        public uint MapID { get; set; }
-        public uint Pos_X { get; set; }
-        public uint Pos_Y { get; set; }
-        public uint Pos_Z { get; set; }
-        public uint Rot { get; set; }
-        public uint Guid { get; set; }
+        public ulong ClientConnection { get; set; }
+        public ulong ObjectManager { get; set; }
+        public ulong FirstObjectOffset { get; set; }
+        public ulong LocalGuidOffset { get; set; }
+        public ulong NextObjectOffset { get; set; }
+        public ulong LocalPlayerGUID { get; set; }
+        public ulong MapID { get; set; }
+        public ulong Pos_X { get; set; }
+        public ulong Pos_Y { get; set; }
+        public ulong Pos_Z { get; set; }
+        public ulong Rot { get; set; }
+        public ulong Guid { get; set; }
     }
 }
