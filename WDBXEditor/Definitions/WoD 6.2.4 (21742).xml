@@ -907,27 +907,25 @@
   </Table>
   <Table Name="CreatureDisplayInfo" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
-    <Field Type="int" Name="m_extendedDisplayInfoID" />
-    <Field Type="float" Name="m_creatureModelScale" />
-    <Field Type="float" Name="m_playerModelScale" />
-    <Field Type="int" Name="m_textureVariation" ArraySize="3" />
+    <Field Type="int" Name="m_modelID" />
+    <Field Type="int" Name="m_soundID" />
+	<Field Name="m_extendedDisplayInfoID" Type="int" />
+    <Field Name="m_creatureModelScale" Type="float" />
+	<Field Type="float" Name="m_playerModelScale" />
+    <Field Name="m_creatureModelAlpha" Type="int" />
+    <Field Type="string" Name="m_textureVariation" ArraySize="3" />
     <Field Type="string" Name="m_portraitTextureName" />
-    <Field Type="int" Name="m_portraitCreatureDisplayInfoID" />
+    <Field Type="int" Name="m_sizeClass" />
+    <Field Type="int" Name="m_bloodID" />
+    <Field Type="int" Name="m_NPCSoundID" />
+    <Field Type="int" Name="m_particleColorID" />	
     <Field Type="int" Name="m_creatureGeosetData" />
+    <Field Type="int" Name="m_objectEffectPackageID" />
+    <Field Type="int" Name="m_animReplacementSetID" />
+    <Field Type="int" Name="m_flags" />
+    <Field Type="int" Name="m_gender" />
     <Field Type="int" Name="m_stateSpellVisualKitID" />
-    <Field Type="float" Name="m_InstanceOtherPlayerPetScale" />	
-    <Field Type="ushort" Name="m_modelID" />
-    <Field Type="ushort" Name="m_soundID" />
-    <Field Type="ushort" Name="m_NPCSoundID" />
-    <Field Type="ushort" Name="m_particleColorID" />
-    <Field Type="ushort" Name="m_objectEffectPackageID" />
-    <Field Type="ushort" Name="m_animReplacementSetID" />
-    <Field Type="byte" Name="m_CreatureModelAlpha" />
-    <Field Type="byte" Name="m_sizeClass" />
-    <Field Type="byte" Name="m_bloodID" />
-    <Field Type="byte" Name="m_Flags" />
-    <Field Type="byte" Name="m_Gender" />   
-    <Field Type="byte" Name="Unknown" />   
+    <Field Type="int" Name="m_Unknown" />
   </Table>
   <Table Name="CreatureDisplayInfoCond" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
