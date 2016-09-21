@@ -1248,7 +1248,7 @@ namespace WDBXEditor
                 CloseFile();
             else if (e.Control && e.KeyCode == Keys.Z) //Undo
                 Undo();
-            else if (e.Control && e.Shift && e.KeyCode == Keys.Z) //Redo
+            else if ((e.Control && e.Shift && e.KeyCode == Keys.Z) || e.Control && e.KeyCode == Keys.Y) //Redo
                 Redo();
             else if (e.Control && e.KeyCode == Keys.N) //Newline
                 NewLine();
