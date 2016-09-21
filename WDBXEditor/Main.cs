@@ -166,8 +166,11 @@ namespace WDBXEditor
                 _bindingsource.ResetBindings(true);
 
                 columnFilter.Reset(dt.Data.Columns, resetcolumns); //Reset column filter
+
                 wotLKItemFixToolStripMenuItem.Enabled = LoadedEntry.IsFileOf("Item", Expansion.WotLK); //Control WotLK Item Fix
+
                 colourPickerToolStripMenuItem.Enabled = (LoadedEntry.IsFileOf("LightIntBand") || LoadedEntry.IsFileOf("LightData")); //Colour picker
+                if (!colourPickerToolStripMenuItem.Enabled) FormHandler.Close<ColourConverter>(); //Close if different DB file
 
                 advancedDataGridView.Columns[LoadedEntry.Key].ReadOnly = true; //Set primary key as readonly
                 advancedDataGridView.ClearSelection();
@@ -1017,13 +1020,13 @@ namespace WDBXEditor
         private void Find()
         {
             if (isLoaded)
-                FormHandler.ShowReplaceForm(false);
+                FormHandler.Show<FindReplace>(false);
         }
 
         private void Replace()
         {
             if (isLoaded)
-                FormHandler.ShowReplaceForm(true);
+                FormHandler.Show<FindReplace>(true);
         }
 
         private void Reload()
