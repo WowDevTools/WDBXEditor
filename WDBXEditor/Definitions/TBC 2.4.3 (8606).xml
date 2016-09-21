@@ -770,7 +770,7 @@
     <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Name="m_Directory" Type="string" />
     <Field Name="m_InstanceType" Type="int" />
-    <Field Name="m_PVP" Type="bool" />
+    <Field Name="m_PVP" Type="int" />
     <Field Name="m_MapName_lang" Type="loc" />
     <Field Name="m_Unknown" Type="int" ArraySize="6" />
     <Field Name="m_areaTableID" Type="int" />
