@@ -10,7 +10,6 @@ namespace WDBXEditor.Common
 {
     static class FormHandler
     {
-        private static FindReplace form;
         private static Main parent;
         private static Dictionary<Type, Form> _Forms = new Dictionary<Type, Form>();
 
@@ -19,48 +18,50 @@ namespace WDBXEditor.Common
             parent = (Main)Application.OpenForms.Cast<Form>().First(x => x.GetType() == typeof(Main));
         }
 
-        public static T Show<T>() where T : Form, new()
+        public static T Show<T>(params object[] args) where T : Form, new()
         {
-            if (typeof(T) == typeof(FindReplace))
-                throw new TypeLoadException();
-
             var type = typeof(T);
+            bool findreplace = typeof(T) == typeof(FindReplace);
             Form f = null;
+
+            if (findreplace) //FindReplace argument check
+            {
+                if (args.Length == 0)
+                    throw new ArgumentException("FindReplace requires Screen Type argument.");
+                if (args[0].GetType() != typeof(bool))
+                    throw new ArgumentException("FindReplace argument should be a boolean.");
+            }
+
             if (_Forms.TryGetValue(type, out f))
             {
                 f.BringToFront();
+                f.Activate();
             }
             else
             {
                 f = new T();
                 f.FormClosing += (s, e) => _Forms.Remove(s.GetType());
                 _Forms.Add(type, f);
+                f.TopMost = true;
                 f.Show(parent);
             }
+
+            if (findreplace)
+                ((FindReplace)f).SetScreenType((bool)args[0]); //Set FindReplace screen type
+
             return (T)f;
         }
 
-        public static void ShowReplaceForm(bool replace = false)
+        public static void Close<T>()
         {
-            if (form == null)
-            {
-                form = new FindReplace();
-                form.TopMost = true;
-                form.Replace = replace;
-                form.Show(parent);
-                form.FormClosed += delegate { form = null; };
-            }
-            else
-            {
-                form.SetScreenType(replace);
-                form.Activate();
-                form.TopMost = true;
-            }
+            var type = typeof(T);
+            Form f = null;
+            if (_Forms.TryGetValue(type, out f))
+                f?.Close();
         }
 
         public static void Close()
         {
-            form?.Close();
             foreach (var form in _Forms.Values)
                 form?.Close();
         }
