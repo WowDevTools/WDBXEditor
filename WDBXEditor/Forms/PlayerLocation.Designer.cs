@@ -28,11 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerLocation));
             this.label1 = new System.Windows.Forms.Label();
             this.cbProcessSelector = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnGetLoc = new System.Windows.Forms.GroupBox();
+            this.chkAuto = new System.Windows.Forms.CheckBox();
+            this.btnGetPos = new System.Windows.Forms.Button();
+            this.txtCurYPos = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtCurXPos = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtCurZPos = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtCurMap = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.grpOffsets = new System.Windows.Forms.GroupBox();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.txtPosX = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtGUID = new System.Windows.Forms.TextBox();
@@ -53,8 +68,10 @@
             this.btnTarget = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.cbBuildSelector = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tmrLoop = new System.Windows.Forms.Timer(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
+            this.btnGetLoc.SuspendLayout();
             this.grpOffsets.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,13 +90,14 @@
             this.cbProcessSelector.FormattingEnabled = true;
             this.cbProcessSelector.Location = new System.Drawing.Point(54, 3);
             this.cbProcessSelector.Name = "cbProcessSelector";
-            this.cbProcessSelector.Size = new System.Drawing.Size(135, 21);
+            this.cbProcessSelector.Size = new System.Drawing.Size(126, 21);
             this.cbProcessSelector.TabIndex = 1;
             this.cbProcessSelector.SelectedIndexChanged += new System.EventHandler(this.cbProcessSelector_SelectedIndexChanged);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.groupBox2);
+            this.panel1.Controls.Add(this.btnRefresh);
+            this.panel1.Controls.Add(this.btnGetLoc);
             this.panel1.Controls.Add(this.grpOffsets);
             this.panel1.Controls.Add(this.btnUntarget);
             this.panel1.Controls.Add(this.btnTarget);
@@ -89,11 +107,133 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(454, 265);
+            this.panel1.Size = new System.Drawing.Size(454, 292);
             this.panel1.TabIndex = 2;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Image = global::WDBXEditor.Properties.Resources.reload;
+            this.btnRefresh.Location = new System.Drawing.Point(186, 2);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(29, 23);
+            this.btnRefresh.TabIndex = 8;
+            this.toolTip1.SetToolTip(this.btnRefresh, "Reload processes");
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnGetLoc
+            // 
+            this.btnGetLoc.Controls.Add(this.chkAuto);
+            this.btnGetLoc.Controls.Add(this.btnGetPos);
+            this.btnGetLoc.Controls.Add(this.txtCurYPos);
+            this.btnGetLoc.Controls.Add(this.label14);
+            this.btnGetLoc.Controls.Add(this.txtCurXPos);
+            this.btnGetLoc.Controls.Add(this.label13);
+            this.btnGetLoc.Controls.Add(this.txtCurZPos);
+            this.btnGetLoc.Controls.Add(this.label12);
+            this.btnGetLoc.Controls.Add(this.txtCurMap);
+            this.btnGetLoc.Controls.Add(this.label9);
+            this.btnGetLoc.Location = new System.Drawing.Point(212, 30);
+            this.btnGetLoc.Name = "btnGetLoc";
+            this.btnGetLoc.Size = new System.Drawing.Size(239, 154);
+            this.btnGetLoc.TabIndex = 7;
+            this.btnGetLoc.TabStop = false;
+            this.btnGetLoc.Text = "Location";
+            // 
+            // chkAuto
+            // 
+            this.chkAuto.AutoSize = true;
+            this.chkAuto.Location = new System.Drawing.Point(57, 127);
+            this.chkAuto.Name = "chkAuto";
+            this.chkAuto.Size = new System.Drawing.Size(86, 17);
+            this.chkAuto.TabIndex = 29;
+            this.chkAuto.Text = "Auto Update";
+            this.toolTip1.SetToolTip(this.chkAuto, "Poll player location");
+            this.chkAuto.UseVisualStyleBackColor = true;
+            this.chkAuto.CheckedChanged += new System.EventHandler(this.chkAuto_CheckedChanged);
+            // 
+            // btnGetPos
+            // 
+            this.btnGetPos.Location = new System.Drawing.Point(150, 123);
+            this.btnGetPos.Name = "btnGetPos";
+            this.btnGetPos.Size = new System.Drawing.Size(83, 23);
+            this.btnGetPos.TabIndex = 28;
+            this.btnGetPos.Text = "Get Location";
+            this.btnGetPos.UseVisualStyleBackColor = true;
+            this.btnGetPos.Click += new System.EventHandler(this.btnGetPos_Click);
+            // 
+            // txtCurYPos
+            // 
+            this.txtCurYPos.Location = new System.Drawing.Point(57, 71);
+            this.txtCurYPos.MaxLength = 14;
+            this.txtCurYPos.Name = "txtCurYPos";
+            this.txtCurYPos.Size = new System.Drawing.Size(176, 20);
+            this.txtCurYPos.TabIndex = 26;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 74);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(45, 13);
+            this.label14.TabIndex = 27;
+            this.label14.Text = "Y Coord";
+            // 
+            // txtCurXPos
+            // 
+            this.txtCurXPos.Location = new System.Drawing.Point(57, 45);
+            this.txtCurXPos.MaxLength = 14;
+            this.txtCurXPos.Name = "txtCurXPos";
+            this.txtCurXPos.Size = new System.Drawing.Size(176, 20);
+            this.txtCurXPos.TabIndex = 24;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 48);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(45, 13);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "X Coord";
+            // 
+            // txtCurZPos
+            // 
+            this.txtCurZPos.Location = new System.Drawing.Point(57, 97);
+            this.txtCurZPos.MaxLength = 14;
+            this.txtCurZPos.Name = "txtCurZPos";
+            this.txtCurZPos.Size = new System.Drawing.Size(176, 20);
+            this.txtCurZPos.TabIndex = 24;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 103);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(45, 13);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "Z Coord";
+            // 
+            // txtCurMap
+            // 
+            this.txtCurMap.Location = new System.Drawing.Point(57, 19);
+            this.txtCurMap.MaxLength = 14;
+            this.txtCurMap.Name = "txtCurMap";
+            this.txtCurMap.Size = new System.Drawing.Size(176, 20);
+            this.txtCurMap.TabIndex = 22;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 22);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(40, 13);
+            this.label9.TabIndex = 23;
+            this.label9.Text = "Map Id";
             // 
             // grpOffsets
             // 
+            this.grpOffsets.Controls.Add(this.btnDelete);
+            this.grpOffsets.Controls.Add(this.btnSave);
             this.grpOffsets.Controls.Add(this.txtPosX);
             this.grpOffsets.Controls.Add(this.label11);
             this.grpOffsets.Controls.Add(this.txtGUID);
@@ -112,10 +252,30 @@
             this.grpOffsets.Controls.Add(this.label3);
             this.grpOffsets.Location = new System.Drawing.Point(6, 30);
             this.grpOffsets.Name = "grpOffsets";
-            this.grpOffsets.Size = new System.Drawing.Size(200, 228);
+            this.grpOffsets.Size = new System.Drawing.Size(200, 259);
             this.grpOffsets.TabIndex = 6;
             this.grpOffsets.TabStop = false;
             this.grpOffsets.Text = "Offsets";
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(38, 232);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 27;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(119, 232);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 26;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // txtPosX
             // 
@@ -265,27 +425,30 @@
             // 
             this.btnUntarget.Enabled = false;
             this.btnUntarget.Image = global::WDBXEditor.Properties.Resources.close;
-            this.btnUntarget.Location = new System.Drawing.Point(422, 1);
+            this.btnUntarget.Location = new System.Drawing.Point(422, 2);
             this.btnUntarget.Name = "btnUntarget";
             this.btnUntarget.Size = new System.Drawing.Size(29, 23);
             this.btnUntarget.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.btnUntarget, "Detach from process");
             this.btnUntarget.UseVisualStyleBackColor = true;
+            this.btnUntarget.Click += new System.EventHandler(this.btnUntarget_Click);
             // 
             // btnTarget
             // 
             this.btnTarget.Enabled = false;
             this.btnTarget.Image = global::WDBXEditor.Properties.Resources.target;
-            this.btnTarget.Location = new System.Drawing.Point(387, 1);
+            this.btnTarget.Location = new System.Drawing.Point(387, 2);
             this.btnTarget.Name = "btnTarget";
             this.btnTarget.Size = new System.Drawing.Size(29, 23);
             this.btnTarget.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.btnTarget, "Attach to process");
             this.btnTarget.UseVisualStyleBackColor = true;
             this.btnTarget.Click += new System.EventHandler(this.btnTarget_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(195, 6);
+            this.label2.Location = new System.Drawing.Point(221, 6);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 3;
@@ -295,26 +458,22 @@
             // 
             this.cbBuildSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBuildSelector.FormattingEnabled = true;
-            this.cbBuildSelector.Location = new System.Drawing.Point(231, 3);
+            this.cbBuildSelector.Location = new System.Drawing.Point(257, 3);
             this.cbBuildSelector.Name = "cbBuildSelector";
-            this.cbBuildSelector.Size = new System.Drawing.Size(150, 21);
+            this.cbBuildSelector.Size = new System.Drawing.Size(124, 21);
             this.cbBuildSelector.TabIndex = 2;
             this.cbBuildSelector.SelectedIndexChanged += new System.EventHandler(this.cbBuildSelector_SelectedIndexChanged);
             // 
-            // groupBox2
+            // tmrLoop
             // 
-            this.groupBox2.Location = new System.Drawing.Point(212, 30);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(239, 228);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.tmrLoop.Interval = 1000;
+            this.tmrLoop.Tick += new System.EventHandler(this.tmrLoop_Tick);
             // 
             // PlayerLocation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(478, 282);
+            this.ClientSize = new System.Drawing.Size(478, 316);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PlayerLocation";
@@ -325,6 +484,8 @@
             this.Load += new System.EventHandler(this.PlayerLocation_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.btnGetLoc.ResumeLayout(false);
+            this.btnGetLoc.PerformLayout();
             this.grpOffsets.ResumeLayout(false);
             this.grpOffsets.PerformLayout();
             this.ResumeLayout(false);
@@ -357,6 +518,21 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtObjectManager;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox btnGetLoc;
+        private System.Windows.Forms.Button btnGetPos;
+        private System.Windows.Forms.TextBox txtCurYPos;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtCurXPos;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtCurZPos;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtCurMap;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox chkAuto;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Timer tmrLoop;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

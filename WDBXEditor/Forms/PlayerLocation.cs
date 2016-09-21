@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using WDBXEditor.Reader.Memory;
 using System.Linq;
 using static WDBXEditor.Common.Constants;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.IO;
 using System.Globalization;
+using System.Web.Script.Serialization;
+using WDBXEditor.Reader;
 
 namespace WDBXEditor.Forms
 {
     public partial class PlayerLocation : Form
     {
-        private Process target = null;
+        private Process proc = null;
         private MemoryReader reader = null;
-        private OffsetMap offsets;
+        private HashSet<OffsetMap> offsetmaps = new HashSet<OffsetMap>();
+        private OffsetMap curmap;
         private BindingSource _binding = new BindingSource();
         private bool _closing = false;
 
-        private uint ClientConnection = 0;
-        private uint ObjectManager = 0;
         private uint FirstObject = 0;
+        private ulong LocalGuid = 0;
 
         public PlayerLocation()
         {
@@ -30,41 +30,58 @@ namespace WDBXEditor.Forms
 
         private void PlayerLocation_Load(object sender, EventArgs e)
         {
-            LoadBindings();
-            LoadBuilds();
+            SetBindings();
+            if (!LoadBuilds()) return;
             LoadProcesses();
+
+            cbBuildSelector.SelectedIndex = 0;
         }
 
-        #region Dropdowns
-        private void LoadBuilds()
+        #region Load/Save
+        private bool LoadBuilds()
         {
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>("Custom", new OffsetMap()));
+            offsetmaps.Clear();
+            cbBuildSelector.Items.Clear();
 
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.Classic), Offsets.Classic));
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.TBC), Offsets.TBC));
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.WotLK), Offsets.WotLK));
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.Cata), Offsets.Cata));
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.MoP) + " (x86)", Offsets.Mopx86));
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.MoP) + " (x64)", Offsets.Mopx86));
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.WoD) + " (x86)", Offsets.Mopx86));
-            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(BuildText((int)ExpansionFinalBuild.WoD) + " (x64)", Offsets.Mopx86));
+            if (File.Exists(OFFSET_MAP_PATH))
+            {
+                try
+                {
+                    string json = File.ReadAllText(OFFSET_MAP_PATH);
+                    var offsets = new JavaScriptSerializer().Deserialize<List<OffsetMap>>(json);
+                    offsetmaps.UnionWith(offsets);
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to read Offset file.");
+                    return false;
+                }
+            }
 
             cbBuildSelector.DisplayMember = "Key";
             cbBuildSelector.ValueMember = "Value";
+
+            cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>("Custom", new OffsetMap()));
+            foreach (var map in offsetmaps.OrderBy(x => x.Name))
+                cbBuildSelector.Items.Add(new KeyValuePair<string, OffsetMap>(map.Name, map));
+
+            return true;
         }
 
         private void LoadProcesses()
         {
-            var procs = Process.GetProcesses().Where(x => x.ProcessName.IndexOf("wow", IGNORECASE) >= 0);
-            foreach (var proc in procs)
-                cbProcessSelector.Items.Add(new KeyValuePair<string, Process>($"{proc.ProcessName} : {proc.Id}", proc));
-
-            cbProcessSelector.Items.Insert(0, new KeyValuePair<string, Process>("", null));
+            cbProcessSelector.Items.Clear();
             cbProcessSelector.ValueMember = "Value";
             cbProcessSelector.DisplayMember = "Key";
+
+            var procs = Process.GetProcesses().Where(x => x.ProcessName.IndexOf("wow", IGNORECASE) >= 0);
+            foreach (var proc in procs)
+                cbProcessSelector.Items.Add(new KeyValuePair<string, Process>($"{proc.ProcessName} ({proc.Id})", proc));
+
+            cbProcessSelector.Items.Insert(0, new KeyValuePair<string, Process>("", null));
         }
 
-        private void LoadBindings()
+        private void SetBindings()
         {
             _binding.DataSource = new OffsetMap();
             txtClientConnection.DataBindings.Add("Text", _binding, "ClientConnection", true);
@@ -77,41 +94,48 @@ namespace WDBXEditor.Forms
             txtPosX.DataBindings.Add("Text", _binding, "Pos_X", true);
         }
 
+        private void SaveBuilds()
+        {
+            string json = new JavaScriptSerializer().Serialize(offsetmaps);
+            using (var fs = File.CreateText(OFFSET_MAP_PATH))
+                fs.Write(json);
+
+            LoadBuilds();
+            cbProcessSelector_SelectedIndexChanged(cbProcessSelector, null);
+        }
+        #endregion
+
+        #region Dropdowns
         private void cbProcessSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            target = ((KeyValuePair<string, Process>)cbProcessSelector.SelectedItem).Value;
-            var version = target.MainModule.FileVersionInfo.FileVersion.Split(' ').Last();
-
-            int finalbuild = 0;
-            if (int.TryParse(version, out finalbuild))
+            proc = ((KeyValuePair<string, Process>)cbProcessSelector.SelectedItem).Value;
+            if (proc == null || proc.HasExited) //Process is unavailable
             {
-                string key = string.Empty;
+                btnTarget.Enabled = false;
+                cbBuildSelector.SelectedIndex = 0;
+                LoadProcesses();
+                return;
+            }
 
-                switch (finalbuild)
-                {
-                    case (int)ExpansionFinalBuild.Classic:
-                    case (int)ExpansionFinalBuild.TBC:
-                    case (int)ExpansionFinalBuild.WotLK:
-                    case (int)ExpansionFinalBuild.Cata:
-                        key = BuildText(finalbuild);
-                        break;
-                    case (int)ExpansionFinalBuild.MoP:
-                    case (int)ExpansionFinalBuild.WoD:
-                        key = BuildText(finalbuild) + (Is64Bit(target) ? " x64" : " x86");
-                        break;
-                    default:
-                        key = "Custom";
-                        break;
-                }
+            var version = proc.MainModule.FileVersionInfo.FileVersion + (!Is64Bit(proc) ? " x86" : " x64");
 
-                for (int i = 0; i < cbBuildSelector.Items.Count; i++)
+            //Check if it exists
+            cbBuildSelector.SelectedIndex = 0;
+            for (int i = 0; i < cbBuildSelector.Items.Count; i++)
+            {
+                if (((KeyValuePair<string, OffsetMap>)cbBuildSelector.Items[i]).Key == version)
                 {
-                    if (((KeyValuePair<string, OffsetMap>)cbBuildSelector.Items[i]).Key == key)
-                    {
-                        cbBuildSelector.SelectedIndex = i;
-                        break;
-                    }
+                    cbBuildSelector.SelectedIndex = i;
+                    break;
                 }
+            }
+
+            //Add a new temporary item if not
+            if (cbBuildSelector.SelectedIndex == 0)
+            {
+                var newmap = new KeyValuePair<string, OffsetMap>(version, new OffsetMap() { Name = version });
+                cbBuildSelector.Items.Add(newmap);
+                cbBuildSelector.SelectedItem = newmap;
             }
 
             btnTarget.Enabled = true;
@@ -120,22 +144,139 @@ namespace WDBXEditor.Forms
         private void cbBuildSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             _binding.DataSource = ((KeyValuePair<string, OffsetMap>)cbBuildSelector.SelectedItem).Value;
-            offsets = (OffsetMap)_binding.DataSource;
+            curmap = (OffsetMap)_binding.DataSource;
         }
         #endregion
-        
-        public static bool Is64Bit(Process process)
+
+        #region Button Events
+        private void btnTarget_Click(object sender, EventArgs e)
         {
-            if (Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") == "x86")
+            reader = new MemoryReader(proc);
+            switch (LoadAddresses())
+            {
+                case ErrorReason.Gamestate:
+                    MessageBox.Show("Could not read memory. Player must be in game.");
+                    break;
+                case ErrorReason.Invalid:
+                    MessageBox.Show("Could not read memory. Invalid offsets or player not in game.");
+                    break;
+                case ErrorReason.None:
+                    btnTarget.Enabled = false;
+                    btnUntarget.Enabled = true;
+                    break;
+            }
+        }
+
+        private void btnUntarget_Click(object sender, EventArgs e)
+        {
+            tmrLoop.Enabled = false;
+            btnUntarget.Enabled = false;
+            btnTarget.Enabled = true;
+        }
+
+        private void chkAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            tmrLoop.Enabled = chkAuto.Checked;
+        }
+
+        private void btnGetPos_Click(object sender, EventArgs e)
+        {
+            if (!GetLocation())
+                btnUntarget_Click(btnUntarget, null);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            curmap.ClientConnection = ParseOffset(txtClientConnection.Text);
+            curmap.FirstObjectOffset = ParseOffset(txtFirstObject.Text);
+            curmap.Guid = ParseOffset(txtGUID.Text);
+            curmap.LocalGuidOffset = ParseOffset(txtLocalGUID.Text);
+            curmap.MapID = ParseOffset(txtMapId.Text);
+            curmap.NextObjectOffset = ParseOffset(txtNextObject.Text);
+            curmap.ObjectManager = ParseOffset(txtObjectManager.Text);
+            curmap.Pos_X = ParseOffset(txtPosX.Text);
+            curmap.Pos_Y = curmap.Pos_X > 0 ? curmap.Pos_X + 4 : 0;
+            curmap.Pos_Z = curmap.Pos_X > 0 ? curmap.Pos_X + 8 : 0;
+
+            offsetmaps.RemoveWhere(x => x.Name == curmap.Name); //Remove old
+            offsetmaps.Add(curmap); //Add new
+
+            SaveBuilds();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(curmap.Name))
+                return;
+
+            if (MessageBox.Show($"Are you sure you wish to delete the offsets for {curmap.Name}?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                offsetmaps.RemoveWhere(x => x.Name == curmap.Name);
+                SaveBuilds();
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            cbProcessSelector.SelectedIndex = 0;
+            LoadProcesses();
+        }
+        #endregion
+
+        #region Memory Reading
+        private ErrorReason LoadAddresses()
+        {
+            try
+            {
+                var ClientConnection = reader.Read<uint>((IntPtr)(curmap.ClientConnection));
+                var ObjectManager = reader.Read<uint>((IntPtr)(ClientConnection + curmap.ObjectManager));
+                FirstObject = reader.Read<uint>((IntPtr)(ObjectManager + curmap.FirstObjectOffset));
+                LocalGuid = reader.Read<ulong>((IntPtr)(ObjectManager + curmap.LocalGuidOffset));
+                return (LocalGuid != 0 ? ErrorReason.None : ErrorReason.Gamestate);
+            }
+            catch { return ErrorReason.Invalid; }
+        }
+
+        private uint GetBaseByGuid(ulong Guid)
+        {
+            uint baseaddress = FirstObject;
+            ulong guid = 0;
+
+            while (baseaddress != 0 && !proc.HasExited)
+            {
+                guid = reader.Read<ulong>((IntPtr)(baseaddress + curmap.Guid));
+                if (guid == Guid)
+                    return baseaddress;
+
+                baseaddress = reader.Read<uint>((IntPtr)(baseaddress + curmap.NextObjectOffset));
+            }
+
+            return 0;
+        }
+
+        private bool GetLocation()
+        {
+            var BaseAddress = GetBaseByGuid(LocalGuid);
+            if (BaseAddress == 0 || proc.HasExited)
                 return false;
 
-            byte[] data = new byte[4096];
-            using (Stream s = new FileStream(process.MainModule.FileName, FileMode.Open, FileAccess.Read))
-                s.Read(data, 0, 4096);
-
-            int PE_HEADER_ADDR = BitConverter.ToInt32(data, 0x3C);
-            return BitConverter.ToUInt16(data, PE_HEADER_ADDR + 0x4) != 0x014c; //32bit check
+            try
+            {
+                txtCurXPos.Text = reader.Read<float>((IntPtr)(BaseAddress + curmap.Pos_X)).ToString();
+                txtCurYPos.Text = reader.Read<float>((IntPtr)(BaseAddress + curmap.Pos_X + 4)).ToString();
+                txtCurZPos.Text = reader.Read<float>((IntPtr)(BaseAddress + curmap.Pos_X + 8)).ToString();
+                txtCurMap.Text = reader.Read<uint>((IntPtr)curmap.MapID).ToString();
+                return true;
+            }
+            catch { return false; }            
         }
+
+        private void tmrLoop_Tick(object sender, EventArgs e)
+        {
+            if (!GetLocation())
+                btnUntarget_Click(btnUntarget, null);
+        }
+        #endregion
 
         #region Form Events
         private void PlayerLocation_Activated(object sender, EventArgs e)
@@ -156,6 +297,7 @@ namespace WDBXEditor.Forms
         }
         #endregion
 
+
         private void Number_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.KeyChar = char.ToUpper(e.KeyChar);
@@ -166,7 +308,7 @@ namespace WDBXEditor.Forms
                 text = text.Substring(2);
 
             if (!ulong.TryParse(text, out dmp) && //Number parse
-                !ulong.TryParse(text, NumberStyles.HexNumber, null,  out dmp) && //Hex parse
+                !ulong.TryParse(text, NumberStyles.HexNumber, null, out dmp) && //Hex parse
                 text != "0X" && //Hex prefix
                 !char.IsControl(e.KeyChar)) //Control char
                 e.Handled = true;
@@ -175,25 +317,56 @@ namespace WDBXEditor.Forms
                 e.KeyChar = char.ToLower(e.KeyChar); //Lower case X in hex prefix
         }
 
-        #region Player Scan
-        private bool LoadAddresses()
+        private ulong ParseOffset(string text)
         {
-            try
-            {
-                ClientConnection = reader.Read<uint>((IntPtr)(offsets.ObjectManager));
-                ObjectManager = reader.Read<uint>((IntPtr)(ClientConnection + offsets.ObjectManager));
-                FirstObject = reader.Read<uint>((IntPtr)(ObjectManager + offsets.FirstObjectOffset));
-                return true;
-                //LocalPlayer.Guid = reader.Read<ulong>((IntPtr)(ObjectManager + offsets.LocalGuidOffset));
-                //return LocalPlayer.Guid != 0;
-            }
-            catch { return false; }
-        }
-        #endregion
+            ulong dmp;
 
-        private void btnTarget_Click(object sender, EventArgs e)
+            if (string.IsNullOrWhiteSpace(text)) //Empty string
+                return 0;
+
+            if (ulong.TryParse(text, out dmp)) //Normal number
+                return dmp;
+
+            if (text.IndexOf("0x") == 0 && text.Length > 2) text = text.Substring(2); //Remove hex prefix
+            if (ulong.TryParse(text, NumberStyles.HexNumber, null, out dmp)) //Hex formatted number
+                return dmp;
+
+            return 0;
+        }
+
+        public static bool Is64Bit(Process process)
         {
-            reader = new MemoryReader(target);
+            if (Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") == "x86")
+                return false;
+
+            byte[] data = new byte[4096];
+            using (Stream s = new FileStream(process.MainModule.FileName, FileMode.Open, FileAccess.Read))
+                s.Read(data, 0, 4096);
+
+            int PE_HEADER_ADDR = BitConverter.ToInt32(data, 0x3C);
+            return BitConverter.ToUInt16(data, PE_HEADER_ADDR + 0x4) != 0x014c; //32bit check
+        }
+
+        internal class OffsetMap
+        {
+            public string Name { get; set; }
+            public ulong ClientConnection { get; set; }
+            public ulong ObjectManager { get; set; }
+            public ulong FirstObjectOffset { get; set; }
+            public ulong LocalGuidOffset { get; set; }
+            public ulong NextObjectOffset { get; set; }
+            public ulong MapID { get; set; }
+            public ulong Pos_X { get; set; }
+            public ulong Pos_Y { get; set; }
+            public ulong Pos_Z { get; set; }
+            public ulong Guid { get; set; }
+        }
+
+        internal enum ErrorReason
+        {
+            Invalid,
+            Gamestate,
+            None
         }
     }
 }

@@ -96,6 +96,9 @@
   <PropertyGroup>
     <StartupObject>WDBXEditor.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
@@ -262,8 +265,7 @@
     <Compile Include="Reader\FileTypes\WDB5.cs" />
     <Compile Include="Reader\FileTypes\WDBC.cs" />
     <Compile Include="Reader\FieldStructureEntry.cs" />
-    <Compile Include="Reader\Memory\MemoryReader.cs" />
-    <Compile Include="Reader\Memory\Offsets.cs" />
+    <Compile Include="Reader\MemoryReader.cs" />
     <Compile Include="Storage\DBEntry.cs" />
     <Compile Include="Storage\Definition.cs" />
     <Compile Include="Storage\Database.cs" />
@@ -320,6 +322,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Definitions\Offsets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Help.chm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

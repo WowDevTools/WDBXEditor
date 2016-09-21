@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WDBXEditor.Reader.Memory
+namespace WDBXEditor.Reader
 {
     public class MemoryReader : IDisposable
     {

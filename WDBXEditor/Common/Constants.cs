@@ -17,6 +17,7 @@ namespace WDBXEditor.Common
         public const StringComparison IGNORECASE = StringComparison.CurrentCultureIgnoreCase;
         public static readonly string DEFINITION_DIR = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Definitions/");
         public static readonly string TEMP_FOLDER = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WDBXEditor");
+        public static readonly string OFFSET_MAP_PATH = Path.Combine(DEFINITION_DIR, "Offsets.json");
 
         [Flags]
         public enum HeaderFlags : short
