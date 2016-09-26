@@ -351,7 +351,7 @@ namespace WDBXEditor.Reader
             else if (entry.Header.IsTypeOf<WCH7>() && ((WCH7)entry.Header).UnknownWCH7 != 0) //WCH7 with Unknown > 0 allows duplicates
                 duplicates = true;
 
-            var lastrow = entry.Data.Rows[entry.Data.Rows.Count - 1];
+            var lastrow = rows.Last();
 
             foreach (DataRow row in rows)
             {
