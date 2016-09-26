@@ -299,7 +299,9 @@ namespace WDBXEditor
             DataGridView.HitTestInfo info = advancedDataGridView.HitTest(e.X, e.Y);
             if (e.Button == MouseButtons.Right && (info.Type == DataGridViewHitTestType.RowHeader || info.Type == DataGridViewHitTestType.Cell))
             {
-                if (advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex].IsInEditMode)
+                if (info.RowIndex >= 0 && 
+                    info.ColumnIndex >= 0 && 
+                    advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex].IsInEditMode)
                     return;
 
                 advancedDataGridView.SelectRow(info.RowIndex);
