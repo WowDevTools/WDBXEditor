@@ -256,7 +256,11 @@ namespace WDBXEditor.Reader.FileTypes
         {
             int m = 0;
             int[] ids;
-            ids = entry.GetPrimaryKeys().ToArray();
+
+            if (!HasOffsetTable)
+                ids = entry.GetUniqueRows().Select(x => x.Field<int>(IdIndex)).ToArray();
+            else
+                ids = entry.GetPrimaryKeys().ToArray();
 
             if (entry.Header.HasSecondIndex)
             {
@@ -281,7 +285,8 @@ namespace WDBXEditor.Reader.FileTypes
 
         public void WriteCopyTable(BinaryWriter bw, DBEntry entry)
         {
-            if (CopyTableSize == 0) return; //Only if the original file had one
+            if (HasOffsetTable)
+                return;
 
             var copyRows = entry.GetCopyRows();
             if (copyRows.Count() > 0)
