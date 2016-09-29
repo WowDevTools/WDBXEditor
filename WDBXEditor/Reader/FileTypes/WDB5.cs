@@ -86,9 +86,6 @@ namespace WDBXEditor.Reader.FileTypes
                     int offset = dbReader.ReadInt32();
                     short length = dbReader.ReadInt16();
 
-                    if (i == (MaxId - MinId))
-                        Console.Write("");
-
                     if (offset == 0 || length == 0) continue;
 
                     //Special case, may contain duplicates in the offset map that we don't want
