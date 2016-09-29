@@ -173,6 +173,10 @@ namespace WDBXEditor.Storage
         {
             GC.Collect();
             GC.WaitForFullGCComplete();
+
+#if DEBUG
+            Debug.WriteLine((GC.GetTotalMemory(false) / 1024 / 1024).ToString() + "mb");
+#endif
         }
     }
 }
