@@ -86,6 +86,9 @@ namespace WDBXEditor.Reader.FileTypes
                     int offset = dbReader.ReadInt32();
                     short length = dbReader.ReadInt16();
 
+                    if (i == (MaxId - MinId))
+                        Console.Write("");
+
                     if (offset == 0 || length == 0) continue;
 
                     //Special case, may contain duplicates in the offset map that we don't want
@@ -224,7 +227,7 @@ namespace WDBXEditor.Reader.FileTypes
         public override void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap)
         {
             var minmax = entry.MinMax();
-            var ids = new List<int>(entry.GetUniqueRows().Select(x => x.Field<int>(IdIndex)));
+            var ids = new List<int>(entry.GetPrimaryKeys());
             var duplicates = entry.Header.OffsetDuplicates;
 
             int m = 0;
