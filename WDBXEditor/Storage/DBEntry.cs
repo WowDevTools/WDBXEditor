@@ -662,8 +662,15 @@ namespace WDBXEditor.Storage
                 case UpdateMode.Insert:
                     //Insert all rows where the ID doesn't already exist already into the existing datatable
                     var rows = Data.Except(importTable, Key);
+                    var source = Data.Copy();
+
+                    source.BeginLoadData();
                     foreach (var r in rows)
-                        Data.Rows.Add(r);
+                        source.Rows.Add(r);
+                    source.EndLoadData();
+
+                    Data.Clear();
+                    Data = source;
 
                     break;
 
@@ -675,14 +682,21 @@ namespace WDBXEditor.Storage
                 case UpdateMode.Update:
                     //Insert all the missing existing rows into the new dataset then change the datatable
                     var rows2 = importTable.Except(Data, Key);
+
+                    importTable.BeginLoadData();
                     foreach (var r in rows2)
                         importTable.Rows.Add(r);
+                    importTable.EndLoadData();
 
                     Data = importTable.Copy();
                     break;
             }
 
             Parallel.For(0, Data.Columns.Count, c => Data.Columns[c].AllowDBNull = false); //Disallow null values
+
+            importTable.Clear();
+            importTable.Dispose();
+            Database.ForceGC();
         }
 
         #endregion
