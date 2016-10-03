@@ -606,6 +606,7 @@
     <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Name="m_raceID" Type="byte" />
     <Field Name="m_classID" Type="byte" />
+    <Field Name="padding" Type="byte" ArraySize="2" />
   </Table>
   <Table Name="CharBaseSection" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -863,9 +864,10 @@
   </Table>
   <Table Name="ComponentTextureFileData" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
-    <Field Name="Field00" Type="byte" />
+    <Field Name="textureItemID" Type="byte" />
     <Field Name="Field01" Type="byte" />
-    <Field Name="Field02" Type="byte" />
+    <Field Name="Texture_Type" Type="byte" />
+    <Field Name="FileDataRef" Type="int" />
   </Table>
   <Table Name="ConsoleScripts" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
