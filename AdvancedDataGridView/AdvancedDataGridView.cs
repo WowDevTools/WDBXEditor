@@ -158,6 +158,9 @@ namespace ADGV
         #region Cell Events
         protected override void OnCellValueChanged(DataGridViewCellEventArgs e)
         {
+            if (Rows[e.RowIndex].Cells[e.ColumnIndex].Value == DBNull.Value && Columns[e.ColumnIndex].ValueType == typeof(string))
+                Rows[e.RowIndex].Cells[e.ColumnIndex].Value = string.Empty;
+
             filteredColumns.Remove(Columns[e.ColumnIndex].Name);
             base.OnCellValueChanged(e);
         }
@@ -182,7 +185,7 @@ namespace ADGV
                     {
                         if (cell.FilterAndSortEnabled && cell.ActiveFilterType != ColumnMenu.FilterType.None)
                         {
-                            sb.AppendFormat(appx + "(" + cell.FilterString + ")", Column.DataPropertyName);
+                            sb.AppendFormat(appx + "(" + cell.FilterString.Trim() + ")", Column.DataPropertyName);
                             appx = " AND ";
                         }
                     }

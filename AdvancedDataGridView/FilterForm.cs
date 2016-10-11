@@ -154,9 +154,9 @@ namespace ADGV
         #region Filter Builder
         private string BuildFilter(FilterType filterType)
         {
-            string column = "[{0}] ";
+            string column = "[{0}]";
             if (filterType == FilterType.Unknown)
-                column = "Convert([{0}], 'System.String') ";
+                column = "Convert([{0}], 'System.String')";
 
             StringBuilder sb = new StringBuilder();
             foreach (DataGridViewRow row in dgvFilter.Rows)
