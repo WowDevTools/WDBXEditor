@@ -34,7 +34,7 @@
             this.cbProcessSelector = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnGetLoc = new System.Windows.Forms.GroupBox();
+            this.grpLoc = new System.Windows.Forms.GroupBox();
             this.chkAuto = new System.Windows.Forms.CheckBox();
             this.btnGetPos = new System.Windows.Forms.Button();
             this.txtCurYPos = new System.Windows.Forms.TextBox();
@@ -70,8 +70,9 @@
             this.cbBuildSelector = new System.Windows.Forms.ComboBox();
             this.tmrLoop = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.lblErr = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            this.btnGetLoc.SuspendLayout();
+            this.grpLoc.SuspendLayout();
             this.grpOffsets.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,8 +97,9 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lblErr);
             this.panel1.Controls.Add(this.btnRefresh);
-            this.panel1.Controls.Add(this.btnGetLoc);
+            this.panel1.Controls.Add(this.grpLoc);
             this.panel1.Controls.Add(this.grpOffsets);
             this.panel1.Controls.Add(this.btnUntarget);
             this.panel1.Controls.Add(this.btnTarget);
@@ -121,24 +123,24 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // btnGetLoc
+            // grpLoc
             // 
-            this.btnGetLoc.Controls.Add(this.chkAuto);
-            this.btnGetLoc.Controls.Add(this.btnGetPos);
-            this.btnGetLoc.Controls.Add(this.txtCurYPos);
-            this.btnGetLoc.Controls.Add(this.label14);
-            this.btnGetLoc.Controls.Add(this.txtCurXPos);
-            this.btnGetLoc.Controls.Add(this.label13);
-            this.btnGetLoc.Controls.Add(this.txtCurZPos);
-            this.btnGetLoc.Controls.Add(this.label12);
-            this.btnGetLoc.Controls.Add(this.txtCurMap);
-            this.btnGetLoc.Controls.Add(this.label9);
-            this.btnGetLoc.Location = new System.Drawing.Point(212, 30);
-            this.btnGetLoc.Name = "btnGetLoc";
-            this.btnGetLoc.Size = new System.Drawing.Size(239, 154);
-            this.btnGetLoc.TabIndex = 7;
-            this.btnGetLoc.TabStop = false;
-            this.btnGetLoc.Text = "Location";
+            this.grpLoc.Controls.Add(this.chkAuto);
+            this.grpLoc.Controls.Add(this.btnGetPos);
+            this.grpLoc.Controls.Add(this.txtCurYPos);
+            this.grpLoc.Controls.Add(this.label14);
+            this.grpLoc.Controls.Add(this.txtCurXPos);
+            this.grpLoc.Controls.Add(this.label13);
+            this.grpLoc.Controls.Add(this.txtCurZPos);
+            this.grpLoc.Controls.Add(this.label12);
+            this.grpLoc.Controls.Add(this.txtCurMap);
+            this.grpLoc.Controls.Add(this.label9);
+            this.grpLoc.Location = new System.Drawing.Point(212, 30);
+            this.grpLoc.Name = "grpLoc";
+            this.grpLoc.Size = new System.Drawing.Size(239, 152);
+            this.grpLoc.TabIndex = 7;
+            this.grpLoc.TabStop = false;
+            this.grpLoc.Text = "Location";
             // 
             // chkAuto
             // 
@@ -469,6 +471,17 @@
             this.tmrLoop.Interval = 1000;
             this.tmrLoop.Tick += new System.EventHandler(this.tmrLoop_Tick);
             // 
+            // lblErr
+            // 
+            this.lblErr.AutoSize = true;
+            this.lblErr.ForeColor = System.Drawing.Color.Red;
+            this.lblErr.Location = new System.Drawing.Point(218, 186);
+            this.lblErr.Name = "lblErr";
+            this.lblErr.Size = new System.Drawing.Size(233, 13);
+            this.lblErr.TabIndex = 30;
+            this.lblErr.Text = "Player Location requires Administrator privileges.";
+            this.lblErr.Visible = false;
+            // 
             // PlayerLocation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -484,8 +497,8 @@
             this.Load += new System.EventHandler(this.PlayerLocation_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.btnGetLoc.ResumeLayout(false);
-            this.btnGetLoc.PerformLayout();
+            this.grpLoc.ResumeLayout(false);
+            this.grpLoc.PerformLayout();
             this.grpOffsets.ResumeLayout(false);
             this.grpOffsets.PerformLayout();
             this.ResumeLayout(false);
@@ -518,7 +531,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtObjectManager;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox btnGetLoc;
+        private System.Windows.Forms.GroupBox grpLoc;
         private System.Windows.Forms.Button btnGetPos;
         private System.Windows.Forms.TextBox txtCurYPos;
         private System.Windows.Forms.Label label14;
@@ -534,5 +547,6 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label lblErr;
     }
 }

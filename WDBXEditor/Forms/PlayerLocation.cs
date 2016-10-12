@@ -30,6 +30,12 @@ namespace WDBXEditor.Forms
 
         private void PlayerLocation_Load(object sender, EventArgs e)
         {
+            if (!InstanceManager.IsRunningAsAdmin())
+            {
+                panel1.Enabled = false;
+                lblErr.Visible = true;         
+            }
+
             SetBindings();
             if (!LoadBuilds()) return;
             LoadProcesses();
