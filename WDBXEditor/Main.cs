@@ -113,7 +113,7 @@ namespace WDBXEditor
                 {
                     string json = client.DownloadString(realaseAPI);
                     var serializer = new JavaScriptSerializer();
-                    IList<GithubRealaseModel> model = serializer.Deserialize<IList<GithubRealaseModel>>(json);
+                    IList<GithubReleaseModel> model = serializer.Deserialize<IList<GithubReleaseModel>>(json);
                     if (model.Count > 0 && model[0].tag_name != VERSION)
                     {
                         string text = $"Your {this.Text} version is outdated.";
@@ -299,16 +299,18 @@ namespace WDBXEditor
             DataGridView.HitTestInfo info = advancedDataGridView.HitTest(e.X, e.Y);
             if (e.Button == MouseButtons.Right && (info.Type == DataGridViewHitTestType.RowHeader || info.Type == DataGridViewHitTestType.Cell))
             {
-                if (info.RowIndex >= 0 && 
-                    info.ColumnIndex >= 0 && 
-                    advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex].IsInEditMode)
+                if (info.RowIndex >= 0 && info.ColumnIndex >= 0 && advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex].IsInEditMode)
                     return;
 
+                contextMenuStrip.Tag = advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex]; //Store current cell
                 advancedDataGridView.SelectRow(info.RowIndex);
                 contextMenuStrip.Show(Cursor.Position);
             }
             else if (contextMenuStrip.Visible)
+            {
+                contextMenuStrip.Tag = null;
                 contextMenuStrip.Hide();
+            }
         }
 
         /// <summary>
@@ -376,6 +378,26 @@ namespace WDBXEditor
             SendKeys.Send("{delete}");
             LoadedEntry.Changed = true;
             UpdateListBox();
+        }
+
+        private void viewInEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewCell cell = (contextMenuStrip.Tag as DataGridViewCell);
+            if(cell != null)
+            {
+                advancedDataGridView.CurrentCell = cell; //Select cell
+
+                using (var form = new TextEditor())
+                {
+                    form.CellValue = cell.Value.ToString();
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        advancedDataGridView.BeginEdit(false);
+                        cell.Value = form.CellValue;
+                        advancedDataGridView.EndEdit();
+                    }
+                }
+            }
         }
         #endregion
 
@@ -543,6 +565,16 @@ namespace WDBXEditor
         private void newLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewLine();
+        }
+
+        private void playerLocationRecorderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormHandler.Show<PlayerLocation>();
+        }
+
+        private void colourPickerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormHandler.Show<ColourConverter>();
         }
 
         #endregion
@@ -1334,14 +1366,5 @@ namespace WDBXEditor
             watcher.Changed += delegate { Task.Run(() => Database.LoadDefinitions()); };
         }
 
-        private void playerLocationRecorderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormHandler.Show<PlayerLocation>();
-        }
-
-        private void colourPickerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormHandler.Show<ColourConverter>();
-        }
     }
 }

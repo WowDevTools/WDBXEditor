@@ -40,10 +40,12 @@ namespace WDBXEditor
             this.label6 = new System.Windows.Forms.Label();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.lbFiles = new WDBXEditor.Common.BufferedListBox();
             this.filecontextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.progressBar = new WDBXEditor.Common.AutoProgressBar();
             this.txtStats = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtCurrentCell = new System.Windows.Forms.TextBox();
@@ -88,6 +90,7 @@ namespace WDBXEditor
             this.wotLKItemFixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wdb5ParserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playerLocationRecorderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colourPickerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,6 +99,8 @@ namespace WDBXEditor
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.gotoIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewInEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,10 +109,7 @@ namespace WDBXEditor
             this.advancedDataGridView = new ADGV.AdvancedDataGridView();
             this.cbColumnMode = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.colourPickerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.columnFilter = new WDBXEditor.Common.DropdownCheckList();
-            this.progressBar = new WDBXEditor.Common.AutoProgressBar();
-            this.lbFiles = new WDBXEditor.Common.BufferedListBox();
             this.gbFiles.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.filecontextMenuStrip.SuspendLayout();
@@ -192,6 +194,19 @@ namespace WDBXEditor
             this.label7.TabIndex = 1;
             this.label7.Text = "Filter";
             // 
+            // lbFiles
+            // 
+            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbFiles.FormattingEnabled = true;
+            this.lbFiles.Location = new System.Drawing.Point(6, 19);
+            this.lbFiles.Name = "lbFiles";
+            this.lbFiles.Size = new System.Drawing.Size(444, 173);
+            this.lbFiles.Sorted = true;
+            this.lbFiles.TabIndex = 1;
+            this.lbFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDoubleClick);
+            this.lbFiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDown);
+            // 
             // filecontextMenuStrip
             // 
             this.filecontextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -234,6 +249,13 @@ namespace WDBXEditor
             this.gbSettings.TabIndex = 2;
             this.gbSettings.TabStop = false;
             this.gbSettings.Text = "Statistics";
+            // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(9, 172);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(215, 20);
+            this.progressBar.TabIndex = 10;
             // 
             // txtStats
             // 
@@ -628,6 +650,14 @@ namespace WDBXEditor
             this.playerLocationRecorderToolStripMenuItem.Text = "Player Location Recorder";
             this.playerLocationRecorderToolStripMenuItem.Click += new System.EventHandler(this.playerLocationRecorderToolStripMenuItem_Click);
             // 
+            // colourPickerToolStripMenuItem
+            // 
+            this.colourPickerToolStripMenuItem.Enabled = false;
+            this.colourPickerToolStripMenuItem.Name = "colourPickerToolStripMenuItem";
+            this.colourPickerToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.colourPickerToolStripMenuItem.Text = "Colour Picker";
+            this.colourPickerToolStripMenuItem.Click += new System.EventHandler(this.colourPickerToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -670,31 +700,45 @@ namespace WDBXEditor
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gotoIdToolStripMenuItem,
             this.toolStripSeparator1,
+            this.viewInEditorToolStripMenuItem,
+            this.toolStripSeparator5,
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem,
             this.insertLineToolStripMenuItem,
             this.clearLineToolStripMenuItem,
             this.deleteLineToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(166, 142);
+            this.contextMenuStrip.Size = new System.Drawing.Size(171, 170);
             // 
             // gotoIdToolStripMenuItem
             // 
             this.gotoIdToolStripMenuItem.Name = "gotoIdToolStripMenuItem";
             this.gotoIdToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.gotoIdToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.gotoIdToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.gotoIdToolStripMenuItem.Text = "&Go To...";
             this.gotoIdToolStripMenuItem.Click += new System.EventHandler(this.gotoIdToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
+            // 
+            // viewInEditorToolStripMenuItem
+            // 
+            this.viewInEditorToolStripMenuItem.Name = "viewInEditorToolStripMenuItem";
+            this.viewInEditorToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.viewInEditorToolStripMenuItem.Text = "View in Text Editor";
+            this.viewInEditorToolStripMenuItem.Click += new System.EventHandler(this.viewInEditorToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(167, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.copyToolStripMenuItem.Text = "&Copy Line";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -702,7 +746,7 @@ namespace WDBXEditor
             // 
             this.pasteToolStripMenuItem.Enabled = false;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.pasteToolStripMenuItem.Text = "&Paste Line";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
@@ -710,21 +754,21 @@ namespace WDBXEditor
             // 
             this.insertLineToolStripMenuItem.Name = "insertLineToolStripMenuItem";
             this.insertLineToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.insertLineToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.insertLineToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.insertLineToolStripMenuItem.Text = "Insert Line";
             this.insertLineToolStripMenuItem.Click += new System.EventHandler(this.insertLineToolStripMenuItem_Click);
             // 
             // clearLineToolStripMenuItem
             // 
             this.clearLineToolStripMenuItem.Name = "clearLineToolStripMenuItem";
-            this.clearLineToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.clearLineToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.clearLineToolStripMenuItem.Text = "Clear Line";
             this.clearLineToolStripMenuItem.Click += new System.EventHandler(this.clearLineToolStripMenuItem_Click);
             // 
             // deleteLineToolStripMenuItem
             // 
             this.deleteLineToolStripMenuItem.Name = "deleteLineToolStripMenuItem";
-            this.deleteLineToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.deleteLineToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.deleteLineToolStripMenuItem.Text = "Delete Line";
             this.deleteLineToolStripMenuItem.Click += new System.EventHandler(this.deleteLineToolStripMenuItem_Click);
             // 
@@ -775,14 +819,6 @@ namespace WDBXEditor
             this.label8.TabIndex = 11;
             this.label8.Text = "Columns Mode:";
             // 
-            // colourPickerToolStripMenuItem
-            // 
-            this.colourPickerToolStripMenuItem.Enabled = false;
-            this.colourPickerToolStripMenuItem.Name = "colourPickerToolStripMenuItem";
-            this.colourPickerToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.colourPickerToolStripMenuItem.Text = "Colour Picker";
-            this.colourPickerToolStripMenuItem.Click += new System.EventHandler(this.colourPickerToolStripMenuItem_Click);
-            // 
             // columnFilter
             // 
             this.columnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -795,26 +831,6 @@ namespace WDBXEditor
             this.columnFilter.TabStop = false;
             this.columnFilter.ItemCheckChanged += new System.Windows.Forms.ItemCheckEventHandler(this.columnFilter_ItemCheckChanged);
             this.columnFilter.HideEmptyPressed += new System.EventHandler(this.columnFilter_HideEmptyPressed);
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(9, 172);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(215, 20);
-            this.progressBar.TabIndex = 10;
-            // 
-            // lbFiles
-            // 
-            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbFiles.FormattingEnabled = true;
-            this.lbFiles.Location = new System.Drawing.Point(6, 19);
-            this.lbFiles.Name = "lbFiles";
-            this.lbFiles.Size = new System.Drawing.Size(444, 173);
-            this.lbFiles.Sorted = true;
-            this.lbFiles.TabIndex = 1;
-            this.lbFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDoubleClick);
-            this.lbFiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbFiles_MouseDown);
             // 
             // Main
             // 
@@ -929,6 +945,8 @@ namespace WDBXEditor
         private System.Windows.Forms.ComboBox cbColumnMode;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripMenuItem colourPickerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewInEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

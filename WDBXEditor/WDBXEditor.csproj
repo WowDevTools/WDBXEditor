@@ -96,9 +96,7 @@
   <PropertyGroup>
     <StartupObject>WDBXEditor.Program</StartupObject>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
@@ -174,7 +172,7 @@
     </Compile>
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\FormHandler.cs" />
-    <Compile Include="Common\GithubRealaseModel.cs" />
+    <Compile Include="Common\GithubReleaseModel.cs" />
     <Compile Include="ConsoleHandler\ConsoleCommands.cs" />
     <Compile Include="ConsoleHandler\ConsoleManager.cs" />
     <Compile Include="Forms\ColourConverter.cs">
@@ -213,6 +211,12 @@
     </Compile>
     <Compile Include="Forms\PlayerLocation.Designer.cs">
       <DependentUpon>PlayerLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TextEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TextEditor.Designer.cs">
+      <DependentUpon>TextEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\WD5Parser.cs">
       <SubType>Form</SubType>
@@ -294,6 +298,9 @@
     <EmbeddedResource Include="Forms\PlayerLocation.resx">
       <DependentUpon>PlayerLocation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextEditor.resx">
+      <DependentUpon>TextEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\WD5Parser.resx">
       <DependentUpon>WD5Parser.cs</DependentUpon>
     </EmbeddedResource>
@@ -322,9 +329,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.manifest">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Definitions\Offsets.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -402,6 +406,7 @@
     </Content>
     <None Include="Resources\open-new.png" />
     <None Include="Resources\target.png" />
+    <None Include="Resources\search.png" />
     <Content Include="x64\StormLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
