@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WDBXEditor.Common
 {
-    public class GithubRealaseModel
+    public class GithubReleaseModel
     {
         public string url { get; set; }
         public string assets_url { get; set; }
