@@ -71,6 +71,7 @@
             this.tmrLoop = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.lblErr = new System.Windows.Forms.Label();
+            this.chkUseBase = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.grpLoc.SuspendLayout();
             this.grpOffsets.SuspendLayout();
@@ -97,7 +98,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.lblErr);
             this.panel1.Controls.Add(this.btnRefresh);
             this.panel1.Controls.Add(this.grpLoc);
             this.panel1.Controls.Add(this.grpOffsets);
@@ -109,7 +109,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(454, 292);
+            this.panel1.Size = new System.Drawing.Size(454, 317);
             this.panel1.TabIndex = 2;
             // 
             // btnRefresh
@@ -234,6 +234,7 @@
             // 
             // grpOffsets
             // 
+            this.grpOffsets.Controls.Add(this.chkUseBase);
             this.grpOffsets.Controls.Add(this.btnDelete);
             this.grpOffsets.Controls.Add(this.btnSave);
             this.grpOffsets.Controls.Add(this.txtPosX);
@@ -254,14 +255,14 @@
             this.grpOffsets.Controls.Add(this.label3);
             this.grpOffsets.Location = new System.Drawing.Point(6, 30);
             this.grpOffsets.Name = "grpOffsets";
-            this.grpOffsets.Size = new System.Drawing.Size(200, 259);
+            this.grpOffsets.Size = new System.Drawing.Size(200, 285);
             this.grpOffsets.TabIndex = 6;
             this.grpOffsets.TabStop = false;
             this.grpOffsets.Text = "Offsets";
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(38, 232);
+            this.btnDelete.Location = new System.Drawing.Point(38, 254);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 27;
@@ -271,7 +272,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(119, 232);
+            this.btnSave.Location = new System.Drawing.Point(119, 254);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 26;
@@ -281,17 +282,17 @@
             // 
             // txtPosX
             // 
-            this.txtPosX.Location = new System.Drawing.Point(103, 201);
+            this.txtPosX.Location = new System.Drawing.Point(103, 223);
             this.txtPosX.MaxLength = 14;
             this.txtPosX.Name = "txtPosX";
             this.txtPosX.Size = new System.Drawing.Size(91, 20);
             this.txtPosX.TabIndex = 20;
-            this.txtPosX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtPosX.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 204);
+            this.label11.Location = new System.Drawing.Point(7, 226);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(54, 13);
             this.label11.TabIndex = 21;
@@ -299,17 +300,17 @@
             // 
             // txtGUID
             // 
-            this.txtGUID.Location = new System.Drawing.Point(103, 175);
+            this.txtGUID.Location = new System.Drawing.Point(103, 197);
             this.txtGUID.MaxLength = 14;
             this.txtGUID.Name = "txtGUID";
             this.txtGUID.Size = new System.Drawing.Size(91, 20);
             this.txtGUID.TabIndex = 18;
-            this.txtGUID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtGUID.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 178);
+            this.label10.Location = new System.Drawing.Point(7, 200);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(29, 13);
             this.label10.TabIndex = 19;
@@ -317,17 +318,17 @@
             // 
             // txtMapId
             // 
-            this.txtMapId.Location = new System.Drawing.Point(103, 149);
+            this.txtMapId.Location = new System.Drawing.Point(103, 171);
             this.txtMapId.MaxLength = 14;
             this.txtMapId.Name = "txtMapId";
             this.txtMapId.Size = new System.Drawing.Size(91, 20);
             this.txtMapId.TabIndex = 16;
-            this.txtMapId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtMapId.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 152);
+            this.label8.Location = new System.Drawing.Point(7, 174);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(40, 13);
             this.label8.TabIndex = 17;
@@ -335,17 +336,17 @@
             // 
             // txtNextObject
             // 
-            this.txtNextObject.Location = new System.Drawing.Point(103, 123);
+            this.txtNextObject.Location = new System.Drawing.Point(103, 145);
             this.txtNextObject.MaxLength = 14;
             this.txtNextObject.Name = "txtNextObject";
             this.txtNextObject.Size = new System.Drawing.Size(91, 20);
             this.txtNextObject.TabIndex = 14;
-            this.txtNextObject.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtNextObject.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 126);
+            this.label7.Location = new System.Drawing.Point(7, 148);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(63, 13);
             this.label7.TabIndex = 15;
@@ -353,17 +354,17 @@
             // 
             // txtLocalGUID
             // 
-            this.txtLocalGUID.Location = new System.Drawing.Point(103, 97);
+            this.txtLocalGUID.Location = new System.Drawing.Point(103, 119);
             this.txtLocalGUID.MaxLength = 14;
             this.txtLocalGUID.Name = "txtLocalGUID";
             this.txtLocalGUID.Size = new System.Drawing.Size(91, 20);
             this.txtLocalGUID.TabIndex = 12;
-            this.txtLocalGUID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtLocalGUID.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 100);
+            this.label6.Location = new System.Drawing.Point(7, 122);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(63, 13);
             this.label6.TabIndex = 13;
@@ -371,17 +372,17 @@
             // 
             // txtFirstObject
             // 
-            this.txtFirstObject.Location = new System.Drawing.Point(103, 71);
+            this.txtFirstObject.Location = new System.Drawing.Point(103, 93);
             this.txtFirstObject.MaxLength = 14;
             this.txtFirstObject.Name = "txtFirstObject";
             this.txtFirstObject.Size = new System.Drawing.Size(91, 20);
             this.txtFirstObject.TabIndex = 10;
-            this.txtFirstObject.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtFirstObject.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 74);
+            this.label5.Location = new System.Drawing.Point(7, 96);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 11;
@@ -389,17 +390,17 @@
             // 
             // txtObjectManager
             // 
-            this.txtObjectManager.Location = new System.Drawing.Point(103, 45);
+            this.txtObjectManager.Location = new System.Drawing.Point(103, 67);
             this.txtObjectManager.MaxLength = 14;
             this.txtObjectManager.Name = "txtObjectManager";
             this.txtObjectManager.Size = new System.Drawing.Size(91, 20);
             this.txtObjectManager.TabIndex = 8;
-            this.txtObjectManager.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtObjectManager.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 48);
+            this.label4.Location = new System.Drawing.Point(7, 70);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 13);
             this.label4.TabIndex = 9;
@@ -412,7 +413,7 @@
             this.txtClientConnection.Name = "txtClientConnection";
             this.txtClientConnection.Size = new System.Drawing.Size(91, 20);
             this.txtClientConnection.TabIndex = 7;
-            this.txtClientConnection.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Number_KeyPress);
+            this.txtClientConnection.Validating += new System.ComponentModel.CancelEventHandler(this.Offset_Validating);
             // 
             // label3
             // 
@@ -475,18 +476,29 @@
             // 
             this.lblErr.AutoSize = true;
             this.lblErr.ForeColor = System.Drawing.Color.Red;
-            this.lblErr.Location = new System.Drawing.Point(218, 186);
+            this.lblErr.Location = new System.Drawing.Point(227, 200);
             this.lblErr.Name = "lblErr";
             this.lblErr.Size = new System.Drawing.Size(233, 13);
             this.lblErr.TabIndex = 30;
             this.lblErr.Text = "Player Location requires Administrator privileges.";
             this.lblErr.Visible = false;
             // 
+            // chkUseBase
+            // 
+            this.chkUseBase.AutoSize = true;
+            this.chkUseBase.Location = new System.Drawing.Point(10, 45);
+            this.chkUseBase.Name = "chkUseBase";
+            this.chkUseBase.Size = new System.Drawing.Size(113, 17);
+            this.chkUseBase.TabIndex = 9;
+            this.chkUseBase.Text = "Use Base Address";
+            this.chkUseBase.UseVisualStyleBackColor = true;
+            // 
             // PlayerLocation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(478, 316);
+            this.ClientSize = new System.Drawing.Size(478, 332);
+            this.Controls.Add(this.lblErr);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PlayerLocation";
@@ -502,6 +514,7 @@
             this.grpOffsets.ResumeLayout(false);
             this.grpOffsets.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -548,5 +561,6 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label lblErr;
+        private System.Windows.Forms.CheckBox chkUseBase;
     }
 }

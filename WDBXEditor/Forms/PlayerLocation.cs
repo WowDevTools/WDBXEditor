@@ -33,7 +33,7 @@ namespace WDBXEditor.Forms
             if (!InstanceManager.IsRunningAsAdmin())
             {
                 panel1.Enabled = false;
-                lblErr.Visible = true;         
+                lblErr.Visible = true;
             }
 
             SetBindings();
@@ -91,6 +91,7 @@ namespace WDBXEditor.Forms
         {
             _binding.DataSource = new OffsetMap();
             txtClientConnection.DataBindings.Add("Text", _binding, "ClientConnection", true);
+            chkUseBase.DataBindings.Add("Checked", _binding, "UseBase");
             txtFirstObject.DataBindings.Add("Text", _binding, "FirstObjectOffset", true);
             txtGUID.DataBindings.Add("Text", _binding, "Guid", true);
             txtLocalGUID.DataBindings.Add("Text", _binding, "LocalGuidOffset", true);
@@ -123,13 +124,13 @@ namespace WDBXEditor.Forms
                 return;
             }
 
-            var version = proc.MainModule.FileVersionInfo.FileVersion + (!Is64Bit(proc) ? " x86" : " x64");
+            var version = proc.MainModule.FileVersionInfo.FilePrivatePart + (!Is64Bit(proc) ? " x86" : " x64");
 
             //Check if it exists
             cbBuildSelector.SelectedIndex = 0;
             for (int i = 0; i < cbBuildSelector.Items.Count; i++)
             {
-                if (((KeyValuePair<string, OffsetMap>)cbBuildSelector.Items[i]).Key == version)
+                if (((KeyValuePair<string, OffsetMap>)cbBuildSelector.Items[i]).Key.Contains(version))
                 {
                     cbBuildSelector.SelectedIndex = i;
                     break;
@@ -193,6 +194,7 @@ namespace WDBXEditor.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            curmap.UseBase = chkUseBase.Checked;
             curmap.ClientConnection = ParseOffset(txtClientConnection.Text);
             curmap.FirstObjectOffset = ParseOffset(txtFirstObject.Text);
             curmap.Guid = ParseOffset(txtGUID.Text);
@@ -234,13 +236,21 @@ namespace WDBXEditor.Forms
         {
             try
             {
-                var ClientConnection = reader.Read<uint>((IntPtr)(curmap.ClientConnection));
-                var ObjectManager = reader.Read<uint>((IntPtr)(ClientConnection + curmap.ObjectManager));
+                ulong clientcon = curmap.ClientConnection + (chkUseBase.Checked ? reader.BaseAddress : 0);
+                var ClientConnection = reader.Read<uint>((IntPtr)(clientcon));
+                var ObjectManager = ClientConnection;
+                if (curmap.ObjectManager > 0)
+                    ObjectManager = reader.Read<uint>((IntPtr)(ClientConnection + curmap.ObjectManager));
+
                 FirstObject = reader.Read<uint>((IntPtr)(ObjectManager + curmap.FirstObjectOffset));
                 LocalGuid = reader.Read<ulong>((IntPtr)(ObjectManager + curmap.LocalGuidOffset));
                 return (LocalGuid != 0 ? ErrorReason.None : ErrorReason.Gamestate);
             }
-            catch { return ErrorReason.Invalid; }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return ErrorReason.Invalid;
+            }
         }
 
         private uint GetBaseByGuid(ulong Guid)
@@ -274,7 +284,7 @@ namespace WDBXEditor.Forms
                 txtCurMap.Text = reader.Read<uint>((IntPtr)curmap.MapID).ToString();
                 return true;
             }
-            catch { return false; }            
+            catch { return false; }
         }
 
         private void tmrLoop_Tick(object sender, EventArgs e)
@@ -304,23 +314,32 @@ namespace WDBXEditor.Forms
         #endregion
 
 
-        private void Number_KeyPress(object sender, KeyPressEventArgs e)
+        private void Offset_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.KeyChar = char.ToUpper(e.KeyChar);
+            ulong dmp = 0;
+            string text = ((TextBox)sender).Text.ToUpper();
+            if (text.IndexOf("0X") == 0)
+            {
+                try
+                {
+                    dmp = (ulong)new System.ComponentModel.UInt64Converter().ConvertFromString(text);
+                }
+                catch
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+            else
+            {
+                if (!ulong.TryParse(text, out dmp))
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
 
-            ulong dmp;
-            string text = (((TextBox)sender).Text + e.KeyChar).ToUpper();
-            if (text.IndexOf("0X") == 0 && text.Length > 2) //Trim hex prefix to pass Hex validation
-                text = text.Substring(2);
-
-            if (!ulong.TryParse(text, out dmp) && //Number parse
-                !ulong.TryParse(text, NumberStyles.HexNumber, null, out dmp) && //Hex parse
-                text != "0X" && //Hex prefix
-                !char.IsControl(e.KeyChar)) //Control char
-                e.Handled = true;
-
-            if (e.KeyChar == 'X')
-                e.KeyChar = char.ToLower(e.KeyChar); //Lower case X in hex prefix
+            ((TextBox)sender).Text = dmp.ToString();
         }
 
         private ulong ParseOffset(string text)
@@ -356,6 +375,7 @@ namespace WDBXEditor.Forms
         internal class OffsetMap
         {
             public string Name { get; set; }
+            public bool UseBase { get; set; }
             public ulong ClientConnection { get; set; }
             public ulong ObjectManager { get; set; }
             public ulong FirstObjectOffset { get; set; }
@@ -374,5 +394,6 @@ namespace WDBXEditor.Forms
             Gamestate,
             None
         }
+
     }
 }

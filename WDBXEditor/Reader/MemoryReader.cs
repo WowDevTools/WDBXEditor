@@ -11,7 +11,7 @@ namespace WDBXEditor.Reader
 {
     public class MemoryReader : IDisposable
     {
-        public IntPtr BaseAddress { get; private set; }
+        public ulong BaseAddress { get; private set; }
         public IntPtr ProcessHandle { get; private set; }
 
         private Process process;
@@ -21,7 +21,7 @@ namespace WDBXEditor.Reader
             if ((proc?.Id ?? 0) == 0)
                 throw new Exception("Invalid process");
 
-            BaseAddress = proc.MainModule.BaseAddress;
+            BaseAddress = (ulong)proc.MainModule.BaseAddress;
             ProcessHandle = OpenProcess(ProcessAccess.AllAccess, false, proc.Id);
 
             if (ProcessHandle == IntPtr.Zero)
@@ -118,8 +118,8 @@ namespace WDBXEditor.Reader
             var buffer = new List<byte>();
 
             int i = 0;
-            var current = Read<byte>((IntPtr)(address.ToInt32() + i));
-            while (current != '\0')
+            byte current = Read<byte>((IntPtr)(address.ToInt32() + i));
+            while (current != 0)
             {
                 buffer.Add(current);
                 i++;
