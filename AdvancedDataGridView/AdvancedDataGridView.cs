@@ -355,6 +355,8 @@ namespace ADGV
         {
             if (SelectedRows.Count > 0)
                 _copydata = ((DataRowView)CurrentRow.DataBoundItem).Row.ItemArray;
+            else if(SelectedCells.Count > 0)
+                _copydata = ((DataRowView)CurrentCell.OwningRow.DataBoundItem).Row.ItemArray;
         }
 
         public void PasteCopyData(DataRow row)

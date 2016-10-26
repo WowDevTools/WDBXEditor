@@ -1,3 +1,19 @@
+## 1.0.4
+
+### Changes
+* Both Mac and Windows shortcuts for redo are now supported (Control + Shift + Z and Control + Y)
+* Many fixes and tweaks
+* Column size mode dropdown has been added
+* WDB5 has be reworked due to new understanding of how it works
+* Definition files have been updated for TBC, WotLK and WoD (Thanks to Kallar)
+* Definitions have been added for 7.0.1
+* A colour picker tool has been added for editing LightData and LightIntBand
+* A basic Text Editor has been added to the right click menu to help with large strings such as in SceneScript.db2
+* Added a Player Location tool that reads the player's current X, Y and Z co-ordinates from the WoW client's memory. This is an attempt to help with editing files such as TaxiPathNode that require a lot of co-ordinates to be entered.
+   * Offsets for 1.12.1, 2.4.3 and 3.3.5a are included and tested
+   * Includes the ability to add, edit and remove offsets
+
+
 ## 1.0.3
 
 ### Changes

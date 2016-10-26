@@ -302,8 +302,19 @@ namespace WDBXEditor
                 if (info.RowIndex >= 0 && info.ColumnIndex >= 0 && advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex].IsInEditMode)
                     return;
 
-                contextMenuStrip.Tag = advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex]; //Store current cell
-                advancedDataGridView.SelectRow(info.RowIndex);
+                if(info.ColumnIndex == -1)
+                {
+                    advancedDataGridView.ClearSelection();
+                    advancedDataGridView.SelectRow(info.RowIndex);
+                    viewInEditorToolStripMenuItem.Enabled = false;
+                }
+                else
+                {
+                    contextMenuStrip.Tag = advancedDataGridView.Rows[info.RowIndex].Cells[info.ColumnIndex]; //Store current cell
+                    advancedDataGridView.CurrentCell = (DataGridViewCell)contextMenuStrip.Tag;
+                    viewInEditorToolStripMenuItem.Enabled = true;
+                }                
+
                 contextMenuStrip.Show(Cursor.Position);
             }
             else if (contextMenuStrip.Visible)
@@ -320,8 +331,6 @@ namespace WDBXEditor
         /// <param name="e"></param>
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (advancedDataGridView.SelectedRows.Count == 0) return;
-
             advancedDataGridView.SetCopyData();
             pasteToolStripMenuItem.Enabled = true;
         }
@@ -333,9 +342,14 @@ namespace WDBXEditor
         /// <param name="e"></param>
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (advancedDataGridView.SelectedRows.Count == 0) return;
+            DataRowView row;
+            if (advancedDataGridView.SelectedRows.Count > 0)
+                row = ((DataRowView)advancedDataGridView.CurrentRow.DataBoundItem);
+            else if (advancedDataGridView.SelectedCells.Count > 0)
+                row = ((DataRowView)advancedDataGridView.CurrentCell.OwningRow.DataBoundItem);
+            else
+                return;
 
-            DataRowView row = ((DataRowView)advancedDataGridView.CurrentRow.DataBoundItem);
             if (row?.Row != null)
             {
                 advancedDataGridView.PasteCopyData(row.Row); //Update all fields
@@ -373,7 +387,12 @@ namespace WDBXEditor
         private void deleteLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!isLoaded) return;
-            if (advancedDataGridView.SelectedRows.Count == 0) return;
+
+            if (advancedDataGridView.SelectedRows.Count == 0 && advancedDataGridView.SelectedCells.Count == 0)
+                return;
+
+            if (advancedDataGridView.SelectedRows.Count == 0)
+                advancedDataGridView.SelectRow(advancedDataGridView.CurrentCell.OwningRow.Index);
 
             SendKeys.Send("{delete}");
             LoadedEntry.Changed = true;
@@ -1164,7 +1183,10 @@ namespace WDBXEditor
 
             if (advancedDataGridView.SelectedRows.Count == 1)
                 index = advancedDataGridView.CurrentRow.Index;
-            else if (index == -1)
+            else if (advancedDataGridView.SelectedCells.Count == 1)
+                index = advancedDataGridView.CurrentCell.OwningRow.Index;
+
+            if (index == -1)
                 return;
 
             for (int i = 0; i < advancedDataGridView.Columns.Count; i++)

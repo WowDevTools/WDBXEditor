@@ -15,10 +15,10 @@ namespace WDBXEditor.Forms
     {
         public string CellValue
         {
-            get { return txtText.Text; }
+            get { return txtText.Text.Replace(Environment.NewLine,"\n"); }
             set
             {
-                txtText.Text = value;
+                txtText.Text = value.Replace("\r\n","\n").Replace("\n",Environment.NewLine);
                 txtText.SelectionStart = 0;
                 txtText.SelectionLength = 0;
             }
@@ -68,6 +68,16 @@ namespace WDBXEditor.Forms
                 txtText.ScrollToCaret();
                 lblFind.Visible = false;
             }
+        }
+
+        private void txtText_Enter(object sender, EventArgs e)
+        {
+            this.AcceptButton = null;
+        }
+
+        private void txtText_Leave(object sender, EventArgs e)
+        {
+            this.AcceptButton = btnSave;
         }
     }
 }

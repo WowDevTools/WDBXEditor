@@ -64,6 +64,8 @@
             this.txtText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtText.Size = new System.Drawing.Size(514, 319);
             this.txtText.TabIndex = 0;
+            this.txtText.Enter += new System.EventHandler(this.txtText_Enter);
+            this.txtText.Leave += new System.EventHandler(this.txtText_Leave);
             // 
             // toolStrip1
             // 

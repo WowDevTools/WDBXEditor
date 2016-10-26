@@ -33,6 +33,8 @@ namespace WDBXEditor.Reader
         /// <returns></returns>
         public int Write(string str, bool duplicates = false)
         {
+            str = str.Replace("\r\n", "\n").Replace(Environment.NewLine, "\n");
+
             int offset = 0;
             if (str == "") //Empty string always 0
                 return offset;
