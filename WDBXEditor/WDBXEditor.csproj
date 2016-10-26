@@ -407,6 +407,7 @@
     <None Include="Resources\open-new.png" />
     <None Include="Resources\target.png" />
     <None Include="Resources\search.png" />
+    <None Include="Resources\paintbrush.png" />
     <Content Include="x64\StormLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

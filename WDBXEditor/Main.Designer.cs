@@ -653,6 +653,7 @@ namespace WDBXEditor
             // colourPickerToolStripMenuItem
             // 
             this.colourPickerToolStripMenuItem.Enabled = false;
+            this.colourPickerToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.paintbrush;
             this.colourPickerToolStripMenuItem.Name = "colourPickerToolStripMenuItem";
             this.colourPickerToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.colourPickerToolStripMenuItem.Text = "Colour Picker";

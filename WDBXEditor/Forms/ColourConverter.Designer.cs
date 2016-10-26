@@ -187,7 +187,7 @@
             this.MinimumSize = new System.Drawing.Size(333, 264);
             this.Name = "ColourConverter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Colour Converter";
+            this.Text = "Colour Picker";
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.ColourConverter_Activated);
             this.Deactivate += new System.EventHandler(this.ColourConverter_Deactivate);
