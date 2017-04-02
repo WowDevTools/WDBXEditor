@@ -17,9 +17,13 @@ namespace WDBXEditor.Storage
         public HashSet<Table> Tables { get; set; } = new HashSet<Table>();
         [XmlIgnore]
         public int Build { get; set; }
+        [XmlIgnore]
+        private bool _loading = false;
 
         public bool LoadDefinition(string path)
         {
+            if (_loading) return true;
+
             try
             {
                 XmlSerializer deser = new XmlSerializer(typeof(Definition));
@@ -44,21 +48,29 @@ namespace WDBXEditor.Storage
 
             try
             {
-                var builds = Tables.OrderBy(x => x.Name).GroupBy(x => x.Build);
+                _loading = true;
+
+                var builds = Tables.OrderBy(x => x.Name).GroupBy(x => x.Build).ToList();
+                Tables.Clear();
                 foreach (var build in builds)
                 {
                     Definition _def = new Definition();
                     _def.Build = build.Key;
                     _def.Tables = new HashSet<Table>(build);
-                    
+
                     XmlSerializer ser = new XmlSerializer(typeof(Definition));
                     using (var fs = new FileStream(Path.Combine(DEFINITION_DIR, ValidFilename(BuildText(build.Key))), FileMode.Create))
                         ser.Serialize(fs, _def);
                 }
 
+                _loading = false;
                 return true;
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                _loading = false;
+                return false;
+            }
         }
     }
 
@@ -102,5 +114,7 @@ namespace WDBXEditor.Storage
         public bool AutoGenerate { get; set; } = false;
         [XmlAttribute, DefaultValue(0)]
         public int Padding { get; set; } = 0;
+        [XmlAttribute, DefaultValue("")]
+        public string DefaultValue { get; set; } = "";
     }
 }

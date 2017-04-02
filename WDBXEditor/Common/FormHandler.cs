@@ -10,12 +10,12 @@ namespace WDBXEditor.Common
 {
     static class FormHandler
     {
-        private static Main parent;
+        private static Main _Parent;
         private static Dictionary<Type, Form> _Forms = new Dictionary<Type, Form>();
 
         static FormHandler()
         {
-            parent = (Main)Application.OpenForms.Cast<Form>().First(x => x.GetType() == typeof(Main));
+            _Parent = GetForm<Main>();
         }
 
         public static T Show<T>(params object[] args) where T : Form, new()
@@ -41,15 +41,21 @@ namespace WDBXEditor.Common
             {
                 f = new T();
                 f.FormClosing += (s, e) => _Forms.Remove(s.GetType());
-                _Forms.Add(type, f);
                 f.TopMost = true;
-                f.Show(parent);
+                f.Show(_Parent);
+
+                _Forms.Add(type, f);
             }
 
             if (findreplace)
                 ((FindReplace)f).SetScreenType((bool)args[0]); //Set FindReplace screen type
 
             return (T)f;
+        }
+
+        public static T GetForm<T>() where T : Form
+        {
+            return Application.OpenForms.Cast<Form>().FirstOrDefault(x => x.GetType() == typeof(T)) as T;
         }
 
         public static void Close<T>()

@@ -18,7 +18,7 @@ namespace WDBXEditor.Storage
         public static Definition Definitions { get; set; } = new Definition();
         public static List<DBEntry> Entries { get; set; } = new List<DBEntry>();
         public static int BuildNumber { get; set; }
-        
+
 
         #region Load
         internal enum ErrorType
@@ -27,21 +27,21 @@ namespace WDBXEditor.Storage
             Error
         }
 
-        private static Func<string, ErrorType, string,string> FormatError = (f,t,s) => $"{t.ToString().ToUpper()} {Path.GetFileName(f)} : {s}";
+        private static Func<string, ErrorType, string, string> FormatError = (f, t, s) => $"{t.ToString().ToUpper()} {Path.GetFileName(f)} : {s}";
 
         public static async Task<List<string>> LoadFiles(IEnumerable<string> filenames)
         {
-            List<string> _errors = new List<string>();
-            Queue<string> files = new Queue<string>(filenames.OrderByDescending(x => Path.GetExtension(x)));
-
-            filenames = filenames.Distinct(); //Prevent loading multiple times
+            ConcurrentBag<string> _errors = new ConcurrentBag<string>();
+            ConcurrentQueue<string> files = new ConcurrentQueue<string>(filenames.Distinct().OrderBy(x => x).ThenByDescending(x => Path.GetExtension(x)));
+            string firstFile = files.First();
 
             var batchBlock = new BatchBlock<string>(100, new GroupingDataflowBlockOptions { BoundedCapacity = 100 });
             var actionBlock = new ActionBlock<string[]>(t =>
             {
                 for (int i = 0; i < t.Length; i++)
                 {
-                    string file = files.Dequeue();
+                    string file;
+                    files.TryDequeue(out file);
                     try
                     {
                         DBReader reader = new DBReader();
@@ -53,6 +53,8 @@ namespace WDBXEditor.Storage
                                 Entries.Remove(current);
 
                             Entries.Add(entry);
+                            if (file != firstFile)
+                                entry.Detach();
 
                             if (!string.IsNullOrWhiteSpace(reader.ErrorMessage))
                                 _errors.Add(FormatError(file, ErrorType.Warning, reader.ErrorMessage));
@@ -66,13 +68,14 @@ namespace WDBXEditor.Storage
             });
             batchBlock.LinkTo(actionBlock, new DataflowLinkOptions { PropagateCompletion = true });
 
-            foreach (string i in filenames)
+            foreach (string i in files)
                 await batchBlock.SendAsync(i); // wait synchronously for the block to accept.
 
             batchBlock.Complete();
             await actionBlock.Completion;
 
-            return _errors;
+            files = null;
+            return _errors.ToList();
         }
 
         public static async Task<List<string>> LoadFiles(ConcurrentDictionary<string, MemoryStream> streams)
@@ -102,8 +105,14 @@ namespace WDBXEditor.Storage
                                 _errors.Add(FormatError(s.Key, ErrorType.Warning, reader.ErrorMessage));
                         }
                     }
-                    catch (ConstraintException ex) { _errors.Add(FormatError(s.Key, ErrorType.Error, "Id column contains duplicates.")); }
-                    catch (Exception ex) { _errors.Add(FormatError(s.Key, ErrorType.Error, ex.Message)); }
+                    catch (ConstraintException ex)
+                    {
+                        _errors.Add(FormatError(s.Key, ErrorType.Error, "Id column contains duplicates."));
+                    }
+                    catch (Exception ex)
+                    {
+                        _errors.Add(FormatError(s.Key, ErrorType.Error, ex.Message));
+                    }
 
                     if (i % 100 == 0 && i > 0)
                         ForceGC();

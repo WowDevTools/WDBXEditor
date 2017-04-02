@@ -31,7 +31,7 @@ namespace WDBXEditor
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            ((Main)this.Owner).ProgressStart();
+            ((Main)this.Owner).ProgressBarHandle(true, "Importing CSV...");
             this.Enabled = false;
             bool header = chkHeader.Checked;
 

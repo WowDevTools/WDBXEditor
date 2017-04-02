@@ -97,7 +97,7 @@ namespace WDBXEditor
 
         public static void Stop()
         {
-            if(pipeServer != null)
+            if (pipeServer != null)
             {
                 pipeServer.ReceiveString -= OpenRequest;
                 pipeServer.StopServer();
@@ -195,7 +195,7 @@ namespace WDBXEditor
 
             return FlashWindowEx(ref fInfo);
         }
-#endregion
+        #endregion
 
     }
 }

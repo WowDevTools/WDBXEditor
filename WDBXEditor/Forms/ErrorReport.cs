@@ -20,6 +20,12 @@ namespace WDBXEditor.Forms
             InitializeComponent();
         }
 
+        public ErrorReport(IEnumerable<string> Errors)
+        {
+            InitializeComponent();
+            this.Errors = Errors;
+        }
+
         private void ErrorReport_Load(object sender, EventArgs e)
         {
             txtErrors.Clear();

@@ -88,7 +88,7 @@ namespace WDBXEditor
         {
             if (!ConnectionOnly)
             {
-                ((Main)this.Owner).ProgressStart();
+                ((Main)this.Owner).ProgressBarHandle(true, "Importing SQL...");
                 this.Enabled = false;
 
                 string table = ddlTable.Text;

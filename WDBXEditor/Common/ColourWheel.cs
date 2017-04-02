@@ -402,14 +402,12 @@ namespace WDBXEditor.Common
 
         protected void OnHueChanged()
         {
-            if (HueChanged != null)
-                HueChanged(this, EventArgs.Empty);
+            HueChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected void OnSLChanged()
         {
-            if (SLChanged != null)
-                SLChanged(this, EventArgs.Empty);
+            SLChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private byte ToGray(Color c)

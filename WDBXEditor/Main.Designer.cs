@@ -110,6 +110,7 @@ namespace WDBXEditor
             this.cbColumnMode = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.columnFilter = new WDBXEditor.Common.DropdownCheckList();
+            this.lblCurrentProcess = new System.Windows.Forms.Label();
             this.gbFiles.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.filecontextMenuStrip.SuspendLayout();
@@ -234,6 +235,7 @@ namespace WDBXEditor
             // gbSettings
             // 
             this.gbSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSettings.Controls.Add(this.lblCurrentProcess);
             this.gbSettings.Controls.Add(this.progressBar);
             this.gbSettings.Controls.Add(this.txtStats);
             this.gbSettings.Controls.Add(this.label5);
@@ -252,7 +254,7 @@ namespace WDBXEditor
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(9, 172);
+            this.progressBar.Location = new System.Drawing.Point(9, 171);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(215, 20);
             this.progressBar.TabIndex = 10;
@@ -639,7 +641,7 @@ namespace WDBXEditor
             this.wdb5ParserToolStripMenuItem.Image = global::WDBXEditor.Properties.Resources.table;
             this.wdb5ParserToolStripMenuItem.Name = "wdb5ParserToolStripMenuItem";
             this.wdb5ParserToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.wdb5ParserToolStripMenuItem.Text = "WDB5 Parser";
+            this.wdb5ParserToolStripMenuItem.Text = "Legion Parser";
             this.wdb5ParserToolStripMenuItem.Click += new System.EventHandler(this.legionToolStripMenuItem_Click);
             // 
             // playerLocationRecorderToolStripMenuItem
@@ -833,6 +835,16 @@ namespace WDBXEditor
             this.columnFilter.ItemCheckChanged += new System.Windows.Forms.ItemCheckEventHandler(this.columnFilter_ItemCheckChanged);
             this.columnFilter.HideEmptyPressed += new System.EventHandler(this.columnFilter_HideEmptyPressed);
             // 
+            // lblCurrentProcess
+            // 
+            this.lblCurrentProcess.AutoSize = true;
+            this.lblCurrentProcess.Location = new System.Drawing.Point(6, 155);
+            this.lblCurrentProcess.Name = "lblCurrentProcess";
+            this.lblCurrentProcess.Size = new System.Drawing.Size(35, 13);
+            this.lblCurrentProcess.TabIndex = 11;
+            this.lblCurrentProcess.Text = "label9";
+            this.lblCurrentProcess.Visible = false;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -948,6 +960,7 @@ namespace WDBXEditor
         private System.Windows.Forms.ToolStripMenuItem colourPickerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewInEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.Label lblCurrentProcess;
     }
 }
 
