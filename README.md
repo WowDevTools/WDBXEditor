@@ -32,11 +32,13 @@ You will need [Microsoft .NET Framework 4.6.1](https://www.microsoft.com/en-us/d
 * An Excel style Find and Replace
 * Shortcuts for common tasks using common shortcut key combinations
 * A help file to try and cover off some of the pitfalls and caveats of the program (needs some work)
+* A simple memory reader to get player's co-ordinates from the client
+* A colour picker for LightData and LightIntBand
 
 ##Tools:
 * Definition editor for maintaining the definitions
 * WotLK Item Import to remove the dreaded red question mark from custom items
-* WDB5 Parser which is an attempt to automatically parse the structure of WDB5 files
+* Legion Parser which is an attempt to automatically parse the structure of WDB5 and WDB6 files
 
 ##Project Goal:
 The goal of this project is to create a communal program that is compatible with all file variants, is feature rich and negates the need to use multiple different programs.

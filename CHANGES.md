@@ -1,3 +1,13 @@
+## 1.0.5
+
+### Changes
+* WDB6 (the new Legion DB2 format) is now supported for both reading and writing
+* Definition files have been updated for 7.2.0
+* The software now caches loaded but not being edited files on the file system for better memory useage
+* WD5 Parser is now Legion Parser and parses WDB5 and WDB6
+* A new attribute has been added to the definition editor called "DefaultValue" for the new Common Data Column in WDB6
+* Fixed various issues posted on Git and Model-Changing.net
+
 ## 1.0.4
 
 ### Changes
