@@ -15,7 +15,6 @@ namespace ADGV
 
         public bool CanRedo => redoStack.Count > 0;
         public bool CanUndo => undoStack.Count > 0;
-        public IEnumerable<int> GetEmptyColumns() => Cache.GetEmptyColumns();
 
         private ConcurrentStack<ChangeSet> undoStack = new ConcurrentStack<ChangeSet>();
         private ConcurrentStack<ChangeSet> redoStack = new ConcurrentStack<ChangeSet>();
@@ -65,7 +64,7 @@ namespace ADGV
 
                     undoStack.Push(new ChangeSet(row, ChangeAction.Update)); //Store undo
                     redoStack.Clear(); //Clear redo
-                    Cache.ChangeValue(ToDataRow(this.Rows[e.RowIndex]));
+                    ChangeValue(ToDataRow(this.Rows[e.RowIndex]));
                 }
 
                 this.Invoke(UndoRedoChanged);
@@ -83,7 +82,7 @@ namespace ADGV
                 row.Cells[i].Value = data[i];
 
 
-            Cache.AddRow(datarow); //Cache change
+            AddRow(datarow); //Cache change
             undoStack.Push(new ChangeSet(row, ChangeAction.Add, e.Row.Index));//Store change
             redoStack.Clear();//Clear redo
 
@@ -104,7 +103,7 @@ namespace ADGV
             undoStack.Push(new ChangeSet(e.Row, ChangeAction.Delete)); //Store change
             redoStack.Clear(); //Clear redo
 
-            Cache.RemoveRow(ToDataRow(e.Row)); //Cache change
+            RemoveRow(ToDataRow(e.Row)); //Cache change
             this.Invoke(UndoRedoChanged); //Tell the main form things have changed
             base.OnUserDeletingRow(e);
         }
@@ -128,7 +127,7 @@ namespace ADGV
                 case ChangeAction.Add:
                     if (index == -1) return;
 
-                    Cache.RemoveRow(ToDataRow(Rows[index]));
+                    RemoveRow(ToDataRow(Rows[index]));
                     Rows.Remove(Rows[index]);
                     break;
 
@@ -139,7 +138,7 @@ namespace ADGV
                         newrow[i] = redo.Row.Cells[i].Value;
 
                     ((DataTable)((BindingSource)DataSource).DataSource).Rows.InsertAt(newrow, redo.Index);
-                    Task.Run(() => Cache.AddRow(newrow));
+                    Task.Run(() => AddRow(newrow));
                     break;
 
                 case ChangeAction.Update:
@@ -155,7 +154,7 @@ namespace ADGV
                     ((BindingSource)DataSource).EndEdit();
                     this.EndEdit();
 
-                    Task.Run(() => Cache.ChangeValue(ToDataRow(Rows[index])));
+                    Task.Run(() => ChangeValue(ToDataRow(Rows[index])));
                     break;
             }
 
@@ -190,13 +189,13 @@ namespace ADGV
                         newrow[i] = undo.Row.Cells[i].Value;
 
                     ((DataTable)((BindingSource)DataSource).DataSource).Rows.InsertAt(newrow, undo.Index);
-                    Task.Run(() => Cache.AddRow(newrow));
+                    Task.Run(() => AddRow(newrow));
                     break;
 
                 case ChangeAction.Delete:
                     if (index == -1) return;
 
-                    Cache.RemoveRow(ToDataRow(Rows[index]));
+                    RemoveRow(ToDataRow(Rows[index]));
                     Rows.Remove(Rows[index]);
                     break;
 
@@ -213,7 +212,7 @@ namespace ADGV
                     ((BindingSource)DataSource).EndEdit();
                     this.EndEdit();
 
-                    Task.Run(() => Cache.ChangeValue(ToDataRow(Rows[index])));
+                    Task.Run(() => ChangeValue(ToDataRow(Rows[index])));
                     break;
             }
 
@@ -233,7 +232,7 @@ namespace ADGV
 
         public void CacheData()
         {
-            Task.Run(() => Cache.Init(true));
+            Task.Run(() => Init(true));
         }
 
         #region Internal Methods
@@ -261,7 +260,7 @@ namespace ADGV
             ((BindingSource)DataSource).RaiseListChangedEvents = true; //Rebind to source data
             ((BindingSource)DataSource).ResetBindings(false); //Force data reload
 
-            Task.Run(() => Cache.Init(true));
+            Task.Run(() => Init(true));
 
             if (this.Rows.Count > 0)
                 SelectRow(resetindex < 0 ? 0 : resetindex);

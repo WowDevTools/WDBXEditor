@@ -19,7 +19,6 @@ namespace ADGV
         public event EventHandler FilterStringChanged;
 
         public ContextMenu HeaderContext { get; set; }
-        private DataCache Cache = null;
         public bool FilterAndSortEnabled { get; set; }
         public string FilterString
         {
@@ -62,12 +61,11 @@ namespace ADGV
         private string sortString = string.Empty;
         private string filterString = string.Empty;
         private object[] _copydata;
-        private DataColumn primarykey => Cache.PrimaryKey;
+        private DataColumn primarykey => PrimaryKey;
 
         public AdvancedDataGridView()
         {
             DoubleBuffered = true;
-            Cache = new DataCache(this);
         }
 
 
@@ -376,13 +374,14 @@ namespace ADGV
 
         public void SetVisible(int index, bool value)
         {
+            if (primarykey == null) return;
             if (index == primarykey.Ordinal) return;
             Columns[index].Visible = value;
         }
 
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
-            Task.Run(() => Cache.Init());
+            Task.Run(() => Init());
             base.OnDataBindingComplete(e);
         }
 
@@ -390,11 +389,6 @@ namespace ADGV
         {
             displayErrorDialogIfNoHandler = false;
             base.OnDataError(displayErrorDialogIfNoHandler, e);
-        }
-
-        public Point Search(string text, bool exact, StringComparison comparison = StringComparison.CurrentCultureIgnoreCase, bool includestart = false)
-        {
-            return Cache.Search(text, exact, comparison, includestart);
         }
     }
 }

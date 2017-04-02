@@ -5,38 +5,32 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace ADGV
 {
-    class DataCache
+    partial class AdvancedDataGridView : DataGridView
     {
-        public DataColumn PrimaryKey = null;
+        public DataColumn PrimaryKey { get; private set; }
 
         private ConcurrentDictionary<int, string> Cache = new ConcurrentDictionary<int, string>();
-        private ConcurrentDictionary<int, int> DataCount = new ConcurrentDictionary<int, int>();
-        private AdvancedDataGridView gridview = null;
+        private int[] DataCount;
         private string _tag = string.Empty;
-
-        public DataCache(AdvancedDataGridView datagrid)
-        {
-            gridview = datagrid;
-        }
 
         public void Init(bool force = false)
         {
-            if (!force && _tag == (gridview.Parent.Tag?.ToString() ?? string.Empty))
+            if (!force && _tag == this.Parent.Tag + "")
                 return;
 
-            _tag = gridview.Parent.Tag?.ToString() ?? string.Empty;
+            _tag = this.Parent.Tag + "";
             Cache.Clear();
-            DataCount.Clear();
+            DataCount = new int[0];
 
-            var table = (DataTable)((BindingSource)gridview.DataSource).DataSource;
+            var table = (DataTable)((BindingSource)this.DataSource).DataSource;
             if ((table?.Rows.Count ?? 0) == 0)
                 return;
 
@@ -46,8 +40,7 @@ namespace ADGV
             Stopwatch sw = new Stopwatch();
             sw.Start();
 #endif
-
-            Parallel.For(0, table.Columns.Count, x => DataCount.TryAdd(x, 0)); //Prefill the DataCount set
+            DataCount = new int[table.Columns.Count];
 
             Parallel.ForEach(table.Rows.Cast<DataRow>(), row =>
             {
@@ -56,8 +49,7 @@ namespace ADGV
 
                 int key = (int)row[PrimaryKey.ColumnName];
                 var data = row.ItemArray;
-
-                Cache.TryAdd(key, new JavaScriptSerializer().Serialize(data)); //Store the JSON variant
+                Cache.TryAdd(key, SerializeObject(data)); //Store the JSON variant
                 GetColumnDataCount(data); //Update the empty column count
             });
 
@@ -72,12 +64,12 @@ namespace ADGV
         public void ChangeValue(DataRow row)
         {
             int key = (int)row[PrimaryKey.ColumnName];
-            var data = row.ItemArray.Select(x => x?.ToString() ?? "").ToArray();
+            var data = row.ItemArray.Select(x => x + "").ToArray();
 
             if (Cache.ContainsKey(key))
             {
                 UpdateColumnDataCount(key, data);
-                Cache[key] = new JavaScriptSerializer().Serialize(data);
+                Cache[key] = SerializeObject(data);
             }
             else
                 AddRow(row);
@@ -89,7 +81,7 @@ namespace ADGV
             if (key == -1) return;
 
             var data = row.ItemArray;
-            Cache.TryAdd(key, new JavaScriptSerializer().Serialize(data));
+            Cache.TryAdd(key, SerializeObject(data));
             GetColumnDataCount(data);
         }
 
@@ -100,9 +92,9 @@ namespace ADGV
             if (Cache.ContainsKey(key))
             {
                 string _dump;
-                if(Cache.TryRemove(key, out _dump))
+                if (Cache.TryRemove(key, out _dump))
                 {
-                    string[] vals = new JavaScriptSerializer().Deserialize<string[]>(_dump);
+                    string[] vals = DeserializeObject(_dump);
                     for (int i = 0; i < vals.Length; i++)
                         if (vals[i].Length > 0)
                             DataCount[i]--;
@@ -114,31 +106,28 @@ namespace ADGV
 
         #region Column Value Count
 
-        public List<int> GetEmptyColumns()
+        public IEnumerable<int> GetEmptyColumns()
         {
-            List<int> result = new List<int>();
-            foreach (var c in DataCount)
+            for (int i = 0; i < DataCount.Length; i++)
             {
-                if (c.Value <= 0)
+                if (DataCount[i] <= 0)
                 {
-                    DataCount[c.Key] = 0;
-                    result.Add(c.Key);
+                    DataCount[i] = 0;
+                    yield return i;
                 }
             }
-
-            return result;
         }
 
         private void GetColumnDataCount(object[] data)
         {
             for (int x = 0; x < data.Length; x++)
-                if (data[x] != null && data[x].ToString().Length > 0)
+                if ((data[x] + "").Length > 0)
                     DataCount[x]++;
         }
 
         private void UpdateColumnDataCount(int key, string[] data)
         {
-            string[] prev = new JavaScriptSerializer().Deserialize<string[]>(Cache[key]);
+            string[] prev = DeserializeObject(Cache[key]);
             for (int i = 0; i < data.Length; i++)
             {
                 if (prev[i].Length > 0 && data[i].Length == 0)
@@ -150,19 +139,20 @@ namespace ADGV
 
         #endregion
 
+        #region Search
         public Point Search(string text, bool exact, StringComparison comparison = StringComparison.CurrentCultureIgnoreCase, bool includestart = false)
         {
-            var startcell = gridview.CurrentCell; //Our original
+            var startcell = this.CurrentCell; //Our original
             var startindex = startcell.RowIndex;
             var startcolumn = startcell.ColumnIndex;
             bool looped = false;
-            var hidden = gridview.Columns.Cast<DataGridViewColumn>().Where(x => !x.Visible).Select(x => x.Index).ToArray();
+            var hidden = this.Columns.Cast<DataGridViewColumn>().Where(x => !x.Visible).Select(x => x.Index).ToList();
 
-            BindingSource bs = (BindingSource)gridview.DataSource;
+            BindingSource bs = (BindingSource)this.DataSource;
 
             //Get actual match
             FinalSearch:
-            for (int i = startindex; i < gridview.Rows.Count - 1; i++)
+            for (int i = startindex; i < this.Rows.Count - 1; i++)
             {
                 var pk = (int)((DataRowView)bs[i]).Row.ItemArray[PrimaryKey.Ordinal]; //Get the Id value
                 if (startcolumn > 0 && i != startindex)
@@ -173,7 +163,7 @@ namespace ADGV
                 if (Cache[pk].IndexOf(text, comparison) == -1) //Check the JSON haystack contains the needle
                     continue;
 
-                var data = new JavaScriptSerializer().Deserialize<string[]>(Cache[pk]);
+                var data = DeserializeObject(Cache[pk]);
                 for (int x = startcolumn; x < data.Length; x++)
                 {
                     //Don't search hidden columns
@@ -205,5 +195,50 @@ namespace ADGV
 
             return new Point(-1, -1); //No matches
         }
+        #endregion
+
+
+        #region Serialization
+        private string SerializeObject(Array array)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                foreach(var obj in array)
+                {
+                    var b = Encoding.UTF8.GetBytes(obj + "");
+                    var s = BitConverter.GetBytes((ushort)b.Length);
+
+                    ms.Write(s, 0, s.Length);
+                    ms.Write(b, 0, b.Length);
+                }
+
+                return Encoding.UTF8.GetString(ms.ToArray());
+            }
+        }
+        
+        private string[] DeserializeObject(string value)
+        {
+            var bytes = Encoding.UTF8.GetBytes(value);            
+            string[] _output = new string[DataCount.Length];
+
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                byte[] s = new byte[sizeof(ushort)];
+                byte[] b;
+
+                for (int i = 0; i < _output.Length; i++)
+                {
+                    ms.Read(s, 0, s.Length);
+                    int size = BitConverter.ToUInt16(s, 0);
+
+                    b = new byte[size];
+                    ms.Read(b, 0, b.Length);
+                    _output[i] = Encoding.UTF8.GetString(b);
+                }
+
+                return _output;
+            }
+        }
+        #endregion
     }
 }

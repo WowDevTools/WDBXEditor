@@ -115,6 +115,7 @@ namespace ADGV
             }
 
             dgvFilter.AllowUserToAddRows = true;
+            _activated = true;
         }
 
         private void FormCustomFilter_FormClosing(object sender, FormClosingEventArgs e)
