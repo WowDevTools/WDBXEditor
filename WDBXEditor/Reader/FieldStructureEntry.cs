@@ -9,7 +9,12 @@ namespace WDBXEditor.Reader
     public class FieldStructureEntry
     {
         public short Bits;
-        public ushort Count;
+        public ushort Offset;
+        public int Length = 1;
+
+        public bool CommonDataColumn => CommonDataType != 0xFF;
+        public byte CommonDataType;
+
         public int ByteCount
         {
             get
@@ -19,10 +24,16 @@ namespace WDBXEditor.Reader
             }
         }
 
-        public FieldStructureEntry(short bits, ushort count)
+        public FieldStructureEntry(short bits, ushort offset, byte commondatatype = 0xFF)
         {
             this.Bits = bits;
-            this.Count = count;
+            this.Offset = offset;
+            this.CommonDataType = commondatatype;
+        }
+
+        public void SetLength(FieldStructureEntry nextField)
+        {
+            this.Length = Math.Max(1, (int)Math.Floor((nextField.Offset - this.Offset) / (double)this.ByteCount));
         }
     }
 }

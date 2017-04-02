@@ -217,7 +217,7 @@ namespace WDBXEditor
             currentTable.Changed = true;
 
             //Update to prevent multiple indexes
-            if (e.ColumnIndex == dgvDefintion.Columns["Index"].Index)
+            if (e.ColumnIndex == dgvDefintion.Columns["colIndex"].Index)
             {
                 bool check = bool.Parse(dgvDefintion.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
                 if (check)

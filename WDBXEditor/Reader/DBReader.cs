@@ -45,6 +45,9 @@ namespace WDBXEditor.Reader
                 case "WDB5":
                     header = new WDB5();
                     break;
+                case "WDB6":
+                    header = new WDB6();
+                    break;
                 case "WCH5":
                     header = new WCH5(FileName);
                     break;
@@ -103,18 +106,15 @@ namespace WDBXEditor.Reader
                     stream.Dispose();
                     return entry;
                 }
-                else if (header.IsTypeOf<WDB5>() || header.IsTypeOf<WCH5>())
+                else if (header.IsTypeOf<WDB5>() || header.IsTypeOf<WCH5>() || header.IsTypeOf<WDB6>())
                 {
-                    WDB5 wdb5 = (header as WDB5);
-                    WCH5 wch5 = (header as WCH5);
-                    WCH7 wch7 = (header as WCH7);
-
-                    int CopyTableSize = wdb5?.CopyTableSize ?? 0; //Only WDB5 has a copy table
+                    int CopyTableSize = header.CopyTableSize; //Only WDB5 has a copy table
+                    uint CommonDataTableSize = header.CommonDataTableSize; //Only WDB6 has a CommonDataTable
 
                     //StringTable - only if applicable
-                    long copyTablePos = dbReader.BaseStream.Length - CopyTableSize;
+                    long copyTablePos = dbReader.BaseStream.Length - CommonDataTableSize - CopyTableSize;
                     long indexTablePos = copyTablePos - (header.HasIndexTable ? header.RecordCount * 4 : 0);
-                    long wch7TablePos = indexTablePos - (wch7?.UnknownWCH7 * 4 ?? 0);
+                    long wch7TablePos = indexTablePos - (header.UnknownWCH7 * 4);
                     long stringTableStart = wch7TablePos - header.StringBlockSize;
                     Dictionary<int, string> StringTable = new Dictionary<int, string>();
                     if (!header.HasOffsetTable) //Stringtable is only present if there isn't an offset map
@@ -128,16 +128,12 @@ namespace WDBXEditor.Reader
                     using (MemoryStream ms = new MemoryStream(header.ReadData(dbReader, pos)))
                     using (BinaryReader dataReader = new BinaryReader(ms, Encoding.UTF8))
                     {
+                        entry.UpdateColumnTypes();
                         ReadIntoTable(ref entry, dataReader, StringTable);
                     }
 
                     //Cleanup
-                    if (header.IsTypeOf<WDB5>())
-                        wdb5.OffsetLengths = null;
-                    else if (header.IsTypeOf<WCH5>())
-                        wch5.OffsetLengths = null;
-                    else if (header.IsTypeOf<WCH7>())
-                        wch7.OffsetLengths = null;
+                    header.OffsetLengths = null;
 
                     stream.Dispose();
                     return entry;
@@ -178,8 +174,10 @@ namespace WDBXEditor.Reader
             int[] padding = entry.TableStructure.Padding.ToArray();
 
             FieldStructureEntry[] bits = entry.GetBits();
-            uint recordsize = entry.Header.RecordSize + (uint)(entry.Header.HasIndexTable ? 4 : 0);
             int recordcount = Math.Max(entry.Header.OffsetLengths.Length, (int)entry.Header.RecordCount);
+            uint recordsize = entry.Header.RecordSize + (uint)(entry.Header.HasIndexTable ? 4 : 0);
+            if (entry.Header.CommonDataTableSize > 0)
+                recordsize = ((WDB6)entry.Header).RawRecordSize;
 
             entry.Data.BeginLoadData();
 
@@ -287,10 +285,10 @@ namespace WDBXEditor.Reader
                 StringTable st = new StringTable(entry.Header.ExtendedStringTable); //Preloads null byte(s)
                 entry.Header.WriteHeader(bw, entry);
 
-                if (entry.Header.IsTypeOf<WDB5>() && !entry.Header.HasOffsetTable)
-                    ReadIntoFile(entry, bw, entry.GetUniqueRows().ToArray(), ref st); //Insert unique rows
+                if (entry.Header.IsTypeOf<WDB5>() && !entry.Header.HasOffsetTable && entry.Header.CommonDataTableSize == 0)
+                    WriteIntoFile(entry, bw, entry.GetUniqueRows().ToArray(), ref st); //Insert unique rows
                 else
-                    ReadIntoFile(entry, bw, entry.Data.AsEnumerable(), ref st); //Insert all rows
+                    WriteIntoFile(entry, bw, entry.Data.AsEnumerable(), ref st); //Insert all rows
 
                 //Copy StringTable and StringTable size if it doesn't have inline strings
                 if (st.Size > 0 && !entry.Header.HasOffsetTable)
@@ -331,6 +329,10 @@ namespace WDBXEditor.Reader
                     //CopyTable - WDB5 only
                     if (entry.Header.IsTypeOf<WDB5>())
                         ((WDB5)entry.Header).WriteCopyTable(bw, entry);
+
+                    //CommonDataTable
+                    if(entry.Header.IsTypeOf<WDB6>())
+                        ((WDB6)entry.Header).WriteCommonDataTable(bw, entry);
                 }
 
                 //Copy data to file
@@ -339,16 +341,16 @@ namespace WDBXEditor.Reader
             }
         }
 
-        private void ReadIntoFile(DBEntry entry, BinaryWriter bw, IEnumerable<DataRow> rows, ref StringTable st)
+        private void WriteIntoFile(DBEntry entry, BinaryWriter bw, IEnumerable<DataRow> rows, ref StringTable st)
         {
             TypeCode[] columnTypes = entry.Data.Columns.Cast<DataColumn>().Select(x => Type.GetTypeCode(x.DataType)).ToArray();
             int[] padding = entry.TableStructure.Padding.ToArray();
             var bits = entry.GetBits();
 
             bool duplicates = false;
-            if (entry.Header.IsTypeOf<WDB2>() && ((WDB2)entry.Header).MaxId != 0) //WDB2 with MaxId > 0 allows duplicates
+            if (entry.Header.IsTypeOf<WDB2>() && entry.Header.MaxId != 0) //WDB2 with MaxId > 0 allows duplicates
                 duplicates = true;
-            else if (entry.Header.IsTypeOf<WCH7>() && ((WCH7)entry.Header).UnknownWCH7 != 0) //WCH7 with Unknown > 0 allows duplicates
+            else if (entry.Header.IsTypeOf<WCH7>() && entry.Header.UnknownWCH7 != 0) //WCH7 with Unknown > 0 allows duplicates
                 duplicates = true;
 
             var lastrow = rows.Last();
@@ -366,6 +368,9 @@ namespace WDBXEditor.Reader
                         continue;
 
                     if (entry.Header.IsTypeOf<WCH5>() && entry.Header.HasOffsetTable && j == 0) //Inline Id so skip
+                        continue;
+
+                    if (entry.Header.IsTypeOf<WDB6>() && (bits?[j].CommonDataColumn ?? false))
                         continue;
 
                     switch (columnTypes[j])
