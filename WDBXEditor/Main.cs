@@ -496,6 +496,9 @@ namespace WDBXEditor
                     using (var loaddefs = new LoadDefinition())
                     {
                         loaddefs.Files = mpq.FileNames.Values;
+                        if (loaddefs.Files.Count() == 0)
+                            loaddefs.Files = mpq.Streams.Keys;
+
                         if (loaddefs.ShowDialog(this) != DialogResult.OK)
                             return;
                     }
