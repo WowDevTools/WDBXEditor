@@ -107,7 +107,7 @@ namespace WDBXEditor.Reader.FileTypes
                     else
                     {
                         int bytecount = FieldStructure[IdIndex].ByteCount;
-                        int offset = FieldStructure[IdIndex].Count;
+                        int offset = FieldStructure[IdIndex].Offset;
 
                         int id = 0;
                         for (int j = 0; j < bytecount; j++)

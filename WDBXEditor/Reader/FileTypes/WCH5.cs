@@ -13,16 +13,8 @@ namespace WDBXEditor.Reader.FileTypes
 {
     public class WCH5 : DBHeader
     {
-        public uint TableHash { get; set; }
-        public uint LayoutHash { get; set; }
         public uint Build { get; set; }
         public uint TimeStamp { get; set; }
-        public int MinId { get; set; }
-        public int MaxId { get; set; }
-        public int Locale { get; set; }
-
-        public HeaderFlags Flags { get; set; }
-        public FieldStructureEntry[] FieldStructure { get; set; }
         public override bool ExtendedStringTable => true;
 
         public string FileName { get; set; }
@@ -63,8 +55,8 @@ namespace WDBXEditor.Reader.FileTypes
                 Flags = HeaderFlags.OffsetMap;
 
             base.ReadHeader(ref dbReader, signature);
-            TableHash = dbReader.ReadUInt32();
-            LayoutHash = dbReader.ReadUInt32();
+            TableHash = dbReader.ReadInt32();
+            LayoutHash = dbReader.ReadInt32();
             Build = dbReader.ReadUInt32();
             TimeStamp = dbReader.ReadUInt32();
             MinId = dbReader.ReadInt32();
@@ -134,7 +126,7 @@ namespace WDBXEditor.Reader.FileTypes
                     else
                     {
                         int bytecount = FieldStructure[IdIndex].ByteCount;
-                        int offset = FieldStructure[IdIndex].Count;
+                        int offset = FieldStructure[IdIndex].Offset;
 
                         int id = 0;
                         for (int j = 0; j < bytecount; j++)

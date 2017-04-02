@@ -12,13 +12,8 @@ namespace WDBXEditor.Reader.FileTypes
 {
     public class WDB2 : DBHeader
     {
-        public int TableHash { get; set; }
         public int Build { get; set; }
         public int TimeStamp { get; set; }
-        public int MinId { get; set; }
-        public int MaxId { get; set; }
-        public int Locale { get; set; }
-        public int CopyTableSize { get; set; }
         public int[] IndexMap { get; set; } //Maps index to row for all indicies between min and max
         public short[] StringLengths { get; set; } //Length of each string including the 0 byte character
 

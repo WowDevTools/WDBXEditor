@@ -14,25 +14,21 @@ namespace WDBXEditor.Reader.FileTypes
 {
     public class WDB5 : DBHeader
     {
-        public int TableHash { get; set; }
-        public int LayoutHash { get; set; }
-        public int MinId { get; set; }
-        public int MaxId { get; set; }
-        public int Locale { get; set; }
-        public int CopyTableSize { get; set; }
-
-        public HeaderFlags Flags { get; set; }
         public override bool ExtendedStringTable => true;
 
         public override bool HasOffsetTable => Flags.HasFlag(HeaderFlags.OffsetMap);
         public override bool HasIndexTable => Flags.HasFlag(HeaderFlags.IndexMap);
         public override bool HasSecondIndex => Flags.HasFlag(HeaderFlags.SecondIndex);
-        public FieldStructureEntry[] FieldStructure { get; set; }
 
         #region Read
         public void ReadHeader(BinaryReader dbReader, string signature)
         {
             ReadHeader(ref dbReader, signature);
+        }
+
+        public void ReadBaseHeader(ref BinaryReader dbReader, string signature)
+        {
+            base.ReadHeader(ref dbReader, signature);
         }
 
         public override void ReadHeader(ref BinaryReader dbReader, string signature)
@@ -52,17 +48,24 @@ namespace WDBXEditor.Reader.FileTypes
                 IdIndex = 0; //Ignored if Index Table
 
             //Gather field structures
-            List<FieldStructureEntry> field_structure = new List<FieldStructureEntry>();
+            FieldStructure = new List<FieldStructureEntry>();
             for (int i = 0; i < FieldCount; i++)
-                field_structure.Add(new FieldStructureEntry(dbReader.ReadInt16(), (ushort)(dbReader.ReadUInt16() + (HasIndexTable ? 4 : 0))));
+            {
+                var field = new FieldStructureEntry(dbReader.ReadInt16(), (ushort)(dbReader.ReadUInt16() + (HasIndexTable ? 4 : 0)));
+                FieldStructure.Add(field);
+
+                if (i > 0)
+                    FieldStructure[i - 1].SetLength(field);
+            }
 
             if (HasIndexTable)
             {
                 FieldCount++;
-                field_structure.Insert(0, new FieldStructureEntry(0, 0));
-            }
+                FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 
-            FieldStructure = field_structure.ToArray();
+                if (FieldCount > 1)
+                    FieldStructure[1].SetLength(FieldStructure[0]);
+            }
         }
 
         public Dictionary<int, byte[]> ReadOffsetData(BinaryReader dbReader, long pos)
@@ -142,7 +145,7 @@ namespace WDBXEditor.Reader.FileTypes
                     else
                     {
                         int bytecount = FieldStructure[IdIndex].ByteCount;
-                        int offset = FieldStructure[IdIndex].Count;
+                        int offset = FieldStructure[IdIndex].Offset;
 
                         int id = 0;
                         for (int j = 0; j < bytecount; j++)
@@ -195,6 +198,11 @@ namespace WDBXEditor.Reader.FileTypes
         #endregion
 
         #region Write
+        public virtual void WriteBaseHeader(BinaryWriter bw, DBEntry entry)
+        {
+            base.WriteHeader(bw, entry);
+        }
+
         public override void WriteHeader(BinaryWriter bw, DBEntry entry)
         {
             Tuple<int, int> minmax = entry.MinMax();
@@ -209,15 +217,15 @@ namespace WDBXEditor.Reader.FileTypes
             bw.Write(Locale);
             bw.Write(0); //CopyTableSize
             bw.Write((ushort)Flags); //Flags
-            bw.Write((ushort)IdIndex); //IdColumn
+            bw.Write(IdIndex); //IdColumn
 
             //Write the field_structure bits
-            for (int i = 0; i < FieldStructure.Length; i++)
+            for (int i = 0; i < FieldStructure.Count; i++)
             {
                 if (HasIndexTable && i == 0) continue;
 
                 bw.Write(FieldStructure[i].Bits);
-                bw.Write(HasIndexTable ? (ushort)(FieldStructure[i].Count - 4) : FieldStructure[i].Count);
+                bw.Write(HasIndexTable ? (ushort)(FieldStructure[i].Offset - 4) : FieldStructure[i].Offset);
             }
         }
 
@@ -256,9 +264,10 @@ namespace WDBXEditor.Reader.FileTypes
         {
             int m = 0;
             int[] ids;
+            int index = entry.Data.Columns.IndexOf(entry.Key);
 
             if (!HasOffsetTable)
-                ids = entry.GetUniqueRows().Select(x => x.Field<int>(IdIndex)).ToArray();
+                ids = entry.GetUniqueRows().Select(x => x.Field<int>(index)).ToArray();
             else
                 ids = entry.GetPrimaryKeys().ToArray();
 
@@ -283,18 +292,19 @@ namespace WDBXEditor.Reader.FileTypes
             bw.WriteArray(ids);
         }
 
-        public void WriteCopyTable(BinaryWriter bw, DBEntry entry)
+        public virtual void WriteCopyTable(BinaryWriter bw, DBEntry entry)
         {
-            if (HasOffsetTable)
+            if (HasOffsetTable || CommonDataTableSize > 0)
                 return;
 
+            int index = entry.Data.Columns.IndexOf(entry.Key);
             var copyRows = entry.GetCopyRows();
             if (copyRows.Count() > 0)
             {
                 int size = 0;
                 foreach (var copies in copyRows)
                 {
-                    int keyIndex = ((DataRow)copies.Key).Field<int>(IdIndex);
+                    int keyIndex = ((DataRow)copies.Key).Field<int>(index);
                     foreach (var copyid in copies.Copies)
                     {
                         bw.Write((int)copyid);
@@ -304,8 +314,10 @@ namespace WDBXEditor.Reader.FileTypes
                 }
 
                 //Set CopyTableSize
+                long pos = bw.BaseStream.Position;
                 bw.Scrub(0x28);
                 bw.Write(size);
+                bw.Scrub(pos);
             }
         }
 
