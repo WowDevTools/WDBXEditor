@@ -27,6 +27,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -98,17 +100,19 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.6.0\lib\netstandard1.1\System.Threading.Tasks.Dataflow.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.7.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -218,11 +222,11 @@
     <Compile Include="Forms\TextEditor.Designer.cs">
       <DependentUpon>TextEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\WD5Parser.cs">
+    <Compile Include="Forms\LegionParser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\WD5Parser.Designer.cs">
-      <DependentUpon>WD5Parser.cs</DependentUpon>
+    <Compile Include="Forms\LegionParser.Designer.cs">
+      <DependentUpon>LegionParser.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoadCSV.cs">
       <SubType>Form</SubType>
@@ -267,6 +271,7 @@
     <Compile Include="Reader\FileTypes\WDB.cs" />
     <Compile Include="Reader\FileTypes\WDB2.cs" />
     <Compile Include="Reader\FileTypes\WDB5.cs" />
+    <Compile Include="Reader\FileTypes\WDB6.cs" />
     <Compile Include="Reader\FileTypes\WDBC.cs" />
     <Compile Include="Reader\FieldStructureEntry.cs" />
     <Compile Include="Reader\MemoryReader.cs" />
@@ -301,8 +306,8 @@
     <EmbeddedResource Include="Forms\TextEditor.resx">
       <DependentUpon>TextEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\WD5Parser.resx">
-      <DependentUpon>WD5Parser.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\LegionParser.resx">
+      <DependentUpon>LegionParser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoadCSV.resx">
       <DependentUpon>LoadCSV.cs</DependentUpon>
@@ -391,6 +396,11 @@
     </Content>
     <Content Include="Definitions\Legion 7.1.0 %2822578%29.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Definitions\Legion 7.2.0 %2823835%29.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Definitions\MoP 5.4.8 %2818414%29.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
