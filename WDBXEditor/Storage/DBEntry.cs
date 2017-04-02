@@ -17,6 +17,12 @@ using static WDBXEditor.Common.Extensions;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Web.Script.Serialization;
+using System.Diagnostics;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO.MemoryMappedFiles;
+using System.Security.AccessControl;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace WDBXEditor.Storage
 {
@@ -28,19 +34,20 @@ namespace WDBXEditor.Storage
         public string FilePath { get; private set; }
         public string FileName => Path.GetFileName(this.FilePath);
         public string SavePath { get; set; }
-        public Table TableStructure { get; private set; }
+        public Table TableStructure => Header.TableStructure;
 
         public string Key { get; private set; }
         public int Build { get; private set; }
         public string BuildName { get; private set; }
         public string Tag { get; private set; }
 
+
         public DBEntry(DBHeader header, string filepath)
         {
             this.Header = header;
             this.FilePath = filepath;
             this.SavePath = filepath;
-            this.TableStructure = Database.Definitions.Tables.FirstOrDefault(x =>
+            this.Header.TableStructure = Database.Definitions.Tables.FirstOrDefault(x =>
                                           x.Name.Equals(Path.GetFileNameWithoutExtension(filepath), IGNORECASE) &&
                                           x.Build == Database.BuildNumber);
 
@@ -68,7 +75,7 @@ namespace WDBXEditor.Storage
                 return;
             }
 
-            Data = new DataTable() { TableName = "Data", CaseSensitive = false };
+            Data = new DataTable() { TableName = Tag, CaseSensitive = false, RemotingFormat = SerializationFormat.Binary };
 
             var LocalizationCount = (Build <= (int)ExpansionFinalBuild.Classic ? 9 : 17); //Pre TBC had 9 locales
 
@@ -136,7 +143,7 @@ namespace WDBXEditor.Storage
                             Data.Columns.Add(columnName, typeof(ushort));
                             Data.Columns[columnName].DefaultValue = 0;
                             break;
-                        case "loc": 
+                        case "loc":
                             //Special case for localized strings, build up all locales and add string mask
                             for (int x = 0; x < LocalizationCount; x++)
                             {
@@ -179,22 +186,31 @@ namespace WDBXEditor.Storage
             Data.Columns[Key].Unique = true;
         }
 
-        /// <summary>
-        /// Gets the Min and Max ids
-        /// </summary>
-        /// <returns></returns>
-        public Tuple<int, int> MinMax()
+        public void Detach()
         {
-            int min = int.MaxValue;
-            int max = int.MinValue;
-            foreach (DataRow dr in Data.Rows)
-            {
-                int val = dr.Field<int>(Key);
-                min = Math.Min(min, val);
-                max = Math.Max(max, val);
-            }
-            return new Tuple<int, int>(min, max);
+            if (Data == null)
+                return;
+
+            Data.Detach(Path.Combine(TEMP_FOLDER, Tag + ".cache"));
+            Data.Clear();
+            Data.Dispose();
+            Data = null;
         }
+
+        public void Attach()
+        {
+            if (Data != null && Data.Rows.Count > 0)
+                return;
+
+            using (FileStream fs = new FileStream(Path.Combine(TEMP_FOLDER, Tag + ".cache"), FileMode.Open))
+            using (var mmf = MemoryMappedFile.CreateFromFile(fs, Tag, fs.Length, MemoryMappedFileAccess.ReadWrite, null, HandleInheritability.None, false))
+            using (var stream = mmf.CreateViewStream(0, fs.Length, MemoryMappedFileAccess.Read))
+            {
+                var formatter = new BinaryFormatter();
+                Data = (DataTable)formatter.Deserialize(stream);
+            }
+        }
+
 
         /// <summary>
         /// Checks if the file is of Name and Expansion
@@ -213,6 +229,7 @@ namespace WDBXEditor.Storage
             return TableStructure.Name.Equals(filename, IGNORECASE);
         }
 
+
         /// <summary>
         /// Generates a Bit map for all columns as the Blizzard one combines array columns
         /// </summary>
@@ -223,6 +240,7 @@ namespace WDBXEditor.Storage
             if (!Header.IsTypeOf<WDB5>())
                 return bits;
 
+            var fields = ((WDB5)Header).FieldStructure;
             int c = 0;
             for (int i = 0; i < TableStructure.Fields.Count; i++)
             {
@@ -230,7 +248,8 @@ namespace WDBXEditor.Storage
                 for (int x = 0; x < f.ArraySize; x++)
                 {
                     bits[c] = new FieldStructureEntry(0, 0);
-                    bits[c].Bits = ((WDB5)Header).FieldStructure[i]?.Bits ?? 0;
+                    bits[c].Bits = fields[i]?.Bits ?? 0;
+                    bits[c].CommonDataType = fields[i]?.CommonDataType ?? 0xFF;
                     c++;
                 }
             }
@@ -238,8 +257,73 @@ namespace WDBXEditor.Storage
             return bits;
         }
 
+        public void UpdateColumnTypes()
+        {
+            if (!Header.IsTypeOf<WDB6>())
+                return;
+
+            var fields = ((WDB6)Header).FieldStructure;
+            int c = 0;
+            for (int i = 0; i < TableStructure.Fields.Count; i++)
+            {
+                int arraySize = TableStructure.Fields[i].ArraySize;
+
+                if (!fields[i].CommonDataColumn)
+                {
+                    c += arraySize;
+                    continue;
+                }
+
+                Type columnType;
+                switch (fields[i].CommonDataType)
+                {
+                    case 0:
+                        columnType = typeof(string);
+                        break;
+                    case 1:
+                        columnType = typeof(ushort);
+                        break;
+                    case 2:
+                        columnType = typeof(byte);
+                        break;
+                    case 3:
+                        columnType = typeof(float);
+                        break;
+                    case 4:
+                        columnType = typeof(int);
+                        break;
+                    default:
+                        c += arraySize;
+                        continue;
+                }
+
+                for (int x = 0; x < arraySize; x++)
+                {
+                    Data.Columns[c].DataType = columnType;
+                    c++;
+                }
+            }
+        }
+
 
         #region Special Data
+        /// <summary>
+        /// Gets the Min and Max ids
+        /// </summary>
+        /// <returns></returns>
+        public Tuple<int, int> MinMax()
+        {
+            int min = int.MaxValue;
+            int max = int.MinValue;
+            foreach (DataRow dr in Data.Rows)
+            {
+                int val = dr.Field<int>(Key);
+                min = Math.Min(min, val);
+                max = Math.Max(max, val);
+            }
+            return new Tuple<int, int>(min, max);
+        }
+
         /// <summary>
         /// Gets a list of Ids
         /// </summary>
@@ -457,7 +541,7 @@ namespace WDBXEditor.Storage
 
                 Rows.Add(row);
             });
-            
+
             return new JavaScriptSerializer() { MaxJsonLength = int.MaxValue }.Serialize(Rows);
         }
 
@@ -617,7 +701,7 @@ namespace WDBXEditor.Storage
                     adapter.FillSchema(importTable, SchemaType.Source); //Enforce schema
                     adapter.Fill(importTable);
                 }
-                catch(ConstraintException ex)
+                catch (ConstraintException ex)
                 {
                     error = ex.Message;
                     return false;
@@ -704,8 +788,8 @@ namespace WDBXEditor.Storage
 
         public void Dispose()
         {
-            this.Data.Reset();
-            ((IDisposable)this.Data).Dispose();
+            this.Data?.Dispose();
+            this.Data = null;
         }
     }
 }
