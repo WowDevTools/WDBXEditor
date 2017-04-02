@@ -1,6 +1,6 @@
 ﻿namespace WDBXEditor.Forms
 {
-    partial class WD5Parser
+    partial class LegionParser
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WD5Parser));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LegionParser));
             this.btnSelect = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtBuild = new System.Windows.Forms.TextBox();
@@ -176,7 +176,7 @@
             this.Parsed.Name = "Parsed";
             this.Parsed.ReadOnly = true;
             // 
-            // WD5Parser
+            // LegionParser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -192,9 +192,9 @@
             this.MaximumSize = new System.Drawing.Size(470, 426);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(470, 426);
-            this.Name = "WD5Parser";
+            this.Name = "LegionParser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "WDB5 Parser";
+            this.Text = "Legion Parser (WDB5, WDB6)";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgFiles)).EndInit();
