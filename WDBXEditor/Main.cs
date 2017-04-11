@@ -232,13 +232,13 @@ namespace WDBXEditor
 
         private void advancedDataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            if (isLoaded)
+            if (isLoaded && LoadedEntry.Data != null)
                 txtStats.Text = $"{LoadedEntry.Data.Columns.Count} fields, {LoadedEntry.Data.Rows.Count} rows";
         }
 
         private void advancedDataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            if (isLoaded)
+            if (isLoaded && LoadedEntry.Data != null)
                 txtStats.Text = $"{LoadedEntry.Data.Columns.Count} fields, {LoadedEntry.Data.Rows.Count} rows";
         }
 

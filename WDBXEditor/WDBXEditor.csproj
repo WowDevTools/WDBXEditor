@@ -399,7 +399,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Definitions\Legion 7.2.0 %2823835%29.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Definitions\MoP 5.4.8 %2818414%29.xml">
