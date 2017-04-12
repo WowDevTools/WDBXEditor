@@ -914,7 +914,7 @@
     <Field Name="ExtendedDisplayInfoID" Type="uint" />
     <Field Name="TextureVariation" Type="uint" ArraySize="3" />
     <Field Name="PortraitTextureFileDataID" Type="uint" />
-    <Field Name="CreatureModelAlpha" Type="byte" />
+    <Field Name="CreatureModelAlpha" Type="byte" DefaultValue="255" />
     <Field Name="SoundID" Type="ushort" />
     <Field Name="PlayerModelScale" Type="float" />
     <Field Name="PortraitCreatureDisplayInfoID" Type="uint" />
@@ -923,7 +923,7 @@
     <Field Name="CreatureGeosetData" Type="uint" />
     <Field Name="ObjectEffectPackageID" Type="ushort" />
     <Field Name="AnimReplacementSetID" Type="ushort" />
-    <Field Name="UnarmedWeaponSubclass" Type="byte" />
+    <Field Name="UnarmedWeaponSubclass" Type="byte" DefaultValue="255" />
     <Field Name="StateSpellVisualKitID" Type="uint" />
     <Field Name="InstanceOtherPlayerPetScale" Type="float" />
     <Field Name="MountSpellVisualKitID" Type="uint" />
@@ -4049,7 +4049,7 @@
     <Field Name="EffectAmplitude" Type="float" />
     <Field Name="EffectAuraPeriod" Type="int" />
     <Field Name="EffectBonusCoefficient" Type="float" />
-    <Field Name="EffectChainAmplitude" Type="float" />
+    <Field Name="EffectChainAmplitude" Type="float" DefaultValue="1" />
     <Field Name="EffectChainTargets" Type="uint" />
     <Field Name="EffectDieSides" Type="int" />
     <Field Name="EffectItemType" Type="uint" />
@@ -4060,7 +4060,7 @@
     <Field Name="EffectPosFacing" Type="float" />
     <Field Name="EffectAttributes" Type="uint" />
     <Field Name="BonusCoefficientFromAP" Type="float" />
-    <Field Name="PvPMultiplier" Type="float" />
+    <Field Name="PvPMultiplier" Type="float" DefaultValue="1" />
   </Table>
   <Table Name="SpellEffectEmission" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -4470,7 +4470,7 @@
     <Field Name="SpellID" Type="uint" />
     <Field Name="SpellVisualID" Type="uint" />
     <Field Name="m_ID" Type="int" IsIndex="true" />
-    <Field Name="Chance" Type="float" />
+    <Field Name="Chance" Type="float" DefaultValue="1" />
     <Field Name="CasterPlayerConditionID" Type="ushort" />
     <Field Name="CasterUnitConditionID" Type="ushort" />
     <Field Name="PlayerConditionID" Type="ushort" />
