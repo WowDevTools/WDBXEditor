@@ -160,7 +160,8 @@ namespace WDBXEditor
 
             if (dt != null)
             {
-                Task.Run(() => LoadedEntry?.Detach());
+                if (LoadedEntry != dt)
+                    Task.Run(() => LoadedEntry?.Detach());
                 dt.Attach();
 
                 this.Tag = dt.Tag;
