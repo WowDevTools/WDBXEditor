@@ -99,7 +99,8 @@
     <Field Name="m_roleplaying" Type="int" />
   </Table>
   <Table Name="CharacterFacialHairStyles" Build="5875">
-    <Field Name="m_raceID" Type="int" IsIndex="true" />
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="m_raceID" Type="int" />
     <Field Name="m_sexID" Type="int" />
     <Field Name="m_VariationID" Type="int" />
     <Field Name="m_Geoset" Type="int" ArraySize="6" />

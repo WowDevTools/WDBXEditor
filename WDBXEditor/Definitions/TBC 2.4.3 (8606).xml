@@ -112,6 +112,7 @@
     <Field Name="m_roleplaying" Type="int" />
   </Table>
   <Table Name="CharacterFacialHairStyles" Build="8606">
+    <Field Name="m_generatedID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="m_raceID" Type="int" IsIndex="true" />
     <Field Name="m_sexID" Type="int" />
     <Field Name="m_VariationID" Type="int" />
