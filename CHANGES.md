@@ -1,3 +1,12 @@
+## 1.0.6
+
+### Changes
+* WDB6 updated to parse 7.2.5+ versions
+* Definition files have been updated for 7.2.0
+* Additional fixes to the software
+* Added column names to 7.2.0 defintion
+* Definition files have been updated for 7.3.0
+
 ## 1.0.5
 
 ### Changes
