@@ -188,12 +188,9 @@ namespace WDBXEditor.Storage
 
         public void Detach()
         {
-            if (Data == null)
-                return;
-
-            Data.Detach(Path.Combine(TEMP_FOLDER, Tag + ".cache"));
-            Data.Clear();
-            Data.Dispose();
+            Data?.Detach(Path.Combine(TEMP_FOLDER, Tag + ".cache"));
+            Data?.Clear();
+            Data?.Dispose();
             Data = null;
         }
 

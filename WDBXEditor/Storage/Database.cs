@@ -53,8 +53,8 @@ namespace WDBXEditor.Storage
                                 Entries.Remove(current);
 
                             Entries.Add(entry);
-                            if (file != firstFile)
-                                entry.Detach();
+                            //if (file != firstFile)
+                            //    entry.Detach();
 
                             if (!string.IsNullOrWhiteSpace(reader.ErrorMessage))
                                 _errors.Add(FormatError(file, ErrorType.Warning, reader.ErrorMessage));

@@ -47,6 +47,12 @@ namespace ADGV
                 if ((row?.ItemArray.Length ?? 0) == 0)
                     return;
 
+                if (row.RowState == DataRowState.Deleted || row.RowState == DataRowState.Detached)
+                    return;
+
+                if (row[PrimaryKey.ColumnName] == DBNull.Value)
+                    return;
+
                 int key = (int)row[PrimaryKey.ColumnName];
                 var data = row.ItemArray;
                 Cache.TryAdd(key, SerializeObject(data)); //Store the JSON variant
@@ -142,6 +148,9 @@ namespace ADGV
         #region Search
         public Point Search(string text, bool exact, StringComparison comparison = StringComparison.CurrentCultureIgnoreCase, bool includestart = false)
         {
+            if (this.CurrentCell == null)
+                this.SetSelectedCellCore(0, 0, true);
+
             var startcell = this.CurrentCell; //Our original
             var startindex = startcell.RowIndex;
             var startcolumn = startcell.ColumnIndex;

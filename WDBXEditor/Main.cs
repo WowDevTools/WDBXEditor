@@ -160,9 +160,9 @@ namespace WDBXEditor
 
             if (dt != null)
             {
-                if (LoadedEntry != dt)
-                    Task.Run(() => LoadedEntry?.Detach());
-                dt.Attach();
+                //if (LoadedEntry != null && LoadedEntry != dt)
+                //    Task.Run(() => LoadedEntry?.Detach());
+                //dt.Attach();
 
                 this.Tag = dt.Tag;
                 this.Text = $"WDBX Editor - {dt.FileName} {dt.BuildName}";

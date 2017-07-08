@@ -112,7 +112,7 @@ namespace WDBXEditor.Reader.FileTypes
             {
                 if (HasOffsetTable)
                 {
-                    int id = m_indexes[CopyTable.Count];
+                    int id = m_indexes[Math.Min(CopyTable.Count, m_indexes.Length - 1)];
                     var map = offsetmap[i];
 
                     if (CopyTableSize == 0 && firstindex[map.Item1].HiddenIndex != i) //Ignore duplicates
@@ -188,7 +188,7 @@ namespace WDBXEditor.Reader.FileTypes
                     //New field not defined in header
                     if (i > FieldStructure.Count - 1)
                     {
-                        var offset = (ushort)((FieldStructure.Count == 0 ? 0 : FieldStructure[i - 1].Offset + FieldStructure[i - 1].ByteCount));                   
+                        var offset = (ushort)((FieldStructure.Count == 0 ? 0 : FieldStructure[i - 1].Offset + FieldStructure[i - 1].ByteCount));
                         FieldStructure.Add(new FieldStructureEntry(bit, offset, type));
 
                         if (FieldStructure.Count > 1)
@@ -196,7 +196,12 @@ namespace WDBXEditor.Reader.FileTypes
                     }
 
                     for (int x = 0; x < count; x++)
+                    {
                         commondatalookup[i].Add(dbReader.ReadInt32(), dbReader.ReadBytes(size));
+
+                        if (TableStructure == null || TableStructure?.Build > 24015)
+                            dbReader.ReadBytes(4 - size);
+                    }
                 }
 
                 var ids = CopyTable.Keys.ToArray();
@@ -330,12 +335,17 @@ namespace WDBXEditor.Reader.FileTypes
                     }
                 }
 
+
+                int padding = 4 - data.First().Value.Length;
                 bw.WriteInt32(data.Count); //Count
                 bw.Write(CommonDataTypes[typeCode]); //Type code
                 foreach (var d in data)
                 {
                     bw.WriteInt32(d.Key); //Id
                     bw.Write(d.Value); //Value
+
+                    if ((TableStructure == null || TableStructure?.Build > 24015) && padding > 0)
+                        bw.BaseStream.Position += padding;
                 }
             }
 
