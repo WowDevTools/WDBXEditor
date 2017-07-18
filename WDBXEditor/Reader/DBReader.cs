@@ -285,7 +285,7 @@ namespace WDBXEditor.Reader
                 StringTable st = new StringTable(entry.Header.ExtendedStringTable); //Preloads null byte(s)
                 entry.Header.WriteHeader(bw, entry);
 
-                if (entry.Header.IsTypeOf<WDB5>() && !entry.Header.HasOffsetTable && entry.Header.CommonDataTableSize == 0)
+                if (entry.Header.IsTypeOf<WDB5>() && !entry.Header.HasOffsetTable && entry.Header.CopyTableSize > 0)
                     WriteIntoFile(entry, bw, entry.GetUniqueRows().ToArray(), ref st); //Insert unique rows
                 else
                     WriteIntoFile(entry, bw, entry.Data.AsEnumerable(), ref st); //Insert all rows

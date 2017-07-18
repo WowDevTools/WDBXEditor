@@ -74,7 +74,7 @@ namespace WDBXEditor.Reader
             if (dbReader.BaseStream.Position > stringTableEnd)
                 return Table;
 
-            while (dbReader.BaseStream.Position != stringTableEnd)
+            while (dbReader.BaseStream.Position < stringTableEnd)
             {
                 int index = (int)(dbReader.BaseStream.Position - stringTableStart);
                 Table[index] = dbReader.ReadStringNull(); //Extract all the strings to the string table

@@ -71,7 +71,7 @@ namespace WDBXEditor.Reader
             bw.Write(Encoding.UTF8.GetBytes(Signature));
 
             //Record count
-            if (IsTypeOf<WDB5>() && !(this as WDB5).HasOffsetTable && entry.Header.CommonDataTableSize == 0)
+            if (IsTypeOf<WDB5>() && !(this as WDB5).HasOffsetTable && entry.Header.CopyTableSize > 0)
                 bw.Write(entry.GetUniqueRows().Count());
             else
                 bw.Write(entry.Data.Rows.Count);

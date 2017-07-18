@@ -294,7 +294,7 @@ namespace WDBXEditor.Reader.FileTypes
 
         public virtual void WriteCopyTable(BinaryWriter bw, DBEntry entry)
         {
-            if (HasOffsetTable || CommonDataTableSize > 0)
+            if (HasOffsetTable || CopyTableSize == 0)
                 return;
 
             int index = entry.Data.Columns.IndexOf(entry.Key);
@@ -323,7 +323,7 @@ namespace WDBXEditor.Reader.FileTypes
 
         public override void WriteRecordPadding(BinaryWriter bw, DBEntry entry, long offset)
         {
-            if (HasOffsetTable)
+            if (!IsTypeOf<WDB6>() && HasOffsetTable)
                 bw.BaseStream.Position += 2; //Offset map always has 2 bytes padding
             else
                 base.WriteRecordPadding(bw, entry, offset); //Scrub to the end of the record if necessary

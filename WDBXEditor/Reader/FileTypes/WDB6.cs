@@ -309,6 +309,7 @@ namespace WDBXEditor.Reader.FileTypes
 
                 var numberDefault = string.IsNullOrEmpty(defaultValue) ? "0" : defaultValue;
                 Dictionary<int, byte[]> data = new Dictionary<int, byte[]>();
+                int padding = 0;
 
                 //Only get data if CommonDataTable
                 if (FieldStructure[i].CommonDataColumn)
@@ -320,6 +321,11 @@ namespace WDBXEditor.Reader.FileTypes
                             break;
                         case TypeCode.UInt16:
                             data = rows.Where(x => (ushort)x[field] != ushort.Parse(numberDefault)).ToDictionary(x => (int)x[pk], y => BitConverter.GetBytes((ushort)y[field]));
+                            padding = 2;
+                            break;
+                        case TypeCode.Int16:
+                            data = rows.Where(x => (short)x[field] != short.Parse(numberDefault)).ToDictionary(x => (int)x[pk], y => BitConverter.GetBytes((short)y[field]));
+                            padding = 2;
                             break;
                         case TypeCode.Single:
                             data = rows.Where(x => (float)x[field] != float.Parse(numberDefault)).ToDictionary(x => (int)x[pk], y => BitConverter.GetBytes((float)y[field]));
@@ -327,8 +333,12 @@ namespace WDBXEditor.Reader.FileTypes
                         case TypeCode.Int32:
                             data = rows.Where(x => (int)x[field] != int.Parse(numberDefault)).ToDictionary(x => (int)x[pk], y => BitConverter.GetBytes((int)y[field]));
                             break;
+                        case TypeCode.UInt32:
+                            data = rows.Where(x => (uint)x[field] != uint.Parse(numberDefault)).ToDictionary(x => (int)x[pk], y => BitConverter.GetBytes((uint)y[field]));
+                            break;
                         case TypeCode.Byte:
                             data = rows.Where(x => (byte)x[field] != byte.Parse(numberDefault)).ToDictionary(x => (int)x[pk], y => new byte[] { (byte)y[field] });
+                            padding = 3;
                             break;
                         default:
                             continue;
@@ -336,7 +346,6 @@ namespace WDBXEditor.Reader.FileTypes
                 }
 
 
-                int padding = 4 - data.First().Value.Length;
                 bw.WriteInt32(data.Count); //Count
                 bw.Write(CommonDataTypes[typeCode]); //Type code
                 foreach (var d in data)
