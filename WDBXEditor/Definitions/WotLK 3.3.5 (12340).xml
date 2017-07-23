@@ -375,12 +375,12 @@
     <Field Name="m_creatureModelAlpha" Type="int" />
     <Field Name="m_textureVariation" Type="string" ArraySize="3" />
     <Field Name="m_portraitTextureName" Type="string" />
+    <Field Name="m_bloodLevel" Type="int" />
     <Field Name="m_bloodID" Type="int" />
     <Field Name="m_NPCSoundID" Type="int" />
     <Field Name="m_particleColorID" Type="int" />
     <Field Name="m_creatureGeosetData" Type="int" />
     <Field Name="m_objectEffectPackageID" Type="int" />
-    <Field Name="m_animReplacementSetID" Type="int" />
   </Table>
   <Table Name="CreatureDisplayInfoExtra" Build="12340">
     <Field Name="m_ID" Type="int" IsIndex="true" />
