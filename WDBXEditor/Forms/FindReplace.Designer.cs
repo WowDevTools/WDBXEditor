@@ -39,6 +39,8 @@
             this.lblResult = new System.Windows.Forms.Label();
             this.chkCase = new System.Windows.Forms.CheckBox();
             this.chkExact = new System.Windows.Forms.CheckBox();
+            this.rdoText = new System.Windows.Forms.RadioButton();
+            this.rdoFlag = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // txtFind
@@ -121,7 +123,7 @@
             // lblResult
             // 
             this.lblResult.AutoSize = true;
-            this.lblResult.Location = new System.Drawing.Point(12, 107);
+            this.lblResult.Location = new System.Drawing.Point(12, 114);
             this.lblResult.Name = "lblResult";
             this.lblResult.Size = new System.Drawing.Size(19, 13);
             this.lblResult.TabIndex = 6;
@@ -131,7 +133,7 @@
             // chkCase
             // 
             this.chkCase.AutoSize = true;
-            this.chkCase.Location = new System.Drawing.Point(90, 64);
+            this.chkCase.Location = new System.Drawing.Point(105, 64);
             this.chkCase.Name = "chkCase";
             this.chkCase.Size = new System.Drawing.Size(83, 17);
             this.chkCase.TabIndex = 7;
@@ -142,19 +144,43 @@
             // chkExact
             // 
             this.chkExact.AutoSize = true;
-            this.chkExact.Location = new System.Drawing.Point(90, 87);
+            this.chkExact.Location = new System.Drawing.Point(105, 87);
             this.chkExact.Name = "chkExact";
             this.chkExact.Size = new System.Drawing.Size(151, 17);
             this.chkExact.TabIndex = 8;
             this.chkExact.Text = "Match Entire Cell Contents";
             this.chkExact.UseVisualStyleBackColor = true;
             // 
+            // rdoText
+            // 
+            this.rdoText.AutoSize = true;
+            this.rdoText.Checked = true;
+            this.rdoText.Location = new System.Drawing.Point(105, 110);
+            this.rdoText.Name = "rdoText";
+            this.rdoText.Size = new System.Drawing.Size(76, 17);
+            this.rdoText.TabIndex = 10;
+            this.rdoText.TabStop = true;
+            this.rdoText.Text = "Text Mode";
+            this.rdoText.UseVisualStyleBackColor = true;
+            // 
+            // rdoFlag
+            // 
+            this.rdoFlag.AutoSize = true;
+            this.rdoFlag.Location = new System.Drawing.Point(187, 110);
+            this.rdoFlag.Name = "rdoFlag";
+            this.rdoFlag.Size = new System.Drawing.Size(75, 17);
+            this.rdoFlag.TabIndex = 11;
+            this.rdoFlag.Text = "Flag Mode";
+            this.rdoFlag.UseVisualStyleBackColor = true;
+            // 
             // FindReplace
             // 
             this.AcceptButton = this.btnFind;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 129);
+            this.ClientSize = new System.Drawing.Size(384, 137);
+            this.Controls.Add(this.rdoText);
+            this.Controls.Add(this.rdoFlag);
             this.Controls.Add(this.chkExact);
             this.Controls.Add(this.chkCase);
             this.Controls.Add(this.lblResult);
@@ -167,7 +193,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtFind);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 168);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(400, 168);
             this.Name = "FindReplace";
@@ -196,5 +221,7 @@
         private System.Windows.Forms.Label lblResult;
         private System.Windows.Forms.CheckBox chkCase;
         private System.Windows.Forms.CheckBox chkExact;
+        private System.Windows.Forms.RadioButton rdoText;
+        private System.Windows.Forms.RadioButton rdoFlag;
     }
 }
