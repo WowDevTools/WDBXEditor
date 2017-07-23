@@ -88,7 +88,9 @@ namespace WDBXEditor.Reader
                 if (!(header?.IsValidFile ?? false))
                     throw new Exception("Unknown file type.");
 
-                if (header.RecordCount == 0 || header.RecordSize == 0)
+                if (header.RecordSize == 0)
+                    throw new Exception("File contains no records.");
+                if(!header.IsTypeOf<WDB>() && header.RecordCount == 0)
                     throw new Exception("File contains no records.");
 
                 DBEntry entry = new DBEntry(header, dbFile);
@@ -141,8 +143,6 @@ namespace WDBXEditor.Reader
                 else if (header.IsTypeOf<WDB>())
                 {
                     WDB wdb = (WDB)header;
-                    wdb.ReadExtendedHeader(dbReader, entry.Build);
-
                     using (MemoryStream ms = new MemoryStream(wdb.ReadData(dbReader)))
                     using (BinaryReader dataReader = new BinaryReader(ms, Encoding.UTF8))
                     {
