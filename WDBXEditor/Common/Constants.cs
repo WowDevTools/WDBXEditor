@@ -282,6 +282,7 @@ namespace WDBXEditor.Common
             {22578,"Legion 7.1.0"},
             {23360,"Legion 7.1.5"},
             {23835,"Legion 7.2.0"},
+            {24461,"Legion 7.2.5"},
             {24492,"Legion 7.3.0"},
         };
         #endregion

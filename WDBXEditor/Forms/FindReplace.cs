@@ -112,13 +112,20 @@ namespace WDBXEditor
 
             DataGridViewCell c = _data.CurrentCell;
             Point r = new Point(-1, -1);
-            long flagvalue = 0;
+
+
+            long findflag = 0;
+            long replaceflag = 0;
 
             if (!rdoFlag.Checked)
+            {
                 r = _data.Search(txtFind.Text, chkExact.Checked, compare, true);
-            else if (rdoFlag.Checked && GetHex(txtFind.Text, out flagvalue))
-                r = _data.SearchFlag(flagvalue);
-
+            }
+            else if (rdoFlag.Checked && GetHex(txtFind.Text, out findflag))
+            {
+                r = _data.SearchFlag(findflag, true);
+                GetHex(txtReplace.Text, out replaceflag);
+            }
 
             if ((r.X == -1 || r.Y == -1))
             {
@@ -141,7 +148,9 @@ namespace WDBXEditor
                 else
                 {
                     long previous = Convert.ToInt64(_data.CurrentCell.Value);
-                    _data.CurrentCell.Value = Convert.ChangeType((previous & ~flagvalue), _data.CurrentCell.Value.GetType());
+                    previous &= ~findflag;
+                    previous |= replaceflag;
+                    _data.CurrentCell.Value = Convert.ChangeType(previous, _data.CurrentCell.Value.GetType());
                 }
 
 
@@ -160,16 +169,24 @@ namespace WDBXEditor
         {
             int found = 0;
             var start = _data.CurrentCell;
-            long flagvalue = 0;
+            long findflag = 0;
+            GetHex(txtReplace.Text, out long replaceflag);
+
+            HashSet<Point> completedCells = new HashSet<Point>();
 
             bool exit = false;
             while (!exit)
             {
                 Point cell = new Point(-1, -1);
+
                 if (!rdoFlag.Checked)
+                {
                     cell = _data.Search(txtFind.Text, chkExact.Checked, compare, true);
-                else if (rdoFlag.Checked && GetHex(txtFind.Text, out flagvalue))
-                    cell = _data.SearchFlag(flagvalue, true);
+                }
+                else if (rdoFlag.Checked && GetHex(txtFind.Text, out findflag))
+                {
+                    cell = _data.SearchFlag(findflag, true, completedCells);                    
+                }
 
                 if (cell.X == -1 || cell.Y == -1)
                 {
@@ -177,6 +194,8 @@ namespace WDBXEditor
                 }
                 else
                 {
+                    completedCells.Add(cell);
+
                     found++;
                     _data.CurrentCell = _data.Rows[cell.X].Cells[cell.Y];
 
@@ -190,7 +209,9 @@ namespace WDBXEditor
                     else
                     {
                         long previous = Convert.ToInt64(_data.Rows[cell.X].Cells[cell.Y].Value);
-                        _data.CurrentCell.Value = Convert.ChangeType((previous & ~flagvalue), _data.CurrentCell.Value.GetType());
+                        previous &= ~findflag;
+                        previous |= replaceflag;
+                        _data.CurrentCell.Value = Convert.ChangeType(previous, _data.CurrentCell.Value.GetType());
                     }
 
                     _data.EndEdit();

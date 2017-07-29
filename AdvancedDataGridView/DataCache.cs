@@ -205,7 +205,7 @@ namespace ADGV
             return new Point(-1, -1); //No matches
         }
 
-        public Point SearchFlag(long flag, bool includestart = false)
+        public Point SearchFlag(long flag, bool includestart = false, ICollection<Point> ignore = null)
         {
             if (this.CurrentCell == null)
                 this.SetSelectedCellCore(0, 0, true);
@@ -233,7 +233,7 @@ namespace ADGV
                     return new Point(-1, -1); //No matches
 
                 //Completed a full loop
-                if (i == startcell.RowIndex && looped)
+                if (i >= startcell.RowIndex && looped)
                     return new Point(-1, -1);
 
                 //Ignore start cell check
@@ -241,9 +241,12 @@ namespace ADGV
                     continue;
 
 
-                if (long.TryParse(data[startcolumn], out long value))
-                    if ((value & flag) == flag)
-                        return new Point(i, startcolumn);
+                if (long.TryParse(data[startcolumn], out long value) && (value & flag) == flag)
+                {
+                    Point result = new Point(i, startcolumn);
+                    if (ignore == null || !ignore.Contains(result))
+                        return result;
+                }
             }
 
             //Restart from the beginning
