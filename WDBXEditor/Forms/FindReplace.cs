@@ -112,10 +112,8 @@ namespace WDBXEditor
 
             DataGridViewCell c = _data.CurrentCell;
             Point r = new Point(-1, -1);
-
-
             long findflag = 0;
-            long replaceflag = 0;
+            GetHex(txtReplace.Text, out long replaceflag);
 
             if (!rdoFlag.Checked)
             {
