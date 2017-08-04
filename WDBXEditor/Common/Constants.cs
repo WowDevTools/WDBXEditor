@@ -136,19 +136,19 @@ namespace WDBXEditor.Common
         {
             var first = Builds.First();
             var last = Builds.Last();
-            string lastText = $"{first.Value} ({first.Key})";
+            string lastText = $"{first.Value} ({build})";
 
             if (build <= first.Key)
                 return lastText; //First build
             else if (build >= last.Key)
-                return $"{last.Value} ({last.Key})"; //Last build
+                return $"{last.Value} ({build})"; //Last build
 
             foreach (var b in Builds)
             {
                 if (build < b.Key)
                     return lastText;
 
-                lastText = $"{b.Value} ({b.Key})";
+                lastText = $"{b.Value} ({build})";
             }
 
             return lastText;
