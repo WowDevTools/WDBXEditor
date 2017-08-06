@@ -1,3 +1,17 @@
+## 1.0.7
+
+### Changes
+* Added reading cability for DBCache.bin
+	* This is the ADB replacement and like before requires a DB2 file preloaded to be read
+* Added Find and Replace flag (bitwise) logic to the Find and Replace screen
+	* When set to "Flag" mode it searches the first currently selected column only
+	* To add flags to all leave the "Find What" textbox blank
+	* To remove flags from all leave the "Replace With" textbox blank
+	* To replace specific flags use both the above textboes
+* Added named Alpha (0.5.3) defintions
+* Fixed SpellXSpellVisual definition for WoD
+* Fixed SQL script export locale
+
 ## 1.0.6
 
 ### Changes

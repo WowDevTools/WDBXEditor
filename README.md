@@ -12,13 +12,13 @@ AppVeyor | [![Build status](https://ci.appveyor.com/api/projects/status/y4sp6sij
 
 
 ## About
-This editor has full support for reading and saving all release versions of DBC, DB2, WDB and ADB. This does include support for Legion DB2 and ADB files and works with all variants (header flags) of these.
+This editor has full support for reading and saving all release versions of DBC, DB2, WDB, ADB and DBCache. This does include support for Legion DB2 and DBCache files and works with all variants (header flags) of these.
 Like the other editors I've used a definition based system whereby definitions tell the editor how to interpret each file's columns - this is a lot more reliable than guessing column types but does mean the definitions must be maintained. So far, I've mapped almost all expansions with MoP being ~50% complete and everything else being 99%+ (excluding column names).
 
 You will need [Microsoft .NET Framework 4.6.1](https://www.microsoft.com/en-us/download/details.aspx?id=49982) to run this application
 
 ##Features:
-* Full support of release versions of DBC, DB2, WDB and ADB (WCH3 and WCH4 are not supported as I deem them depreciated)
+* Full support of release versions of DBC, DB2, WDB, ADB and DBCache (WCH3 and WCH4 are not supported as I deem them depreciated)
 * Supports being the default file assocation
 * Opening and having open multiple files regardless of type and build
 * Open DBC/DB2 files from both MPQ archives and CASC directories
