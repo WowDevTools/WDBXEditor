@@ -292,11 +292,12 @@ namespace WDBXEditor.Common
 
         public static readonly Dictionary<string, string> SupportedFileTypes = new Dictionary<string, string>()
         {
-            {"All Files", "*.dbc;*.db2;*.adb;*.wdb" },
+            {"All Files", "*.dbc;*.db2;*.adb;*.wdb;DBCache.bin" },
             {"DBC Files", "*.dbc" },
             {"DB2 Files", "*.db2" },
             {"ADB Files", "*.adb" },
-            {"WDB Files", "*.wdb" }
+            {"WDB Files", "*.wdb" },
+            {"Hotfix Files", "DBCache.bin" },
         };
         #endregion
 

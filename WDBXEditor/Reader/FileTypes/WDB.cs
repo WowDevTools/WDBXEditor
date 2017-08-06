@@ -15,6 +15,7 @@ namespace WDBXEditor.Reader.FileTypes
         public int Unknown1 { get; set; }
         public int Unknown2 { get; set; }
         public int Build { get; set; }
+        public override bool CheckRecordCount => false;
 
         public override void ReadHeader(ref BinaryReader dbReader, string signature)
         {

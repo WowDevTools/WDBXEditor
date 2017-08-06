@@ -5401,4 +5401,7 @@
     <Field Name="field06" Type="ushort" />
     <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
+  <Table Name="DBCache" Build="23835">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+  </Table>
 </Definition>

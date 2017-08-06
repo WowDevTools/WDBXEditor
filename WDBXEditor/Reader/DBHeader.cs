@@ -20,7 +20,7 @@ namespace WDBXEditor.Reader
         public uint RecordSize { get; set; }
         public uint StringBlockSize { get; set; }
 
-        public int TableHash { get; set; }
+        public uint TableHash { get; set; }
         public int LayoutHash { get; set; }
         public int MinId { get; set; }
         public int MaxId { get; set; }
@@ -41,12 +41,16 @@ namespace WDBXEditor.Reader
 
         public bool IsTypeOf<T>() => this is T;
         public bool IsLegionFile => this is WDB5 || this is WCH5 || this is WCH7 || this is WCH8;
-        public bool IsValidFile => (IsTypeOf<WDB>() || IsTypeOf<WDB2>() || IsTypeOf<WDBC>() || IsLegionFile);
+        public bool IsValidFile => (IsTypeOf<WDB>() || IsTypeOf<WDB2>() || IsTypeOf<WDBC>() || IsTypeOf<HTFX>() || IsLegionFile);
 
         public virtual bool ExtendedStringTable => false;
         public virtual bool HasIndexTable => false;
         public virtual bool HasOffsetTable => false;
-        public virtual bool HasSecondIndex => false;        
+        public virtual bool HasSecondIndex => false;
+
+        public virtual bool CheckRecordCount => true;
+        public virtual bool CheckRecordSize => true;
+        public virtual bool CheckTableStructure => true;
 
         public Dictionary<int, int> OffsetDuplicates = new Dictionary<int, int>();
 
