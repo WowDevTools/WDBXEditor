@@ -806,7 +806,7 @@
     <Field Name="m_primaryStatOrder" Type="int" ArraySize="2" />
   </Table>
   <Table Name="ChrUpgradeBucket" Build="21742">
-  <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Name="Field00" Type="ushort" />
     <Field Name="Field02" Type="byte" />
   </Table>
@@ -911,16 +911,16 @@
     <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Type="int" Name="m_modelID" />
     <Field Type="int" Name="m_soundID" />
-	<Field Name="m_extendedDisplayInfoID" Type="int" />
+    <Field Name="m_extendedDisplayInfoID" Type="int" />
     <Field Name="m_creatureModelScale" Type="float" />
-	<Field Type="float" Name="m_playerModelScale" />
+    <Field Type="float" Name="m_playerModelScale" />
     <Field Name="m_creatureModelAlpha" Type="int" />
     <Field Type="string" Name="m_textureVariation" ArraySize="3" />
     <Field Type="string" Name="m_portraitTextureName" />
     <Field Type="int" Name="m_sizeClass" />
     <Field Type="int" Name="m_bloodID" />
     <Field Type="int" Name="m_NPCSoundID" />
-    <Field Type="int" Name="m_particleColorID" />	
+    <Field Type="int" Name="m_particleColorID" />
     <Field Type="int" Name="m_creatureGeosetData" />
     <Field Type="int" Name="m_objectEffectPackageID" />
     <Field Type="int" Name="m_animReplacementSetID" />
@@ -1560,7 +1560,7 @@
     <Field Name="Field14" Type="int" />
   </Table>
   <Table Name="GarrBuildingPlotInst" Build="21742">
-	<Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Name="Field00" Type="float" ArraySize="2" />
     <Field Name="Field08" Type="ushort" />
     <Field Name="Field0A" Type="ushort" />
@@ -4081,11 +4081,11 @@
     <Field Name="m_text" Type="string" />
   </Table>
   <Table Name="SpecializationSpells" Build="21742">
-	<Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Name="m_spellID" Type="int" />
     <Field Name="OverridesSpellID" Type="int" />
     <Field Name="SpecId" Type="int" />
-	<Field Name="Description" Type="string" />
+    <Field Name="Description" Type="string" />
   </Table>
   <Table Name="Spell" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -4440,7 +4440,7 @@
   </Table>
   <Table Name="SpellMiscDifficulty" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
-	<Field Name="Field00" Type="int" />
+    <Field Name="Field00" Type="int" />
     <Field Name="Field04" Type="byte" />
   </Table>
   <Table Name="SpellMissile" Build="21742">
@@ -4521,7 +4521,7 @@
   </Table>
   <Table Name="SpellReagents" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
-	<Field Name="SpellID" Type="int" />
+    <Field Name="SpellID" Type="int" />
     <Field Name="Reagent" Type="int" ArraySize="8" />
     <Field Name="ReagentCount" Type="ushort" ArraySize="8" />
   </Table>
@@ -4722,13 +4722,13 @@
     <Field Name="Field38" Type="float" ArraySize="3" />
   </Table>
   <Table Name="SpellXSpellVisual" Build="21742">
-	<Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="SpellID" Type="int" />
+    <Field Name="DifficultyID" Type="int" />
+    <Field Name="SpellVisualID" Type="int" ArraySize="2" />
     <Field Name="Unk620" Type="float" />
-    <Field Name="SpellVisualID" Type="ushort" ArraySize="2" />
-    <Field Name="PlayerConditionID" Type="ushort" />
-    <Field Name="DifficultyID" Type="byte" />
-    <Field Name="Flags" Type="byte" />
-	<Field Name="SpellID" Type="int" />
+    <Field Name="PlayerConditionID" Type="int" />
+    <Field Name="Flags" Type="int" />
   </Table>
   <Table Name="Startup_strings" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
