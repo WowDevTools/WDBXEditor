@@ -133,7 +133,7 @@
             // chkCase
             // 
             this.chkCase.AutoSize = true;
-            this.chkCase.Location = new System.Drawing.Point(105, 64);
+            this.chkCase.Location = new System.Drawing.Point(137, 64);
             this.chkCase.Name = "chkCase";
             this.chkCase.Size = new System.Drawing.Size(83, 17);
             this.chkCase.TabIndex = 7;
@@ -144,7 +144,7 @@
             // chkExact
             // 
             this.chkExact.AutoSize = true;
-            this.chkExact.Location = new System.Drawing.Point(105, 87);
+            this.chkExact.Location = new System.Drawing.Point(137, 87);
             this.chkExact.Name = "chkExact";
             this.chkExact.Size = new System.Drawing.Size(151, 17);
             this.chkExact.TabIndex = 8;
@@ -155,7 +155,7 @@
             // 
             this.rdoText.AutoSize = true;
             this.rdoText.Checked = true;
-            this.rdoText.Location = new System.Drawing.Point(105, 110);
+            this.rdoText.Location = new System.Drawing.Point(137, 110);
             this.rdoText.Name = "rdoText";
             this.rdoText.Size = new System.Drawing.Size(76, 17);
             this.rdoText.TabIndex = 10;
@@ -166,7 +166,7 @@
             // rdoFlag
             // 
             this.rdoFlag.AutoSize = true;
-            this.rdoFlag.Location = new System.Drawing.Point(187, 110);
+            this.rdoFlag.Location = new System.Drawing.Point(219, 110);
             this.rdoFlag.Name = "rdoFlag";
             this.rdoFlag.Size = new System.Drawing.Size(75, 17);
             this.rdoFlag.TabIndex = 11;
