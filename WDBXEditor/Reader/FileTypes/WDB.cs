@@ -15,24 +15,22 @@ namespace WDBXEditor.Reader.FileTypes
         public int Unknown1 { get; set; }
         public int Unknown2 { get; set; }
         public int Build { get; set; }
+        public override bool CheckRecordCount => false;
 
         public override void ReadHeader(ref BinaryReader dbReader, string signature)
         {
             this.Signature = signature;
             Build = dbReader.ReadInt32();
             Locale = dbReader.ReadString(4).Reverse();                  
-        }
 
-        public void ReadExtendedHeader(BinaryReader dbReader, int build)
-        {
             //WDB files < 1.6: Header length is 16 bytes
             //WDB files >= 1.6: Header length is 20 bytes(Verified till 1.9.4)
             //WDB files >= 3.0.8 - 9506: Header length is 24 bytes
 
-            if (build >= 4499)
+            if (Build >= 4499)
                 RecordSize = dbReader.ReadUInt32();
 
-            if (build >= 9506)
+            if (Build >= 9506)
             {
                 Unknown1 = dbReader.ReadInt32();
                 Unknown2 = dbReader.ReadInt32();

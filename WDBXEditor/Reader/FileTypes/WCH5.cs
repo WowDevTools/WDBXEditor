@@ -55,7 +55,7 @@ namespace WDBXEditor.Reader.FileTypes
                 Flags = HeaderFlags.OffsetMap;
 
             base.ReadHeader(ref dbReader, signature);
-            TableHash = dbReader.ReadInt32();
+            TableHash = dbReader.ReadUInt32();
             LayoutHash = dbReader.ReadInt32();
             Build = dbReader.ReadUInt32();
             TimeStamp = dbReader.ReadUInt32();

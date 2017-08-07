@@ -21,7 +21,7 @@ namespace WDBXEditor.Reader.FileTypes
         {
             ReadBaseHeader(ref dbReader, signature);
 
-            TableHash = dbReader.ReadInt32();
+            TableHash = dbReader.ReadUInt32();
             LayoutHash = dbReader.ReadInt32();
             MinId = dbReader.ReadInt32();
             MaxId = dbReader.ReadInt32();
@@ -199,7 +199,7 @@ namespace WDBXEditor.Reader.FileTypes
                     {
                         commondatalookup[i].Add(dbReader.ReadInt32(), dbReader.ReadBytes(size));
 
-                        if (TableStructure == null || TableStructure?.Build > 24015)
+                        if (TableStructure == null || TableStructure?.Build >= 24492)
                             dbReader.ReadBytes(4 - size);
                     }
                 }
@@ -353,7 +353,7 @@ namespace WDBXEditor.Reader.FileTypes
                     bw.WriteInt32(d.Key); //Id
                     bw.Write(d.Value); //Value
 
-                    if ((TableStructure == null || TableStructure?.Build > 24015) && padding > 0)
+                    if ((TableStructure == null || TableStructure?.Build >= 24492) && padding > 0)
                         bw.BaseStream.Position += padding;
                 }
             }

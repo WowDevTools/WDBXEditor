@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -130,13 +131,20 @@ namespace WDBXEditor.Common
 
             for (int i = 0; i < cols.Count; i++)
             {
-                if (cols[i].DataType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase)) //Escape formatting
+                if (cols[i].DataType == typeof(string)) //Escape formatting
                 {
                     string val = row[i].ToString().Replace(@"'", @"\'").Replace(@"""", @"\""");
                     sb.Append("\"" + val + "\",");
                 }
+                else if(cols[i].DataType == typeof(float))
+                {
+                    sb.Append(((float)row[i]).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ",");
+                }
                 else
+                {
                     sb.Append(row[i] + ",");
+                }
+                    
             }
 
             return sb.ToString().TrimEnd(',');

@@ -5397,4 +5397,7 @@
     <Field Name="field10" Type="uint" ArraySize="2" />
     <Field Name="field18" Type="int" />
   </Table>
+  <Table Name="DBCache" Build="24492">
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+  </Table>
 </Definition>

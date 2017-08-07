@@ -45,6 +45,7 @@ namespace WDBXEditor
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.lblCurrentProcess = new System.Windows.Forms.Label();
             this.progressBar = new WDBXEditor.Common.AutoProgressBar();
             this.txtStats = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -110,7 +111,6 @@ namespace WDBXEditor
             this.cbColumnMode = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.columnFilter = new WDBXEditor.Common.DropdownCheckList();
-            this.lblCurrentProcess = new System.Windows.Forms.Label();
             this.gbFiles.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.filecontextMenuStrip.SuspendLayout();
@@ -251,6 +251,16 @@ namespace WDBXEditor
             this.gbSettings.TabIndex = 2;
             this.gbSettings.TabStop = false;
             this.gbSettings.Text = "Statistics";
+            // 
+            // lblCurrentProcess
+            // 
+            this.lblCurrentProcess.AutoSize = true;
+            this.lblCurrentProcess.Location = new System.Drawing.Point(6, 155);
+            this.lblCurrentProcess.Name = "lblCurrentProcess";
+            this.lblCurrentProcess.Size = new System.Drawing.Size(35, 13);
+            this.lblCurrentProcess.TabIndex = 11;
+            this.lblCurrentProcess.Text = "label9";
+            this.lblCurrentProcess.Visible = false;
             // 
             // progressBar
             // 
@@ -642,6 +652,7 @@ namespace WDBXEditor
             this.wdb5ParserToolStripMenuItem.Name = "wdb5ParserToolStripMenuItem";
             this.wdb5ParserToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.wdb5ParserToolStripMenuItem.Text = "Legion Parser";
+            this.wdb5ParserToolStripMenuItem.Visible = false;
             this.wdb5ParserToolStripMenuItem.Click += new System.EventHandler(this.legionToolStripMenuItem_Click);
             // 
             // playerLocationRecorderToolStripMenuItem
@@ -834,16 +845,6 @@ namespace WDBXEditor
             this.columnFilter.TabStop = false;
             this.columnFilter.ItemCheckChanged += new System.Windows.Forms.ItemCheckEventHandler(this.columnFilter_ItemCheckChanged);
             this.columnFilter.HideEmptyPressed += new System.EventHandler(this.columnFilter_HideEmptyPressed);
-            // 
-            // lblCurrentProcess
-            // 
-            this.lblCurrentProcess.AutoSize = true;
-            this.lblCurrentProcess.Location = new System.Drawing.Point(6, 155);
-            this.lblCurrentProcess.Name = "lblCurrentProcess";
-            this.lblCurrentProcess.Size = new System.Drawing.Size(35, 13);
-            this.lblCurrentProcess.TabIndex = 11;
-            this.lblCurrentProcess.Text = "label9";
-            this.lblCurrentProcess.Visible = false;
             // 
             // Main
             // 

@@ -1,0 +1,960 @@
+<?xml version="1.0"?>
+<Definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Table Name="AreaMIDIAmbiences" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="DaySequence" Type="string" />
+    <Field Name="NightSequence" Type="string" />
+    <Field Name="DLSFile" Type="string" />
+    <Field Name="Volume" Type="float" />
+  </Table>
+  <Table Name="AreaPOI" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Importance" Type="int" />
+    <Field Name="Icon" Type="int" />
+    <Field Name="FactionID" Type="int" />
+    <Field Name="X" Type="float" />
+    <Field Name="Y" Type="float" />
+    <Field Name="Z" Type="float" />
+    <Field Name="ContinentID" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="AreaTable" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="AreaNumber" Type="int" />
+    <Field Name="ContinentID" Type="int" />
+    <Field Name="ParentAreaNum" Type="int" />
+    <Field Name="AreaBit" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="SoundProviderPref" Type="int" />
+    <Field Name="SoundProviderPrefUnderwater" Type="int" />
+    <Field Name="MIDIAmbience" Type="int" />
+    <Field Name="MIDIAmbienceUnderwater" Type="int" />
+    <Field Name="ZoneMusic" Type="int" />
+    <Field Name="IntroSound" Type="int" />
+    <Field Name="IntroPriority" Type="int" />
+    <Field Name="AreaName" Type="loc" />
+  </Table>
+  <Table Name="AreaTrigger" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ContinentID" Type="int" />
+    <Field Name="X" Type="float" />
+    <Field Name="Y" Type="float" />
+    <Field Name="Z" Type="float" />
+    <Field Name="Radius" Type="float" />
+  </Table>
+  <Table Name="AttackAnimKits" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ItemSubclassID" Type="int" />
+    <Field Name="AnimTypeID" Type="int" />
+    <Field Name="AnimFrequency" Type="int" />
+    <Field Name="WhichHand" Type="int" />
+  </Table>
+  <Table Name="AttackAnimTypes" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="AnimID" Type="int" />
+    <Field Name="AnimName" Type="string" />
+  </Table>
+  <Table Name="BankBagSlotPrices" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Cost" Type="int" />
+  </Table>
+  <Table Name="CameraShakes" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ShakeType" Type="int" />
+    <Field Name="Direction" Type="int" />
+    <Field Name="Amplitude" Type="float" />
+    <Field Name="Frequency" Type="float" />
+    <Field Name="Duration" Type="float" />
+    <Field Name="Phase" Type="float" />
+    <Field Name="Coefficient" Type="float" />
+  </Table>
+  <Table Name="CharacterCreateCameras" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="Race" Type="int" />
+    <Field Name="Sex" Type="int" />
+    <Field Name="Camera" Type="int" />
+    <Field Name="Height" Type="float" />
+    <Field Name="Radius" Type="float" />
+    <Field Name="Target" Type="float" />
+  </Table>
+  <Table Name="CharacterFacialHairStyles" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="RaceID" Type="int" />
+    <Field Name="GenderID" Type="int" />
+    <Field Name="VariationID" Type="int" />
+    <Field Name="BeardGeoset" Type="int" />
+    <Field Name="MoustacheGeoset" Type="int" />
+    <Field Name="SideburnGeoset" Type="int" />
+  </Table>
+  <Table Name="CharBaseInfo" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="RaceID" Type="byte" />
+    <Field Name="ClassID" Type="byte" />
+    <Field Name="Proficiency" Type="int" />
+  </Table>
+  <Table Name="CharHairGeosets" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="RaceID" Type="int" />
+    <Field Name="GenderID" Type="int" />
+    <Field Name="VariationID" Type="int" />
+    <Field Name="GeosetID" Type="int" />
+    <Field Name="Showscalp" Type="int" />
+  </Table>
+  <Table Name="CharHairTextures" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="RaceID" Type="int" />
+    <Field Name="GenderID" Type="int" />
+    <Field Name="field4" Type="int" />
+    <Field Name="field5" Type="int" />
+    <Field Name="field6" Type="int" />
+    <Field Name="field7" Type="int" />
+    <Field Name="field8" Type="int" />
+  </Table>
+  <Table Name="CharStartOutfit" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="RaceID" Type="byte" />
+    <Field Name="ClassID" Type="byte" />
+    <Field Name="GenderID" Type="byte" />
+    <Field Name="OutfitID" Type="byte" />
+    <Field Name="ItemID" Type="int" ArraySize="12" />
+    <Field Name="DisplayItemID" Type="int" ArraySize="12" />
+    <Field Name="InventoryType" Type="int" ArraySize="12" />
+  </Table>
+  <Table Name="CharTextureVariationsV2" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="RaceID" Type="int" />
+    <Field Name="GenderID" Type="int" />
+    <Field Name="SectionID" Type="int" />
+    <Field Name="VariationID" Type="int" />
+    <Field Name="ColorID" Type="int" />
+    <Field Name="IsNPC" Type="int" />
+    <Field Name="TextureName" Type="string" />
+  </Table>
+  <Table Name="CharVariations" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="RaceID" Type="int" />
+    <Field Name="GenderID" Type="int" />
+    <Field Name="TextureHoldLayer" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="ChrClasses" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="PlayerClass" Type="int" />
+    <Field Name="DamageBonusStat" Type="int" />
+    <Field Name="DisplayPower" Type="int" />
+    <Field Name="PetNameToken" Type="string" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="ChrProficiency" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Proficiency_minLevel" Type="int" ArraySize="16" />
+    <Field Name="Proficiency_acquireMethod" Type="int" ArraySize="16" />
+    <Field Name="Proficiency_itemClass" Type="int" ArraySize="16" />
+    <Field Name="Proficiency_itemSubClassMask" Type="int" ArraySize="16" />
+  </Table>
+  <Table Name="ChrRaces" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="FactionID" Type="int" />
+    <Field Name="MaleDisplayId" Type="int" />
+    <Field Name="FemaleDisplayId" Type="int" />
+    <Field Name="ClientPrefix" Type="string" />
+    <Field Name="MountScale" Type="float" />
+    <Field Name="BaseLanguage" Type="int" />
+    <Field Name="CreatureType" Type="int" />
+    <Field Name="LoginEffectSpellID" Type="int" />
+    <Field Name="CombatStunSpellID" Type="int" />
+    <Field Name="ResSicknessSpellID" Type="int" />
+    <Field Name="SplashSoundID" Type="int" />
+    <Field Name="StartingTaxiNodes" Type="int" />
+    <Field Name="ClientFileString" Type="string" />
+    <Field Name="CinematicSequenceID" Type="int" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="CinematicCamera" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Model" Type="string" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="OriginX" Type="float" />
+    <Field Name="OriginY" Type="float" />
+    <Field Name="OriginZ" Type="float" />
+    <Field Name="OriginFacing" Type="float" />
+  </Table>
+  <Table Name="CinematicSequences" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="Camera" Type="int" ArraySize="8" />
+  </Table>
+  <Table Name="CreatureDisplayInfo" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ModelID" Type="int" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="ExtendedDisplayInfoID" Type="int" />
+    <Field Name="CreatureModelScale" Type="float" />
+    <Field Name="CreatureModelAlpha" Type="int" />
+    <Field Name="TextureVariation" Type="string" ArraySize="3" />
+    <Field Name="BloodID" Type="int" />
+  </Table>
+  <Table Name="CreatureDisplayInfoExtra" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="DisplayRaceID" Type="int" />
+    <Field Name="DisplayGenderID" Type="int" />
+    <Field Name="SkinID" Type="int" />
+    <Field Name="FaceID" Type="int" />
+    <Field Name="HairStyleID" Type="int" />
+    <Field Name="HairColorID" Type="int" />
+    <Field Name="FacialHairID" Type="int" />
+    <Field Name="NPCItemDisplay" Type="int" ArraySize="10" />
+    <Field Name="BakeName" Type="string" />
+  </Table>
+  <Table Name="CreatureFamily" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="MinScale" Type="float" />
+    <Field Name="MinScaleLevel" Type="int" />
+    <Field Name="MaxScale" Type="float" />
+    <Field Name="MaxScaleLevel" Type="int" />
+    <Field Name="SkillLine" Type="int" ArraySize="2" />
+  </Table>
+  <Table Name="CreatureModelData" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="ModelName" Type="string" />
+    <Field Name="SizeClass" Type="int" />
+    <Field Name="ModelScale" Type="float" />
+    <Field Name="BloodID" Type="int" />
+    <Field Name="FootprintTextureID" Type="int" />
+    <Field Name="FootprintTextureLength" Type="float" />
+    <Field Name="FootprintTextureWidth" Type="float" />
+    <Field Name="FootprintParticleScale" Type="float" />
+    <Field Name="FoleyMaterialID" Type="int" />
+    <Field Name="FootstepShakeSize" Type="int" />
+    <Field Name="DeathThudShakeSize" Type="int" />
+    <Field Name="SoundID" Type="int" />
+  </Table>
+  <Table Name="CreatureSoundData" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SoundExertionID" Type="int" />
+    <Field Name="SoundExertionCriticalID" Type="int" />
+    <Field Name="SoundInjuryID" Type="int" />
+    <Field Name="SoundInjuryCriticalID" Type="int" />
+    <Field Name="SoundInjuryCrushingBlowID" Type="int" />
+    <Field Name="SoundDeathID" Type="int" />
+    <Field Name="SoundStunID" Type="int" />
+    <Field Name="SoundStandID" Type="int" />
+    <Field Name="SoundFootstepID" Type="int" />
+    <Field Name="SoundAggroID" Type="int" />
+    <Field Name="SoundWingFlapID" Type="int" />
+    <Field Name="SoundWingGlideID" Type="int" />
+    <Field Name="SoundAlertID" Type="int" />
+    <Field Name="SoundFidget" Type="int" ArraySize="4" />
+    <Field Name="CustomAttack" Type="int" ArraySize="4" />
+    <Field Name="NPCSoundID" Type="int" />
+    <Field Name="LoopSoundID" Type="int" />
+    <Field Name="CreatureImpactType" Type="int" />
+    <Field Name="SoundJumpStartID" Type="int" />
+    <Field Name="SoundJumpEndID" Type="int" />
+  </Table>
+  <Table Name="CreatureType" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="DeathThudLookups" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SizeClass" Type="int" />
+    <Field Name="TerrainTypeSoundID" Type="int" />
+    <Field Name="SoundEntryID" Type="int" />
+    <Field Name="SoundEntryIDWater" Type="int" />
+  </Table>
+  <Table Name="EmoteAnims" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ProcessedAnimIndex" Type="int" />
+    <Field Name="AnimName" Type="string" />
+  </Table>
+  <Table Name="Emotes" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="EmoteAnimID" Type="int" />
+    <Field Name="EmoteFlags" Type="int" />
+    <Field Name="EmoteSpecProc" Type="int" />
+    <Field Name="EmoteSpecProcParam" Type="int" />
+  </Table>
+  <Table Name="EmotesText" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="string" />
+    <Field Name="EmoteID" Type="int" />
+    <Field Name="EmoteText" Type="int" ArraySize="16" />
+  </Table>
+  <Table Name="EmotesTextData" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Text" Type="loc" />
+  </Table>
+  <Table Name="Faction" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ReputationIndex" Type="int" />
+    <Field Name="ReputationRaceMask" Type="int" ArraySize="4" />
+    <Field Name="ReputationClassMask" Type="int" ArraySize="4" />
+    <Field Name="ReputationBase" Type="int" ArraySize="4" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="FactionGroup" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="MaskID" Type="int" />
+    <Field Name="InternalName" Type="string" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="FactionTemplate" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Faction" Type="int" />
+    <Field Name="FactionGroup" Type="int" />
+    <Field Name="FriendGroup" Type="int" />
+    <Field Name="EnemyGroup" Type="int" />
+    <Field Name="Enemies" Type="int" ArraySize="4" />
+    <Field Name="Friend" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="FootprintTextures" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="FootstepFilename" Type="string" />
+  </Table>
+  <Table Name="FootstepTerrainLookup" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="CreatureFootstepID" Type="int" />
+    <Field Name="TerrainSoundID" Type="int" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="SoundIDSplash" Type="int" />
+  </Table>
+  <Table Name="GameObjectDisplayInfo" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ModelName" Type="string" />
+    <Field Name="Sound" Type="int" ArraySize="10" />
+  </Table>
+  <Table Name="GroundEffectDoodad" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="DoodadIdTag" Type="int" />
+    <Field Name="Doodadpath" Type="string" />
+  </Table>
+  <Table Name="GroundEffectTexture" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Datestamp" Type="int" />
+    <Field Name="ContinentId" Type="int" />
+    <Field Name="ZoneId" Type="int" />
+    <Field Name="TextureId" Type="int" />
+    <Field Name="TextureName" Type="string" />
+    <Field Name="DoodadId" Type="int" ArraySize="4" />
+    <Field Name="Density" Type="int" />
+    <Field Name="Sound" Type="int" />
+  </Table>
+  <Table Name="HelmetGeosetVisData" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="DefaultFlags" Type="int" ArraySize="32" />
+    <Field Name="PreferredFlags" Type="int" ArraySize="32" />
+    <Field Name="HideFlags" Type="int" ArraySize="32" />
+  </Table>
+  <Table Name="ItemClass" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="ClassID" Type="int" />
+    <Field Name="SubclassMapID" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="ClassName" Type="loc" />
+  </Table>
+  <Table Name="ItemDisplayInfo" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ModelName" Type="string" ArraySize="2" />
+    <Field Name="ModelTexture" Type="string" ArraySize="2" />
+    <Field Name="InventoryIcon" Type="string" />
+    <Field Name="GroundModel" Type="string" />
+    <Field Name="GeosetGroup" Type="int" ArraySize="4" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="SpellVisualID" Type="int" />
+    <Field Name="GroupSoundIndex" Type="int" />
+    <Field Name="ItemSize" Type="int" />
+    <Field Name="HelmetGeosetVisID" Type="int" />
+    <Field Name="Texture" Type="string" ArraySize="8" />
+    <Field Name="ItemVisual" Type="int" />
+  </Table>
+  <Table Name="ItemGroupSounds" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Sound" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="ItemSubClass" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="ClassID" Type="int" />
+    <Field Name="SubClassID" Type="int" />
+    <Field Name="PrerequisiteProficiency" Type="int" />
+    <Field Name="PostrequisiteProficiency" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="DisplayFlags" Type="int" />
+    <Field Name="WeaponParrySeq" Type="int" />
+    <Field Name="WeaponReadySeq" Type="int" />
+    <Field Name="WeaponAttackSeq" Type="int" />
+    <Field Name="WeaponSwingSize" Type="int" />
+    <Field Name="DisplayName" Type="loc" />
+    <Field Name="VerboseName" Type="loc" />
+  </Table>
+  <Table Name="ItemVisualEffects" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Model" Type="string" />
+  </Table>
+  <Table Name="ItemVisuals" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Slot" Type="int" ArraySize="5" />
+  </Table>
+  <Table Name="Languages" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="LanguageWords" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="LanguageID" Type="int" />
+    <Field Name="Word" Type="string" />
+  </Table>
+  <Table Name="Lock" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Type" Type="int" ArraySize="4" />
+    <Field Name="Index" Type="int" ArraySize="4" />
+    <Field Name="Skill" Type="int" ArraySize="4" />
+    <Field Name="Action" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="LockType" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="loc" />
+    <Field Name="ResourceName" Type="loc" />
+    <Field Name="Verb" Type="loc" />
+  </Table>
+  <Table Name="Map" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Directory" Type="string" />
+    <Field Name="PVP" Type="int" />
+    <Field Name="IsInMap" Type="int" />
+    <Field Name="MapName" Type="loc" />
+  </Table>
+  <Table Name="Material" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="MaterialID" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="FoleySoundID" Type="int" />
+  </Table>
+  <Table Name="NamesProfanity" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="string" />
+  </Table>
+  <Table Name="NamesReserved" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="string" />
+  </Table>
+  <Table Name="NPCSounds" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SoundID" Type="int" ArraySize="4" />
+  </Table>
+  <Table Name="PageTextMaterial" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="string" />
+  </Table>
+  <Table Name="PaperDollItemFrame" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="ItemButtonName" Type="string" />
+    <Field Name="SlotIcon" Type="string" />
+    <Field Name="SlotNumber" Type="int" />
+  </Table>
+  <Table Name="QuestInfo" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="InfoName" Type="loc" />
+  </Table>
+  <Table Name="QuestSort" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SortName" Type="loc" />
+  </Table>
+  <Table Name="Resistances" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="FizzleSoundID" Type="int" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="SheatheSoundLookups" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ClassID" Type="int" />
+    <Field Name="SubclassID" Type="int" />
+    <Field Name="Material" Type="int" />
+    <Field Name="CheckMaterial" Type="int" />
+    <Field Name="SheatheSound" Type="int" />
+    <Field Name="UnsheatheSound" Type="int" />
+  </Table>
+  <Table Name="SkillLine" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="RaceMask" Type="int" />
+    <Field Name="ClassMask" Type="int" />
+    <Field Name="ExcludeRace" Type="int" />
+    <Field Name="ExcludeClass" Type="int" />
+    <Field Name="CategoryID" Type="int" />
+    <Field Name="SkillType" Type="int" />
+    <Field Name="MinCharLevel" Type="int" />
+    <Field Name="MaxRank" Type="int" />
+    <Field Name="Abandonable" Type="int" />
+    <Field Name="DisplayName" Type="loc" />
+  </Table>
+  <Table Name="SkillLineAbility" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SkillLine" Type="int" />
+    <Field Name="Spell" Type="int" />
+    <Field Name="RaceMask" Type="int" />
+    <Field Name="ClassMask" Type="int" />
+    <Field Name="ExcludeRace" Type="int" />
+    <Field Name="ExcludeClass" Type="int" />
+    <Field Name="MinSkillLineRank" Type="int" />
+    <Field Name="SupercededBySpell" Type="int" />
+    <Field Name="TrivialSkillLineRankHigh" Type="int" />
+    <Field Name="TrivialSkillLineRankLow" Type="int" />
+    <Field Name="Abandonable" Type="int" />
+  </Table>
+  <Table Name="SoundCharacterMacroLines" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Category" Type="int" />
+    <Field Name="Sex" Type="int" />
+    <Field Name="Race" Type="int" />
+    <Field Name="SoundID" Type="int" />
+  </Table>
+  <Table Name="SoundEntries" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SoundType" Type="int" />
+    <Field Name="Name" Type="string" />
+    <Field Name="File" Type="string" ArraySize="10" />
+    <Field Name="Freq" Type="int" ArraySize="10" />
+    <Field Name="DirectoryBase" Type="string" />
+    <Field Name="VolumeFloat" Type="float" />
+    <Field Name="Pitch" Type="float" />
+    <Field Name="PitchVariation" Type="float" />
+    <Field Name="Priority" Type="int" />
+    <Field Name="Channel" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="MinDistance" Type="float" />
+    <Field Name="MaxDistance" Type="float" />
+    <Field Name="DistanceCutoff" Type="float" />
+    <Field Name="EAXDef" Type="int" />
+  </Table>
+  <Table Name="SoundProviderPreferences" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Description" Type="string" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="EAXEnvironmentSelection" Type="int" />
+    <Field Name="EAXEffectVolume" Type="float" />
+    <Field Name="EAXDecayTime" Type="float" />
+    <Field Name="EAXDamping" Type="float" />
+    <Field Name="EAX2EnvironmentSize" Type="float" />
+    <Field Name="EAX2EnvironmentDiffusion" Type="float" />
+    <Field Name="EAX2Room" Type="int" />
+    <Field Name="EAX2RoomHF" Type="int" />
+    <Field Name="EAX2DecayHFRatio" Type="float" />
+    <Field Name="EAX2Reflections" Type="int" />
+    <Field Name="EAX2ReflectionsDelay" Type="float" />
+    <Field Name="EAX2Reverb" Type="int" />
+    <Field Name="EAX2ReverbDelay" Type="float" />
+    <Field Name="EAX2RoomRolloff" Type="float" />
+    <Field Name="EAX2AirAbsorption" Type="float" />
+    <Field Name="EAX3RoomLF" Type="int" />
+    <Field Name="EAX3DecayLFRatio" Type="float" />
+    <Field Name="EAX3EchoTime" Type="float" />
+    <Field Name="EAX3EchoDepth" Type="float" />
+    <Field Name="EAX3ModulationTime" Type="float" />
+    <Field Name="EAX3ModulationDepth" Type="float" />
+    <Field Name="EAX3HFReference" Type="float" />
+    <Field Name="EAX3LFReference" Type="float" />
+  </Table>
+  <Table Name="SoundSamplePreferences" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="EAX1EffectLevel" Type="float" />
+    <Field Name="EAX2SampleDirect" Type="int" />
+    <Field Name="EAX2SampleDirectHF" Type="int" />
+    <Field Name="EAX2SampleRoom" Type="int" />
+    <Field Name="EAX2SampleRoomHF" Type="int" />
+    <Field Name="EAX2SampleObstruction" Type="float" />
+    <Field Name="EAX2SampleObstructionLFRatio" Type="float" />
+    <Field Name="EAX2SampleOcclusion" Type="float" />
+    <Field Name="EAX2SampleOcclusionLFRatio" Type="float" />
+    <Field Name="EAX2SampleOcclusionRoomRatio" Type="float" />
+    <Field Name="EAX2SampleRoomRolloff" Type="float" />
+    <Field Name="EAX2SampleAirAbsorption" Type="float" />
+    <Field Name="EAX2SampleOutsideVolumeHF" Type="int" />
+    <Field Name="EAX3SampleOcclusionDirectRatio" Type="float" />
+    <Field Name="EAX3SampleExclusion" Type="float" />
+    <Field Name="EAX3SampleExclusionLFRatio" Type="float" />
+    <Field Name="EAX3SampleDopplerFactor" Type="float" />
+    <Field Name="Fast2DPredelayTime" Type="float" />
+    <Field Name="Fast2DDamping" Type="float" />
+    <Field Name="Fast2DReverbTime" Type="float" />
+  </Table>
+  <Table Name="SoundWaterType" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SoundType" Type="int" />
+    <Field Name="SoundSubtype" Type="int" />
+    <Field Name="SoundID" Type="int" />
+  </Table>
+  <Table Name="Spell" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="School" Type="int" />
+    <Field Name="Category" Type="int" />
+    <Field Name="CastUI" Type="int" />
+    <Field Name="Attributes" Type="int" />
+    <Field Name="AttributesEx" Type="int" />
+    <Field Name="ShapeshiftMask" Type="int" />
+    <Field Name="Targets" Type="int" />
+    <Field Name="TargetCreatureType" Type="int" />
+    <Field Name="RequiresSpellFocus" Type="int" />
+    <Field Name="CasterAuraState" Type="int" />
+    <Field Name="TargetAuraState" Type="int" />
+    <Field Name="CastingTimeIndex" Type="int" />
+    <Field Name="RecoveryTime" Type="int" />
+    <Field Name="CategoryRecoveryTime" Type="int" />
+    <Field Name="InterruptFlags" Type="int" />
+    <Field Name="AuraInterruptFlags" Type="int" />
+    <Field Name="ChannelInterruptFlags" Type="int" />
+    <Field Name="ProcFlags" Type="int" />
+    <Field Name="ProcChance" Type="int" />
+    <Field Name="ProcCharges" Type="int" />
+    <Field Name="MaxLevel" Type="int" />
+    <Field Name="BaseLevel" Type="int" />
+    <Field Name="SpellLevel" Type="int" />
+    <Field Name="DurationIndex" Type="int" />
+    <Field Name="PowerType" Type="int" />
+    <Field Name="ManaCost" Type="int" />
+    <Field Name="ManaCostPerLevel" Type="int" />
+    <Field Name="ManaPerSecond" Type="int" />
+    <Field Name="ManaPerSecondPerLevel" Type="int" />
+    <Field Name="RangeIndex" Type="int" />
+    <Field Name="Speed" Type="float" />
+    <Field Name="ModalNextSpell" Type="int" />
+    <Field Name="Totem" Type="int" ArraySize="2" />
+    <Field Name="Reagent" Type="int" ArraySize="8" />
+    <Field Name="ReagentCount" Type="int" ArraySize="8" />
+    <Field Name="EquippedItemClass" Type="int" />
+    <Field Name="EquippedItemSubclass" Type="int" />
+    <Field Name="Effect" Type="int" ArraySize="3" />
+    <Field Name="EffectDieSides" Type="int" ArraySize="3" />
+    <Field Name="EffectBaseDice" Type="int" ArraySize="3" />
+    <Field Name="EffectDicePerLevel" Type="int" ArraySize="3" />
+    <Field Name="EffectRealPointsPerLevel" Type="float" ArraySize="3" />
+    <Field Name="EffectBasePoints" Type="int" ArraySize="3" />
+    <Field Name="ImplicitTargetA" Type="int" ArraySize="3" />
+    <Field Name="ImplicitTargetB" Type="int" ArraySize="3" />
+    <Field Name="EffectRadiusIndex" Type="int" ArraySize="3" />
+    <Field Name="EffectAura" Type="int" ArraySize="3" />
+    <Field Name="EffectAuraPeriod" Type="int" ArraySize="3" />
+    <Field Name="EffectAmplitude" Type="float" ArraySize="3" />
+    <Field Name="EffectChainTargets" Type="int" ArraySize="3" />
+    <Field Name="EffectItemType" Type="int" ArraySize="3" />
+    <Field Name="EffectMiscValue" Type="int" ArraySize="3" />
+    <Field Name="EffectTriggerSpell" Type="int" ArraySize="3" />
+    <Field Name="SpellVisualID" Type="int" />
+    <Field Name="SpellIconID" Type="int" />
+    <Field Name="ActiveIconID" Type="int" />
+    <Field Name="SpellPriority" Type="int" />
+    <Field Name="Name" Type="loc" />
+    <Field Name="NameSubtext" Type="loc" />
+    <Field Name="Description" Type="loc" />
+    <Field Name="ManaCostPct" Type="int" />
+    <Field Name="StartRecoveryCategory" Type="int" />
+    <Field Name="StartRecoveryTime" Type="int" />
+  </Table>
+  <Table Name="SpellAuraNames" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="EnumID" Type="int" />
+    <Field Name="SpecialMiscValue" Type="int" />
+    <Field Name="Globalstrings_tag" Type="string" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="SpellCastTimes" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Base" Type="int" />
+    <Field Name="PerLevel" Type="int" />
+    <Field Name="Minimum" Type="int" />
+  </Table>
+  <Table Name="SpellChainEffects" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="AvgSegLen" Type="float" />
+    <Field Name="Width" Type="float" />
+    <Field Name="NoiseScale" Type="float" />
+    <Field Name="TexCoordScale" Type="float" />
+    <Field Name="SegDuration" Type="int" />
+    <Field Name="SegDelay" Type="int" />
+    <Field Name="Texture" Type="string" />
+  </Table>
+  <Table Name="SpellDispelType" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="SpellDuration" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Duration" Type="int" />
+    <Field Name="DurationPerLevel" Type="int" />
+    <Field Name="MaxDuration" Type="int" />
+  </Table>
+  <Table Name="SpellEffectCameraShakes" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="CameraShake" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="SpellEffectNames" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="EnumID" Type="int" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="SpellFocusObject" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="SpellIcon" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="TextureFilename" Type="string" />
+  </Table>
+  <Table Name="SpellItemEnchantment" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Effect" Type="int" ArraySize="3" />
+    <Field Name="EffectPointsMin" Type="int" ArraySize="3" />
+    <Field Name="EffectPointsMax" Type="int" ArraySize="3" />
+    <Field Name="EffectArg" Type="int" ArraySize="3" />
+    <Field Name="Name" Type="loc" />
+    <Field Name="ItemVisual" Type="int" />
+  </Table>
+  <Table Name="SpellRadius" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Radius" Type="float" />
+    <Field Name="RadiusPerLevel" Type="float" />
+    <Field Name="RadiusMax" Type="float" />
+  </Table>
+  <Table Name="SpellRange" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="RangeMin" Type="float" />
+    <Field Name="RangeMax" Type="float" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="DisplayName" Type="loc" />
+    <Field Name="DisplayNameShort" Type="loc" />
+  </Table>
+  <Table Name="SpellShapeshiftForm" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="BonusActionBar" Type="int" />
+    <Field Name="Name" Type="loc" />
+    <Field Name="Flags" Type="int" />
+  </Table>
+  <Table Name="SpellVisual" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="PrecastKit" Type="int" />
+    <Field Name="CastKit" Type="int" />
+    <Field Name="ImpactKit" Type="int" />
+    <Field Name="StateKit" Type="int" />
+    <Field Name="ChannelKit" Type="int" />
+    <Field Name="HasMissile" Type="int" />
+    <Field Name="MissileModel" Type="int" />
+    <Field Name="MissilePathType" Type="int" />
+    <Field Name="MissileDestinationAttachment" Type="int" />
+    <Field Name="MissileSound" Type="int" />
+    <Field Name="HasAreaEffect" Type="int" />
+    <Field Name="AreaModel" Type="int" />
+    <Field Name="AreaKit" Type="int" />
+    <Field Name="AnimEventSoundID" Type="int" />
+    <Field Name="WeaponTrailRed" Type="byte" />
+    <Field Name="WeaponTrailGreen" Type="byte" />
+    <Field Name="WeaponTrailBlue" Type="byte" />
+    <Field Name="WeaponTrailAlpha" Type="byte" />
+    <Field Name="WeaponTrailFadeoutRate" Type="byte" />
+    <Field Name="WeaponTrailDuration" Type="int" />
+  </Table>
+  <Table Name="SpellVisualAnimName" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="AnimID" Type="int" />
+    <Field Name="Name" Type="string" />
+  </Table>
+  <Table Name="SpellVisualEffectName" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="FileName" Type="string" />
+    <Field Name="SpecialID" Type="int" />
+    <Field Name="SpecialAttachPoint" Type="int" />
+    <Field Name="AreaEffectSize" Type="float" />
+    <Field Name="VisualEffectNameFlags" Type="int" />
+  </Table>
+  <Table Name="SpellVisualKit" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="KitType" Type="int" />
+    <Field Name="Anim" Type="int" />
+    <Field Name="HeadEffect" Type="int" />
+    <Field Name="ChestEffect" Type="int" />
+    <Field Name="BaseEffect" Type="int" />
+    <Field Name="LeftHandEffect" Type="int" />
+    <Field Name="RightHandEffect" Type="int" />
+    <Field Name="BreathEffect" Type="int" />
+    <Field Name="SpecialEffect" Type="int" ArraySize="3" />
+    <Field Name="CharacterProcedure" Type="int" />
+    <Field Name="CharacterParam" Type="float" ArraySize="4" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="ShakeID" Type="int" />
+  </Table>
+  <Table Name="SpellVisualPrecastTransitions" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="PrecastLoadAnimName" Type="string" />
+    <Field Name="PrecastHoldAnimName" Type="string" />
+  </Table>
+  <Table Name="StringLookups" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="String" Type="string" />
+  </Table>
+  <Table Name="TabardBackgroundTextures" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="TorsoTexture" Type="string" ArraySize="2" />
+  </Table>
+  <Table Name="TabardEmblemTextures" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="TorsoTexture" Type="string" ArraySize="2" />
+  </Table>
+  <Table Name="TaxiNodes" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="ContinentID" Type="int" />
+    <Field Name="X" Type="float" />
+    <Field Name="Y" Type="float" />
+    <Field Name="Z" Type="float" />
+    <Field Name="Name" Type="loc" />
+  </Table>
+  <Table Name="TaxiPath" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="FromTaxiNode" Type="int" />
+    <Field Name="ToTaxiNode" Type="int" />
+    <Field Name="Cost" Type="int" />
+  </Table>
+  <Table Name="TaxiPathNode" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="PathID" Type="int" />
+    <Field Name="NodeIndex" Type="int" />
+    <Field Name="ContinentID" Type="int" />
+    <Field Name="LocX" Type="float" />
+    <Field Name="LocY" Type="float" />
+    <Field Name="LocZ" Type="float" />
+    <Field Name="Flags" Type="int" />
+  </Table>
+  <Table Name="TerrainType" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="TerrainID" Type="int" />
+    <Field Name="TerrainDesc" Type="string" />
+    <Field Name="FootstepSprayRun" Type="int" />
+    <Field Name="FootstepSprayWalk" Type="int" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="Flags" Type="int" />
+  </Table>
+  <Table Name="TerrainTypeSounds" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+  </Table>
+  <Table Name="TransportAnimation" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="TransportID" Type="int" />
+    <Field Name="TimeIndex" Type="int" />
+    <Field Name="PosX" Type="float" />
+    <Field Name="PosY" Type="float" />
+    <Field Name="PosZ" Type="float" />
+  </Table>
+  <Table Name="UISoundLookups" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="SoundName" Type="string" />
+  </Table>
+  <Table Name="UnitBlood" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="CombatBloodSpurtFront" Type="int" ArraySize="2" />
+    <Field Name="CombatBloodSpurtBack" Type="int" ArraySize="2" />
+    <Field Name="GroundBlood" Type="string" ArraySize="5" />
+  </Table>
+  <Table Name="UnitBloodLevels" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Violencelevel" Type="int" ArraySize="3" />
+  </Table>
+  <Table Name="VideoHardware" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
+    <Field Name="VendorID" Type="int" />
+    <Field Name="DeviceID" Type="int" />
+    <Field Name="FarclipIdx" Type="int" />
+    <Field Name="TerrainLODDistIdx" Type="int" />
+    <Field Name="TerrainShadowLOD" Type="int" />
+    <Field Name="DetailDoodadDensityIdx" Type="int" />
+    <Field Name="DetailDoodadAlpha" Type="int" />
+    <Field Name="AnimatingDoodadIdx" Type="int" />
+    <Field Name="Trilinear" Type="int" />
+    <Field Name="NumLights" Type="int" />
+    <Field Name="Specularity" Type="int" />
+    <Field Name="WaterLODIdx" Type="int" />
+    <Field Name="ParticleDensityIdx" Type="int" />
+    <Field Name="UnitDrawDistIdx" Type="int" />
+    <Field Name="SmallCullDistIdx" Type="int" />
+    <Field Name="ResolutionIdx" Type="int" />
+    <Field Name="BaseMipLevel" Type="int" />
+    <Field Name="OglPixelShader" Type="int" />
+    <Field Name="D3dPixelShader" Type="int" />
+  </Table>
+  <Table Name="VocalUISounds" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="VocalUIEnum" Type="int" />
+    <Field Name="RaceID" Type="int" />
+    <Field Name="NormalSoundID" Type="int" ArraySize="2" />
+    <Field Name="PissedSoundID" Type="int" ArraySize="2" />
+  </Table>
+  <Table Name="WeaponImpactSounds" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="WeaponSubClassID" Type="int" />
+    <Field Name="ParrySoundType" Type="int" />
+    <Field Name="ImpactSoundID" Type="int" ArraySize="10" />
+    <Field Name="CritImpactSoundID" Type="int" ArraySize="10" />
+  </Table>
+  <Table Name="WeaponSwingSounds2" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="SwingType" Type="int" />
+    <Field Name="Crit" Type="int" />
+    <Field Name="SoundID" Type="int" />
+  </Table>
+  <Table Name="WMOAreaTable" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="WMOID" Type="int" />
+    <Field Name="NameSetID" Type="int" />
+    <Field Name="WMOGroupID" Type="int" />
+    <Field Name="DayAmbienceSoundID" Type="int" />
+    <Field Name="NightAmbienceSoundID" Type="int" />
+    <Field Name="SoundProviderPref" Type="int" />
+    <Field Name="SoundProviderPrefUnderwater" Type="int" />
+    <Field Name="MIDIAmbience" Type="int" />
+    <Field Name="MIDIAmbienceUnderwater" Type="int" />
+    <Field Name="ZoneMusic" Type="int" />
+    <Field Name="IntroSound" Type="int" />
+    <Field Name="IntroPriority" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="AreaName" Type="loc" />
+  </Table>
+  <Table Name="WorldMapArea" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="MapID" Type="int" />
+    <Field Name="AreaID" Type="int" />
+    <Field Name="LeftBoundary" Type="int" />
+    <Field Name="RightBoundary" Type="int" />
+    <Field Name="TopBoundary" Type="int" />
+    <Field Name="BottomBoundary" Type="int" />
+    <Field Name="AreaName" Type="string" />
+  </Table>
+  <Table Name="WorldMapContinent" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="MapID" Type="int" />
+    <Field Name="LeftBoundary" Type="int" />
+    <Field Name="RightBoundary" Type="int" />
+    <Field Name="TopBoundary" Type="int" />
+    <Field Name="BottomBoundary" Type="int" />
+    <Field Name="ContinentOffsetX" Type="float" />
+    <Field Name="ContinentOffsetY" Type="float" />
+  </Table>
+  <Table Name="WorldSafeLocs" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="Continent" Type="int" />
+    <Field Name="LocX" Type="float" />
+    <Field Name="LocY" Type="float" />
+    <Field Name="LocZ" Type="float" />
+    <Field Name="AreaName" Type="loc" />
+  </Table>
+  <Table Name="ZoneMusic" Build="3368">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="VolumeFloat" Type="float" />
+    <Field Name="MusicFile" Type="string" ArraySize="2" />
+    <Field Name="SilenceIntervalMin" Type="int" ArraySize="2" />
+    <Field Name="SilenceIntervalMax" Type="int" ArraySize="2" />
+    <Field Name="SegmentLength" Type="int" ArraySize="2" />
+    <Field Name="SegmentPlayMin" Type="int" ArraySize="2" />
+    <Field Name="SegmentPlayMax" Type="int" ArraySize="2" />
+    <Field Name="Sounds" Type="int" ArraySize="2" />
+  </Table>
+</Definition>

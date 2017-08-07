@@ -16,6 +16,7 @@ using WDBXEditor.Common;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.Web.Script.Serialization;
+using WDBXEditor.Reader.FileTypes;
 
 namespace WDBXEditor
 {
@@ -143,6 +144,13 @@ namespace WDBXEditor
 
         private void SetSource(DBEntry dt, bool resetcolumns = true)
         {
+            //Hotfix file selector
+            if (dt?.Header.IsTypeOf<HTFX>() == true && lbFiles.Items.Count > 1)
+            {
+                if (new LoadHotfix().ShowDialog(this) != DialogResult.OK)
+                    return;
+            }
+
             advancedDataGridView.RowHeadersVisible = false;
             advancedDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             advancedDataGridView.ColumnHeadersVisible = false;
@@ -992,7 +1000,8 @@ namespace WDBXEditor
                     sfd.FileName = LoadedEntry.SavePath;
 
                     //Set the correct filter
-                    switch (Path.GetExtension(LoadedEntry.FilePath).ToLower().TrimStart('.'))
+                    string ext = Path.GetExtension(LoadedEntry.FilePath).TrimStart('.');
+                    switch (ext.ToLower())
                     {
                         case "dbc":
                             sfd.Filter = "DBC Files|*.dbc";
@@ -1004,7 +1013,8 @@ namespace WDBXEditor
                             sfd.Filter = "ADB Files|*.adb";
                             break;
                         case "wdb":
-                            MessageBox.Show("Saving is not implemented for WDB files.");
+                        case "bin":
+                            MessageBox.Show($"Saving is not implemented for {ext.ToUpper()} files.");
                             return;
                     }
 

@@ -204,6 +204,61 @@ namespace ADGV
 
             return new Point(-1, -1); //No matches
         }
+
+        public Point SearchFlag(long flag, bool includestart = false, ICollection<Point> ignore = null)
+        {
+            if (this.CurrentCell == null)
+                this.SetSelectedCellCore(0, 0, true);
+
+            var startcell = this.CurrentCell; //Our original
+            var startindex = startcell.RowIndex;
+            var startcolumn = startcell.ColumnIndex;
+            bool looped = false;
+            var hidden = this.Columns.Cast<DataGridViewColumn>().Where(x => !x.Visible).Select(x => x.Index).ToList();
+
+            BindingSource bs = (BindingSource)this.DataSource;
+
+            //Get actual match
+            FinalSearch:
+            for (int i = startindex; i < this.Rows.Count - 1; i++)
+            {
+                var pk = (int)((DataRowView)bs[i]).Row.ItemArray[PrimaryKey.Ordinal]; //Get the Id value
+
+                if (!Cache.ContainsKey(pk)) //Ignore non-cached - shouldn't happen
+                    continue;
+
+                var data = DeserializeObject(Cache[pk]);
+                //Don't search hidden columns
+                if (hidden.Contains(startcolumn))
+                    return new Point(-1, -1); //No matches
+
+                //Completed a full loop
+                if (i >= startcell.RowIndex && looped)
+                    return new Point(-1, -1);
+
+                //Ignore start cell check
+                if (i == startcell.RowIndex && !includestart && !looped)
+                    continue;
+
+
+                if (long.TryParse(data[startcolumn], out long value) && (value & flag) == flag)
+                {
+                    Point result = new Point(i, startcolumn);
+                    if (ignore == null || !ignore.Contains(result))
+                        return result;
+                }
+            }
+
+            //Restart from the beginning
+            if (!looped && startcell.RowIndex > 0)
+            {
+                startindex = 0;
+                looped = true;
+                goto FinalSearch;
+            }
+
+            return new Point(-1, -1); //No matches
+        }
         #endregion
 
 
@@ -212,7 +267,7 @@ namespace ADGV
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                foreach(var obj in array)
+                foreach (var obj in array)
                 {
                     var b = Encoding.UTF8.GetBytes(obj + "");
                     var s = BitConverter.GetBytes((ushort)b.Length);
@@ -224,10 +279,10 @@ namespace ADGV
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
-        
+
         private string[] DeserializeObject(string value)
         {
-            var bytes = Encoding.UTF8.GetBytes(value);            
+            var bytes = Encoding.UTF8.GetBytes(value);
             string[] _output = new string[DataCount.Length];
 
             using (MemoryStream ms = new MemoryStream(bytes))

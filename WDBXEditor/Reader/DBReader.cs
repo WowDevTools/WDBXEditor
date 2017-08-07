@@ -68,6 +68,9 @@ namespace WDBXEditor.Reader
                 case "WRDN":
                     header = new WDB();
                     break;
+                case "HTFX":
+                    header = new HTFX();
+                    break;
             }
 
             header?.ReadHeader(ref dbReader, signature);
@@ -85,14 +88,16 @@ namespace WDBXEditor.Reader
                 long pos = dbReader.BaseStream.Position;
 
                 //No header - must be invalid
-                if (!(header?.IsValidFile ?? false))
+                if (header == null)
                     throw new Exception("Unknown file type.");
 
-                if (header.RecordCount == 0 || header.RecordSize == 0)
+                if (header.CheckRecordSize && header.RecordSize == 0)
+                    throw new Exception("File contains no records.");
+                if (header.CheckRecordCount && header.RecordCount == 0)
                     throw new Exception("File contains no records.");
 
                 DBEntry entry = new DBEntry(header, dbFile);
-                if (entry.TableStructure == null)
+                if (header.CheckTableStructure && entry.TableStructure == null)
                     throw new Exception("Definition missing.");
 
                 if (header.IsTypeOf<WDBC>() || header.IsTypeOf<WDB2>())
@@ -141,14 +146,18 @@ namespace WDBXEditor.Reader
                 else if (header.IsTypeOf<WDB>())
                 {
                     WDB wdb = (WDB)header;
-                    wdb.ReadExtendedHeader(dbReader, entry.Build);
-
                     using (MemoryStream ms = new MemoryStream(wdb.ReadData(dbReader)))
                     using (BinaryReader dataReader = new BinaryReader(ms, Encoding.UTF8))
                     {
                         ReadIntoTable(ref entry, dataReader, new Dictionary<int, string>());
                     }
 
+                    stream.Dispose();
+                    return entry;
+                }
+                else if (header.IsTypeOf<HTFX>())
+                {
+                    //Load data when needed later
                     stream.Dispose();
                     return entry;
                 }
@@ -165,7 +174,7 @@ namespace WDBXEditor.Reader
             return Read(new MemoryStream(File.ReadAllBytes(dbFile)), dbFile);
         }
 
-        private void ReadIntoTable(ref DBEntry entry, BinaryReader dbReader, Dictionary<int, string> StringTable)
+        public void ReadIntoTable(ref DBEntry entry, BinaryReader dbReader, Dictionary<int, string> StringTable)
         {
             if (entry.Header.RecordCount == 0)
                 return;
@@ -184,7 +193,7 @@ namespace WDBXEditor.Reader
             for (uint i = 0; i < recordcount; i++)
             {
                 //Offset map has variable record lengths
-                if (entry.Header.HasOffsetTable)
+                if (entry.Header.IsTypeOf<HTFX>() || entry.Header.HasOffsetTable)
                     recordsize = (uint)entry.Header.OffsetLengths[i];
 
                 //Store start position
@@ -243,7 +252,7 @@ namespace WDBXEditor.Reader
                             dbReader.BaseStream.Position += sizeof(float) * padding[j];
                             break;
                         case TypeCode.String:
-                            if (entry.Header.IsTypeOf<WDB>() || entry.Header.HasOffsetTable)
+                            if (entry.Header.IsTypeOf<WDB>() || entry.Header.IsTypeOf<HTFX>() || entry.Header.HasOffsetTable)
                                 row.SetField(entry.Data.Columns[j], dbReader.ReadStringNull());
                             else
                             {
@@ -331,7 +340,7 @@ namespace WDBXEditor.Reader
                         ((WDB5)entry.Header).WriteCopyTable(bw, entry);
 
                     //CommonDataTable
-                    if(entry.Header.IsTypeOf<WDB6>())
+                    if (entry.Header.IsTypeOf<WDB6>())
                         ((WDB6)entry.Header).WriteCommonDataTable(bw, entry);
                 }
 

@@ -74,7 +74,12 @@ namespace WDBXEditor.Storage
                 MessageBox.Show($"Duplicate column names for {FileName} - {Build} definition");
                 return;
             }
+            
+            LoadTableStructure();
+        }
 
+        public void LoadTableStructure()
+        {
             Data = new DataTable() { TableName = Tag, CaseSensitive = false, RemotingFormat = SerializationFormat.Binary };
 
             var LocalizationCount = (Build <= (int)ExpansionFinalBuild.Classic ? 9 : 17); //Pre TBC had 9 locales
@@ -87,7 +92,7 @@ namespace WDBXEditor.Storage
                 {
                     string columnName = col.Name;
                     if (col.ArraySize > 1)
-                        columnName += (i > 0 ? "_" + i.ToString() : "");
+                        columnName +=  "_" + (i + 1);
 
                     switch (col.Type.ToLower())
                     {
