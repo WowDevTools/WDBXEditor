@@ -323,7 +323,9 @@ namespace WDBXEditor.Reader.FileTypes
 
         public override void WriteRecordPadding(BinaryWriter bw, DBEntry entry, long offset)
         {
-            if (!IsTypeOf<WDB6>() && HasOffsetTable)
+            if (IsTypeOf<WDB6>() && HasOffsetTable && HasIndexTable)
+                bw.BaseStream.Position += 2;
+            else if (!IsTypeOf<WDB6>() && HasOffsetTable)
                 bw.BaseStream.Position += 2; //Offset map always has 2 bytes padding
             else
                 base.WriteRecordPadding(bw, entry, offset); //Scrub to the end of the record if necessary

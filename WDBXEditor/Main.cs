@@ -50,6 +50,10 @@ namespace WDBXEditor
 
         private void Main_Load(object sender, EventArgs e)
         {
+#if DEBUG
+            wdb5ParserToolStripMenuItem.Visible = true;
+#endif
+
             //Create temp directory
             if (!Directory.Exists(TEMP_FOLDER))
                 Directory.CreateDirectory(TEMP_FOLDER);
