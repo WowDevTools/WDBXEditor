@@ -116,5 +116,7 @@ namespace WDBXEditor.Storage
         public int Padding { get; set; } = 0;
         [XmlAttribute, DefaultValue("")]
         public string DefaultValue { get; set; } = "";
+        [XmlAttribute, DefaultValue("")]
+        public string ColumnNames { get; set; } = "";
     }
 }

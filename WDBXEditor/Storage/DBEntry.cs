@@ -74,7 +74,7 @@ namespace WDBXEditor.Storage
                 MessageBox.Show($"Duplicate column names for {FileName} - {Build} definition");
                 return;
             }
-            
+
             LoadTableStructure();
         }
 
@@ -87,12 +87,19 @@ namespace WDBXEditor.Storage
             foreach (var col in TableStructure.Fields)
             {
                 Queue<TextWowEnum> languages = new Queue<TextWowEnum>(Enum.GetValues(typeof(TextWowEnum)).Cast<TextWowEnum>());
+                string[] columnsNames = col.ColumnNames.Split(',');
 
                 for (int i = 0; i < col.ArraySize; i++)
                 {
                     string columnName = col.Name;
+                    
                     if (col.ArraySize > 1)
-                        columnName +=  "_" + (i + 1);
+                    {
+                        if (columnsNames.Length >= (i + 1) && !string.IsNullOrWhiteSpace(columnsNames[i]))
+                            columnName = columnsNames[i];
+                        else
+                            columnName += "_" + (i + 1);
+                    }
 
                     switch (col.Type.ToLower())
                     {
