@@ -21,7 +21,7 @@
     <Field Name="field0" Type="string" />
     <Field Name="field4" Type="ushort" />
     <Field Name="field6" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="AdventureJournal" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -829,7 +829,7 @@
     <Field Name="field0" Type="uint" />
     <Field Name="field4" Type="byte" />
     <Field Name="field5" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="CinematicCamera" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1176,7 +1176,7 @@
   </Table>
   <Table Name="DeclinedWord" Build="23835">
     <Field Name="field0" Type="uint" />
-    <Field Name="m_ID" Type="int" ArraySize="4" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="DeclinedWordCases" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1279,7 +1279,7 @@
     <Field Name="field14" Type="byte" />
     <Field Name="field15" Type="byte" />
     <Field Name="field16" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="DungeonMapChunk" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1356,7 +1356,7 @@
     <Field Name="field10" Type="string" />
     <Field Name="field14" Type="float" />
     <Field Name="field18" Type="string" />
-    <Field Name="m_ID" Type="int" ArraySize="4" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="Faction" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1415,7 +1415,7 @@
     <Field Name="field00" Type="uint" />
     <Field Name="field04" Type="string" />
     <Field Name="field08" Type="ushort" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="FullScreenEffect" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1532,7 +1532,7 @@
     <Field Name="field15" Type="byte" />
     <Field Name="field16" Type="byte" />
     <Field Name="field17" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="GarrBuilding" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -2519,7 +2519,7 @@
     <Field Name="field0C" Type="string" />
     <Field Name="field10" Type="ushort" />
     <Field Name="field12" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="JournalEncounterItem" Build="23835">
     <Field Name="field0" Type="uint" />
@@ -2595,7 +2595,7 @@
   </Table>
   <Table Name="Languages" Build="23835">
     <Field Name="field0" Type="string" />
-    <Field Name="m_ID" Type="int" ArraySize="4" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="LanguageWords" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -2803,7 +2803,7 @@
     <Field Name="field04" Type="string" />
     <Field Name="field08" Type="string" />
     <Field Name="field0C" Type="string" />
-    <Field Name="m_ID" Type="int" ArraySize="4" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="LookAtController" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -3124,7 +3124,7 @@
     <Field Name="field0" Type="uint" />
     <Field Name="field4" Type="ushort" />
     <Field Name="field6" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="Phase" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -3465,7 +3465,7 @@
   <Table Name="ResearchField" Build="23835">
     <Field Name="field0" Type="int" />
     <Field Name="field4" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="3" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="ResearchProject" Build="23835">
     <Field Name="field00" Type="string" />
@@ -3704,11 +3704,11 @@
     <Field Name="field08" Type="byte" />
     <Field Name="field09" Type="byte" />
     <Field Name="field0A" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="SoundBusName" Build="23835">
     <Field Name="field0" Type="string" />
-    <Field Name="m_ID" Type="int" ArraySize="4" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="SoundBusOverride" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -4746,7 +4746,7 @@
     <Field Name="field14" Type="uint" />
     <Field Name="field18" Type="ushort" />
     <Field Name="field1A" Type="ushort" />
-    <Field Name="m_ID" Type="int" ArraySize="4" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="UiTextureAtlas" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -5201,7 +5201,7 @@
     <Field Name="field28" Type="byte" />
     <Field Name="field29" Type="byte" />
     <Field Name="field2A" Type="byte" />
-    <Field Name="m_ID" Type="int" ArraySize="2" IsIndex="true" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
   </Table>
   <Table Name="WorldStateZoneSounds" Build="23835">
     <Field Name="m_ID" Type="int" IsIndex="true" />
