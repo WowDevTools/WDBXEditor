@@ -234,7 +234,7 @@
     <Field Name="field08" Type="float" />
     <Field Name="field0C" Type="float" />
     <Field Name="field10" Type="uint" ArraySize="3" />
-    <Field Name="field1C" Type="string" />
+    <Field Name="field1C" Type="uint" />
     <Field Name="field20" Type="uint" />
     <Field Name="field24" Type="uint" />
     <Field Name="field28" Type="uint" />
@@ -768,7 +768,7 @@
     <Field Name="Flags" Type="uint" ArraySize="4" />
     <Field Name="Unk1" Type="float" />
     <Field Name="Unk2" Type="float" />
-    <Field Name="BuyCount" Type="float" />
+    <Field Name="BuyCount" Type="uint" />
     <Field Name="BuyPrice" Type="uint" />
     <Field Name="SellPrice" Type="uint" />
     <Field Name="AllowableRace" Type="int" />
@@ -1070,7 +1070,7 @@
     <Field Name="field16" Type="ushort" ArraySize="3" />
     <Field Name="field1C" Type="ushort" />
     <Field Name="field1E" Type="ushort" />
-    <Field Name="field20" Type="ushort" />
+    <Field Name="field20" Type="byte" />
     <Field Name="field22" Type="byte" />
     <Field Name="field23" Type="byte" />
     <Field Name="field24" Type="byte" />
@@ -1082,7 +1082,7 @@
     <Field Name="field2A" Type="byte" />
     <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Name="field2D" Type="byte" />
-    <Field Name="field2E" Type="ushort" />
+    <Field Name="field2E" Type="byte" />
   </Table>
   <Table Name="QuestXGroupActivity" Build="24793">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1265,44 +1265,42 @@
     <Field Name="field058" Type="int" />
     <Field Name="field05C" Type="int" />
     <Field Name="field060" Type="int" />
-    <Field Name="field064" Type="int" />
-    <Field Name="field068" Type="uint" />
+    <Field Name="field064" Type="uint" />
+    <Field Name="field068" Type="float" />
     <Field Name="field06C" Type="float" />
     <Field Name="field070" Type="float" />
     <Field Name="field074" Type="float" />
-    <Field Name="field078" Type="float" />
-    <Field Name="field07C" Type="int" />
+    <Field Name="field078" Type="int" />
+    <Field Name="field07C" Type="float" />
     <Field Name="field080" Type="float" />
-    <Field Name="field084" Type="float" />
-    <Field Name="field088" Type="int" />
-    <Field Name="field08C" Type="int" />
-    <Field Name="field090" Type="float" />
-    <Field Name="field094" Type="float" />
-    <Field Name="field098" Type="int" ArraySize="3" />
-    <Field Name="field0A4" Type="int" ArraySize="3" />
-    <Field Name="field0B0" Type="int" ArraySize="3" />
-    <Field Name="field0BC" Type="float" ArraySize="3" />
-    <Field Name="field0C8" Type="uint" />
+    <Field Name="field084" Type="int" />
+    <Field Name="field088" Type="float" />
+    <Field Name="field08C" Type="float" />
+    <Field Name="field090" Type="int" ArraySize="3" />
+    <Field Name="field09C" Type="int" ArraySize="3" />
+    <Field Name="field0A8" Type="int" ArraySize="3" />
+    <Field Name="field0B4" Type="float" ArraySize="3" />
+    <Field Name="field0C0" Type="uint" />
+    <Field Name="field0C4" Type="float" />
+    <Field Name="field0C8" Type="float" />
     <Field Name="field0CC" Type="float" />
     <Field Name="field0D0" Type="float" />
-    <Field Name="field0D4" Type="string" ArraySize="3" />
-    <Field Name="field0E0" Type="string" />
-    <Field Name="field0E4" Type="ushort" />
-    <Field Name="field0E6" Type="ushort" />
-    <Field Name="field0E8" Type="ushort" ArraySize="11" />
-    <Field Name="field0FE" Type="ushort" />
-    <Field Name="field100" Type="byte" />
-    <Field Name="field101" Type="byte" />
-    <Field Name="field102" Type="byte" />
-    <Field Name="field103" Type="byte" />
-    <Field Name="field104" Type="byte" />
-    <Field Name="field105" Type="byte" />
-    <Field Name="field106" Type="byte" />
-    <Field Name="field107" Type="byte" />
-    <Field Name="field108" Type="byte" />
-    <Field Name="field109" Type="byte" />
-    <Field Name="field10A" Type="byte" />
-    <Field Name="field10B" Type="int" />
+    <Field Name="field0D4" Type="ushort" />
+    <Field Name="field0D6" Type="ushort" />
+    <Field Name="field0D8" Type="ushort" ArraySize="11" />
+    <Field Name="field0EE" Type="ushort" />
+    <Field Name="field0F0" Type="byte" />
+    <Field Name="field0F1" Type="byte" />
+    <Field Name="field0F2" Type="byte" />
+    <Field Name="field0F3" Type="byte" />
+    <Field Name="field0F4" Type="byte" />
+    <Field Name="field0F5" Type="byte" />
+    <Field Name="field0F6" Type="byte" />
+    <Field Name="field0F7" Type="byte" />
+    <Field Name="field0F8" Type="byte" />
+    <Field Name="field0F9" Type="byte" />
+    <Field Name="field0FA" Type="int" />
+    <Field Name="field0FD" Type="int" ArraySize="2" />
   </Table>
   <Table Name="SpellClassOptions" Build="24793">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1644,34 +1642,21 @@
     <Field Name="RequiredTotemCategoryID" Type="ushort" ArraySize="2" />
   </Table>
   <Table Name="SpellVisual" Build="24793">
-    <Field Name="field000" Type="uint" />
-    <Field Name="field004" Type="uint" />
-    <Field Name="field008" Type="uint" />
-    <Field Name="field00C" Type="uint" />
-    <Field Name="field010" Type="uint" />
-    <Field Name="field014" Type="uint" />
-    <Field Name="field018" Type="uint" />
-    <Field Name="field01C" Type="uint" />
-    <Field Name="field020" Type="uint" />
-    <Field Name="field024" Type="uint" />
-    <Field Name="field028" Type="uint" />
-    <Field Name="field02C" Type="uint" />
-    <Field Name="field030" Type="uint" />
-    <Field Name="field034" Type="uint" />
-    <Field Name="field038" Type="uint" />
-    <Field Name="field03C" Type="int" ArraySize="3" />
-    <Field Name="field048" Type="int" ArraySize="3" />
-    <Field Name="field054" Type="uint" />
-    <Field Name="field058" Type="uint" />
-    <Field Name="field05C" Type="ushort" />
-    <Field Name="field05E" Type="ushort" />
-    <Field Name="field060" Type="ushort" />
-    <Field Name="field062" Type="byte" />
-    <Field Name="field063" Type="byte" />
+    <Field Name="field00" Type="int" ArraySize="3" />
+    <Field Name="field0C" Type="int" ArraySize="3" />
+    <Field Name="field18" Type="byte" />
+    <Field Name="field19" Type="byte" />
     <Field Name="m_ID" Type="int" IsIndex="true" />
-    <Field Name="field066" Type="int" />
-    <Field Name="field069" Type="byte" />
-    <Field Name="field06A" Type="byte" ArraySize="2" />
+    <Field Name="field1D" Type="int" />
+    <Field Name="field21" Type="int" />
+    <Field Name="field25" Type="ushort" />
+    <Field Name="field27" Type="int" />
+    <Field Name="field2B" Type="int" />
+    <Field Name="field2F" Type="int" />
+    <Field Name="field33" Type="ushort" />
+    <Field Name="field35" Type="int" />
+    <Field Name="field39" Type="int" />
+    <Field Name="field3D" Type="int" />
   </Table>
   <Table Name="SpellVisualAnim" Build="24793">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1710,12 +1695,12 @@
     <Field Name="field2D" Type="ushort" />
   </Table>
   <Table Name="SpellVisualKit" Build="24793">
-    <Field Name="field00" Type="int" />
-    <Field Name="field04" Type="float" />
-    <Field Name="field08" Type="ushort" />
-    <Field Name="field0A" Type="ushort" />
     <Field Name="m_ID" Type="int" IsIndex="true" />
-    <Field Name="field0F" Type="byte" />
+    <Field Name="field04" Type="int" />
+    <Field Name="field08" Type="float" />
+    <Field Name="field0C" Type="int" />
+    <Field Name="field10" Type="ushort" />
+    <Field Name="field12" Type="ushort" />
   </Table>
   <Table Name="SpellVisualKitAreaModel" Build="24793">
     <Field Name="m_ID" Type="int" IsIndex="true" />
@@ -1776,13 +1761,18 @@
   </Table>
   <Table Name="SpellXSpellVisual" Build="24793">
     <Field Name="field00" Type="uint" />
-    <Field Name="field04" Type="float" />
-    <Field Name="field08" Type="ushort" />
-    <Field Name="field0A" Type="ushort" />
-    <Field Name="field0C" Type="ushort" />
-    <Field Name="field0E" Type="byte" />
-    <Field Name="field0F" Type="byte" />
+    <Field Name="field04" Type="uint" />
     <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="field0B" Type="float" />
+    <Field Name="field0F" Type="ushort" />
+    <Field Name="field11" Type="ushort" />
+    <Field Name="field13" Type="ushort" />
+    <Field Name="field15" Type="ushort" />
+    <Field Name="field17" Type="int" />
+    <Field Name="field1B" Type="int" />
+    <Field Name="field1F" Type="byte" />
+    <Field Name="field20" Type="byte" />
+    <Field Name="field21" Type="byte" />
   </Table>
   <Table Name="WorldMapArea" Build="24793">
     <Field Name="AreaName" Type="string" />
@@ -1790,7 +1780,7 @@
     <Field Name="LocRight" Type="float" />
     <Field Name="LocTop" Type="float" />
     <Field Name="LocBottom" Type="float" />
-    <Field Name="MapID" Type="ushort" />
+    <Field Name="MapID" Type="uint" />
     <Field Name="AreaID" Type="ushort" />
     <Field Name="DisplayMapID" Type="short" />
     <Field Name="DefaultDungeonFloor" Type="ushort" />
