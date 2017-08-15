@@ -1,7 +1,7 @@
 # WDBX Editor
 
 [![Latest Download](https://img.shields.io/badge/Latest-Download-blue.svg)](https://ci.appveyor.com/api/projects/majorcyto/wdbxeditor/artifacts/WDBXEditor.zip) [![DoxygenDoc](https://img.shields.io/badge/Docs-Doxygen-red.svg)](http://wdbxdocs.wowdev.info/) 
-[![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=44220492)](https://www.bountysource.com/trackers/44220492-wowdevtools-wdbxeditor?utm_source=44433103&utm_medium=shield&utm_campaign=TRACKER_BADGE) [![WoWDev Tools on discord](https://img.shields.io/badge/Discord-WoWDev Tools-738bd7.svg)](https://discord.gg/9aVwPpb)
+[![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=44220492)](https://www.bountysource.com/trackers/44220492-wowdevtools-wdbxeditor?utm_source=44433103&utm_medium=shield&utm_campaign=TRACKER_BADGE) [WoWDev Tools on discord](https://discord.gg/prfGffx)
 
 
 ## Build Status
