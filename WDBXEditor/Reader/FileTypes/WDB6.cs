@@ -302,7 +302,7 @@ namespace WDBXEditor.Reader.FileTypes
 
             for (int i = 0; i < FieldStructure.Count; i++)
             {
-                var field = TableStructure.Fields[i].Name;
+                var field = TableStructure.Fields[i].InternalName;                
                 var defaultValue = TableStructure.Fields[i].DefaultValue;
                 var typeCode = Type.GetTypeCode(entry.Data.Columns[field].DataType);
                 var pk = entry.Data.PrimaryKey[0];
@@ -344,7 +344,6 @@ namespace WDBXEditor.Reader.FileTypes
                             continue;
                     }
                 }
-
 
                 bw.WriteInt32(data.Count); //Count
                 bw.Write(CommonDataTypes[typeCode]); //Type code

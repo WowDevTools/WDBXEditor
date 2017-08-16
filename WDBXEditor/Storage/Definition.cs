@@ -118,5 +118,7 @@ namespace WDBXEditor.Storage
         public string DefaultValue { get; set; } = "";
         [XmlAttribute, DefaultValue("")]
         public string ColumnNames { get; set; } = "";
+        [XmlIgnore]
+        public string InternalName { get; set; }
     }
 }

@@ -261,7 +261,7 @@ namespace WDBXEditor.Forms
                 for (int i = 0; i < fields.Count; i++)
                 {
                     Field field = new Field();
-                    field.Name = (i == header.IdIndex ? "m_ID" : $"field{header.FieldStructure[i].Offset.ToString(format)}");
+                    field.Name = (i == header.IdIndex ? "ID" : $"field{header.FieldStructure[i].Offset.ToString(format)}");
                     field.IsIndex = (i == header.IdIndex);
                     field.ArraySize = (field.IsIndex ? 1 : fields[i].ArraySize);
                     field.Type = fields[i].Type.ToString().ToLower();

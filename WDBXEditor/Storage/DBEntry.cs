@@ -101,6 +101,8 @@ namespace WDBXEditor.Storage
                             columnName += "_" + (i + 1);
                     }
 
+                    col.InternalName = columnName;
+
                     switch (col.Type.ToLower())
                     {
                         case "sbyte":
