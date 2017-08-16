@@ -1,3 +1,13 @@
+## 1.0.8
+
+### Changes
+* Added 7.3.0 (24793) definitions with more (correct) columns names - thanks to RaidAndFade
+* Updated 7.2.0 definitions fixing some parsing issues
+* Added basic column naming for arrays
+	* A new field attribute called ColumnNames supporting comma separated names has been added
+	* Names must be unique to the whole definition
+* Fixed major breaking issue with common data arrays
+
 ## 1.0.7
 
 ### Changes
