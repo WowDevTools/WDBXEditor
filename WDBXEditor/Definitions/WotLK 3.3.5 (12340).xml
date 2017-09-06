@@ -200,8 +200,8 @@
   </Table>
   <Table Name="BannedAddOns" Build="12340">
     <Field Name="m_ID" Type="int" IsIndex="true" />
-    <Field Name="m_nameMD5_" Type="int" ArraySize="4" />
-    <Field Name="m_versionMD5_" Type="int" ArraySize="4" />
+    <Field Name="m_nameMD5_" Type="uint" ArraySize="4" />
+    <Field Name="m_versionMD5_" Type="uint" ArraySize="4" />
     <Field Name="m_lastModified" Type="int" />
     <Field Name="m_flags" Type="int" />
   </Table>

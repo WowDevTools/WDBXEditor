@@ -227,17 +227,11 @@
     <Field Name="field00" Type="int" />
   </Table>
   <Table Name="BannedAddOns" Build="15595">
-    <Field Name="id" Type="int" IsIndex="true" />
-    <Field Name="field00" Type="int" />
-    <Field Name="field01" Type="int" />
-    <Field Name="field02" Type="int" />
-    <Field Name="field03" Type="int" />
-    <Field Name="field04" Type="int" />
-    <Field Name="field05" Type="int" />
-    <Field Name="field06" Type="int" />
-    <Field Name="field07" Type="int" />
-    <Field Name="field08" Type="int" />
-    <Field Name="field09" Type="int" />
+    <Field Name="m_ID" Type="int" IsIndex="true" />
+    <Field Name="m_nameMD5_" Type="uint" ArraySize="4" />
+    <Field Name="m_versionMD5_" Type="uint" ArraySize="4" />
+    <Field Name="m_lastModified" Type="int" />
+    <Field Name="m_flags" Type="int" />
   </Table>
   <Table Name="BarberShopStyle" Build="15595">
     <Field Name="id" Type="int" IsIndex="true" />

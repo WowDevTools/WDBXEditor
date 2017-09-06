@@ -786,32 +786,14 @@
     <Field Name="m_ID" Type="int" IsIndex="true" />
     <Field Name="m_soundType" Type="int" />
     <Field Name="m_name" Type="string" />
-    <Field Name="m_File1" Type="string" />
-    <Field Name="m_File2" Type="string" />
-    <Field Name="m_File3" Type="string" />
-    <Field Name="m_File4" Type="string" />
-    <Field Name="m_File5" Type="string" />
-    <Field Name="m_File6" Type="string" />
-    <Field Name="m_File7" Type="string" />
-    <Field Name="m_File8" Type="string" />
-    <Field Name="m_File9" Type="string" />
-    <Field Name="m_File10" Type="string" />
-    <Field Name="m_Freq1" Type="string" />
-    <Field Name="m_Freq2" Type="string" />
-    <Field Name="m_Freq3" Type="string" />
-    <Field Name="m_Freq4" Type="string" />
-    <Field Name="m_Freq5" Type="string" />
-    <Field Name="m_Freq6" Type="string" />
-    <Field Name="m_Freq7" Type="string" />
-    <Field Name="m_Freq8" Type="string" />
-    <Field Name="m_Freq9" Type="string" />
-    <Field Name="m_Freq10" Type="string" />
+    <Field Name="m_File" Type="string" ArraySize="10" />
+    <Field Name="m_Freq" Type="int" ArraySize="10" />
     <Field Name="m_DirectoryBase" Type="string" />
     <Field Name="m_volumeFloat" Type="float" />
     <Field Name="m_flags" Type="int" />
     <Field Name="m_minDistance" Type="float" />
     <Field Name="m_distanceCutoff" Type="float" />
-    <Field Name="m_soundEntriesAdvancedID" Type="int" />
+    <Field Name="m_EAXDef" Type="int" />
   </Table>
   <Table Name="SoundProviderPreferences" Build="5875">
     <Field Name="m_ID" Type="int" IsIndex="true" />
