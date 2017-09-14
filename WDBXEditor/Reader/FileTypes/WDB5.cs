@@ -304,11 +304,11 @@ namespace WDBXEditor.Reader.FileTypes
                 int size = 0;
                 foreach (var copies in copyRows)
                 {
-                    int keyIndex = ((DataRow)copies.Key).Field<int>(index);
-                    foreach (var copyid in copies.Copies)
+                    int keyindex = copies.First();
+                    foreach (var c in copies.Skip(1))
                     {
-                        bw.Write((int)copyid);
-                        bw.Write(keyIndex);
+                        bw.Write(c);
+                        bw.Write(keyindex);
                         size += sizeof(int) + sizeof(int);
                     }
                 }

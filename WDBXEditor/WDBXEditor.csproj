@@ -167,7 +167,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common\Constants.cs" />
-    <Compile Include="Common\DBRowComparer.cs" />
     <Compile Include="Common\DropdownCheckList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,6 +175,7 @@
     </Compile>
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\FormHandler.cs" />
+    <Compile Include="Common\ORowComparer.cs" />
     <Compile Include="Common\GithubReleaseModel.cs" />
     <Compile Include="ConsoleHandler\ConsoleCommands.cs" />
     <Compile Include="ConsoleHandler\ConsoleManager.cs" />

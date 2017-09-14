@@ -314,8 +314,8 @@ namespace WDBXEditor.Reader
                 if (entry.Header.IsLegionFile)
                 {
                     //WCH7 Map
-                    if (entry.Header.IsTypeOf<WCH7>())
-                        bw.WriteArray(((WCH7)entry.Header).WCH7Table);
+                    if(entry.Header is WCH7 wch7)
+                        bw.WriteArray(wch7.WCH7Table);
 
                     //OffsetMap
                     if (entry.Header.HasOffsetTable)
@@ -336,17 +336,19 @@ namespace WDBXEditor.Reader
                         entry.Header.WriteIndexTable(bw, entry);
 
                     //CopyTable - WDB5 only
-                    if (entry.Header.IsTypeOf<WDB5>())
-                        ((WDB5)entry.Header).WriteCopyTable(bw, entry);
+                    (entry.Header as WDB5)?.WriteCopyTable(bw, entry);
 
                     //CommonDataTable
-                    if (entry.Header.IsTypeOf<WDB6>())
-                        ((WDB6)entry.Header).WriteCommonDataTable(bw, entry);
+                    (entry.Header as WDB6)?.WriteCommonDataTable(bw, entry);
+
                 }
 
                 //Copy data to file
                 ms.Position = 0;
                 ms.CopyTo(fs);
+
+                //Reset write temp data
+                entry.ResetTemp();
             }
         }
 

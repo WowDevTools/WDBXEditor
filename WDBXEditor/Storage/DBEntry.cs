@@ -42,6 +42,12 @@ namespace WDBXEditor.Storage
         public string Tag { get; private set; }
 
 
+        private int min = -1;
+        private int max = -1;
+        private IEnumerable<int> unqiueRowIndices;
+        private IEnumerable<int> primaryKeys;
+
+
         public DBEntry(DBHeader header, string filepath)
         {
             this.Header = header;
@@ -92,7 +98,7 @@ namespace WDBXEditor.Storage
                 for (int i = 0; i < col.ArraySize; i++)
                 {
                     string columnName = col.Name;
-                    
+
                     if (col.ArraySize > 1)
                     {
                         if (columnsNames.Length >= (i + 1) && !string.IsNullOrWhiteSpace(columnsNames[i]))
@@ -324,14 +330,18 @@ namespace WDBXEditor.Storage
         /// <returns></returns>
         public Tuple<int, int> MinMax()
         {
-            int min = int.MaxValue;
-            int max = int.MinValue;
-            foreach (DataRow dr in Data.Rows)
+            if(min == -1 || max == -1)
             {
-                int val = dr.Field<int>(Key);
-                min = Math.Min(min, val);
-                max = Math.Max(max, val);
+                min = int.MaxValue;
+                max = int.MinValue;
+                foreach (DataRow dr in Data.Rows)
+                {
+                    int val = dr.Field<int>(Key);
+                    min = Math.Min(min, val);
+                    max = Math.Max(max, val);
+                }
             }
+
             return new Tuple<int, int>(min, max);
         }
 
@@ -341,8 +351,10 @@ namespace WDBXEditor.Storage
         /// <returns></returns>
         public IEnumerable<int> GetPrimaryKeys()
         {
-            for (int i = 0; i < Data.Rows.Count; i++)
-                yield return Data.Rows[i].Field<int>(Key);
+            if(primaryKeys == null)
+                primaryKeys = Data.AsEnumerable().Select(x => x.Field<int>(Key));
+            
+            return primaryKeys;
         }
 
         /// <summary>
@@ -351,25 +363,41 @@ namespace WDBXEditor.Storage
         /// <returns></returns>
         public IEnumerable<DataRow> GetUniqueRows()
         {
-            DBRowComparer comparer = new DBRowComparer(Data.Columns.IndexOf(Key));
-            return Data.AsEnumerable().Distinct(comparer);
+            if(unqiueRowIndices == null)
+            {
+                var temp = Data.Copy();
+                temp.PrimaryKey = null;
+                temp.Columns.Remove(Key);
+
+                var comp = new ORowComparer();
+                unqiueRowIndices = temp.AsEnumerable()
+                                 .Select((t, i) => new ORow(i, t.ItemArray))
+                                 .Distinct(comp)
+                                 .Select(x => x.Index);
+            }
+
+            foreach (var u in unqiueRowIndices)
+                yield return Data.Rows[u];
         }
 
         /// <summary>
         /// Generates a map of unqiue rows and grouped count
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<dynamic> GetCopyRows()
+        public IEnumerable<IEnumerable<int>> GetCopyRows()
         {
-            DBRowComparer comparer = new DBRowComparer(Data.Columns.IndexOf(Key));
+            var pks = GetPrimaryKeys().ToArray();
 
-            return Data.AsEnumerable().GroupBy(r => r, comparer)
-                                      .Where(g => g.Count() > 1)
-                                      .Select(g => new
-                                      {
-                                          Key = g.Key,
-                                          Copies = g.Where(r => r != g.Key).Select(r => r.Field<int>(comparer.IdColumnIndex)).ToArray()
-                                      });
+            var temp = Data.Copy();
+            temp.PrimaryKey = null;
+            temp.Columns.Remove(Key);
+
+            var comp = new OArrayComparer();
+            return temp.AsEnumerable()
+                       .Select((Name, Index) => new { Name.ItemArray, Index })
+                       .GroupBy(x => x.ItemArray, comp)
+                       .Select(xg => xg.Select(x => pks[x.Index]))
+                       .Where(x => x.Count() > 1);
         }
 
         /// <summary>
@@ -395,6 +423,14 @@ namespace WDBXEditor.Storage
             }
 
             return result;
+        }
+
+        public void ResetTemp()
+        {
+            min = -1;
+            max = -1;
+            unqiueRowIndices = null;
+            primaryKeys = null;
         }
         #endregion
 

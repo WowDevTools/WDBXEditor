@@ -1659,9 +1659,9 @@
     <Field Name="m_effectAuraPeriod_1" Type="uint" />
     <Field Name="m_effectAuraPeriod_2" Type="uint" />
     <Field Name="m_effectAuraPeriod_3" Type="uint" />
-    <Field Name="m_effectAmplitude_1" Type="float" />
-    <Field Name="m_effectAmplitude_2" Type="float" />
-    <Field Name="m_effectAmplitude_3" Type="float" />
+    <Field Name="m_effectMultipleValue_1" Type="float" />
+    <Field Name="m_effectMultipleValue_2" Type="float" />
+    <Field Name="m_effectMultipleValue_3" Type="float" />
     <Field Name="m_effectChainTargets_1" Type="uint" />
     <Field Name="m_effectChainTargets_2" Type="uint" />
     <Field Name="m_effectChainTargets_3" Type="uint" />
