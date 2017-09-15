@@ -42,7 +42,7 @@ namespace WDBXEditor.Common
                 return CompareResult.Type;
 
             //Enforce column names
-            Parallel.For(0, d2.Columns.Count, (i, state) => d2.Columns[i].ColumnName = d1.Columns[i].ColumnName); 
+            Parallel.For(0, d2.Columns.Count, (i, state) => d2.Columns[i].ColumnName = d1.Columns[i].ColumnName);
 
             return CompareResult.OK;
         }
@@ -128,23 +128,24 @@ namespace WDBXEditor.Common
         {
             StringBuilder sb = new StringBuilder();
             DataColumnCollection cols = row.Table.Columns;
+            CultureInfo ci = CultureInfo.CreateSpecificCulture("en-US");
 
             for (int i = 0; i < cols.Count; i++)
             {
                 if (cols[i].DataType == typeof(string)) //Escape formatting
                 {
-                    string val = row[i].ToString().Replace(@"'", @"\'").Replace(@"""", @"\""");
+                    string val = row[i].ToString().Replace(@"'", @"\'").Replace(@"""", @"\""").Replace(@"\", @"\\");
                     sb.Append("\"" + val + "\",");
                 }
-                else if(cols[i].DataType == typeof(float))
+                else if (cols[i].DataType == typeof(float))
                 {
-                    sb.Append(((float)row[i]).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ",");
+                    sb.Append(((float)row[i]).ToString(ci) + ",");
                 }
                 else
                 {
                     sb.Append(row[i] + ",");
                 }
-                    
+
             }
 
             return sb.ToString().TrimEnd(',');
