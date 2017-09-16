@@ -1,3 +1,10 @@
+## 1.0.9
+
+### Changes
+* Fixed SQL string escaping backslashes
+* Performance improvements for DB2 saving
+* Minor defintion corrections
+
 ## 1.0.8
 
 ### Changes
