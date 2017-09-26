@@ -33,7 +33,7 @@ namespace WDBXEditor
 			{
 				if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
 				{
-					btnParse.Enabled = false;
+					btnParse.Enabled = true;
 					filePath = folderBrowserDialog.SelectedPath;
 
 					Properties.Settings.Default.RecentCASC = filePath;
@@ -47,7 +47,7 @@ namespace WDBXEditor
 			{
 				if (openFileDialog.ShowDialog() == DialogResult.OK)
 				{
-					btnParse.Enabled = false;
+					btnParse.Enabled = true;
 					filePath = openFileDialog.FileName;
 
 					Properties.Settings.Default.RecentMPQ = filePath;
