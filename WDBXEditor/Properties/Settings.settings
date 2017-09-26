@@ -14,14 +14,23 @@
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="UserAgent" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows NT 5.1; WDBXEditor </Value>
-    </Setting>
     <Setting Name="ReleaseURL" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://github.com/WowDevTools/WDBXEditor/releases</Value>
     </Setting>
     <Setting Name="ReleaseAPI" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://api.github.com/repos/WowDevTools/WDBXEditor/releases</Value>
+    </Setting>
+    <Setting Name="UserAgent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows NT 5.1; WDBXEditor</Value>
+    </Setting>
+    <Setting Name="RecentMPQ" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RecentCASC" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RecentFiles" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
