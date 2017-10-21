@@ -1,3 +1,12 @@
+## 1.1.0
+
+### Changes
+* Minor bug fixes
+* Added 'Recently Used' file list to the main menu
+* Added MPQ/CASC screen defaults to last used file/directory
+* Added a reload button to the MPQ/CASC load screen
+
+
 ## 1.0.9
 
 ### Changes

@@ -110,7 +110,7 @@ namespace WDBXEditor.Reader.FileTypes
             //Extract record data
             for (int i = 0; i < Math.Max(RecordCount, offsetmap.Count); i++)
             {
-                if (HasOffsetTable)
+                if (HasOffsetTable && m_indexes != null)
                 {
                     int id = m_indexes[Math.Min(CopyTable.Count, m_indexes.Length - 1)];
                     var map = offsetmap[i];
