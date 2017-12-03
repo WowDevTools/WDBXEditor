@@ -266,7 +266,7 @@ namespace WDBXEditor.Reader.FileTypes
             int[] ids;
             int index = entry.Data.Columns.IndexOf(entry.Key);
 
-            if (!HasOffsetTable)
+            if (!HasOffsetTable && entry.Header.CopyTableSize > 0)
                 ids = entry.GetUniqueRows().Select(x => x.Field<int>(index)).ToArray();
             else
                 ids = entry.GetPrimaryKeys().ToArray();
