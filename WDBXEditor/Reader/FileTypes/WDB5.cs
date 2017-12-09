@@ -60,7 +60,7 @@ namespace WDBXEditor.Reader.FileTypes
 
             if (HasIndexTable)
             {
-                FieldCount++;
+				FieldCount++;
                 FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 
                 if (FieldCount > 1)

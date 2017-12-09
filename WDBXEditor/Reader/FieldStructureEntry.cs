@@ -24,6 +24,18 @@ namespace WDBXEditor.Reader
             }
         }
 
+		public int BitCount
+		{
+			get
+			{
+				int bitSize = 32 - Bits;
+				if (bitSize < 0)
+					bitSize = (bitSize * -1) + 32;
+				return bitSize;
+			}
+		}
+
+
         public FieldStructureEntry(short bits, ushort offset, byte commondatatype = 0xFF)
         {
             this.Bits = bits;

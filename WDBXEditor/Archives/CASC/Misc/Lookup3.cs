@@ -8,7 +8,8 @@ namespace WDBXEditor.Archives.Misc
     {
         public ulong Hash(string data)
         {
-            return Hash(Encoding.ASCII.GetBytes(data));
+			data = data.Replace('/', '\\').ToUpperInvariant(); // fix string
+			return Hash(Encoding.ASCII.GetBytes(data));
         }
 
         public ulong Hash(byte[] data)

@@ -14,7 +14,6 @@ namespace WDBXEditor.Reader.FileTypes
 {
     public class WDB6 : WDB5
     {
-        public uint RawRecordSize { get; private set; }
 
         #region Read
         public override void ReadHeader(ref BinaryReader dbReader, string signature)
@@ -32,10 +31,10 @@ namespace WDBXEditor.Reader.FileTypes
             TotalFieldSize = dbReader.ReadUInt32();
             CommonDataTableSize = dbReader.ReadUInt32();
 
-            if (Flags.HasFlag(HeaderFlags.IndexMap))
+            if (HasIndexTable)
                 IdIndex = 0; //Ignored if Index Table    
 
-            RawRecordSize = RecordSize; //RecordSize header field is not right anymore
+			InternalRecordSize = RecordSize; //RecordSize header field is not right anymore
 
             //Gather field structures
             FieldStructure = new List<FieldStructureEntry>();
@@ -50,7 +49,8 @@ namespace WDBXEditor.Reader.FileTypes
 
             if (HasIndexTable)
             {
-                FieldCount++;
+				InternalRecordSize += 4;
+				FieldCount++;
                 FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 
                 if (FieldCount > 1)
@@ -246,7 +246,7 @@ namespace WDBXEditor.Reader.FileTypes
                 }
 
                 commondatalookup = null;
-                RawRecordSize = (uint)CopyTable.Values.First().Length;
+				InternalRecordSize = (uint)CopyTable.Values.First().Length;
             }
 
             return CopyTable;
