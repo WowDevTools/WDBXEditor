@@ -103,7 +103,7 @@ namespace WDBXEditor.Reader
 				if (header.CheckTableStructure && entry.TableStructure == null)
 					throw new Exception("Definition missing.");
 
-				if (header.IsTypeOf<WDC1>())
+				if (header is WDC1 wdc1)
 				{
 					Dictionary<int, string> StringTable = new StringTable().Read(dbReader, pos, pos + header.StringBlockSize); //Get stringtable
 
@@ -111,6 +111,7 @@ namespace WDBXEditor.Reader
 					using (MemoryStream ms = new MemoryStream(header.ReadData(dbReader, pos)))
 					using (BinaryReader dataReader = new BinaryReader(ms, Encoding.UTF8))
 					{
+						wdc1.AddRelationshipColumn(entry);
 						ReadIntoTable(ref entry, dataReader, StringTable);
 					}
 
@@ -198,6 +199,7 @@ namespace WDBXEditor.Reader
 
 			TypeCode[] columnTypes = entry.Data.Columns.Cast<DataColumn>().Select(x => Type.GetTypeCode(x.DataType)).ToArray();
 			int[] padding = entry.TableStructure.Padding.ToArray();
+			Array.Resize(ref padding, entry.Data.Columns.Count);
 
 			FieldStructureEntry[] bits = entry.GetBits();
 			int recordcount = Math.Max(entry.Header.OffsetLengths.Length, (int)entry.Header.RecordCount);

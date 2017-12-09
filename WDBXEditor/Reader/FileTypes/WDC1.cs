@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -149,7 +150,7 @@ namespace WDBXEditor.Reader.FileTypes
 						ColumnMeta[i].PalletValues.Add(dbReader.ReadBytes(cardinality * 4));
 				}
 			}
-			
+
 			// Sparse values
 			for (int i = 0; i < ColumnMeta.Count; i++)
 			{
@@ -174,6 +175,10 @@ namespace WDBXEditor.Reader.FileTypes
 
 				for (int i = 0; i < RelationShipData.Records; i++)
 					RelationShipData.Entries.Add(new RelationShipEntry(dbReader.ReadUInt32(), dbReader.ReadUInt32()));
+
+				FieldStructure.Add(new FieldStructureEntry(0, 0));
+				ColumnMeta.Add(new ColumnStructureEntry());
+
 			}
 
 			// Record Data
@@ -195,6 +200,13 @@ namespace WDBXEditor.Reader.FileTypes
 					byte[] data = dbReader.ReadBytes(map.Item2);
 
 					IEnumerable<byte> recordbytes = BitConverter.GetBytes(id).Concat(data);
+					if (RelationShipData != null)
+					{
+						byte[] relation = BitConverter.GetBytes(RelationShipData.Entries.First(x => x.Index == i).Id);
+						recordbytes = recordbytes.Concat(relation);
+					}
+
+
 					CopyTable.Add(id, recordbytes.ToArray());
 
 					if (Copies.ContainsKey(id))
@@ -274,6 +286,12 @@ namespace WDBXEditor.Reader.FileTypes
 						}
 					}
 
+					if (RelationShipData != null)
+					{
+						byte[] relation = BitConverter.GetBytes(RelationShipData.Entries.First(x => x.Index == i).Id);
+						data.AddRange(relation);
+					}
+
 					CopyTable.Add(id, data.ToArray());
 
 					if (Copies.ContainsKey(id))
@@ -313,6 +331,19 @@ namespace WDBXEditor.Reader.FileTypes
 			Dictionary<int, byte[]> CopyTable = ReadOffsetData(dbReader, pos);
 			OffsetLengths = CopyTable.Select(x => x.Value.Length).ToArray();
 			return CopyTable.Values.SelectMany(x => x).ToArray();
+		}
+
+		public void AddRelationshipColumn(DBEntry entry)
+		{
+			if (RelationShipData == null)
+				return;
+
+			if (!entry.Data.Columns.Cast<DataColumn>().Any(x => x.ExtendedProperties.ContainsKey("RELATIONSHIP")))
+			{
+				DataColumn dataColumn = new DataColumn("RelationshipData", typeof(uint));
+				dataColumn.ExtendedProperties.Add("RELATIONSHIP", true);
+				entry.Data.Columns.Add(dataColumn);
+			}
 		}
 		#endregion
 
@@ -373,6 +404,25 @@ namespace WDBXEditor.Reader.FileTypes
 
 			long pos = bw.BaseStream.Position;
 
+			// get relationship data
+			DataColumn relationshipColumn = entry.Data.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ExtendedProperties.ContainsKey("RELATIONSHIP"));
+			if (relationshipColumn != null)
+			{
+				int index = entry.Data.Columns.IndexOf(relationshipColumn);
+
+				List<RelationShipEntry> relationShipEntries = new List<RelationShipEntry>();
+				for (int i = 0; i < entry.Data.Rows.Count; i++)
+					relationShipEntries.Add(new RelationShipEntry(entry.Data.Rows[i].Field<uint>(index), (uint)i));
+
+				RelationShipData = new RelationShipData()
+				{
+					Records = (uint)entry.Data.Rows.Count,
+					MinId = relationShipEntries.Min(x => x.Id),
+					MaxId = relationShipEntries.Max(x => x.Id),
+					Entries = relationShipEntries.ToList()
+				};
+			}
+
 			// get a list of identical records			
 			if (CopyTableSize > 0)
 			{
@@ -396,8 +446,8 @@ namespace WDBXEditor.Reader.FileTypes
 			for (int rowIndex = 0; rowIndex < entry.Data.Rows.Count; rowIndex++)
 			{
 				Queue<object> rowData = new Queue<object>(entry.Data.Rows[rowIndex].ItemArray);
-				
-				if(CopyTableSize > 0) // skip copy records
+
+				if (CopyTableSize > 0) // skip copy records
 				{
 					int id = (int)rowData.ElementAt(IdIndex);
 					if (copyRecords.Any(x => x.Value.Contains(id)))
@@ -466,7 +516,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 					}
 				}
-				
+
 				if (IsSparse) // needs to be padded to % 4 and offsetmap record needs to be created
 				{
 					bitStream.SeekNextOffset();
