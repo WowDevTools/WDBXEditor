@@ -262,14 +262,8 @@ namespace WDBXEditor.Storage
 				var fields = (Header as WDC1).ColumnMeta;
 				for(int i = 0; i < fields.Count; i++)
 				{
-					int arraySize = 1;
-					if (fields[i].CompressionType == CompressionType.None)
-						arraySize = Math.Max(fields[i].Size / Header.FieldStructure[i].BitCount, 1);
-					else if (fields[i].CompressionType == CompressionType.PalletArray)
-						arraySize = fields[i].Cardinality;
-
 					short bitcount = (short)(Header.FieldStructure[i].BitCount == 64 ? Header.FieldStructure[i].BitCount : 0); // force bitcounts
-					for (int x = 0; x < arraySize; x++)
+					for (int x = 0; x < fields[i].ArraySize; x++)
 						bits.Add(new FieldStructureEntry(bitcount, 0)); 
 				}
 			}

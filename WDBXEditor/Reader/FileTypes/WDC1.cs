@@ -125,7 +125,7 @@ namespace WDBXEditor.Reader.FileTypes
 			ColumnMeta = new List<ColumnStructureEntry>();
 			for (int i = 0; i < FieldCount; i++)
 			{
-				ColumnMeta.Add(new ColumnStructureEntry()
+				var column = new ColumnStructureEntry()
 				{
 					RecordOffset = dbReader.ReadUInt16(),
 					Size = dbReader.ReadUInt16(),
@@ -134,7 +134,15 @@ namespace WDBXEditor.Reader.FileTypes
 					BitOffset = dbReader.ReadInt32(),
 					BitWidth = dbReader.ReadInt32(),
 					Cardinality = dbReader.ReadInt32()
-				});
+				};
+
+				// preload arraysizes
+				if (column.CompressionType == CompressionType.None)
+					column.ArraySize = Math.Max(column.Size / FieldStructure[i].BitCount, 1);
+				else if (column.CompressionType == CompressionType.PalletArray)
+					column.ArraySize = Math.Max(column.Cardinality, 1);
+
+				ColumnMeta.Add(column);
 			}
 
 			// Pallet values
@@ -247,8 +255,7 @@ namespace WDBXEditor.Reader.FileTypes
 								}
 								else
 								{
-									int arraySize = Math.Max(ColumnMeta[f].Size / bitSize, 1);
-									for (int x = 0; x < arraySize; x++)
+									for (int x = 0; x < ColumnMeta[f].ArraySize; x++)
 										data.AddRange(bitStream.ReadBytesPadded(bitSize));
 								}
 								break;
@@ -331,6 +338,51 @@ namespace WDBXEditor.Reader.FileTypes
 			Dictionary<int, byte[]> CopyTable = ReadOffsetData(dbReader, pos);
 			OffsetLengths = CopyTable.Select(x => x.Value.Length).ToArray();
 			return CopyTable.Values.SelectMany(x => x).ToArray();
+		}
+
+
+		public void SetColumnMinMaxValues(DBEntry entry)
+		{
+			int column = 0;
+			for (int i = 0; i < ColumnMeta.Count; i++)
+			{
+				var type = entry.Data.Columns[column].DataType;
+				if(type == typeof(string))
+				{
+					column += ColumnMeta[i].ArraySize;
+					continue;
+				}
+
+				int bits = ColumnMeta[i].CompressionType == CompressionType.None ? FieldStructure[i].BitCount : ColumnMeta[i].BitWidth;
+				if((bits & (bits - 1)) == 0) // power of two so standard type
+				{
+					column += ColumnMeta[i].ArraySize;
+					continue;
+				}
+
+				ulong unsignedMax = ulong.MaxValue >> (64 - bits);
+				long signedMax = long.MaxValue >> (64 - bits);
+				long signedMin = long.MinValue >> (64 - bits);
+
+				bool signed = Convert.ToBoolean(type.GetField("MinValue").GetValue(null));
+				if(signed)
+				{
+					for(int j = 0; j < ColumnMeta[i].ArraySize; j++)
+					{
+						entry.Data.Columns[column].ExtendedProperties.Add("MinValue", signedMin);
+						entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", signedMax);
+						column++;
+					}
+				}
+				else
+				{
+					for (int j = 0; j < ColumnMeta[i].ArraySize; j++)
+					{
+						entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", unsignedMax);
+						column++;
+					}
+				}
+			}
 		}
 
 		public void AddRelationshipColumn(DBEntry entry)
@@ -465,10 +517,11 @@ namespace WDBXEditor.Reader.FileTypes
 				{
 					int bitWidth = ColumnMeta[fieldIndex].BitWidth;
 					int bitSize = FieldStructure[fieldIndex].BitCount;
+					int arraySize = ColumnMeta[fieldIndex].ArraySize;
 
 					// get the values for the current record, array size may require more than 1
-					object[] values = ExtractFields(rowData, stringTable, bitStream, fieldIndex, out int arraySize);
-					byte[][] data = values.Select(x => (byte[])BitConverter.GetBytes((dynamic)x)).ToArray();
+					object[] values = ExtractFields(rowData, stringTable, bitStream, fieldIndex);
+					byte[][] data = values.Select(x => (byte[])BitConverter.GetBytes((dynamic)x)).ToArray(); // shameful hack
 					if (data.Length == 0)
 						continue;
 
@@ -660,16 +713,10 @@ namespace WDBXEditor.Reader.FileTypes
 			}
 		}
 
-		private object[] ExtractFields(Queue<object> rowData, StringTable stringTable, BitStream bitStream, int fieldIndex, out int arraySize)
+		private object[] ExtractFields(Queue<object> rowData, StringTable stringTable, BitStream bitStream, int fieldIndex)
 		{
-			arraySize = 1;
-			if (ColumnMeta[fieldIndex].CompressionType == CompressionType.None)
-				arraySize = ColumnMeta[fieldIndex].Size / FieldStructure[fieldIndex].BitCount;
-			else if (ColumnMeta[fieldIndex].CompressionType == CompressionType.PalletArray)
-				arraySize = ColumnMeta[fieldIndex].Cardinality;
-			arraySize = Math.Max(arraySize, 1);
 
-			object[] values = Enumerable.Range(0, arraySize).Select(x => rowData.Dequeue()).ToArray();
+			object[] values = Enumerable.Range(0, ColumnMeta[fieldIndex].ArraySize).Select(x => rowData.Dequeue()).ToArray();
 			if (values.Any(x => x.GetType() == typeof(string)))
 			{
 				if (HasIndexTable && HasOffsetTable)
@@ -692,5 +739,6 @@ namespace WDBXEditor.Reader.FileTypes
 		}
 
 		#endregion
+
 	}
 }

@@ -63,6 +63,8 @@ namespace ADGV
         private object[] _copydata;
         private DataColumn primarykey => PrimaryKey;
 
+		private Dictionary<int, MinMax> BitCounts;
+		
         public AdvancedDataGridView()
         {
             DoubleBuffered = true;
@@ -162,12 +164,31 @@ namespace ADGV
             filteredColumns.Remove(Columns[e.ColumnIndex].Name);
             base.OnCellValueChanged(e);
         }
-        #endregion
+
+		protected override void OnCellValidating(DataGridViewCellValidatingEventArgs e)
+		{
+			if(BitCounts.ContainsKey(e.ColumnIndex))
+			{
+				var bitcount = BitCounts[e.ColumnIndex];
+				if(bitcount.Signed && long.TryParse(e.FormattedValue.ToString(), out long val))
+				{
+					e.Cancel = val < (long)bitcount.MinVal || val > (long)bitcount.MaxVal;
+				}
+				else if(ulong.TryParse(e.FormattedValue.ToString(), out ulong val2))
+				{
+					e.Cancel = val2 > (ulong)bitcount.MaxVal;
+				}
+			}
+
+			base.OnCellValidating(e);
+		}
+
+		#endregion
 
 
-        #region Filter Methods
+		#region Filter Methods
 
-        private string BuildFilterString()
+		private string BuildFilterString()
         {
             StringBuilder sb = new StringBuilder("");
             string appx = "";
@@ -323,7 +344,9 @@ namespace ADGV
                 }
             }
             else
-                base.OnCellParsing(e);
+			{
+				base.OnCellParsing(e);
+			}
         }
 
         protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
@@ -383,12 +406,44 @@ namespace ADGV
         {
             Task.Run(() => Init());
             base.OnDataBindingComplete(e);
-        }
+
+			if ((DataSource as BindingSource)?.DataSource as DataTable != null)
+				BuildMinMaxArray();
+
+		}
 
         protected override void OnDataError(bool displayErrorDialogIfNoHandler, DataGridViewDataErrorEventArgs e)
         {
             displayErrorDialogIfNoHandler = false;
             base.OnDataError(displayErrorDialogIfNoHandler, e);
         }
+
+		private void BuildMinMaxArray()
+		{
+			BitCounts = new Dictionary<int, MinMax>();
+
+			var source = ((DataTable)((BindingSource)DataSource).DataSource);
+			foreach(DataColumn col in source.Columns)
+			{
+				if(col.ExtendedProperties.ContainsKey("MaxValue"))
+				{
+					MinMax minmax = new MinMax()
+					{
+						Signed = col.ExtendedProperties.ContainsKey("MinValue"),
+						MaxVal = col.ExtendedProperties["MaxValue"],
+						MinVal = col.ExtendedProperties.Contains("MinValue") ? col.ExtendedProperties["MinValue"] : 0
+					};
+
+					BitCounts.Add(source.Columns.IndexOf(col), minmax);
+				}
+			}
+		}
+
+		internal class MinMax
+		{
+			public object MinVal;
+			public object MaxVal;
+			public bool Signed;
+		}
     }
 }

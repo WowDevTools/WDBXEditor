@@ -112,6 +112,7 @@ namespace WDBXEditor.Reader
 					using (BinaryReader dataReader = new BinaryReader(ms, Encoding.UTF8))
 					{
 						wdc1.AddRelationshipColumn(entry);
+						wdc1.SetColumnMinMaxValues(entry);
 						ReadIntoTable(ref entry, dataReader, StringTable);
 					}
 

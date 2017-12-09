@@ -313,7 +313,6 @@ namespace WDBXEditor.Forms
 				for (int f = 0; f < header.ColumnMeta.Count; f++)
 				{
 					FieldType byteType;
-					int arraySize = 1;
 
 					if (f == header.IdIndex || (f == 0 && header.HasIndexTable))
 					{
@@ -325,11 +324,9 @@ namespace WDBXEditor.Forms
 					{
 						int bitSize = header.FieldStructure[f].BitCount;
 						byteType = FieldTypes[NextPow2(~~(bitSize + 7) / 8)];
-						arraySize = Math.Max(header.ColumnMeta[f].Size / bitSize, 1);
 					}
 					else if(header.ColumnMeta[f].CompressionType > CompressionType.Immediate)
 					{
-						arraySize = Math.Max(header.ColumnMeta[f].Cardinality, 1);
 						byteType = FieldType.INT;
 					}
 					else
@@ -339,7 +336,7 @@ namespace WDBXEditor.Forms
 
 					fields.Add(new FieldInfo()
 					{
-						ArraySize = arraySize,
+						ArraySize = header.ColumnMeta[f].ArraySize,
 						Type = byteType == FieldType.INT ? FieldType.UNKNOWN : byteType
 					});
 				}

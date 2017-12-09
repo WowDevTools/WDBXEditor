@@ -20,6 +20,6 @@ namespace WDBXEditor.Reader
 
 		public List<byte[]> PalletValues { get; set; }
 		public Dictionary<int, byte[]> SparseValues { get; set; }
-
+		public int ArraySize { get; set; } = 1;
 	}
 }
