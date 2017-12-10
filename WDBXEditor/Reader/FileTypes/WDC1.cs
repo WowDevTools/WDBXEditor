@@ -346,41 +346,39 @@ namespace WDBXEditor.Reader.FileTypes
 			int column = 0;
 			for (int i = 0; i < ColumnMeta.Count; i++)
 			{
+				// get the column type - skip strings
 				var type = entry.Data.Columns[column].DataType;
-				if(type == typeof(string))
+				if (type == typeof(string))
 				{
 					column += ColumnMeta[i].ArraySize;
 					continue;
 				}
 
 				int bits = ColumnMeta[i].CompressionType == CompressionType.None ? FieldStructure[i].BitCount : ColumnMeta[i].BitWidth;
-				if((bits & (bits - 1)) == 0) // power of two so standard type
+				if ((bits & (bits - 1)) == 0) // power of two so standard type
 				{
 					column += ColumnMeta[i].ArraySize;
 					continue;
 				}
 
-				ulong unsignedMax = ulong.MaxValue >> (64 - bits);
-				long signedMax = long.MaxValue >> (64 - bits);
-				long signedMin = long.MinValue >> (64 - bits);
-
+				// calculate the min and max values
 				bool signed = Convert.ToBoolean(type.GetField("MinValue").GetValue(null));
-				if(signed)
+				bool isfloat = type == typeof(float);
+
+				object max = signed ? long.MaxValue >> (64 - bits) : (object)(ulong.MaxValue >> (64 - bits));
+				object min = signed ? long.MinValue >> (64 - bits) : 0;
+				if (isfloat)
 				{
-					for(int j = 0; j < ColumnMeta[i].ArraySize; j++)
-					{
-						entry.Data.Columns[column].ExtendedProperties.Add("MinValue", signedMin);
-						entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", signedMax);
-						column++;
-					}
+					max = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)max), 0);
+					min = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)min), 0);
 				}
-				else
+
+				for (int j = 0; j < ColumnMeta[i].ArraySize; j++)
 				{
-					for (int j = 0; j < ColumnMeta[i].ArraySize; j++)
-					{
-						entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", unsignedMax);
-						column++;
-					}
+					entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", max);
+					if (signed || isfloat)
+						entry.Data.Columns[column].ExtendedProperties.Add("MinValue", min);
+					column++;
 				}
 			}
 		}

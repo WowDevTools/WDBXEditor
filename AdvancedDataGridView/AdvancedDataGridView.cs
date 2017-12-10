@@ -170,6 +170,10 @@ namespace ADGV
 			if(BitCounts.ContainsKey(e.ColumnIndex))
 			{
 				var bitcount = BitCounts[e.ColumnIndex];
+				if(bitcount.IsSingle &&  float.TryParse(e.FormattedValue.ToString(), out float fVal))
+				{
+					e.Cancel = fVal < (float)bitcount.MinVal || fVal > (float)bitcount.MaxVal;
+				}
 				if(bitcount.Signed && long.TryParse(e.FormattedValue.ToString(), out long val))
 				{
 					e.Cancel = val < (long)bitcount.MinVal || val > (long)bitcount.MaxVal;
@@ -418,6 +422,8 @@ namespace ADGV
             base.OnDataError(displayErrorDialogIfNoHandler, e);
         }
 
+
+
 		private void BuildMinMaxArray()
 		{
 			BitCounts = new Dictionary<int, MinMax>();
@@ -431,7 +437,8 @@ namespace ADGV
 					{
 						Signed = col.ExtendedProperties.ContainsKey("MinValue"),
 						MaxVal = col.ExtendedProperties["MaxValue"],
-						MinVal = col.ExtendedProperties.Contains("MinValue") ? col.ExtendedProperties["MinValue"] : 0
+						MinVal = col.ExtendedProperties.Contains("MinValue") ? col.ExtendedProperties["MinValue"] : 0,
+						IsSingle = col.DataType == typeof(float)
 					};
 
 					BitCounts.Add(source.Columns.IndexOf(col), minmax);
@@ -444,6 +451,7 @@ namespace ADGV
 			public object MinVal;
 			public object MaxVal;
 			public bool Signed;
+			public bool IsSingle;
 		}
     }
 }
