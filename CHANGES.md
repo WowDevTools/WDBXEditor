@@ -1,3 +1,12 @@
+## 1.1.1
+
+### Changes
+* Added basic definitions for 7.3.5
+* Added read and write support for the new WDC1 format
+	* WDC1 has non-standard bit size fields so new grid validation has been added to prevent invalid values
+	* WDC1 has a new column called 'RelationshipData' which is dynamically appended. This column is used for foreign keys to other DB2 files.
+* Minor bug fixes and code cleanup
+
 ## 1.1.0
 
 ### Changes
