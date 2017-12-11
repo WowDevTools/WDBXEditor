@@ -2464,8 +2464,8 @@
     <Field Name="field05" Type="string" />
     <Field Name="field06" Type="string" />
     <Field Name="field07" Type="int" ArraySize="4" />
-    <Field Name="field08" Type="int" />
-    <Field Name="field09" Type="int" />
+    <Field Name="field08" Type="float" />
+    <Field Name="field09" Type="float" />
     <Field Name="field0A" Type="int" />
     <Field Name="field0B" Type="int" />
     <Field Name="field0C" Type="int" />
@@ -2473,12 +2473,12 @@
     <Field Name="field0E" Type="int" />
     <Field Name="field0F" Type="int" />
     <Field Name="field10" Type="int" ArraySize="10" />
-    <Field Name="field11" Type="int" ArraySize="10" />
-    <Field Name="field12" Type="int" />
+    <Field Name="field11" Type="float" ArraySize="10" />
+    <Field Name="field12" Type="float" />
     <Field Name="field13" Type="int" />
     <Field Name="field14" Type="int" />
     <Field Name="field15" Type="int" />
-    <Field Name="field16" Type="int" />
+    <Field Name="field16" Type="float" />
     <Field Name="field17" Type="ushort" />
     <Field Name="field18" Type="ushort" />
     <Field Name="field19" Type="ushort" />

@@ -67,13 +67,16 @@ namespace WDBXEditor.Reader
 			stream.Seek(offset, SeekOrigin.Begin);
 		}
 
-		public void AdvanceBit()
+		public bool AdvanceBit()
 		{
 			bit = (bit + 1) % 8;
 			if (bit == 0)
 			{
 				offset++;
+				return true;
 			}
+
+			return false;
 		}
 
 		public void SeekNextOffset()
@@ -122,13 +125,13 @@ namespace WDBXEditor.Reader
 			{
 				throw new IOException("Cannot read in an offset bigger than the length of the stream");
 			}
-			stream.Seek(offset, SeekOrigin.Begin);
-			byte value;
 
-			value = (byte)((stream.ReadByte() >> (bit)) & 1);
-
-			AdvanceBit();
 			stream.Seek(offset, SeekOrigin.Begin);
+			byte value = (byte)((stream.ReadByte() >> (bit)) & 1);
+
+			if (AdvanceBit())
+				stream.Seek(offset, SeekOrigin.Begin);
+
 			return value;
 		}
 
@@ -163,36 +166,39 @@ namespace WDBXEditor.Reader
 					throw new IOException("Attempted to write past the length of the stream.");
 				}
 			}
-			AdvanceBit();
-			stream.Seek(offset, SeekOrigin.Begin);
+
+			if (AdvanceBit())
+				stream.Seek(offset, SeekOrigin.Begin);
 		}
 
 		#endregion
 
 		#region Read
 
-		public byte[] ReadBytes(long length, bool isBytes = false)
+		public byte[] ReadBytes(long length, bool isBytes = false, long byteLength = 0)
 		{
 			if (isBytes)
 				length *= 8;
 
-			List<byte> data = new List<byte>();
+			byteLength = (byteLength == 0 ? length / 8 : byteLength);
+
+			byte[] data = new byte[byteLength];
 			for (long i = 0; i < length;)
 			{
 				byte value = 0;
 				for (int p = 0; p < 8 && i < length; i++, p++)
 					value |= (byte)(ReadBit() << p);
 
-				data.Add(value);
+				data[((i + 7) / 8) - 1] = value;
 			}
 
-			return data.ToArray();
+			return data;
 		}
 
 		public byte[] ReadBytesPadded(long length)
 		{
-			byte[] data = ReadBytes(length);
-			Array.Resize(ref data, NextPow2(data.Length)); // pad to a common structure size
+			int requiredSize = NextPow2((int)(length + 7) / 8);
+			byte[] data = ReadBytes(length, false, requiredSize);
 			return data;
 		}
 
@@ -209,8 +215,8 @@ namespace WDBXEditor.Reader
 
 		public string ReadString(int length)
 		{
-			int bitsPerChar = encoding.GetByteCount(" ") * 8;
-			return encoding.GetString(ReadBytes(bitsPerChar * length));
+			// UTF8 - revert if encoding gets exposed
+			return encoding.GetString(ReadBytes(8 * length));
 		}
 
 		public short ReadInt16()
@@ -241,8 +247,7 @@ namespace WDBXEditor.Reader
 		{
 			bitWidth = Math.Min(Math.Max(bitWidth, 0), 32); // clamp values
 
-			byte[] data = ReadBytes(bitWidth);
-			Array.Resize(ref data, 4);
+			byte[] data = ReadBytes(bitWidth, false, 4);
 			return BitConverter.ToUInt32(data, 0);
 		}
 

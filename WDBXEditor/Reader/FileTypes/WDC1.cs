@@ -178,15 +178,20 @@ namespace WDBXEditor.Reader.FileTypes
 					Records = dbReader.ReadUInt32(),
 					MinId = dbReader.ReadUInt32(),
 					MaxId = dbReader.ReadUInt32(),
-					Entries = new List<RelationShipEntry>()
+					Entries = new Dictionary<uint, byte[]>()
 				};
 
 				for (int i = 0; i < RelationShipData.Records; i++)
-					RelationShipData.Entries.Add(new RelationShipEntry(dbReader.ReadUInt32(), dbReader.ReadUInt32()));
+				{
+					byte[] foreignKey = dbReader.ReadBytes(4);
+					uint index = dbReader.ReadUInt32();
+					// has duplicates just like the copy table does... why?
+					if (!RelationShipData.Entries.ContainsKey(index))
+						RelationShipData.Entries.Add(index, foreignKey);
+				}
 
 				FieldStructure.Add(new FieldStructureEntry(0, 0));
 				ColumnMeta.Add(new ColumnStructureEntry());
-
 			}
 
 			// Record Data
@@ -208,18 +213,22 @@ namespace WDBXEditor.Reader.FileTypes
 					byte[] data = dbReader.ReadBytes(map.Item2);
 
 					IEnumerable<byte> recordbytes = BitConverter.GetBytes(id).Concat(data);
+
+					// append relationship id
 					if (RelationShipData != null)
 					{
-						byte[] relation = BitConverter.GetBytes(RelationShipData.Entries.First(x => x.Index == i).Id);
-						recordbytes = recordbytes.Concat(relation);
+						// seen cases of missing indicies 
+						if (RelationShipData.Entries.TryGetValue((uint)i, out byte[] foreignData))
+							recordbytes = recordbytes.Concat(foreignData);
+						else
+							recordbytes = recordbytes.Concat(new byte[4]);
 					}
-
 
 					CopyTable.Add(id, recordbytes.ToArray());
 
 					if (Copies.ContainsKey(id))
 					{
-						foreach (var copy in Copies[id])
+						foreach (int copy in Copies[id])
 							CopyTable.Add(copy, BitConverter.GetBytes(copy).Concat(data).ToArray());
 					}
 				}
@@ -293,17 +302,21 @@ namespace WDBXEditor.Reader.FileTypes
 						}
 					}
 
+					// append relationship id
 					if (RelationShipData != null)
 					{
-						byte[] relation = BitConverter.GetBytes(RelationShipData.Entries.First(x => x.Index == i).Id);
-						data.AddRange(relation);
+						// seen cases of missing indicies 
+						if (RelationShipData.Entries.TryGetValue((uint)i, out byte[] foreignData))
+							data.AddRange(foreignData);
+						else
+							data.AddRange(new byte[4]);
 					}
 
 					CopyTable.Add(id, data.ToArray());
 
 					if (Copies.ContainsKey(id))
 					{
-						foreach (var copy in Copies[id])
+						foreach (int copy in Copies[id])
 						{
 							byte[] newrecord = CopyTable[id].ToArray();
 							Buffer.BlockCopy(BitConverter.GetBytes(copy), 0, newrecord, idOffset, 4);
@@ -430,6 +443,7 @@ namespace WDBXEditor.Reader.FileTypes
 			for (int i = 0; i < FieldStructure.Count; i++)
 			{
 				if (HasIndexTable && i == 0) continue;
+				if (RelationShipData != null && i == FieldStructure.Count - 1) continue;
 
 				bw.Write(FieldStructure[i].Bits);
 				bw.Write(FieldStructure[i].Offset);
@@ -451,8 +465,20 @@ namespace WDBXEditor.Reader.FileTypes
 			StringTable stringTable = new StringTable(true);
 			bool IsSparse = HasIndexTable && HasOffsetTable;
 			Dictionary<int, List<int>> copyRecords = new Dictionary<int, List<int>>();
+			List<int> copyIds = new List<int>();
 
 			long pos = bw.BaseStream.Position;
+
+			// get a list of identical records			
+			if (CopyTableSize > 0)
+			{
+				var copies = entry.GetCopyRows();
+				foreach (var c in copies)
+				{
+					copyRecords.Add(c.First(), c.Skip(1).ToList());
+					copyIds.AddRange(c.Skip(1));
+				}
+			}
 
 			// get relationship data
 			DataColumn relationshipColumn = entry.Data.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ExtendedProperties.ContainsKey("RELATIONSHIP"));
@@ -460,25 +486,19 @@ namespace WDBXEditor.Reader.FileTypes
 			{
 				int index = entry.Data.Columns.IndexOf(relationshipColumn);
 
-				List<RelationShipEntry> relationShipEntries = new List<RelationShipEntry>();
-				for (int i = 0; i < entry.Data.Rows.Count; i++)
-					relationShipEntries.Add(new RelationShipEntry(entry.Data.Rows[i].Field<uint>(index), (uint)i));
+				var relationsShipData = entry.Data.Rows.Cast<DataRow>()
+										 .Where(x => !copyIds.Contains(x.Field<int>(entry.Key)))
+										 .Select(r => r.Field<uint>(index));
 
 				RelationShipData = new RelationShipData()
 				{
-					Records = (uint)entry.Data.Rows.Count,
-					MinId = relationShipEntries.Min(x => x.Id),
-					MaxId = relationShipEntries.Max(x => x.Id),
-					Entries = relationShipEntries.ToList()
+					Records = (uint)relationsShipData.Count(),
+					MinId = relationsShipData.Min(),
+					MaxId = relationsShipData.Max(),
+					Entries = relationsShipData.Select((x, i) => new { Index = (uint)i, Id = x }).ToDictionary(x => x.Index, x => BitConverter.GetBytes(x.Id))
 				};
-			}
-
-			// get a list of identical records			
-			if (CopyTableSize > 0)
-			{
-				var copies = entry.GetCopyRows();
-				foreach (var c in copies)
-					copyRecords.Add(c.First(), c.Skip(1).ToList());
+				
+				relationsShipData = null;
 			}
 
 			// temporarily remove the fake records
@@ -486,6 +506,11 @@ namespace WDBXEditor.Reader.FileTypes
 			{
 				FieldStructure.RemoveAt(0);
 				ColumnMeta.RemoveAt(0);
+			}
+			if(RelationShipData != null)
+			{
+				FieldStructure.RemoveAt(FieldStructure.Count - 1);
+				ColumnMeta.RemoveAt(ColumnMeta.Count - 1);
 			}
 
 			// remove any existing column values
@@ -500,7 +525,7 @@ namespace WDBXEditor.Reader.FileTypes
 				if (CopyTableSize > 0) // skip copy records
 				{
 					int id = (int)rowData.ElementAt(IdIndex);
-					if (copyRecords.Any(x => x.Value.Contains(id)))
+					if (copyIds.Contains(id))
 						continue;
 				}
 
@@ -627,6 +652,7 @@ namespace WDBXEditor.Reader.FileTypes
 				}
 				CopyTableSize = (int)(bw.BaseStream.Position - pos);
 				copyRecords.Clear();
+				copyIds.Clear();
 			}
 
 			// ColumnMeta
@@ -684,8 +710,8 @@ namespace WDBXEditor.Reader.FileTypes
 
 				foreach (var relation in RelationShipData.Entries)
 				{
-					bw.Write(relation.Id);
-					bw.Write(relation.Index);
+					bw.Write(relation.Value);
+					bw.Write(relation.Key);
 				}
 			}
 			RelationshipDataSize = (int)(bw.BaseStream.Position - pos);
@@ -709,12 +735,18 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 				ColumnMeta.Insert(0, new ColumnStructureEntry());
 			}
+			if(RelationShipData != null)
+			{
+				FieldStructure.Add(new FieldStructureEntry(0, 0));
+				ColumnMeta.Add(new ColumnStructureEntry());
+			}
 		}
 
 		private object[] ExtractFields(Queue<object> rowData, StringTable stringTable, BitStream bitStream, int fieldIndex)
 		{
-
 			object[] values = Enumerable.Range(0, ColumnMeta[fieldIndex].ArraySize).Select(x => rowData.Dequeue()).ToArray();
+
+			// deal with strings
 			if (values.Any(x => x.GetType() == typeof(string)))
 			{
 				if (HasIndexTable && HasOffsetTable)
