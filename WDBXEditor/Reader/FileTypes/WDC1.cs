@@ -593,7 +593,7 @@ namespace WDBXEditor.Reader.FileTypes
 					}
 				}
 
-				if (IsSparse) // needs to be padded to % 4 and offsetmap record needs to be created
+				if (IsSparse) // needs to be padded to % 4 and offsetmap record needs to be created. this isn't true but doesn't matter
 				{
 					bitStream.SeekNextOffset();
 					short size = (short)(bitStream.Offset - offset + bw.BaseStream.Position);

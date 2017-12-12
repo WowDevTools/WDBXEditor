@@ -73,6 +73,7 @@ namespace WDBXEditor.Reader
 			if (bit == 0)
 			{
 				offset++;
+				stream.Seek(offset, SeekOrigin.Begin);
 				return true;
 			}
 
@@ -129,8 +130,7 @@ namespace WDBXEditor.Reader
 			stream.Seek(offset, SeekOrigin.Begin);
 			byte value = (byte)((stream.ReadByte() >> (bit)) & 1);
 
-			if (AdvanceBit())
-				stream.Seek(offset, SeekOrigin.Begin);
+			AdvanceBit();
 
 			return value;
 		}
@@ -167,8 +167,8 @@ namespace WDBXEditor.Reader
 				}
 			}
 
-			if (AdvanceBit())
-				stream.Seek(offset, SeekOrigin.Begin);
+			AdvanceBit();
+				
 		}
 
 		#endregion
