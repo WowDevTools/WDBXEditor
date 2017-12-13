@@ -9,11 +9,12 @@ namespace WDBXEditor.Reader
 {
 	public class BitStream : IDisposable
 	{
+		private byte currentByte;
 		private long offset;
 		private int bit;
 		private Stream stream;
 		private Encoding encoding = Encoding.UTF8;
-		private bool autoincreasestream = true;
+		private bool canWrite = true;
 
 		public long Length => stream.Length;
 		public long BitPosition => bit;
@@ -21,18 +22,20 @@ namespace WDBXEditor.Reader
 		private bool ValidPosition => offset < Length;
 
 
-		public BitStream()
+		public BitStream(int capacity = 0)
 		{
-			this.stream = new MemoryStream();
+			this.stream = new MemoryStream(capacity);
 			offset = bit = 0;
-			autoincreasestream = true;
+			canWrite = true;
+			currentByte = 0;
 		}
 
 		public BitStream(byte[] buffer)
 		{
 			this.stream = new MemoryStream(buffer);
 			offset = bit = 0;
-			autoincreasestream = false;
+			canWrite = false;
+			currentByte = buffer[0];
 		}
 
 
@@ -54,17 +57,18 @@ namespace WDBXEditor.Reader
 					offset = 0;
 				}
 			}
+
 			if (bit >= 8)
 			{
-				int n = (int)(bit / 8);
-				this.offset += n;
+				this.offset += bit / 8;
 				this.bit = bit % 8;
 			}
 			else
 			{
 				this.bit = bit;
 			}
-			stream.Seek(offset, SeekOrigin.Begin);
+
+			UpdateCurrentByte();
 		}
 
 		public bool AdvanceBit()
@@ -73,7 +77,12 @@ namespace WDBXEditor.Reader
 			if (bit == 0)
 			{
 				offset++;
-				stream.Seek(offset, SeekOrigin.Begin);
+
+				if (canWrite)
+					stream.WriteByte(currentByte);
+
+				UpdateCurrentByte();
+
 				return true;
 			}
 
@@ -88,7 +97,7 @@ namespace WDBXEditor.Reader
 
 		public byte[] GetStreamData()
 		{
-			stream.Seek(0, SeekOrigin.Begin);
+			stream.Position = 0;
 			MemoryStream s = new MemoryStream();
 			stream.CopyTo(s);
 			Seek(offset, bit);
@@ -120,16 +129,27 @@ namespace WDBXEditor.Reader
 
 		#region Bit Read/Write
 
+		private void UpdateCurrentByte()
+		{
+			stream.Position = offset;
+
+			if (canWrite)
+			{
+				currentByte = 0;
+			}
+			else
+			{
+				currentByte = (byte)stream.ReadByte();
+				stream.Position = offset;
+			}
+		}
+
 		private Bit ReadBit()
 		{
 			if (!ValidPosition)
-			{
 				throw new IOException("Cannot read in an offset bigger than the length of the stream");
-			}
 
-			stream.Seek(offset, SeekOrigin.Begin);
-			byte value = (byte)((stream.ReadByte() >> (bit)) & 1);
-
+			byte value = (byte)((currentByte >> (bit)) & 1);
 			AdvanceBit();
 
 			return value;
@@ -137,38 +157,16 @@ namespace WDBXEditor.Reader
 
 		private void WriteBit(Bit data)
 		{
-			stream.Seek(offset, SeekOrigin.Begin);
-			byte value = (byte)stream.ReadByte();
-			stream.Seek(offset, SeekOrigin.Begin);
+			currentByte &= (byte)~(1 << bit);
+			currentByte |= (byte)(data << bit);
 
-			value &= (byte)~(1 << bit);
-			value |= (byte)(data << bit);
-
-			if (ValidPosition)
+			if (!ValidPosition)
 			{
-				stream.WriteByte(value);
-			}
-			else
-			{
-				if (autoincreasestream)
-				{
-					if (ChangeLength(Length + (offset - Length) + 1))
-					{
-						stream.WriteByte(value);
-					}
-					else
-					{
-						throw new IOException("Attempted to write past the length of the stream.");
-					}
-				}
-				else
-				{
+				if (!canWrite || !ChangeLength(Length + (offset - Length) + 1))
 					throw new IOException("Attempted to write past the length of the stream.");
-				}
 			}
 
 			AdvanceBit();
-				
 		}
 
 		#endregion
@@ -310,6 +308,13 @@ namespace WDBXEditor.Reader
 			WriteBytes(bytes, bytes.Length * 8);
 		}
 
+		public void WriteCString(string value)
+		{
+			byte[] bytes = encoding.GetBytes(value);
+			Array.Resize(ref bytes, bytes.Length + 1);
+			WriteBytes(bytes, bytes.Length * 8);
+		}
+
 		public void WriteInt16(short value, int bits = 16)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 16); // clamp values
@@ -348,12 +353,10 @@ namespace WDBXEditor.Reader
 
 		#endregion
 
-
 		public void Dispose()
 		{
 			((IDisposable)stream)?.Dispose();
 		}
-
 
 		internal struct Bit
 		{

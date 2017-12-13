@@ -336,8 +336,8 @@ namespace WDBXEditor.Reader.FileTypes
 			firstindex.Clear();
 			OffsetDuplicates.Clear();
 			Copies.Clear();
-			recordData = new byte[0];
-			recordData = null;
+			//recordData = new byte[0];
+			//recordData = null;
 			bitStream.Dispose();
 			ColumnMeta.ForEach(x => { x.PalletValues?.Clear(); x.SparseValues?.Clear(); });
 
@@ -486,19 +486,23 @@ namespace WDBXEditor.Reader.FileTypes
 			{
 				int index = entry.Data.Columns.IndexOf(relationshipColumn);
 
-				var relationsShipData = entry.Data.Rows.Cast<DataRow>()
-										 .Where(x => !copyIds.Contains(x.Field<int>(entry.Key)))
-										 .Select(r => r.Field<uint>(index));
+				Dictionary<int, uint> relationData = new Dictionary<int, uint>();
+				foreach (DataRow r in entry.Data.Rows)
+				{
+					int id = r.Field<int>(entry.Key);
+					if(!copyIds.Contains(id))
+						relationData.Add(id, r.Field<uint>(index));						
+				}
 
 				RelationShipData = new RelationShipData()
 				{
-					Records = (uint)relationsShipData.Count(),
-					MinId = relationsShipData.Min(),
-					MaxId = relationsShipData.Max(),
-					Entries = relationsShipData.Select((x, i) => new { Index = (uint)i, Id = x }).ToDictionary(x => x.Index, x => BitConverter.GetBytes(x.Id))
+					Records = (uint)relationData.Count,
+					MinId = relationData.Values.Min(),
+					MaxId = relationData.Values.Max(),
+					Entries = relationData.Values.Select((x, i) => new { Index = (uint)i, Id = x }).ToDictionary(x => x.Index, x => BitConverter.GetBytes(x.Id))
 				};
-				
-				relationsShipData = null;
+
+				relationData.Clear();
 			}
 
 			// temporarily remove the fake records
@@ -507,7 +511,7 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.RemoveAt(0);
 				ColumnMeta.RemoveAt(0);
 			}
-			if(RelationShipData != null)
+			if (RelationShipData != null)
 			{
 				FieldStructure.RemoveAt(FieldStructure.Count - 1);
 				ColumnMeta.RemoveAt(ColumnMeta.Count - 1);
@@ -517,7 +521,7 @@ namespace WDBXEditor.Reader.FileTypes
 			ColumnMeta.ForEach(x => { x.PalletValues?.Clear(); x.SparseValues?.Clear(); });
 
 			// RecordData - this can still all be done via one function, except inline strings
-			BitStream bitStream = new BitStream();
+			BitStream bitStream = new BitStream(entry.Data.Rows.Count * ColumnMeta.Max(x => x.RecordOffset));
 			for (int rowIndex = 0; rowIndex < entry.Data.Rows.Count; rowIndex++)
 			{
 				Queue<object> rowData = new Queue<object>(entry.Data.Rows[rowIndex].ItemArray);
@@ -735,7 +739,7 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 				ColumnMeta.Insert(0, new ColumnStructureEntry());
 			}
-			if(RelationShipData != null)
+			if (RelationShipData != null)
 			{
 				FieldStructure.Add(new FieldStructureEntry(0, 0));
 				ColumnMeta.Add(new ColumnStructureEntry());
@@ -752,10 +756,7 @@ namespace WDBXEditor.Reader.FileTypes
 				if (HasIndexTable && HasOffsetTable)
 				{
 					foreach (var s in values)
-					{
-						bitStream.WriteString((string)s);
-						bitStream.WriteByte(0);
-					}
+						bitStream.WriteCString((string)s);
 
 					return new object[0];
 				}
