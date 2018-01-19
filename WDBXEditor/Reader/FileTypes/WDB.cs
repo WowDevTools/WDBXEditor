@@ -22,7 +22,7 @@ namespace WDBXEditor.Reader.FileTypes
 			this.Signature = signature;
 			Build = dbReader.ReadInt32();
 
-			if (Build >= 4499) // 1.6.0
+			if (Build >= 4500) // 1.6.0
 				Locale = dbReader.ReadString(4).Reverse();
 
 			RecordSize = dbReader.ReadUInt32();
