@@ -336,8 +336,8 @@ namespace WDBXEditor.Reader.FileTypes
 			firstindex.Clear();
 			OffsetDuplicates.Clear();
 			Copies.Clear();
-			//recordData = new byte[0];
-			//recordData = null;
+			recordData = new byte[0];
+			recordData = null;
 			bitStream.Dispose();
 			ColumnMeta.ForEach(x => { x.PalletValues?.Clear(); x.SparseValues?.Clear(); });
 
