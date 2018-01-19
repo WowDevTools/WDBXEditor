@@ -526,9 +526,10 @@ namespace WDBXEditor.Reader.FileTypes
 			{
 				Queue<object> rowData = new Queue<object>(entry.Data.Rows[rowIndex].ItemArray);
 
+				int id = (int)rowData.ElementAt(IdIndex);
+
 				if (CopyTableSize > 0) // skip copy records
 				{
-					int id = (int)rowData.ElementAt(IdIndex);
 					if (copyIds.Contains(id))
 						continue;
 				}
@@ -569,7 +570,7 @@ namespace WDBXEditor.Reader.FileTypes
 								if (BitConverter.ToInt32(asInt, 0) == ColumnMeta[fieldIndex].BitOffset)
 									continue;
 								else
-									ColumnMeta[fieldIndex].SparseValues.Add(0, data[0]);
+									ColumnMeta[fieldIndex].SparseValues.Add(id, data[0]);
 							}
 							break;
 
@@ -667,7 +668,7 @@ namespace WDBXEditor.Reader.FileTypes
 				bw.Write(meta.Size);
 
 				if (meta.SparseValues != null)
-					bw.Write((uint)meta.SparseValues.Sum(x => x.Value.Length));
+					bw.Write((uint)meta.SparseValues.Count * 8); // (k<4>, v<4>)
 				else if (meta.PalletValues != null)
 					bw.Write((uint)meta.PalletValues.Sum(x => x.Length));
 				else
