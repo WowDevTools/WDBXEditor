@@ -325,7 +325,7 @@ namespace WDBXEditor.Forms
 						int bitSize = header.FieldStructure[f].BitCount;
 						byteType = FieldTypes[NextPow2(~~(bitSize + 7) / 8)];
 					}
-					else if(header.ColumnMeta[f].CompressionType > CompressionType.Immediate)
+					else if (header.ColumnMeta[f].CompressionType > CompressionType.Immediate)
 					{
 						byteType = FieldType.INT;
 					}
@@ -371,19 +371,19 @@ namespace WDBXEditor.Forms
 						for (int x = 0; x < fields[i].ArraySize; x++)
 						{
 							int asInt = BitConverter.ToInt32(c.Value.Skip(offset + (4 * x)).Take(4).ToArray(), 0);
-							if(asInt > 0)
+							if (asInt > 0)
 							{
 								ints.Add(asInt);
 
 								if (FloatUtil.IsLikelyFloat(asInt))
 									floats.Add(BitConverter.ToSingle(BitConverter.GetBytes(asInt), 0));
 							}
-						}						
+						}
 					}
 
 					// remove 0's as they could be anything - if all removed then guess its an int
 					ints.RemoveAll(x => x == 0);
-					if(ints.Count == 0)
+					if (ints.Count == 0)
 					{
 						fields[i].Type = FieldType.INT;
 						offset += (4 * fields[i].ArraySize);
@@ -394,10 +394,12 @@ namespace WDBXEditor.Forms
 					if (options.Contains(FieldType.STRING) && ints.Any(x => !StringTable.ContainsKey(x)))
 						options.Remove(FieldType.STRING);
 
-					if(floats.Count / (float)ints.Count >= 0.85)
+					if (floats.Count / (float)ints.Count >= 0.85)
 						fields[i].Type = FieldType.FLOAT;
-					else if(options.Contains(FieldType.STRING))
+					else if (options.Contains(FieldType.STRING))
 						fields[i].Type = FieldType.STRING;
+					else if (header.ColumnMeta[i].CompressionType == CompressionType.Immediate && header.ColumnMeta[i].Cardinality == 0)
+						fields[i].Type = FieldType.UINT;
 					else
 						fields[i].Type = FieldType.INT;
 

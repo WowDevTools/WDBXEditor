@@ -15,7 +15,7 @@ namespace WDBXEditor.Reader
 		public CompressionType CompressionType { get; set; }
 		public int BitOffset { get; set; }  // used as common data column for Sparse
 		public int BitWidth { get; set; }
-		public int Cardinality { get; set; }
+		public int Cardinality { get; set; } // flags for Immediate, &1: Signed
 
 
 		public List<byte[]> PalletValues { get; set; }
