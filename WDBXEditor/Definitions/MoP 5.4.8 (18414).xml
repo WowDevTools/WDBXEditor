@@ -2610,9 +2610,9 @@
     <Field Name="field3" Type="float" />
     <Field Name="field4" Type="float" />
     <Field Name="field7" Type="float" />
-    <Field Name="field8" Type="float" />
+    <Field Name="field8" Type="int" />
     <Field Name="field9" Type="float" />
-    <Field Name="field10" Type="float" />
+    <Field Name="field10" Type="int" />
   </Table>
   <Table Name="UiTextureAtlasMember" Build="18414">
     <Field Name="field0" Type="int" IsIndex="true" />
