@@ -2202,7 +2202,8 @@
   </Table>
   <Table Name="ItemAppearance" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
-    <Field Name="Field4" Type="int" />
+    <Field Name="m_DisplayID" Type="int" />
+    <Field Name="m_IconFileDataID" Type="int" />
   </Table>
   <Table Name="ItemAppearanceXUiCamera" Build="21742">
     <Field Name="m_ID" Type="int" IsIndex="true" />
