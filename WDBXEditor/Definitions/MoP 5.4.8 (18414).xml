@@ -2609,11 +2609,10 @@
     <Field Name="field2" Type="float" />
     <Field Name="field3" Type="float" />
     <Field Name="field4" Type="float" />
-    <Field Name="field5" Type="float" />
-    <Field Name="field6" Type="int" />
-    <Field Name="newField7" Type="float" />
-    <Field Name="newField8" Type="int" />
-    <Field Name="newField9" Type="int" />
+    <Field Name="field7" Type="float" />
+    <Field Name="field8" Type="float" />
+    <Field Name="field9" Type="float" />
+    <Field Name="field10" Type="float" />
   </Table>
   <Table Name="UiTextureAtlasMember" Build="18414">
     <Field Name="field0" Type="int" IsIndex="true" />
