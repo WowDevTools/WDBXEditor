@@ -413,6 +413,9 @@ namespace WDBXEditor.Forms
 
 				for (int i = 0; i < fields.Count; i++)
 				{
+					if (header.RelationshipCount > 0 && i == fields.Count - 1)
+						continue;
+
 					Field field = new Field();
 					field.Name = (i == header.IdIndex ? "ID" : $"field{i.ToString(format)}");
 					field.IsIndex = (i == header.IdIndex);

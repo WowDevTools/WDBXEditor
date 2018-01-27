@@ -257,9 +257,9 @@ namespace WDBXEditor.Storage
 				return new FieldStructureEntry[Data.Columns.Count];
 
 			List<FieldStructureEntry> bits = new List<FieldStructureEntry>();
-			if (Header.IsTypeOf<WDC1>())
+			if (Header is WDC1 header)
 			{
-				var fields = (Header as WDC1).ColumnMeta;
+				var fields = header.ColumnMeta;
 				for(int i = 0; i < fields.Count; i++)
 				{
 					short bitcount = (short)(Header.FieldStructure[i].BitCount == 64 ? Header.FieldStructure[i].BitCount : 0); // force bitcounts
