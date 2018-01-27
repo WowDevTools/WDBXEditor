@@ -1,3 +1,11 @@
+## 1.1.3
+
+### Changes
+* Added definitions for 8.0.1
+* Standardised definitions removing the awful 'm_'
+* Added missing MoP definitions
+
+
 ## 1.1.1
 
 ### Changes
