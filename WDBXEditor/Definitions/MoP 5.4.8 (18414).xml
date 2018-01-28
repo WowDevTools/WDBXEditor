@@ -2598,6 +2598,38 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="field1" Type="string" />
   </Table>
+    <Table Name="SpellEffect" Build="18414">
+    <Field Name="ID" Type="int" IsIndex="true" />
+	<Field Name="Unk0" Type="uint" />
+    <Field Name="Effect" Type="uint" />
+    <Field Name="EffectValueMultiplier" Type="float" />
+    <Field Name="effectAura" Type="uint" />
+    <Field Name="effectAuraTickCount" Type="uint" />
+    <Field Name="effectBasePoints" Type="int" />
+    <Field Name="effectBonusMultiplier" Type="float" />
+    <Field Name="effectDamageMultiplier" Type="float" />
+    <Field Name="effectChainTargets" Type="uint" />
+    <Field Name="effectDieSides" Type="uint" />
+    <Field Name="effectItemType" Type="uint" />
+    <Field Name="effectMechanic" Type="uint" />
+    <Field Name="effectMiscValue" Type="int" />
+    <Field Name="effectMiscValueB" Type="int" />
+    <Field Name="effectPointsPerCombo" Type="float" />
+    <Field Name="effectRadiusIndex" Type="uint" />
+    <Field Name="effectRadiusMaxIndex" Type="uint" />
+    <Field Name="effectRealPointsPerLevel" Type="float" />
+    <Field Name="effectSpellClassMask_1" Type="uint" />
+    <Field Name="effectSpellClassMask_2" Type="uint" />
+    <Field Name="effectSpellClassMask_3" Type="uint" />
+    <Field Name="effect 0" Type="uint" />
+    <Field Name="effectTriggerSpell" Type="int" />
+    <Field Name="Unk1" Type="uint" />
+    <Field Name="implicitTargetA" Type="uint" />
+    <Field Name="implicitTargetB" Type="uint" />
+    <Field Name="effectSpellId" Type="uint" />
+	<Field Name="effectIndex" Type="uint" />
+	<Field Name="Unk2" Type="uint" />
+  </Table>
   <Table Name="SpellEquippedItems" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="field1" Type="int" />
