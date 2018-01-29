@@ -105,11 +105,11 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="RaceID" Type="int" />
     <Field Name="GenderID" Type="int" />
-    <Field Name="field4" Type="int" />
-    <Field Name="field5" Type="int" />
-    <Field Name="field6" Type="int" />
-    <Field Name="field7" Type="int" />
-    <Field Name="field8" Type="int" />
+    <Field Name="Field03" Type="int" />
+    <Field Name="Field04" Type="int" />
+    <Field Name="Field05" Type="int" />
+    <Field Name="Field06" Type="int" />
+    <Field Name="Field07" Type="int" />
   </Table>
   <Table Name="CharStartOutfit" Build="3368">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -147,10 +147,10 @@
   </Table>
   <Table Name="ChrProficiency" Build="3368">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Proficiency_minLevel" Type="int" ArraySize="16" />
-    <Field Name="Proficiency_acquireMethod" Type="int" ArraySize="16" />
-    <Field Name="Proficiency_itemClass" Type="int" ArraySize="16" />
-    <Field Name="Proficiency_itemSubClassMask" Type="int" ArraySize="16" />
+    <Field Name="Proficiency_MinLevel" Type="int" ArraySize="16" />
+    <Field Name="Proficiency_AcquireMethod" Type="int" ArraySize="16" />
+    <Field Name="Proficiency_ItemClass" Type="int" ArraySize="16" />
+    <Field Name="Proficiency_ItemSubClassMask" Type="int" ArraySize="16" />
   </Table>
   <Table Name="ChrRaces" Build="3368">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -656,7 +656,7 @@
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="EnumID" Type="int" />
     <Field Name="SpecialMiscValue" Type="int" />
-    <Field Name="Globalstrings_tag" Type="string" />
+    <Field Name="Globalstrings_Tag" Type="string" />
     <Field Name="Name" Type="loc" />
   </Table>
   <Table Name="SpellCastTimes" Build="3368">
