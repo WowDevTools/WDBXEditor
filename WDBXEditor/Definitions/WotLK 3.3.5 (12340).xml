@@ -1608,180 +1608,55 @@
     <Field Name="Speed" Type="float" />
     <Field Name="ModalNextSpell" Type="uint" />
     <Field Name="CumulativeAura" Type="uint" />
-    <Field Name="Totem_1" Type="uint" />
-    <Field Name="Totem_2" Type="uint" />
-    <Field Name="Reagent_1" Type="int" />
-    <Field Name="Reagent_2" Type="int" />
-    <Field Name="Reagent_3" Type="int" />
-    <Field Name="Reagent_4" Type="int" />
-    <Field Name="Reagent_5" Type="int" />
-    <Field Name="Reagent_6" Type="int" />
-    <Field Name="Reagent_7" Type="int" />
-    <Field Name="Reagent_8" Type="int" />
-    <Field Name="ReagentCount_1" Type="int" />
-    <Field Name="ReagentCount_2" Type="int" />
-    <Field Name="ReagentCount_3" Type="int" />
-    <Field Name="ReagentCount_4" Type="int" />
-    <Field Name="ReagentCount_5" Type="int" />
-    <Field Name="ReagentCount_6" Type="int" />
-    <Field Name="ReagentCount_7" Type="int" />
-    <Field Name="ReagentCount_8" Type="int" />
+    <Field Name="Totem" Type="uint" ArraySize="2" />
+    <Field Name="Reagent" Type="int" ArraySize="8" />
+    <Field Name="ReagentCount" Type="int" ArraySize="8" />
     <Field Name="EquippedItemClass" Type="int" />
     <Field Name="EquippedItemSubclass" Type="int" />
     <Field Name="EquippedItemInvTypes" Type="int" />
-    <Field Name="Effect_1" Type="uint" />
-    <Field Name="Effect_2" Type="uint" />
-    <Field Name="Effect_3" Type="uint" />
-    <Field Name="EffectDieSides_1" Type="int" />
-    <Field Name="EffectDieSides_2" Type="int" />
-    <Field Name="EffectDieSides_3" Type="int" />
-    <Field Name="EffectRealPointsPerLevel_1" Type="float" />
-    <Field Name="EffectRealPointsPerLevel_2" Type="float" />
-    <Field Name="EffectRealPointsPerLevel_3" Type="float" />
-    <Field Name="EffectBasePoints_1" Type="int" />
-    <Field Name="EffectBasePoints_2" Type="int" />
-    <Field Name="EffectBasePoints_3" Type="int" />
-    <Field Name="EffectMechanic_1" Type="uint" />
-    <Field Name="EffectMechanic_2" Type="uint" />
-    <Field Name="EffectMechanic_3" Type="uint" />
-    <Field Name="ImplicitTargetA_1" Type="uint" />
-    <Field Name="ImplicitTargetA_2" Type="uint" />
-    <Field Name="ImplicitTargetA_3" Type="uint" />
-    <Field Name="ImplicitTargetB_1" Type="uint" />
-    <Field Name="ImplicitTargetB_2" Type="uint" />
-    <Field Name="ImplicitTargetB_3" Type="uint" />
-    <Field Name="EffectRadiusIndex_1" Type="uint" />
-    <Field Name="EffectRadiusIndex_2" Type="uint" />
-    <Field Name="EffectRadiusIndex_3" Type="uint" />
-    <Field Name="EffectAura_1" Type="uint" />
-    <Field Name="EffectAura_2" Type="uint" />
-    <Field Name="EffectAura_3" Type="uint" />
-    <Field Name="EffectAuraPeriod_1" Type="uint" />
-    <Field Name="EffectAuraPeriod_2" Type="uint" />
-    <Field Name="EffectAuraPeriod_3" Type="uint" />
-    <Field Name="EffectMultipleValue_1" Type="uint" />
-    <Field Name="EffectMultipleValue_2" Type="uint" />
-    <Field Name="EffectMultipleValue_3" Type="uint" />
-    <Field Name="EffectChainTargets_1" Type="uint" />
-    <Field Name="EffectChainTargets_2" Type="uint" />
-    <Field Name="EffectChainTargets_3" Type="uint" />
-    <Field Name="EffectItemType_1" Type="uint" />
-    <Field Name="EffectItemType_2" Type="uint" />
-    <Field Name="EffectItemType_3" Type="uint" />
-    <Field Name="EffectMiscValue_1" Type="int" />
-    <Field Name="EffectMiscValue_2" Type="int" />
-    <Field Name="EffectMiscValue_3" Type="int" />
-    <Field Name="EffectMiscValueB_1" Type="int" />
-    <Field Name="EffectMiscValueB_2" Type="int" />
-    <Field Name="EffectMiscValueB_3" Type="int" />
-    <Field Name="EffectTriggerSpell_1" Type="uint" />
-    <Field Name="EffectTriggerSpell_2" Type="uint" />
-    <Field Name="EffectTriggerSpell_3" Type="uint" />
-    <Field Name="EffectPointsPerCombo_1" Type="float" />
-    <Field Name="EffectPointsPerCombo_2" Type="float" />
-    <Field Name="EffectPointsPerCombo_3" Type="float" />
-    <Field Name="EffectSpellClassMaskA_1" Type="uint" />
-    <Field Name="EffectSpellClassMaskA_2" Type="uint" />
-    <Field Name="EffectSpellClassMaskA_3" Type="uint" />
-    <Field Name="EffectSpellClassMaskB_1" Type="uint" />
-    <Field Name="EffectSpellClassMaskB_2" Type="uint" />
-    <Field Name="EffectSpellClassMaskB_3" Type="uint" />
-    <Field Name="EffectSpellClassMaskC_1" Type="uint" />
-    <Field Name="EffectSpellClassMaskC_2" Type="uint" />
-    <Field Name="EffectSpellClassMaskC_3" Type="uint" />
-    <Field Name="SpellVisualID_1" Type="uint" />
-    <Field Name="SpellVisualID_2" Type="uint" />
+    <Field Name="Effect" Type="uint" ArraySize="3" />
+    <Field Name="EffectDieSides" Type="int" ArraySize="3" />
+    <Field Name="EffectRealPointsPerLevel" Type="float" ArraySize="3" />
+    <Field Name="EffectBasePoints" Type="int" ArraySize="3" />
+    <Field Name="EffectMechanic" Type="uint" ArraySize="3" />
+    <Field Name="ImplicitTargetA" Type="uint" ArraySize="3" />
+    <Field Name="ImplicitTargetB" Type="uint" ArraySize="3" />
+    <Field Name="EffectRadiusIndex" Type="uint" ArraySize="3" />
+    <Field Name="EffectAura" Type="uint" ArraySize="3" />
+    <Field Name="EffectAuraPeriod" Type="uint" ArraySize="3" />
+    <Field Name="EffectMultipleValue" Type="float" ArraySize="3" />
+    <Field Name="EffectChainTargets" Type="uint" ArraySize="3" />
+    <Field Name="EffectItemType" Type="uint" ArraySize="3" />
+    <Field Name="EffectMiscValue" Type="int" ArraySize="3" />
+    <Field Name="EffectMiscValueB" Type="int" ArraySize="3" />
+    <Field Name="EffectTriggerSpell" Type="uint" ArraySize="3" />
+    <Field Name="EffectPointsPerCombo" Type="float" ArraySize="3" />
+    <Field Name="EffectSpellClassMaskA" Type="uint" ArraySize="3" />
+    <Field Name="EffectSpellClassMaskB" Type="uint" ArraySize="3" />
+    <Field Name="EffectSpellClassMaskC" Type="uint" ArraySize="3" />
+    <Field Name="SpellVisualID" Type="uint" ArraySize="2" />
     <Field Name="SpellIconID" Type="uint" />
     <Field Name="ActiveIconID" Type="uint" />
     <Field Name="SpellPriority" Type="uint" />
-    <Field Name="Name_Lang_1" Type="string" />
-    <Field Name="Name_Lang_2" Type="string" />
-    <Field Name="Name_Lang_3" Type="string" />
-    <Field Name="Name_Lang_4" Type="string" />
-    <Field Name="Name_Lang_5" Type="string" />
-    <Field Name="Name_Lang_6" Type="string" />
-    <Field Name="Name_Lang_7" Type="string" />
-    <Field Name="Name_Lang_8" Type="string" />
-    <Field Name="Name_Lang_9" Type="string" />
-    <Field Name="Name_Lang_10" Type="string" />
-    <Field Name="Name_Lang_11" Type="string" />
-    <Field Name="Name_Lang_12" Type="string" />
-    <Field Name="Name_Lang_13" Type="string" />
-    <Field Name="Name_Lang_14" Type="string" />
-    <Field Name="Name_Lang_15" Type="string" />
-    <Field Name="Name_Lang_16" Type="string" />
-    <Field Name="Name_Flag" Type="uint" />
-    <Field Name="NameSubtext_Lang_1" Type="string" />
-    <Field Name="NameSubtext_Lang_2" Type="string" />
-    <Field Name="NameSubtext_Lang_3" Type="string" />
-    <Field Name="NameSubtext_Lang_4" Type="string" />
-    <Field Name="NameSubtext_Lang_5" Type="string" />
-    <Field Name="NameSubtext_Lang_6" Type="string" />
-    <Field Name="NameSubtext_Lang_7" Type="string" />
-    <Field Name="NameSubtext_Lang_8" Type="string" />
-    <Field Name="NameSubtext_Lang_9" Type="string" />
-    <Field Name="NameSubtext_Lang_10" Type="string" />
-    <Field Name="NameSubtext_Lang_11" Type="string" />
-    <Field Name="NameSubtext_Lang_12" Type="string" />
-    <Field Name="NameSubtext_Lang_13" Type="string" />
-    <Field Name="NameSubtext_Lang_14" Type="string" />
-    <Field Name="NameSubtext_Lang_15" Type="string" />
-    <Field Name="NameSubtext_Lang_16" Type="string" />
-    <Field Name="NameSubtext_Flag" Type="uint" />
-    <Field Name="Description_Lang_1" Type="string" />
-    <Field Name="Description_Lang_2" Type="string" />
-    <Field Name="Description_Lang_3" Type="string" />
-    <Field Name="Description_Lang_4" Type="string" />
-    <Field Name="Description_Lang_5" Type="string" />
-    <Field Name="Description_Lang_6" Type="string" />
-    <Field Name="Description_Lang_7" Type="string" />
-    <Field Name="Description_Lang_8" Type="string" />
-    <Field Name="Description_Lang_9" Type="string" />
-    <Field Name="Description_Lang_10" Type="string" />
-    <Field Name="Description_Lang_11" Type="string" />
-    <Field Name="Description_Lang_12" Type="string" />
-    <Field Name="Description_Lang_13" Type="string" />
-    <Field Name="Description_Lang_14" Type="string" />
-    <Field Name="Description_Lang_15" Type="string" />
-    <Field Name="Description_Lang_16" Type="string" />
-    <Field Name="Description_Flag" Type="uint" />
-    <Field Name="AuraDescription_Lang_1" Type="string" />
-    <Field Name="AuraDescription_Lang_2" Type="string" />
-    <Field Name="AuraDescription_Lang_3" Type="string" />
-    <Field Name="AuraDescription_Lang_4" Type="string" />
-    <Field Name="AuraDescription_Lang_5" Type="string" />
-    <Field Name="AuraDescription_Lang_6" Type="string" />
-    <Field Name="AuraDescription_Lang_7" Type="string" />
-    <Field Name="AuraDescription_Lang_8" Type="string" />
-    <Field Name="AuraDescription_Lang_9" Type="string" />
-    <Field Name="AuraDescription_Lang_10" Type="string" />
-    <Field Name="AuraDescription_Lang_11" Type="string" />
-    <Field Name="AuraDescription_Lang_12" Type="string" />
-    <Field Name="AuraDescription_Lang_13" Type="string" />
-    <Field Name="AuraDescription_Lang_14" Type="string" />
-    <Field Name="AuraDescription_Lang_15" Type="string" />
-    <Field Name="AuraDescription_Lang_16" Type="string" />
-    <Field Name="AuraDescription_Flag" Type="uint" />
+    <Field Name="Name_Lang" Type="loc" />
+    <Field Name="NameSubtext_Lang" Type="loc" />
+    <Field Name="Description_Lang" Type="loc" />
+    <Field Name="AuraDescription_Lang" Type="loc" />
     <Field Name="ManaCostPct" Type="uint" />
     <Field Name="StartRecoveryCategory" Type="uint" />
     <Field Name="StartRecoveryTime" Type="uint" />
     <Field Name="MaxTargetLevel" Type="uint" />
     <Field Name="SpellClassSet" Type="uint" />
-    <Field Name="SpellClassMask_1" Type="uint" />
-    <Field Name="SpellClassMask_2" Type="uint" />
-    <Field Name="SpellClassMask_3" Type="uint" />
+    <Field Name="SpellClassMask" Type="uint" ArraySize="3" />
     <Field Name="MaxTargets" Type="uint" />
     <Field Name="DefenseType" Type="uint" />
     <Field Name="PreventionType" Type="uint" />
     <Field Name="StanceBarOrder" Type="uint" />
-    <Field Name="EffectChainAmplitude_1" Type="float" />
-    <Field Name="EffectChainAmplitude_2" Type="float" />
-    <Field Name="EffectChainAmplitude_3" Type="float" />
+    <Field Name="EffectChainAmplitude" Type="float" ArraySize="3" />
     <Field Name="MinFactionID" Type="uint" />
     <Field Name="MinReputation" Type="uint" />
     <Field Name="RequiredAuraVision" Type="uint" />
-    <Field Name="RequiredTotemCategoryID_1" Type="uint" />
-    <Field Name="RequiredTotemCategoryID_2" Type="uint" />
+    <Field Name="RequiredTotemCategoryID" Type="uint" ArraySize="2" />
     <Field Name="RequiredAreasID" Type="int" />
     <Field Name="SchoolMask" Type="uint" />
     <Field Name="RuneCostID" Type="uint" />
