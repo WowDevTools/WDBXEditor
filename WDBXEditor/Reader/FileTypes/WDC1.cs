@@ -526,7 +526,7 @@ namespace WDBXEditor.Reader.FileTypes
 			{
 				Queue<object> rowData = new Queue<object>(entry.Data.Rows[rowIndex].ItemArray);
 
-				int id = (int)rowData.ElementAt(IdIndex);
+				int id = entry.Data.Rows[rowIndex].Field<int>(entry.Key);
 
 				if (CopyTableSize > 0) // skip copy records
 				{
