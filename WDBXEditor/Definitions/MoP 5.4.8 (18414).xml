@@ -1367,71 +1367,71 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="string" />
   </Table>
-  <Table Name="gtBarberShopCostBase" Build="18414">
+  <Table Name="GtBarberShopCostBase" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtBattlePetTypeDamageMod" Build="18414">
+  <Table Name="GtBattlePetTypeDamageMod" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtBattlePetXP" Build="18414">
+  <Table Name="GtBattlePetXP" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtChanceToMeleeCrit" Build="18414">
+  <Table Name="GtChanceToMeleeCrit" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtChanceToMeleeCritBase" Build="18414">
+  <Table Name="GtChanceToMeleeCritBase" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtChanceToSpellCrit" Build="18414">
+  <Table Name="GtChanceToSpellCrit" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtChanceToSpellCritBase" Build="18414">
+  <Table Name="GtChanceToSpellCritBase" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtCombatRatings" Build="18414">
+  <Table Name="GtCombatRatings" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtItemSocketCostPerLevel" Build="18414">
+  <Table Name="GtItemSocketCostPerLevel" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtNPCManaCostScaler" Build="18414">
+  <Table Name="GtNPCManaCostScaler" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtOCTBaseHPByClass" Build="18414">
+  <Table Name="GtOCTBaseHPByClass" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtOCTBaseMPByClass" Build="18414">
+  <Table Name="GtOCTBaseMPByClass" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtOCTClassCombatRatingScalar" Build="18414">
+  <Table Name="GtOCTClassCombatRatingScalar" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtOCTHpPerStamina" Build="18414">
+  <Table Name="GtOCTHpPerStamina" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtRegenMPPerSpt" Build="18414">
+  <Table Name="GtRegenMPPerSpt" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtResilienceDR" Build="18414">
+  <Table Name="GtResilienceDR" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtSpellScaling" Build="18414">
+  <Table Name="GtSpellScaling" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
@@ -2524,37 +2524,37 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="string" />
   </Table>
-    <Table Name="SpellEffect" Build="18414">
+  <Table Name="SpellEffect" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
-	<Field Name="Unk0" Type="uint" />
+    <Field Name="Field01" Type="uint" />
     <Field Name="Effect" Type="uint" />
     <Field Name="EffectValueMultiplier" Type="float" />
-    <Field Name="effectAura" Type="uint" />
-    <Field Name="effectAuraTickCount" Type="uint" />
-    <Field Name="effectBasePoints" Type="int" />
-    <Field Name="effectBonusMultiplier" Type="float" />
-    <Field Name="effectDamageMultiplier" Type="float" />
-    <Field Name="effectChainTargets" Type="uint" />
-    <Field Name="effectDieSides" Type="uint" />
-    <Field Name="effectItemType" Type="uint" />
-    <Field Name="effectMechanic" Type="uint" />
-    <Field Name="effectMiscValue" Type="int" />
-    <Field Name="effectMiscValueB" Type="int" />
-    <Field Name="effectPointsPerCombo" Type="float" />
-    <Field Name="effectRadiusIndex" Type="uint" />
-    <Field Name="effectRadiusMaxIndex" Type="uint" />
-    <Field Name="effectRealPointsPerLevel" Type="float" />
-    <Field Name="effectSpellClassMask_1" Type="uint" />
-    <Field Name="effectSpellClassMask_2" Type="uint" />
-    <Field Name="effectSpellClassMask_3" Type="uint" />
-    <Field Name="effect 0" Type="uint" />
-    <Field Name="effectTriggerSpell" Type="int" />
-    <Field Name="Unk1" Type="uint" />
-    <Field Name="implicitTargetA" Type="uint" />
-    <Field Name="implicitTargetB" Type="uint" />
-    <Field Name="effectSpellId" Type="uint" />
-	<Field Name="effectIndex" Type="uint" />
-	<Field Name="Unk2" Type="uint" />
+    <Field Name="EffectAura" Type="uint" />
+    <Field Name="EffectAuraTickCount" Type="uint" />
+    <Field Name="EffectBasePoints" Type="int" />
+    <Field Name="EffectBonusMultiplier" Type="float" />
+    <Field Name="EffectDamageMultiplier" Type="float" />
+    <Field Name="EffectChainTargets" Type="uint" />
+    <Field Name="EffectDieSides" Type="uint" />
+    <Field Name="EffectItemType" Type="uint" />
+    <Field Name="EffectMechanic" Type="uint" />
+    <Field Name="EffectMiscValue" Type="int" />
+    <Field Name="EffectMiscValueB" Type="int" />
+    <Field Name="EffectPointsPerCombo" Type="float" />
+    <Field Name="EffectRadiusIndex" Type="uint" />
+    <Field Name="EffectRadiusMaxIndex" Type="uint" />
+    <Field Name="EffectRealPointsPerLevel" Type="float" />
+    <Field Name="EffectSpellClassMask_1" Type="uint" />
+    <Field Name="EffectSpellClassMask_2" Type="uint" />
+    <Field Name="EffectSpellClassMask_3" Type="uint" />
+    <Field Name="Effect_0" Type="uint" />
+    <Field Name="EffectTriggerSpell" Type="int" />
+    <Field Name="Field24" Type="uint" />
+    <Field Name="ImplicitTargetA" Type="uint" />
+    <Field Name="ImplicitTargetB" Type="uint" />
+    <Field Name="EffectSpellId" Type="uint" />
+    <Field Name="EffectIndex" Type="uint" />
+    <Field Name="Field29" Type="uint" />
   </Table>
   <Table Name="SpellEquippedItems" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />

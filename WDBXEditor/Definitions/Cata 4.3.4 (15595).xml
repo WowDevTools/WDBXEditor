@@ -469,7 +469,7 @@
     <Field Name="Field16" Type="string" />
     <Field Name="Field17" Type="int" />
   </Table>
-  <Table Name="creaturecache" Build="15595">
+  <Table Name="Creaturecache" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Name" Type="string" />
     <Field Name="Name2" Type="string" />
@@ -948,7 +948,7 @@
     <Field Name="Field06" Type="string" />
     <Field Name="Field07" Type="string" />
   </Table>
-  <Table Name="gameobjectcache" Build="15595">
+  <Table Name="Gameobjectcache" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Type" Type="int" />
     <Field Name="Displayid" Type="int" />
@@ -1136,59 +1136,59 @@
     <Field Name="Field09" Type="int" />
     <Field Name="Field10" Type="int" />
   </Table>
-  <Table Name="gtBarberShopCostBase" Build="15595">
+  <Table Name="GtBarberShopCostBase" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Cost" Type="float" />
   </Table>
-  <Table Name="gtChanceToMeleeCrit" Build="15595">
+  <Table Name="GtChanceToMeleeCrit" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtChanceToMeleeCritBase" Build="15595">
+  <Table Name="GtChanceToMeleeCritBase" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtChanceToSpellCrit" Build="15595">
+  <Table Name="GtChanceToSpellCrit" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtChanceToSpellCritBase" Build="15595">
+  <Table Name="GtChanceToSpellCritBase" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtCombatRatings" Build="15595">
+  <Table Name="GtCombatRatings" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtNPCManaCostScaler" Build="15595">
+  <Table Name="GtNPCManaCostScaler" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtOCTBaseHPByClass" Build="15595">
+  <Table Name="GtOCTBaseHPByClass" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtOCTBaseMPByClass" Build="15595">
+  <Table Name="GtOCTBaseMPByClass" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtOCTClassCombatRatingScalar" Build="15595">
+  <Table Name="GtOCTClassCombatRatingScalar" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtOCTHpPerStamina" Build="15595">
+  <Table Name="GtOCTHpPerStamina" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="float" />
   </Table>
-  <Table Name="gtOCTRegenMP" Build="15595">
+  <Table Name="GtOCTRegenMP" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtRegenMPPerSpt" Build="15595">
+  <Table Name="GtRegenMPPerSpt" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
-  <Table Name="gtSpellScaling" Build="15595">
+  <Table Name="GtSpellScaling" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
   </Table>
@@ -2110,7 +2110,7 @@
     <Field Name="Field17" Type="int" />
     <Field Name="Field18" Type="int" />
   </Table>
-  <Table Name="lock" Build="15595">
+  <Table Name="Lock" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Type1" Type="int" />
     <Field Name="Type2" Type="int" />
@@ -2145,7 +2145,7 @@
     <Field Name="Action7" Type="int" />
     <Field Name="Action8" Type="int" />
   </Table>
-  <Table Name="lockType" Build="15595">
+  <Table Name="LockType" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="string" />
     <Field Name="Field02" Type="string" />
@@ -3457,7 +3457,7 @@
     <Field Name="Field02" Type="string" />
     <Field Name="Field03" Type="int" />
   </Table>
-  <Table Name="stringLookups" Build="15595">
+  <Table Name="StringLookups" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="string" />
   </Table>

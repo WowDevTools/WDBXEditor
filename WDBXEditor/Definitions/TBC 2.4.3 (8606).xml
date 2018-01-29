@@ -518,43 +518,43 @@
     <Field Name="Density" Type="int" />
     <Field Name="Sound" Type="int" />
   </Table>
-  <Table Name="gtChanceToMeleeCrit" Build="8606">
+  <Table Name="GtChanceToMeleeCrit" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtChanceToMeleeCritBase" Build="8606">
+  <Table Name="GtChanceToMeleeCritBase" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtChanceToSpellCrit" Build="8606">
+  <Table Name="GtChanceToSpellCrit" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtChanceToSpellCritBase" Build="8606">
+  <Table Name="GtChanceToSpellCritBase" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtCombatRatings" Build="8606">
+  <Table Name="GtCombatRatings" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtNPCManaCostScaler" Build="8606">
+  <Table Name="GtNPCManaCostScaler" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtOCTRegenHP" Build="8606">
+  <Table Name="GtOCTRegenHP" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtOCTRegenMP" Build="8606">
+  <Table Name="GtOCTRegenMP" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtRegenHPPerSpt" Build="8606">
+  <Table Name="GtRegenHPPerSpt" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtRegenMPPerSpt" Build="8606">
+  <Table Name="GtRegenMPPerSpt" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>

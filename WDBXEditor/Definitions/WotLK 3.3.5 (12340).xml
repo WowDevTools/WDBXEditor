@@ -743,55 +743,55 @@
     <Field Name="Density" Type="int" />
     <Field Name="Sound" Type="int" />
   </Table>
-  <Table Name="gtBarberShopCostBase" Build="12340">
+  <Table Name="GtBarberShopCostBase" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtChanceToMeleeCrit" Build="12340">
+  <Table Name="GtChanceToMeleeCrit" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtChanceToMeleeCritBase" Build="12340">
+  <Table Name="GtChanceToMeleeCritBase" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtChanceToSpellCrit" Build="12340">
+  <Table Name="GtChanceToSpellCrit" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtChanceToSpellCritBase" Build="12340">
+  <Table Name="GtChanceToSpellCritBase" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtCombatRatings" Build="12340">
+  <Table Name="GtCombatRatings" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtNPCManaCostScaler" Build="12340">
+  <Table Name="GtNPCManaCostScaler" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtOCTClassCombatRatingScalar" Build="12340">
+  <Table Name="GtOCTClassCombatRatingScalar" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtOCTRegenHP" Build="12340">
+  <Table Name="GtOCTRegenHP" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtOCTRegenMP" Build="12340">
+  <Table Name="GtOCTRegenMP" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtRegenHPPerSpt" Build="12340">
+  <Table Name="GtRegenHPPerSpt" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtRegenMPPerSpt" Build="12340">
+  <Table Name="GtRegenMPPerSpt" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
-  <Table Name="gtSpellScaling" Build="12340">
+  <Table Name="GtSpellScaling" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
     <Field Name="Data" Type="float" />
   </Table>
@@ -1122,14 +1122,14 @@
     <Field Name="Locy" Type="float" ArraySize="8" />
     <Field Name="LegIndex" Type="int" />
   </Table>
-  <Table Name="lock" Build="12340">
+  <Table Name="Lock" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Type" Type="int" ArraySize="8" />
     <Field Name="Index" Type="int" ArraySize="8" />
     <Field Name="Skill" Type="int" ArraySize="8" />
     <Field Name="Action" Type="int" ArraySize="8" />
   </Table>
-  <Table Name="lockType" Build="12340">
+  <Table Name="LockType" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Name_Lang" Type="loc" />
     <Field Name="ResourceName_Lang" Type="loc" />
@@ -2084,7 +2084,7 @@
     <Field Name="Texture" Type="string" />
     <Field Name="Flags" Type="int" />
   </Table>
-  <Table Name="stringLookups" Build="12340">
+  <Table Name="StringLookups" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="String" Type="string" />
   </Table>
