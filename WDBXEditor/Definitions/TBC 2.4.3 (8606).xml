@@ -1072,7 +1072,7 @@
     <Field Name="effectRadiusIndex" Type="int" ArraySize="3" />
     <Field Name="effectAura" Type="int" ArraySize="3" />
     <Field Name="effectAmplitude" Type="int" ArraySize="3" />
-    <Field Name="effectMultipleValue" Type="int" ArraySize="3" />
+    <Field Name="effectMultipleValue" Type="float" ArraySize="3" />
     <Field Name="effectChaintargets" Type="int" ArraySize="3" />
     <Field Name="effectItemType" Type="int" ArraySize="3" />
     <Field Name="effectMiscValue" Type="int" ArraySize="3" />
