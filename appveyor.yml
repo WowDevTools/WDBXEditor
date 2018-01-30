@@ -9,8 +9,8 @@ build:
   project: WDBXEditor.sln
   verbosity: quiet
 after_build:
-  - ps: rm %APPVEYOR_BUILD_FOLDER%\WDBXEditor\bin\Release\*.pdb
-  - ps: rm %APPVEYOR_BUILD_FOLDER%\WDBXEditor\bin\Release\System.Threading.Tasks.Dataflow.xml
+  - ps: rm .\WDBXEditor\bin\Release\*.pdb
+  - ps: rm .\WDBXEditor\bin\Release\System.Threading.Tasks.Dataflow.xml
   - 7z a WDBXEditor.zip %APPVEYOR_BUILD_FOLDER%\WDBXEditor\bin\Release
 artifacts:
   - path: WDBXEditor.zip
