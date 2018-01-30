@@ -89,6 +89,8 @@ namespace WDBXEditor
 
 			//Load recent files
 			LoadRecentList();
+
+			this.Text = $"WDBX Editor ({VERSION})";
 		}
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -180,7 +182,7 @@ namespace WDBXEditor
 				//dt.Attach();
 
 				this.Tag = dt.Tag;
-				this.Text = $"WDBX Editor - {dt.FileName} {dt.BuildName}";
+				this.Text = $"WDBX Editor ({VERSION}) - {dt.FileName} {dt.BuildName}";
 				LoadedEntry = dt; //Set current table
 
 				_bindingsource.DataSource = dt.Data; //Change dataset
@@ -199,7 +201,7 @@ namespace WDBXEditor
 			}
 			else
 			{
-				this.Text = "WDBX Editor";
+				this.Text = $"WDBX Editor ({VERSION})";
 				this.Tag = string.Empty;
 				LoadedEntry = null;
 

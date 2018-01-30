@@ -454,9 +454,10 @@
     <Field Name="Field04" Type="int" />
   </Table>
   <Table Name="CharBaseInfo" Build="18414">
-    <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
-    <Field Name="RaceID" Type="byte" />
-    <Field Name="ClassID" Type="byte" />
+	<Field Name="ID" Type="int" IsIndex="true" />
+	<Field Name="RaceID" Type="byte" />
+	<Field Name="ClassID" Type="byte" />
+	<Field Name="Padding" Type="byte" ArraySize="2" />
   </Table>
   <Table Name="CharComponentTextureLayouts" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
