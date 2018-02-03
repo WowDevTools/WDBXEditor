@@ -1903,7 +1903,6 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="StartAnimID" Type="int" />
     <Field Name="AnimID" Type="int" />
-    <Field Name="AnimKitID" Type="int" />
     <Field Name="HeadEffect" Type="int" />
     <Field Name="ChestEffect" Type="int" />
     <Field Name="BaseEffect" Type="int" />
