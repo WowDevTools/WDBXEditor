@@ -633,10 +633,10 @@
   </Table>
   <Table Name="CharacterFacialHairStyles" Build="24793">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field04" Type="uint" ArraySize="5" />
-    <Field Name="Field18" Type="byte" />
-    <Field Name="Field19" Type="byte" />
-    <Field Name="Field1A" Type="byte" />
+    <Field Name="Geoset" Type="uint" ArraySize="5" />
+    <Field Name="Race" Type="byte" />
+    <Field Name="Sex" Type="byte" />
+    <Field Name="Mesh_ID" Type="byte" />
   </Table>
   <Table Name="CharacterLoadout" Build="24793">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -677,12 +677,12 @@
   </Table>
   <Table Name="CharHairGeosets" Build="24793">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field04" Type="uint" />
-    <Field Name="Field08" Type="byte" />
-    <Field Name="Field09" Type="byte" />
-    <Field Name="Field0A" Type="byte" />
-    <Field Name="Field0B" Type="byte" />
-    <Field Name="Field0C" Type="byte" />
+    <Field Name="RootGeosetID" Type="uint" />
+    <Field Name="Race" Type="byte" />
+    <Field Name="Sex" Type="byte" />
+    <Field Name="CharSection_ID" Type="byte" />
+    <Field Name="Flag" Type="byte" />
+    <Field Name="Expansion" Type="byte" />
     <Field Name="Field0D" Type="byte" />
     <Field Name="Field0E" Type="byte" />
     <Field Name="Field0F" Type="byte" />
@@ -2297,22 +2297,22 @@
     <Field Name="ItemQuality" Type="byte" />
   </Table>
   <Table Name="ItemDisplayInfo" Build="24793">
-    <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field04" Type="ushort" ArraySize="2" />
-    <Field Name="Field08" Type="int" ArraySize="2" />
-    <Field Name="Field0E" Type="byte" ArraySize="3" />
-    <Field Name="Field11" Type="byte" ArraySize="3" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field17" Type="byte" />
-    <Field Name="Field18" Type="ushort" ArraySize="2" />
-    <Field Name="Field1C" Type="ushort" />
-    <Field Name="Field1E" Type="ushort" />
-    <Field Name="Field20" Type="ushort" />
-    <Field Name="Field22" Type="byte" />
-    <Field Name="Field23" Type="byte" />
-    <Field Name="Field24" Type="int" />
-    <Field Name="Field27" Type="int" />
-    <Field Name="Field2A" Type="int" />
+	<Field Name="ID" Type="int" IsIndex="true" />
+	<Field Name="Modelfiledata" Type="ushort" ArraySize="2" />
+	<Field Name="Texturefiledata" Type="int" ArraySize="2" />
+	<Field Name="Field0E" Type="byte" ArraySize="3" />
+	<Field Name="Field11" Type="byte" ArraySize="3" />
+	<Field Name="Field14" Type="int" />
+	<Field Name="Field17" Type="byte" />
+	<Field Name="GeosetFlag" Type="ushort" ArraySize="2" />
+	<Field Name="GeosetFlag2" Type="ushort" />
+	<Field Name="ItemVisualID" Type="ushort" />
+	<Field Name="Field20" Type="ushort" />
+	<Field Name="Field22" Type="byte" />
+	<Field Name="Field23" Type="byte" />
+	<Field Name="FlagLinkToBowItem" Type="int" />
+	<Field Name="OtherFlagForBowItem?" Type="int" />
+	<Field Name="ArtifactFlagFor?" Type="int" />
   </Table>
   <Table Name="ItemDisplayInfoMaterialRes" Build="24793">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2792,7 +2792,7 @@
     <Field Name="Field0C" Type="float" />
     <Field Name="Field10" Type="float" />
     <Field Name="Field14" Type="int" ArraySize="3" />
-    <Field Name="Field20" Type="ushort" />
+    <Field Name="LightSkyboxID" Type="ushort" />
     <Field Name="Field22" Type="byte" />
     <Field Name="Field23" Type="byte" />
     <Field Name="Field24" Type="byte" />
@@ -2800,7 +2800,7 @@
   </Table>
   <Table Name="LightSkybox" Build="24793">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field4" Type="string" />
+    <Field Name="SkyboxPathName" Type="string" />
     <Field Name="Field8" Type="byte" />
   </Table>
   <Table Name="LiquidMaterial" Build="24793">
