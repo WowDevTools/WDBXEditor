@@ -1,3 +1,10 @@
+## 1.1.4
+
+### Changes
+* Updated definitions for 8.0.1
+* MoP and WotLK definition updates (thanks to the issuers)
+* More WDC1 fixes
+
 ## 1.1.3
 
 ### Changes
