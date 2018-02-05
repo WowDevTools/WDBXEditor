@@ -486,15 +486,13 @@
   </Table>
   <Table Name="CharSections" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
+    <Field Name="RaceID" Type="int" />
+    <Field Name="SexID" Type="int" />
+    <Field Name="BaseSection" Type="int" />
+    <Field Name="TextureName" Type="string" ArraySize="3" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="VariationIndex" Type="int" />
+    <Field Name="ColorIndex" Type="int" />
   </Table>
   <Table Name="CharTitles" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />

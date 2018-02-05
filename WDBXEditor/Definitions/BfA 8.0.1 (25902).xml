@@ -843,7 +843,7 @@
     <Field Name="SelectScreenFileDataID" Type="int" />
     <Field Name="MaleCustomizeOffset" Type="float" ArraySize="3" />
     <Field Name="FemaleCustomizeOffset" Type="float" ArraySize="3" />
-    <Field Name="Field0D" Type="int" />
+    <Field Name="LowResScreenFileDataID" Type="int" />
     <Field Name="Field0E" Type="int" />
     <Field Name="LowResScreenFileDataID" Type="int" />
     <Field Name="FactionID" Type="ushort" />
@@ -1059,9 +1059,9 @@
     <Field Name="HDFileDataID" Type="int" />
     <Field Name="DisplayRaceID" Type="byte" />
     <Field Name="DisplaySexID" Type="byte" />
-    <Field Name="Field5" Type="byte" />
-    <Field Name="Field6" Type="byte" />
-    <Field Name="Field7" Type="byte" />
+    <Field Name="DisplayClassID" Type="byte" />
+    <Field Name="SkinID" Type="byte" />
+    <Field Name="FaceID" Type="byte" />
     <Field Name="HairStyleID" Type="byte" />
     <Field Name="HairColorID" Type="byte" />
     <Field Name="FacialHairID" Type="byte" />
@@ -1070,9 +1070,8 @@
   </Table>
   <Table Name="CreatureDisplayInfoGeosetData" Build="25902">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="GeosetIndex" Type="byte" />
-    <Field Name="GeosetValue" Type="byte" />
-    <Field Name="DisplayId" Type="int" />
+    <Field Name="GeosetType" Type="byte" />
+    <Field Name="GeosetID" Type="byte" />
   </Table>
   <Table Name="Creaturedisplayinfotrn" Build="25902">
     <Field Name="ID" Type="int" IsIndex="true" />
