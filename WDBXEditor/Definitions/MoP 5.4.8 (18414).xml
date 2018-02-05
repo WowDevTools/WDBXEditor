@@ -2597,7 +2597,7 @@
     <Field Name="Field04" Type="int" />
     <Field Name="Field05" Type="int" />
   </Table>
-  <Table Name="SpellMisc" Build="18414">
+    <Table Name="SpellMisc" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="spellId" Type="int" />
     <Field Name="Unk" Type="int" />
@@ -2616,6 +2616,7 @@
     <Field Name="attributesExL" Type="uint" />
     <Field Name="attributesExM" Type="uint" />
     <Field Name="CastingTimeIndex" Type="int" />
+    <Field Name="DurationIndex" Type="int" />
     <Field Name="rangeIndex" Type="int" />
     <Field Name="speed" Type="float" />
     <Field Name="Visual1" Type="int" />
