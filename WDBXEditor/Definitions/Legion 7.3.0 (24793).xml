@@ -2945,25 +2945,27 @@
   </Table>
   <Table Name="Map" Build="24793">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Directory" Type="string" />
-    <Field Name="Flags" Type="int" ArraySize="2" />
-    <Field Name="MinimapIconScale" Type="float" />
-    <Field Name="Corpse" Type="int" ArraySize="2" />
-    <Field Name="MapNameLocale" Type="string" />
-    <Field Name="MapDescLocale_1" Type="string" />
-    <Field Name="MapDescLocale_2" Type="string" />
-    <Field Name="Field28" Type="short" />
-    <Field Name="Field2A" Type="short" />
-    <Field Name="Field2C" Type="short" />
-    <Field Name="Field2E" Type="short" />
-    <Field Name="Field30" Type="short" />
-    <Field Name="Field32" Type="short" />
-    <Field Name="Field34" Type="short" />
-    <Field Name="Field36" Type="sbyte" />
-    <Field Name="Field37" Type="sbyte" />
-    <Field Name="Field38" Type="sbyte" />
-    <Field Name="Field39" Type="sbyte" />
-    <Field Name="Field3A" Type="sbyte" />
+	<Field Name="Directory" Type="string" />
+	<Field Name="Flags" Type="uint" ArraySize="2" />
+	<Field Name="MinimapIconScale" Type="float" />
+	<Field Name="Corpse" Type="float" ArraySize="2" />
+	<Field Name="MapNameLocale" Type="string" />
+	<Field Name="MapDescLocale_1" Type="string" />
+	<Field Name="MapDescLocale_2" Type="string" />
+	<Field Name="ShortDescription" Type="string" />
+	<Field Name="LongDescription" Type="string" />
+	<Field Name="AreaTableID" Type="ushort" />
+	<Field Name="LoadingScreenID" Type="ushort" />
+	<Field Name="CorpseMapID" Type="short" />
+	<Field Name="TimeOfDayOverride" Type="ushort" />
+	<Field Name="ParentMapID" Type="short" />
+	<Field Name="CosmeticParentMapID" Type="short" />
+	<Field Name="WindSettingsID" Type="ushort" />
+	<Field Name="InstanceType" Type="byte" />
+	<Field Name="Unk" Type="byte" />
+	<Field Name="ExpansionID" Type="byte" />
+	<Field Name="MaxPlayers" Type="byte" />
+	<Field Name="TimeOffset" Type="byte" />
   </Table>
   <Table Name="MapCelestialBody" Build="24793">
     <Field Name="ID" Type="int" IsIndex="true" />

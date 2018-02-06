@@ -2597,30 +2597,30 @@
   </Table>
     <Table Name="SpellMisc" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="spellId" Type="int" />
+    <Field Name="SpellId" Type="int" />
     <Field Name="Unk" Type="int" />
-    <Field Name="attributes" Type="uint" />
-    <Field Name="attributesEx" Type="uint" />
-    <Field Name="attributesExB" Type="uint" />
-    <Field Name="attributesExC" Type="uint" />
-    <Field Name="attributesExD" Type="uint" />
-    <Field Name="attributesExE" Type="uint" />
-    <Field Name="attributesExF" Type="uint" />
-    <Field Name="attributesExG" Type="uint" />
-    <Field Name="attributesExH" Type="uint" />
-    <Field Name="attributesExI" Type="uint" />
-    <Field Name="attributesExJ" Type="uint" />
-    <Field Name="attributesExK" Type="uint" />
-    <Field Name="attributesExL" Type="uint" />
-    <Field Name="attributesExM" Type="uint" />
+    <Field Name="Attributes" Type="uint" />
+    <Field Name="AttributesEx" Type="uint" />
+    <Field Name="AttributesExB" Type="uint" />
+    <Field Name="AttributesExC" Type="uint" />
+    <Field Name="AttributesExD" Type="uint" />
+    <Field Name="AttributesExE" Type="uint" />
+    <Field Name="AttributesExF" Type="uint" />
+    <Field Name="AttributesExG" Type="uint" />
+    <Field Name="AttributesExH" Type="uint" />
+    <Field Name="AttributesExI" Type="uint" />
+    <Field Name="AttributesExJ" Type="uint" />
+    <Field Name="AttributesExK" Type="uint" />
+    <Field Name="AttributesExL" Type="uint" />
+    <Field Name="AttributesExM" Type="uint" />
     <Field Name="CastingTimeIndex" Type="int" />
     <Field Name="DurationIndex" Type="int" />
-    <Field Name="rangeIndex" Type="int" />
-    <Field Name="speed" Type="float" />
+    <Field Name="RangeIndex" Type="int" />
+    <Field Name="Speed" Type="float" />
     <Field Name="Visual1" Type="int" />
     <Field Name="Visual2" Type="int" />
     <Field Name="IconID" Type="int" />
-    <Field Name="activeIconID" Type="int" />
+    <Field Name="ActiveIconID" Type="int" />
     <Field Name="SchoolMask" Type="int" />
   </Table>
   <Table Name="SpellMissile" Build="18414">
