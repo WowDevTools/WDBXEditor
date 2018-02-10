@@ -845,7 +845,7 @@
     <Field Name="FemaleCustomizeOffset" Type="float" ArraySize="3" />
     <Field Name="LowResScreenFileDataID" Type="int" />
     <Field Name="Field0E" Type="int" />
-    <Field Name="LowResScreenFileDataID" Type="int" />
+    <Field Name="Field0F" Type="int" />
     <Field Name="FactionID" Type="ushort" />
     <Field Name="ResSicknessSpellID" Type="ushort" />
     <Field Name="SplashSoundID" Type="ushort" />
