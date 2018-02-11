@@ -1058,7 +1058,7 @@
   </Table>
   <Table Name="EmotesText" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="string" />
+    <Field Name="EmoteTextID" Type="string" />
   </Table>
   <Table Name="EmotesTextData" Build="18414">
     <Field Name="ID" Type="uint" IsIndex="true" />
@@ -1185,13 +1185,13 @@
     <Field Name="ID" Type="uint" IsIndex="true" />
     <Field Name="Filename" Type="string" />
     <Field Name="Unk" Type="uint" ArraySize="10" />
-    <Field Name="minX" Type="float" />
-    <Field Name="minY" Type="float" />
-    <Field Name="minZ" Type="float" />
-    <Field Name="maxX" Type="float" />
-    <Field Name="maxY" Type="float" />
-    <Field Name="maxZ" Type="float" />
-    <Field Name="transport" Type="int" />
+    <Field Name="MinX" Type="float" />
+    <Field Name="MinY" Type="float" />
+    <Field Name="MinZ" Type="float" />
+    <Field Name="MaxX" Type="float" />
+    <Field Name="MaxY" Type="float" />
+    <Field Name="MaxZ" Type="float" />
+    <Field Name="Transport" Type="int" />
   </Table>
   <Table Name="GameObjects" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2744,17 +2744,17 @@
     <Field Name="ID" Type="uint" IsIndex="true" />
     <Field Name="Flags" Type="uint" />
     <Field Name="UnkName" Type="string" />
-    <Field Name="turnSpeed" Type="float" />
-    <Field Name="pitchSpeed" Type="float" />
-    <Field Name="pitchMin" Type="float" />
-    <Field Name="pitchMax" Type="float" />
-    <Field Name="seatID" Type="uint" ArraySize="8"/>
-    <Field Name="mouseLookOffsetPitch" Type="float" />
-    <Field Name="cameraFadeDistScalarMin" Type="float" />
-    <Field Name="cameraFadeDistScalarMax" Type="float" />
-    <Field Name="cameraPitchOffset" Type="float" />
-    <Field Name="facingLimitRight" Type="float" />
-    <Field Name="facingLimitLeft" Type="float" />
+    <Field Name="TurnSpeed" Type="float" />
+    <Field Name="PitchSpeed" Type="float" />
+    <Field Name="PitchMin" Type="float" />
+    <Field Name="PitchMax" Type="float" />
+    <Field Name="SeatID" Type="uint" ArraySize="8"/>
+    <Field Name="MouseLookOffsetPitch" Type="float" />
+    <Field Name="CameraFadeDistScalarMin" Type="float" />
+    <Field Name="CameraFadeDistScalarMax" Type="float" />
+    <Field Name="CameraPitchOffset" Type="float" />
+    <Field Name="FacingLimitRight" Type="float" />
+    <Field Name="FacingLimitLeft" Type="float" />
     <Field Name="MissileTargetTurnLingering" Type="float" />
     <Field Name="MissileTargetPitchLingering" Type="float" />
     <Field Name="MissileTargetMouseLingering" Type="float" />
@@ -2766,11 +2766,11 @@
     <Field Name="MissileTargetArcTexture" Type="string" />
     <Field Name="MissileTargetImpactTexture" Type="string" />
     <Field Name="MissileTargetImpactModel" Type="string" ArraySize="2"/>
-    <Field Name="cameraYawOffset" Type="float" />
+    <Field Name="CameraYawOffset" Type="float" />
     <Field Name="UILocomotionType" Type="uint" />
     <Field Name="MissileTargetImpactTexRadius" Type="float" />
     <Field Name="UISeatIndicatorType" Type="uint" />
-    <Field Name="powerType" Type="uint" />
+    <Field Name="PowerType" Type="uint" />
     <Field Name="Unk1" Type="uint" />
     <Field Name="Unk2" Type="uint" />
   </Table>
