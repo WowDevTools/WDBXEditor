@@ -2402,6 +2402,25 @@
     <Field Name="Field03" Type="uint" />
     <Field Name="Field04" Type="uint" />
   </Table>
+  <Table Name="SoundEntries" Build="18414">
+	<Field Name="ID" Type="int" IsIndex="true" />
+	<Field Name="SoundType" Type="int" />
+	<Field Name="Name" Type="string" />
+	<Field Name="FileDataId" Type="int" ArraySize="10" />
+	<Field Name="Freq" Type="int" ArraySize="10" />
+	<Field Name="Volumefloat" Type="float" />
+	<Field Name="Flags" Type="int" />
+	<Field Name="MinDistance" Type="float" />
+	<Field Name="DistanceCutoff" Type="float" />
+	<Field Name="EAXDef" Type="int" />
+	<Field Name="SoundEntriesAdvancedID" Type="int" />
+	<Field Name="Volumevariationplus" Type="float" />
+	<Field Name="Volumevariationminus" Type="float" />
+	<Field Name="Pitchvariationplus" Type="float" />
+	<Field Name="Pitchvariationminus" Type="float" />
+	<Field Name="Pitchadjust" Type="float" />
+	<Field Name="DialogType" Type="int" />
+  </Table>
   <Table Name="Spell" Build="18414">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Name" Type="string" />
