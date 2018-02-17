@@ -112,8 +112,6 @@ namespace WDBXEditor.Storage
         public bool IsIndex { get; set; } = false;
         [XmlAttribute, DefaultValue(false)]
         public bool AutoGenerate { get; set; } = false;
-        [XmlAttribute, DefaultValue(0)]
-        public int Padding { get; set; } = 0;
         [XmlAttribute, DefaultValue("")]
         public string DefaultValue { get; set; } = "";
         [XmlAttribute, DefaultValue("")]

@@ -199,8 +199,7 @@ namespace WDBXEditor.Reader
 				return;
 
 			TypeCode[] columnTypes = entry.Data.Columns.Cast<DataColumn>().Select(x => Type.GetTypeCode(x.DataType)).ToArray();
-			int[] padding = entry.TableStructure.Padding.ToArray();
-			Array.Resize(ref padding, entry.Data.Columns.Count);
+			int[] padding = entry.GetPadding();
 
 			FieldStructureEntry[] bits = entry.GetBits();
 			int recordcount = Math.Max(entry.Header.OffsetLengths.Length, (int)entry.Header.RecordCount);
@@ -234,43 +233,33 @@ namespace WDBXEditor.Reader
 					{
 						case TypeCode.Boolean:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadBoolean());
-							dbReader.BaseStream.Position += sizeof(bool) * padding[j];
 							break;
 						case TypeCode.SByte:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadSByte());
-							dbReader.BaseStream.Position += sizeof(sbyte) * padding[j];
 							break;
 						case TypeCode.Byte:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadByte());
-							dbReader.BaseStream.Position += sizeof(byte) * padding[j];
 							break;
 						case TypeCode.Int16:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadInt16());
-							dbReader.BaseStream.Position += sizeof(short) * padding[j];
 							break;
 						case TypeCode.UInt16:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadUInt16());
-							dbReader.BaseStream.Position += sizeof(ushort) * padding[j];
 							break;
 						case TypeCode.Int32:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadInt32(bits[j]));
-							dbReader.BaseStream.Position += sizeof(int) * padding[j];
 							break;
 						case TypeCode.UInt32:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadUInt32(bits[j]));
-							dbReader.BaseStream.Position += sizeof(uint) * padding[j];
 							break;
 						case TypeCode.Int64:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadInt64(bits[j]));
-							dbReader.BaseStream.Position += sizeof(long) * padding[j];
 							break;
 						case TypeCode.UInt64:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadUInt64(bits[j]));
-							dbReader.BaseStream.Position += sizeof(ulong) * padding[j];
 							break;
 						case TypeCode.Single:
 							row.SetField(entry.Data.Columns[j], dbReader.ReadSingle());
-							dbReader.BaseStream.Position += sizeof(float) * padding[j];
 							break;
 						case TypeCode.String:
 							if (entry.Header.IsTypeOf<WDB>() || entry.Header.IsTypeOf<HTFX>() || entry.Header.HasOffsetTable)
@@ -295,6 +284,8 @@ namespace WDBXEditor.Reader
 							dbReader.BaseStream.Position += 4;
 							break;
 					}
+
+					dbReader.BaseStream.Position += padding[j];
 				}
 
 				entry.Data.Rows.Add(row);
@@ -422,39 +413,30 @@ namespace WDBXEditor.Reader
 					{
 						case TypeCode.SByte:
 							bw.Write(row.Field<sbyte>(j));
-							bw.BaseStream.Position += sizeof(sbyte) * padding[j];
 							break;
 						case TypeCode.Byte:
 							bw.Write(row.Field<byte>(j));
-							bw.BaseStream.Position += sizeof(byte) * padding[j];
 							break;
 						case TypeCode.Int16:
 							bw.Write(row.Field<short>(j));
-							bw.BaseStream.Position += sizeof(short) * padding[j];
 							break;
 						case TypeCode.UInt16:
 							bw.Write(row.Field<ushort>(j));
-							bw.BaseStream.Position += sizeof(ushort) * padding[j];
 							break;
 						case TypeCode.Int32:
 							bw.WriteInt32(row.Field<int>(j), bits?[j]);
-							bw.BaseStream.Position += sizeof(int) * padding[j];
 							break;
 						case TypeCode.UInt32:
 							bw.WriteUInt32(row.Field<uint>(j), bits?[j]);
-							bw.BaseStream.Position += sizeof(uint) * padding[j];
 							break;
 						case TypeCode.Int64:
 							bw.WriteInt64(row.Field<long>(j), bits?[j]);
-							bw.BaseStream.Position += sizeof(long) * padding[j];
 							break;
 						case TypeCode.UInt64:
 							bw.WriteUInt64(row.Field<ulong>(j), bits?[j]);
-							bw.BaseStream.Position += sizeof(ulong) * padding[j];
 							break;
 						case TypeCode.Single:
 							bw.Write(row.Field<float>(j));
-							bw.BaseStream.Position += sizeof(float) * padding[j];
 							break;
 						case TypeCode.String:
 							if (entry.Header.HasOffsetTable)
@@ -468,6 +450,9 @@ namespace WDBXEditor.Reader
 						default:
 							throw new Exception($"Unknown TypeCode {columnTypes[j].ToString()}");
 					}
+
+					if(columnTypes[j] != TypeCode.String)
+						bw.BaseStream.Position += padding[j];
 				}
 
 				//Calculate and write the row's padding

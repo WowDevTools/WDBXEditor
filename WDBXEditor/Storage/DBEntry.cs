@@ -195,7 +195,6 @@ namespace WDBXEditor.Storage
 					}
 
 					Data.Columns[columnName].AllowDBNull = false;
-					TableStructure.Padding.Add(col.Padding);
 				}
 			}
 
@@ -260,11 +259,11 @@ namespace WDBXEditor.Storage
 			if (Header is WDC1 header)
 			{
 				var fields = header.ColumnMeta;
-				for(int i = 0; i < fields.Count; i++)
+				for (int i = 0; i < fields.Count; i++)
 				{
 					short bitcount = (short)(Header.FieldStructure[i].BitCount == 64 ? Header.FieldStructure[i].BitCount : 0); // force bitcounts
 					for (int x = 0; x < fields[i].ArraySize; x++)
-						bits.Add(new FieldStructureEntry(bitcount, 0)); 
+						bits.Add(new FieldStructureEntry(bitcount, 0));
 				}
 			}
 			else
@@ -279,6 +278,42 @@ namespace WDBXEditor.Storage
 			}
 
 			return bits.ToArray();
+		}
+
+		public int[] GetPadding()
+		{
+			int[] padding = new int[Data.Columns.Count];
+
+			Dictionary<Type, int> bytecounts = new Dictionary<Type, int>()
+			{
+				{ typeof(byte), 1 },
+				{ typeof(short), 2 },
+				{ typeof(ushort), 2 },
+			};
+
+			if (Header is WDC1 header)
+			{
+
+				int c = 0;
+
+				foreach(var field in header.ColumnMeta)
+				{
+					Type type = Data.Columns[c].DataType;
+					bool isneeded = field.CompressionType >= CompressionType.Sparse;
+
+					if (bytecounts.ContainsKey(type) && isneeded)
+					{
+						for (int x = 0; x < field.ArraySize; x++)
+							padding[c++] = 4 - bytecounts[type];
+					}
+					else
+					{
+						c += field.ArraySize;
+					}
+				}
+			}
+
+			return padding;
 		}
 
 		public void UpdateColumnTypes()

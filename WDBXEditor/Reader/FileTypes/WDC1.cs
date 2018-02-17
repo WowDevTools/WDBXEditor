@@ -311,7 +311,7 @@ namespace WDBXEditor.Reader.FileTypes
 						else
 							data.AddRange(new byte[4]);
 					}
-
+					
 					CopyTable.Add(id, data.ToArray());
 
 					if (Copies.ContainsKey(id))
@@ -566,10 +566,8 @@ namespace WDBXEditor.Reader.FileTypes
 
 						case CompressionType.Sparse:
 							{
-								byte[] asInt = data[0].Concat(new byte[4]).ToArray();
-								if (BitConverter.ToInt32(asInt, 0) == ColumnMeta[fieldIndex].BitOffset)
-									continue;
-								else
+								Array.Resize(ref data[0], 4);
+								if (BitConverter.ToInt32(data[0], 0) != ColumnMeta[fieldIndex].BitOffset)
 									ColumnMeta[fieldIndex].SparseValues.Add(id, data[0]);
 							}
 							break;
