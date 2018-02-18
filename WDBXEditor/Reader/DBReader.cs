@@ -380,7 +380,7 @@ namespace WDBXEditor.Reader
 		private void WriteIntoFile(DBEntry entry, BinaryWriter bw, IEnumerable<DataRow> rows, ref StringTable st)
 		{
 			TypeCode[] columnTypes = entry.Data.Columns.Cast<DataColumn>().Select(x => Type.GetTypeCode(x.DataType)).ToArray();
-			int[] padding = entry.TableStructure.Padding.ToArray();
+			int[] padding = entry.GetPadding();
 			var bits = entry.GetBits();
 
 			bool duplicates = false;

@@ -179,7 +179,6 @@ namespace WDBXEditor.Storage
 									Data.Columns.Add(columnName, typeof(string));
 									Data.Columns[columnName].AllowDBNull = false;
 									Data.Columns[columnName].DefaultValue = string.Empty;
-									TableStructure.Padding.Add(0);
 								}
 							}
 							break;

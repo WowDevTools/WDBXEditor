@@ -86,8 +86,6 @@ namespace WDBXEditor.Storage
         [XmlIgnore]
         public Field Key { get; private set; }
         [XmlIgnore]
-        public List<int> Padding { get; set; } = new List<int>();
-        [XmlIgnore]
         public bool Changed { get; set; } = false;
         [XmlIgnore]
         public string BuildText { get; private set; }
