@@ -204,10 +204,7 @@ namespace WDBXEditor.Reader.FileTypes
 				{
 					id = m_indexes[CopyTable.Count];
 					var map = offsetmap[i];
-
-					if (CopyTableSize == 0 && firstindex[map.Item1].HiddenIndex != i) // ignore duplicates
-						continue;
-
+										
 					dbReader.BaseStream.Position = map.Item1;
 
 					byte[] data = dbReader.ReadBytes(map.Item2);
