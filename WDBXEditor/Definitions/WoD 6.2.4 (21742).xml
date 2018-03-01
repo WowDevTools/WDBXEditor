@@ -3285,6 +3285,7 @@
     <Field Name="MinReputation" Type="int" ArraySize="3" />
     <Field Name="MaxReputation" Type="int" />
     <Field Name="ReputationLogic" Type="int" />
+    <Field Name="Unknown" Type="int" />
     <Field Name="MinPVPRank" Type="int" />
     <Field Name="MaxPVPRank" Type="int" />
     <Field Name="PvpMedal" Type="int" />
@@ -3341,21 +3342,6 @@
     <Field Name="PowerType" Type="int" />
     <Field Name="PowerTypeComp" Type="int" />
     <Field Name="PowerTypeValue" Type="int" />
-    <Field Name="ClassMask" Type="int" />
-    <Field Name="LanguageID" Type="int" />
-    <Field Name="MinFactionID" Type="int" ArraySize="3" />
-    <Field Name="SpellID" Type="int" ArraySize="4" />
-    <Field Name="ItemID" Type="int" ArraySize="4" />
-    <Field Name="ItemCount" Type="int" ArraySize="4" />
-    <Field Name="LfgLogic" Type="int" />
-    <Field Name="LfgValue" Type="int" ArraySize="4" />
-    <Field Name="CurrencyLogic" Type="int" />
-    <Field Name="CurrencyID" Type="int" ArraySize="4" />
-    <Field Name="QuestKillMonster" Type="int" ArraySize="6" />
-    <Field Name="PhaseGroupID" Type="int" />
-    <Field Name="MinAvgItemLevel" Type="int" />
-    <Field Name="MaxAvgItemLevel" Type="int" />
-    <Field Name="Field90" Type="int" ArraySize="2" />
   </Table>
   <Table Name="Positioner" Build="21742">
     <Field Name="ID" Type="int" IsIndex="true" />

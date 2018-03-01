@@ -295,7 +295,7 @@ namespace WDBXEditor.Storage
 
 				int c = 0;
 
-				foreach(var field in header.ColumnMeta)
+				foreach (var field in header.ColumnMeta)
 				{
 					Type type = Data.Columns[c].DataType;
 					bool isneeded = field.CompressionType >= CompressionType.Sparse;
@@ -539,11 +539,11 @@ namespace WDBXEditor.Storage
 		/// <returns></returns>
 		public string ToCSV()
 		{
-			StringBuilder sb = new StringBuilder();
-			IEnumerable<string> columnNames = Data.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
-			sb.AppendLine(string.Join(",", columnNames));
-
 			Func<string, string> EncodeCsv = s => { return string.Concat("\"", s.Replace(Environment.NewLine, string.Empty).Replace("\"", "\"\""), "\""); };
+
+			StringBuilder sb = new StringBuilder();
+			IEnumerable<string> columnNames = Data.Columns.Cast<DataColumn>().Select(column => EncodeCsv(column.ColumnName));
+			sb.AppendLine(string.Join(",", columnNames));
 
 			foreach (DataRow row in Data.Rows)
 			{

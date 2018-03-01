@@ -365,7 +365,7 @@ namespace WDBXEditor.Reader.FileTypes
 				}
 
 				int bits = ColumnMeta[i].CompressionType == CompressionType.None ? FieldStructure[i].BitCount : ColumnMeta[i].BitWidth;
-				if ((bits & (bits - 1)) == 0) // power of two so standard type
+				if ((bits & (bits - 1)) == 0 && bits >= 8) // power of two and >= sizeof(byte) means a standard type
 				{
 					column += ColumnMeta[i].ArraySize;
 					continue;
