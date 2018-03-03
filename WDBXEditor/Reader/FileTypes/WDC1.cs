@@ -204,7 +204,7 @@ namespace WDBXEditor.Reader.FileTypes
 				{
 					id = m_indexes[CopyTable.Count];
 					var map = offsetmap[i];
-										
+
 					dbReader.BaseStream.Position = map.Item1;
 
 					byte[] data = dbReader.ReadBytes(map.Item2);
@@ -308,7 +308,7 @@ namespace WDBXEditor.Reader.FileTypes
 						else
 							data.AddRange(new byte[4]);
 					}
-					
+
 					CopyTable.Add(id, data.ToArray());
 
 					if (Copies.ContainsKey(id))
@@ -487,8 +487,8 @@ namespace WDBXEditor.Reader.FileTypes
 				foreach (DataRow r in entry.Data.Rows)
 				{
 					int id = r.Field<int>(entry.Key);
-					if(!copyIds.Contains(id))
-						relationData.Add(id, r.Field<uint>(index));						
+					if (!copyIds.Contains(id))
+						relationData.Add(id, r.Field<uint>(index));
 				}
 
 				RelationShipData = new RelationShipData()
@@ -758,7 +758,8 @@ namespace WDBXEditor.Reader.FileTypes
 				}
 				else
 				{
-					values = values.Select(x => (object)stringTable.Write((string)x)).ToArray();
+					for (int i = 0; i < values.Length; i++)
+						values[i] = stringTable.Write((string)values[i]);
 				}
 			}
 
