@@ -643,7 +643,7 @@ namespace WDBXEditor.Storage
 
 			DataTable importTable = Data.Clone(); //Clone table structure to help with mapping
 
-			List<int> usedids = new List<int>();
+			HashSet<int> usedids = new HashSet<int>();
 			int idcolumn = Data.Columns[Key].Ordinal;
 			int maxid = int.MinValue;
 
