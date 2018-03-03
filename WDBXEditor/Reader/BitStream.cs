@@ -19,7 +19,6 @@ namespace WDBXEditor.Reader
 		public long Length => stream.Length;
 		public long BitPosition => bit;
 		public long Offset => offset;
-		private bool ValidPosition => offset < Length;
 
 
 		public BitStream(int capacity = 0)
@@ -146,7 +145,7 @@ namespace WDBXEditor.Reader
 
 		private Bit ReadBit()
 		{
-			if (!ValidPosition)
+			if (offset >= stream.Length)
 				throw new IOException("Cannot read in an offset bigger than the length of the stream");
 
 			byte value = (byte)((currentByte >> (bit)) & 1);
@@ -160,7 +159,7 @@ namespace WDBXEditor.Reader
 			currentByte &= (byte)~(1 << bit);
 			currentByte |= (byte)(data << bit);
 
-			if (!ValidPosition)
+			if (offset >= stream.Length)
 			{
 				if (!canWrite || !ChangeLength(Length + (offset - Length) + 1))
 					throw new IOException("Attempted to write past the length of the stream.");
@@ -272,11 +271,8 @@ namespace WDBXEditor.Reader
 
 		#region Write
 
-		public void WriteBytes(byte[] data, long length, bool isBytes = false)
+		public void WriteBits(byte[] data, long length)
 		{
-			if (isBytes)
-				length *= 8;
-
 			int position = 0;
 			for (long i = 0; i < length;)
 			{
@@ -290,65 +286,70 @@ namespace WDBXEditor.Reader
 			}
 		}
 
+		public void WriteBytes(byte[] data, long length)
+		{
+			WriteBits(data, length * 8);
+		}
+
 		public void WriteByte(byte value, int bits = 8)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 8); // clamp values
-			WriteBytes(new byte[] { value }, bits);
+			WriteBits(new byte[] { value }, bits);
 		}
 
 		public void WriteChar(char value)
 		{
 			byte[] bytes = encoding.GetBytes(new char[] { value }, 0, 1);
-			WriteBytes(bytes, bytes.Length * 8);
+			WriteBits(bytes, bytes.Length * 8);
 		}
 
 		public void WriteString(string value)
 		{
 			byte[] bytes = encoding.GetBytes(value);
-			WriteBytes(bytes, bytes.Length * 8);
+			WriteBits(bytes, bytes.Length * 8);
 		}
 
 		public void WriteCString(string value)
 		{
 			byte[] bytes = encoding.GetBytes(value);
 			Array.Resize(ref bytes, bytes.Length + 1);
-			WriteBytes(bytes, bytes.Length * 8);
+			WriteBits(bytes, bytes.Length * 8);
 		}
 
 		public void WriteInt16(short value, int bits = 16)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 16); // clamp values
-			WriteBytes(BitConverter.GetBytes(value), bits);
+			WriteBits(BitConverter.GetBytes(value), bits);
 		}
 
 		public void WriteInt32(int value, int bits = 32)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 32); // clamp values
-			WriteBytes(BitConverter.GetBytes(value), bits);
+			WriteBits(BitConverter.GetBytes(value), bits);
 		}
 
 		public void WriteInt64(long value, int bits = 64)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 64); // clamp values
-			WriteBytes(BitConverter.GetBytes(value), bits);
+			WriteBits(BitConverter.GetBytes(value), bits);
 		}
 
 		public void WriteUInt16(ushort value, int bits = 16)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 16); // clamp values
-			WriteBytes(BitConverter.GetBytes(value), bits);
+			WriteBits(BitConverter.GetBytes(value), bits);
 		}
 
 		public void WriteUInt32(uint value, int bits = 32)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 32); // clamp values
-			WriteBytes(BitConverter.GetBytes(value), bits);
+			WriteBits(BitConverter.GetBytes(value), bits);
 		}
 
 		public void WriteUInt64(ulong value, int bits = 64)
 		{
 			bits = Math.Min(Math.Max(bits, 0), 64); // clamp values
-			WriteBytes(BitConverter.GetBytes(value), bits);
+			WriteBits(BitConverter.GetBytes(value), bits);
 		}
 
 		#endregion

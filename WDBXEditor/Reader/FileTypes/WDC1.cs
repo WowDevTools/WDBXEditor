@@ -554,11 +554,11 @@ namespace WDBXEditor.Reader.FileTypes
 					{
 						case CompressionType.None:
 							for (int i = 0; i < arraySize; i++)
-								bitStream.WriteBytes(data[i], bitSize);
+								bitStream.WriteBits(data[i], bitSize);
 							break;
 
 						case CompressionType.Immediate:
-							bitStream.WriteBytes(data[0], bitWidth);
+							bitStream.WriteBits(data[0], bitWidth);
 							break;
 
 						case CompressionType.Sparse:
@@ -599,7 +599,7 @@ namespace WDBXEditor.Reader.FileTypes
 					short size = (short)(bitStream.Offset - offset + bw.BaseStream.Position);
 					int remaining = size % 4 == 0 ? 0 : 4 - size % 4;
 					if (remaining != 0)
-						bitStream.WriteBytes(new byte[remaining], remaining, true);
+						bitStream.WriteBytes(new byte[remaining], remaining);
 
 					offsetMap.Add(new Tuple<int, short>((int)offset, (short)(bw.BaseStream.Position + bitStream.Offset - offset)));
 				}
@@ -608,7 +608,7 @@ namespace WDBXEditor.Reader.FileTypes
 					bitStream.SeekNextOffset();
 					short size = (short)(bitStream.Offset - offset + bw.BaseStream.Position);
 					if (size < RecordSize)
-						bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size, true);
+						bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size);
 				}
 			}
 			bitStream.CopyStreamTo(bw.BaseStream); // write to the filestream

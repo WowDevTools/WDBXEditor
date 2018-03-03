@@ -232,7 +232,7 @@ namespace WDBXEditor.Reader.FileTypes
         public override void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap)
         {
             var minmax = entry.MinMax();
-            var ids = entry.GetPrimaryKeys().ToList();
+            var ids = new HashSet<int>(entry.GetPrimaryKeys());
             var duplicates = entry.Header.OffsetDuplicates;
 
             int m = 0;
