@@ -23,6 +23,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 		public List<ColumnStructureEntry> ColumnMeta;
 		public RelationShipData RelationShipData;
+		public Dictionary<int, MinMax> MinMaxValues;
 
 		private byte[] recordData;
 
@@ -360,6 +361,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 		public void SetColumnMinMaxValues(DBEntry entry)
 		{
+			MinMaxValues = new Dictionary<int, MinMax>();
 			int column = 0;
 			for (int i = 0; i < ColumnMeta.Count; i++)
 			{
@@ -395,6 +397,16 @@ namespace WDBXEditor.Reader.FileTypes
 					entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", max);
 					if (signed || isfloat)
 						entry.Data.Columns[column].ExtendedProperties.Add("MinValue", min);
+
+					MinMax minmax = new MinMax()
+					{
+						Signed = signed,
+						MaxVal = max,
+						MinVal = min,
+						IsSingle = isfloat
+					};
+
+					MinMaxValues[column] = minmax;
 					column++;
 				}
 			}
@@ -779,5 +791,13 @@ namespace WDBXEditor.Reader.FileTypes
 
 		#endregion
 
+	}
+
+	public class MinMax
+	{
+		public object MinVal;
+		public object MaxVal;
+		public bool Signed;
+		public bool IsSingle;
 	}
 }

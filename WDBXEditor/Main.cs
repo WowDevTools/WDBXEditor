@@ -1206,7 +1206,13 @@ namespace WDBXEditor
 			string res = "";
 			if (ShowInputDialog("Id:", "Id to insert", "1", ref res) == DialogResult.OK)
 			{
-				if (int.TryParse(res, out int id) && id > 0) //Ensure the result is an integer
+				int keyIndex = advancedDataGridView.Columns[LoadedEntry.Key].Index;
+
+				if(!int.TryParse(res, out int id) || id < 0 || !advancedDataGridView.ValidValue(keyIndex, id))
+				{
+					MessageBox.Show($"Invalid Id. Out of range of the column min/max value.");
+				}
+				else
 				{
 					int index = _bindingsource.Find(LoadedEntry.Key, id); //See if the Id exists
 					if (index < 0)
@@ -1223,8 +1229,6 @@ namespace WDBXEditor
 
 					advancedDataGridView.SelectRow(index);
 				}
-				else
-					MessageBox.Show($"Invalid Id.");
 			}
 		}
 

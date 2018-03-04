@@ -187,6 +187,28 @@ namespace ADGV
 			base.OnCellValidating(e);
 		}
 
+		public bool ValidValue(int index, object value)
+		{
+			if (BitCounts.ContainsKey(index))
+			{
+				var bitcount = BitCounts[index];
+				if (bitcount.IsSingle && float.TryParse(value.ToString(), out float fVal))
+				{
+					return fVal >= (float)bitcount.MinVal && fVal <= (float)bitcount.MaxVal;
+				}
+				if (bitcount.Signed && long.TryParse(value.ToString(), out long val))
+				{
+					return (val >= (long)bitcount.MinVal && val <= (long)bitcount.MaxVal);
+				}
+				else if (ulong.TryParse(value.ToString(), out ulong val2))
+				{
+					return val2 <= (ulong)bitcount.MaxVal;
+				}
+			}
+
+			return true;
+		}
+
 		#endregion
 
 
