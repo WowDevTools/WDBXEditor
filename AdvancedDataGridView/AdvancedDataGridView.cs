@@ -395,7 +395,7 @@ namespace ADGV
 
         public void ClearCopyData()
         {
-            _copydata = new object[0];
+			Array.Resize(ref _copydata, 0);
         }
         #endregion
 

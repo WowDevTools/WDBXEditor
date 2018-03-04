@@ -28,7 +28,7 @@ namespace ADGV
 
 			_tag = this.Parent.Tag + "";
 			Cache.Clear();
-			DataCount = new int[0];
+			Array.Resize(ref DataCount, 0);
 
 			var table = (DataTable)((BindingSource)this.DataSource).DataSource;
 			if ((table?.Rows.Count ?? 0) == 0)

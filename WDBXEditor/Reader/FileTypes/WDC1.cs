@@ -88,9 +88,14 @@ namespace WDBXEditor.Reader.FileTypes
 					if (CopyTableSize == 0)
 					{
 						if (!firstindex.ContainsKey(offset))
+						{
 							firstindex.Add(offset, new OffsetDuplicate(offsetmap.Count, firstindex.Count));
+						}							
 						else
+						{
 							OffsetDuplicates.Add(MinId + i, firstindex[offset].VisibleIndex);
+							continue;
+						}
 					}
 
 					offsetmap.Add(new Tuple<int, short>(offset, length));
@@ -204,6 +209,9 @@ namespace WDBXEditor.Reader.FileTypes
 				{
 					id = m_indexes[CopyTable.Count];
 					var map = offsetmap[i];
+
+					if (CopyTableSize == 0 && firstindex[map.Item1].HiddenIndex != i) //Ignore duplicates
+						continue;
 
 					dbReader.BaseStream.Position = map.Item1;
 
@@ -328,13 +336,12 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 				ColumnMeta.Insert(0, new ColumnStructureEntry());
 			}
-
+			
 			offsetmap.Clear();
 			firstindex.Clear();
 			OffsetDuplicates.Clear();
 			Copies.Clear();
-			recordData = new byte[0];
-			recordData = null;
+			Array.Resize(ref recordData, 0);
 			bitStream.Dispose();
 			ColumnMeta.ForEach(x => { x.PalletValues?.Clear(); x.SparseValues?.Clear(); });
 
@@ -436,7 +443,7 @@ namespace WDBXEditor.Reader.FileTypes
 			bw.Write(0);  // PalletDataSize
 			bw.Write(0);  // RelationshipDataSize
 
-			//Write the field_structure bits
+			// Write the field_structure bits
 			for (int i = 0; i < FieldStructure.Count; i++)
 			{
 				if (HasIndexTable && i == 0) continue;
@@ -536,7 +543,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 				bitStream.SeekNextOffset(); // each row starts at a 0 bit position
 
-				long offset = bw.BaseStream.Position + bitStream.Offset; // used for offset map calcs
+				long offset = pos + bitStream.Offset; // used for offset map calcs
 
 				for (int fieldIndex = 0; fieldIndex < FieldCount; fieldIndex++)
 				{
@@ -593,22 +600,26 @@ namespace WDBXEditor.Reader.FileTypes
 					}
 				}
 
-				if (IsSparse) // needs to be padded to % 4 and offsetmap record needs to be created. this isn't true but doesn't matter
+				short size = (short)(pos + bitStream.Offset - offset);
+
+				if (IsSparse) // matches itemsparse padding
 				{
 					bitStream.SeekNextOffset();
-					short size = (short)(bitStream.Offset - offset + bw.BaseStream.Position);
-					int remaining = size % 4 == 0 ? 0 : 4 - size % 4;
-					if (remaining != 0)
-						bitStream.WriteBytes(new byte[remaining], remaining);
 
-					offsetMap.Add(new Tuple<int, short>((int)offset, (short)(bw.BaseStream.Position + bitStream.Offset - offset)));
+					int remaining = size % 8 == 0 ? 0 : 8 - (size % 8);
+					if (remaining > 0)
+					{
+						size += (short)remaining;
+						bitStream.WriteBytes(new byte[remaining], remaining);
+					}
+
+					offsetMap.Add(new Tuple<int, short>((int)offset, size));
 				}
 				else // needs to be padded to the record size regardless of the byte count - weird eh?
 				{
 					bitStream.SeekNextOffset();
-					short size = (short)(bitStream.Offset - offset + bw.BaseStream.Position);
-					if (size < RecordSize)
-						bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size);
+					//if (size < RecordSize)
+					//	bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size);
 				}
 			}
 			bitStream.CopyStreamTo(bw.BaseStream); // write to the filestream
@@ -759,7 +770,7 @@ namespace WDBXEditor.Reader.FileTypes
 				else
 				{
 					for (int i = 0; i < values.Length; i++)
-						values[i] = stringTable.Write((string)values[i]);
+						values[i] = stringTable.Write((string)values[i], false, false);
 				}
 			}
 

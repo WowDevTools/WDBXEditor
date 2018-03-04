@@ -1419,7 +1419,7 @@
   </Table>
   <Table Name="Emotes" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="RaceMask" Type="long" />
+    <Field Name="RaceMask" Type="ulong" />
     <Field Name="EmoteSlashCommand" Type="string" />
     <Field Name="SpellVisualKitID" Type="uint" />
     <Field Name="EmoteFlags" Type="uint" />
@@ -2527,7 +2527,7 @@
   </Table>
   <Table Name="ItemSparse" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="AllowableRace" Type="long" />
+    <Field Name="AllowableRace" Type="ulong" />
     <Field Name="Name" Type="string" />
     <Field Name="Name2" Type="string" />
     <Field Name="Name3" Type="string" />
@@ -3977,7 +3977,7 @@
   </Table>
   <Table Name="SkillRaceClassInfo" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="RaceMask" Type="long" />
+    <Field Name="RaceMask" Type="ulong" />
     <Field Name="SkillID" Type="ushort" />
     <Field Name="Flags" Type="ushort" />
     <Field Name="SkillTierID" Type="ushort" />
