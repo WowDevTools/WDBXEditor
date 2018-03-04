@@ -612,12 +612,11 @@ namespace WDBXEditor.Reader.FileTypes
 					}
 				}
 
+				bitStream.SeekNextOffset();
 				short size = (short)(pos + bitStream.Offset - offset);
 
 				if (IsSparse) // matches itemsparse padding
-				{
-					bitStream.SeekNextOffset();
-
+				{					
 					int remaining = size % 8 == 0 ? 0 : 8 - (size % 8);
 					if (remaining > 0)
 					{
@@ -629,9 +628,8 @@ namespace WDBXEditor.Reader.FileTypes
 				}
 				else // needs to be padded to the record size regardless of the byte count - weird eh?
 				{
-					bitStream.SeekNextOffset();
-					//if (size < RecordSize)
-					//	bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size);
+					if (size < RecordSize)
+						bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size);
 				}
 			}
 			bitStream.CopyStreamTo(bw.BaseStream); // write to the filestream
