@@ -4370,24 +4370,24 @@
   </Table>
   <Table Name="SpellEffect" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Effect" Type="uint" />
+    <Field Name="Effect" Type="int" />
     <Field Name="EffectBasePoints" Type="int" />
     <Field Name="EffectIndex" Type="byte" />
-    <Field Name="EffectAura" Type="uint" />
-    <Field Name="DifficultyID" Type="uint" />
+    <Field Name="EffectAura" Type="int" />
+    <Field Name="DifficultyID" Type="int" />
     <Field Name="EffectAmplitude" Type="float" />
-    <Field Name="EffectAuraPeriod" Type="uint" />
+    <Field Name="EffectAuraPeriod" Type="int" />
     <Field Name="EffectBonusCoefficient" Type="float" />
     <Field Name="EffectChainAmplitude" Type="float" />
-    <Field Name="EffectChainTargets" Type="uint" />
+    <Field Name="EffectChainTargets" Type="int" />
     <Field Name="EffectDieSides" Type="int" />
-    <Field Name="EffectItemType" Type="uint" />
-    <Field Name="EffectMechanic" Type="uint" />
+    <Field Name="EffectItemType" Type="int" />
+    <Field Name="EffectMechanic" Type="int" />
     <Field Name="EffectPointsPerResource" Type="float" />
     <Field Name="EffectRealPointsPerLevel" Type="float" />
-    <Field Name="EffectTriggerSpell" Type="uint" />
+    <Field Name="EffectTriggerSpell" Type="int" />
     <Field Name="EffectPosFacing" Type="float" />
-    <Field Name="EffectAttributes" Type="uint" />
+    <Field Name="EffectAttributes" Type="int" />
     <Field Name="BonusCoefficientFromAP" Type="float" />
     <Field Name="PvPMultiplier" Type="float" />
     <Field Name="Coefficient" Type="float" />
@@ -4395,11 +4395,9 @@
     <Field Name="ResourceCoefficient" Type="float" />
     <Field Name="GroupSizeCoefficient" Type="float" />
     <Field Name="EffectSpellClassMask" Type="int" ArraySize="4" />
-    <Field Name="EffectMiscValue" Type="int" />
-    <Field Name="EffectMiscValueB" Type="int" />
-    <Field Name="EffectRadiusIndex" Type="uint" />
-    <Field Name="EffectRadiusMaxIndex" Type="uint" />
-    <Field Name="ImplicitTarget" Type="uint" ArraySize="2" />
+    <Field Name="EffectMiscValue" Type="int" ArraySize="2" />
+    <Field Name="EffectRadiusIndex" Type="int" ArraySize="2" />
+    <Field Name="ImplicitTarget" Type="int" ArraySize="2" />
   </Table>
   <Table Name="Spelleffectemission" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />

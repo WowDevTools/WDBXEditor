@@ -186,26 +186,26 @@ namespace WDBXEditor
 
         private readonly Dictionary<string, string> MangosLookup = new Dictionary<string, string>()
         {
-            {"m_ID","entry" },
-            {"m_classID","class" },
-            {"m_subclassID","subclass" },
-            {"m_sound_override_subclassid","unk0" },
-            {"m_material","Material" },
-            {"m_displayInfoID","displayid" },
-            {"m_inventoryType","InventoryType" },
-            {"m_sheatheType","sheath" }
+            {"ID","entry" },
+            {"ClassID","class" },
+            {"SubclassID","subclass" },
+            {"Sound_override_subclassid","unk0" },
+            {"Material","Material" },
+            {"DisplayInfoID","displayid" },
+            {"InventoryType","InventoryType" },
+            {"SheatheType","sheath" }
         };
 
         private readonly Dictionary<string, string> TrinityLookup = new Dictionary<string, string>()
         {
-            {"m_ID","entry" },
-            {"m_classID","class" },
-            {"m_subclassID","subclass" },
-            {"m_sound_override_subclassid","SoundOverrideSubclass" },
-            {"m_material","Material" },
-            {"m_displayInfoID","displayid" },
-            {"m_inventoryType","InventoryType" },
-            {"m_sheatheType","sheath" }
+            {"ID","entry" },
+            {"ClassID","class" },
+            {"SubclassID","subclass" },
+            {"Sound_override_subclassid","SoundOverrideSubclass" },
+            {"Material","Material" },
+            {"DisplayInfoID","displayid" },
+            {"InventoryType","InventoryType" },
+            {"SheatheType","sheath" }
         };
 
     }
