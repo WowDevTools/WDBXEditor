@@ -861,7 +861,9 @@ namespace WDBXEditor.Storage
 
 					if (errored)
 					{
-						error = $"Import Failed: Imported data has out of range values for column {minmax.Key} (Min {minmax.Value.MinVal}, Max {minmax.Value.MaxVal})";
+						error = $"Import Failed: Imported data has out of range values for {Data.Columns[minmax.Key].ColumnName}.\n" +
+								$"(Min: {minmax.Value.MinVal}, Max: {minmax.Value.MaxVal})";
+
 						return false;
 					}
 				}
