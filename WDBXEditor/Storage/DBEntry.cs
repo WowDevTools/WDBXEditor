@@ -295,7 +295,7 @@ namespace WDBXEditor.Storage
 
 				int c = 0;
 
-				foreach(var field in header.ColumnMeta)
+				foreach (var field in header.ColumnMeta)
 				{
 					Type type = Data.Columns[c].DataType;
 					bool isneeded = field.CompressionType >= CompressionType.Sparse;
@@ -539,11 +539,11 @@ namespace WDBXEditor.Storage
 		/// <returns></returns>
 		public string ToCSV()
 		{
-			StringBuilder sb = new StringBuilder();
-			IEnumerable<string> columnNames = Data.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
-			sb.AppendLine(string.Join(",", columnNames));
-
 			Func<string, string> EncodeCsv = s => { return string.Concat("\"", s.Replace(Environment.NewLine, string.Empty).Replace("\"", "\"\""), "\""); };
+
+			StringBuilder sb = new StringBuilder();
+			IEnumerable<string> columnNames = Data.Columns.Cast<DataColumn>().Select(column => EncodeCsv(column.ColumnName));
+			sb.AppendLine(string.Join(",", columnNames));
 
 			foreach (DataRow row in Data.Rows)
 			{
@@ -643,7 +643,7 @@ namespace WDBXEditor.Storage
 
 			DataTable importTable = Data.Clone(); //Clone table structure to help with mapping
 
-			List<int> usedids = new List<int>();
+			HashSet<int> usedids = new HashSet<int>();
 			int idcolumn = Data.Columns[Key].Ordinal;
 			int maxid = int.MinValue;
 
@@ -770,6 +770,9 @@ namespace WDBXEditor.Storage
 					return false;
 			}
 
+			if (!ValidateMinMaxValues(importTable, out error))
+				return false;
+
 			UpdateData(importTable, mode);
 			return true;
 		}
@@ -823,7 +826,49 @@ namespace WDBXEditor.Storage
 					return false;
 			}
 
+			if (!ValidateMinMaxValues(importTable, out error))
+				return false;
+
 			UpdateData(importTable, mode);
+			return true;
+		}
+
+		private bool ValidateMinMaxValues(DataTable importTable, out string error)
+		{
+			error = "";
+
+			if (Header is WDC1 header)
+			{
+				foreach (var minmax in header.MinMaxValues)
+				{
+					Func<dynamic, dynamic, dynamic, bool> compare = (x, min, max) => x < min || x > max;
+
+					bool errored = false;
+
+					var values = importTable.Rows.Cast<DataRow>().Select(x => x.ItemArray[minmax.Key]);
+					if (minmax.Value.IsSingle)
+					{
+						errored = values.Any(x => compare((float)Convert.ChangeType(x, typeof(float)), minmax.Value.MinVal, minmax.Value.MaxVal));
+					}
+					else if (minmax.Value.Signed)
+					{
+						errored = values.Any(x => compare((long)Convert.ChangeType(x, typeof(long)), minmax.Value.MinVal, minmax.Value.MaxVal));
+					}
+					else
+					{
+						errored = values.Any(x => compare((ulong)Convert.ChangeType(x, typeof(ulong)), minmax.Value.MinVal, minmax.Value.MaxVal));
+					}
+
+					if (errored)
+					{
+						error = $"Import Failed: Imported data has out of range values for {Data.Columns[minmax.Key].ColumnName}.\n" +
+								$"(Min: {minmax.Value.MinVal}, Max: {minmax.Value.MaxVal})";
+
+						return false;
+					}
+				}
+			}
+
 			return true;
 		}
 

@@ -5230,12 +5230,13 @@
     <Field Name="Field5" Type="ushort" />
     <Field Name="Field6" Type="ushort" />
     <Field Name="Field7" Type="ushort" />
-    <Field Name="Field8" Type="byte" />
+	<Field Name="Field8" Type="ushort" />
     <Field Name="Field9" Type="byte" />
     <Field Name="FieldA" Type="byte" />
     <Field Name="FieldB" Type="byte" />
+    <Field Name="FieldC" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="FieldD" Type="byte" />
+    <Field Name="FieldE" Type="byte" />
   </Table>
   <Table Name="Wmominimaptexture" Build="25902">
     <Field Name="ID" Type="int" IsIndex="true" />

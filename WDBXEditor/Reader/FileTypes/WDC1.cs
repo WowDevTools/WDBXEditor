@@ -23,6 +23,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 		public List<ColumnStructureEntry> ColumnMeta;
 		public RelationShipData RelationShipData;
+		public Dictionary<int, MinMax> MinMaxValues;
 
 		private byte[] recordData;
 
@@ -88,9 +89,14 @@ namespace WDBXEditor.Reader.FileTypes
 					if (CopyTableSize == 0)
 					{
 						if (!firstindex.ContainsKey(offset))
+						{
 							firstindex.Add(offset, new OffsetDuplicate(offsetmap.Count, firstindex.Count));
+						}							
 						else
+						{
 							OffsetDuplicates.Add(MinId + i, firstindex[offset].VisibleIndex);
+							continue;
+						}
 					}
 
 					offsetmap.Add(new Tuple<int, short>(offset, length));
@@ -204,7 +210,10 @@ namespace WDBXEditor.Reader.FileTypes
 				{
 					id = m_indexes[CopyTable.Count];
 					var map = offsetmap[i];
-										
+
+					if (CopyTableSize == 0 && firstindex[map.Item1].HiddenIndex != i) //Ignore duplicates
+						continue;
+
 					dbReader.BaseStream.Position = map.Item1;
 
 					byte[] data = dbReader.ReadBytes(map.Item2);
@@ -308,7 +317,7 @@ namespace WDBXEditor.Reader.FileTypes
 						else
 							data.AddRange(new byte[4]);
 					}
-					
+
 					CopyTable.Add(id, data.ToArray());
 
 					if (Copies.ContainsKey(id))
@@ -328,13 +337,12 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 				ColumnMeta.Insert(0, new ColumnStructureEntry());
 			}
-
+			
 			offsetmap.Clear();
 			firstindex.Clear();
 			OffsetDuplicates.Clear();
 			Copies.Clear();
-			recordData = new byte[0];
-			recordData = null;
+			Array.Resize(ref recordData, 0);
 			bitStream.Dispose();
 			ColumnMeta.ForEach(x => { x.PalletValues?.Clear(); x.SparseValues?.Clear(); });
 
@@ -353,6 +361,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 		public void SetColumnMinMaxValues(DBEntry entry)
 		{
+			MinMaxValues = new Dictionary<int, MinMax>();
 			int column = 0;
 			for (int i = 0; i < ColumnMeta.Count; i++)
 			{
@@ -365,7 +374,7 @@ namespace WDBXEditor.Reader.FileTypes
 				}
 
 				int bits = ColumnMeta[i].CompressionType == CompressionType.None ? FieldStructure[i].BitCount : ColumnMeta[i].BitWidth;
-				if ((bits & (bits - 1)) == 0) // power of two so standard type
+				if ((bits & (bits - 1)) == 0 && bits >= 8) // power of two and >= sizeof(byte) means a standard type
 				{
 					column += ColumnMeta[i].ArraySize;
 					continue;
@@ -388,6 +397,16 @@ namespace WDBXEditor.Reader.FileTypes
 					entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", max);
 					if (signed || isfloat)
 						entry.Data.Columns[column].ExtendedProperties.Add("MinValue", min);
+
+					MinMax minmax = new MinMax()
+					{
+						Signed = signed,
+						MaxVal = max,
+						MinVal = min,
+						IsSingle = isfloat
+					};
+
+					MinMaxValues[column] = minmax;
 					column++;
 				}
 			}
@@ -436,7 +455,7 @@ namespace WDBXEditor.Reader.FileTypes
 			bw.Write(0);  // PalletDataSize
 			bw.Write(0);  // RelationshipDataSize
 
-			//Write the field_structure bits
+			// Write the field_structure bits
 			for (int i = 0; i < FieldStructure.Count; i++)
 			{
 				if (HasIndexTable && i == 0) continue;
@@ -487,8 +506,8 @@ namespace WDBXEditor.Reader.FileTypes
 				foreach (DataRow r in entry.Data.Rows)
 				{
 					int id = r.Field<int>(entry.Key);
-					if(!copyIds.Contains(id))
-						relationData.Add(id, r.Field<uint>(index));						
+					if (!copyIds.Contains(id))
+						relationData.Add(id, r.Field<uint>(index));
 				}
 
 				RelationShipData = new RelationShipData()
@@ -536,7 +555,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 				bitStream.SeekNextOffset(); // each row starts at a 0 bit position
 
-				long offset = bw.BaseStream.Position + bitStream.Offset; // used for offset map calcs
+				long offset = pos + bitStream.Offset; // used for offset map calcs
 
 				for (int fieldIndex = 0; fieldIndex < FieldCount; fieldIndex++)
 				{
@@ -554,11 +573,11 @@ namespace WDBXEditor.Reader.FileTypes
 					{
 						case CompressionType.None:
 							for (int i = 0; i < arraySize; i++)
-								bitStream.WriteBytes(data[i], bitSize);
+								bitStream.WriteBits(data[i], bitSize);
 							break;
 
 						case CompressionType.Immediate:
-							bitStream.WriteBytes(data[0], bitWidth);
+							bitStream.WriteBits(data[0], bitWidth);
 							break;
 
 						case CompressionType.Sparse:
@@ -593,22 +612,24 @@ namespace WDBXEditor.Reader.FileTypes
 					}
 				}
 
-				if (IsSparse) // needs to be padded to % 4 and offsetmap record needs to be created. this isn't true but doesn't matter
-				{
-					bitStream.SeekNextOffset();
-					short size = (short)(bitStream.Offset - offset + bw.BaseStream.Position);
-					int remaining = size % 4 == 0 ? 0 : 4 - size % 4;
-					if (remaining != 0)
-						bitStream.WriteBytes(new byte[remaining], remaining, true);
+				bitStream.SeekNextOffset();
+				short size = (short)(pos + bitStream.Offset - offset);
 
-					offsetMap.Add(new Tuple<int, short>((int)offset, (short)(bw.BaseStream.Position + bitStream.Offset - offset)));
+				if (IsSparse) // matches itemsparse padding
+				{					
+					int remaining = size % 8 == 0 ? 0 : 8 - (size % 8);
+					if (remaining > 0)
+					{
+						size += (short)remaining;
+						bitStream.WriteBytes(new byte[remaining], remaining);
+					}
+
+					offsetMap.Add(new Tuple<int, short>((int)offset, size));
 				}
 				else // needs to be padded to the record size regardless of the byte count - weird eh?
 				{
-					bitStream.SeekNextOffset();
-					short size = (short)(bitStream.Offset - offset + bw.BaseStream.Position);
 					if (size < RecordSize)
-						bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size, true);
+						bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size);
 				}
 			}
 			bitStream.CopyStreamTo(bw.BaseStream); // write to the filestream
@@ -758,7 +779,8 @@ namespace WDBXEditor.Reader.FileTypes
 				}
 				else
 				{
-					values = values.Select(x => (object)stringTable.Write((string)x)).ToArray();
+					for (int i = 0; i < values.Length; i++)
+						values[i] = stringTable.Write((string)values[i], false, false);
 				}
 			}
 
@@ -767,5 +789,13 @@ namespace WDBXEditor.Reader.FileTypes
 
 		#endregion
 
+	}
+
+	public class MinMax
+	{
+		public object MinVal;
+		public object MaxVal;
+		public bool Signed;
+		public bool IsSingle;
 	}
 }
