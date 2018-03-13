@@ -1,3 +1,12 @@
+## 1.1.6
+
+### Changes
+* Updated definitions for 7.3.5
+* WotLK Item Fix fixes
+* WDC1 saving fixes
+* Added user validation for WDC1's uncommon bitwidths
+* Performance tweaks
+
 ## 1.1.4
 
 ### Changes
