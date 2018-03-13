@@ -384,6 +384,10 @@ namespace WDBXEditor.Reader.FileTypes
 				bool signed = Convert.ToBoolean(type.GetField("MinValue").GetValue(null));
 				bool isfloat = type == typeof(float);
 
+				//bool metaSigned = ColumnMeta[i].CompressionType == CompressionType.Immediate && (ColumnMeta[i].Cardinality & 1) == 1;
+				//if (ColumnMeta[i].CompressionType == CompressionType.Immediate && metaSigned != signed && i != IdIndex && !isfloat)
+				//	throw new Exception($"Invalid sign for column {i}");
+
 				object max = signed ? long.MaxValue >> (64 - bits) : (object)(ulong.MaxValue >> (64 - bits));
 				object min = signed ? long.MinValue >> (64 - bits) : 0;
 				if (isfloat)
