@@ -165,17 +165,17 @@ namespace WDBXEditor
 
 			if (ddlTemplate.Text == "Trinity")
 			{
-				for (int i = 0; i < fields.Length; i++)
+				for (int i = 0; i < fields.Count; i++)
 					schema.Rows.Add(fields[i].Name, TrinityLookup[i]);
 			}
 			else if (ddlTemplate.Text.IndexOf("Mangos") > -1)
 			{
-				for (int i = 0; i < fields.Length; i++)
+				for (int i = 0; i < fields.Count; i++)
 					schema.Rows.Add(fields[i].Name, MangosLookup[i]);
 			}
 			else
 			{
-				for (int i = 0; i < fields.Length; i++)
+				for (int i = 0; i < fields.Count; i++)
 					schema.Rows.Add(fields[i].Name, "");
 			}
 
