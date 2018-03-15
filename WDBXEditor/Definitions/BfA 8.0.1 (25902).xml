@@ -2473,11 +2473,11 @@
   <Table Name="Itemsparse" Build="25902">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="ulong" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
+    <Field Name="Field02" Type="string" />
+    <Field Name="Field03" Type="string" />
+    <Field Name="Field04" Type="string" />
+    <Field Name="Field05" Type="string" />
+    <Field Name="Field06" Type="string" />
     <Field Name="Field07" Type="int" ArraySize="4" />
     <Field Name="Field08" Type="int" />
     <Field Name="Field09" Type="int" />

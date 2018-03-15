@@ -5,7 +5,7 @@
     <Field Name="Description" Type="string" />
     <Field Name="Reward" Type="string" />
     <Field Name="Flags" Type="uint" />
-    <Field Name="MapID" Type="short" />
+    <Field Name="MapID" Type="ushort" />
     <Field Name="Supercedes" Type="ushort" />
     <Field Name="Category" Type="ushort" />
     <Field Name="UIOrder" Type="ushort" />
@@ -14,7 +14,7 @@
     <Field Name="Points" Type="byte" />
     <Field Name="MinimumCriteria" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="IconFileDataID" Type="int" />
+    <Field Name="IconFileDataID" Type="uint" />
     <Field Name="CriteriaTree" Type="ushort" />
   </Table>
   <Table Name="Achievement_category" Build="25632">
@@ -67,8 +67,8 @@
   <Table Name="alliedrace" Build="25632">
     <Field Name="field0" Type="int" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="field2" Type="sbyte" />
-    <Field Name="field3" Type="short" />
+    <Field Name="field2" Type="byte" />
+    <Field Name="field3" Type="ushort" />
     <Field Name="field4" Type="int" />
     <Field Name="field5" Type="int" />
     <Field Name="field6" Type="int" />
@@ -324,7 +324,7 @@
     <Field Name="MaxRank" Type="byte" />
     <Field Name="ArtifactTier" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="RelicType" Type="sbyte" />
+    <Field Name="RelicType" Type="byte" />
   </Table>
   <Table Name="ArtifactPowerLink" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -473,8 +473,8 @@
     <Field Name="PetType" Type="byte" />
     <Field Name="Source" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="CardModelSceneID" Type="sbyte" />
-    <Field Name="LoadoutModelSceneID" Type="sbyte" />
+    <Field Name="CardModelSceneID" Type="byte" />
+    <Field Name="LoadoutModelSceneID" Type="byte" />
   </Table>
   <Table Name="BattlePetSpeciesState" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -808,7 +808,7 @@
     <Field Name="Field1" Type="byte" />
     <Field Name="Field2" Type="byte" />
     <Field Name="Field3" Type="byte" />
-    <Field Name="Field4" Type="sbyte" />
+    <Field Name="Field4" Type="byte" />
     <Field Name="Field5" Type="int" />
     <Field Name="Field6" Type="byte" />
   </Table>
@@ -834,8 +834,8 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="string" />
     <Field Name="Field2" Type="int" />
-    <Field Name="Field3" Type="sbyte" />
-    <Field Name="Field4" Type="sbyte" />
+    <Field Name="Field3" Type="byte" />
+    <Field Name="Field4" Type="byte" />
     <Field Name="Field5" Type="int" ArraySize="3" />
   </Table>
   <Table Name="Chrraces" Build="25632">
@@ -845,16 +845,16 @@
     <Field Name="NameFemale" Type="string" />
     <Field Name="LowercaseName" Type="string" />
     <Field Name="LowercaseNameFemale" Type="string" />
-    <Field Name="Flags" Type="int" />
-    <Field Name="MaleDisplayID" Type="int" />
-    <Field Name="FemaleDisplayID" Type="int" />
-    <Field Name="CreateScreenFileDataID" Type="int" />
-    <Field Name="SelectScreenFileDataID" Type="int" />
+    <Field Name="Flags" Type="uint" />
+    <Field Name="MaleDisplayID" Type="uint" />
+    <Field Name="FemaleDisplayID" Type="uint" />
+    <Field Name="CreateScreenFileDataID" Type="uint" />
+    <Field Name="SelectScreenFileDataID" Type="uint" />
     <Field Name="MaleCustomizeOffset" Type="float" ArraySize="3" />
     <Field Name="FemaleCustomizeOffset" Type="float" ArraySize="3" />
-    <Field Name="LowResScreenFileDataID" Type="int" />
-    <Field Name="StartingLevel" Type="int" />
-    <Field Name="UIDisplayOrder" Type="int" />
+    <Field Name="LowResScreenFileDataID" Type="uint" />
+    <Field Name="StartingLevel" Type="uint" />
+    <Field Name="UIDisplayOrder" Type="uint" />
     <Field Name="FactionID" Type="ushort" />
     <Field Name="ResSicknessSpellID" Type="ushort" />
     <Field Name="SplashSoundID" Type="ushort" />
@@ -870,11 +870,11 @@
     <Field Name="ItemAppearanceFrameRaceID" Type="byte" />
     <Field Name="CharComponentTexLayoutHiResID" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="HighResMaleDisplayID" Type="int" />
-    <Field Name="HighResFemaleDisplayID" Type="int" />
+    <Field Name="HighResMaleDisplayID" Type="uint" />
+    <Field Name="HighResFemaleDisplayID" Type="uint" />
     <Field Name="HeritageArmorAchievementID" Type="ushort" />
-    <Field Name="MaleCorpseBonesModelFileDataID" Type="int" />
-    <Field Name="FemaleCorpseBonesModelFileDataID" Type="int" />
+    <Field Name="MaleCorpseBonesModelFileDataID" Type="uint" />
+    <Field Name="FemaleCorpseBonesModelFileDataID" Type="uint" />
     <Field Name="AlteredFormTransitionSpellVisualID" Type="int" ArraySize="3" />
     <Field Name="AlteredFormTransitionSpellVisualKitID" Type="int" ArraySize="3" />
   </Table>
@@ -891,7 +891,7 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="IconFileDataID" Type="uint" />
     <Field Name="Flags" Type="uint" />
-    <Field Name="AnimReplacementSetID" Type="short" />
+    <Field Name="AnimReplacementSetID" Type="ushort" />
   </Table>
   <Table Name="Chrupgradebucket" Build="25632">
     <Field Name="Field0" Type="ushort" />
@@ -946,7 +946,7 @@
   <Table Name="Commentatorstartlocation" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="float" ArraySize="3" />
-    <Field Name="Field2" Type="short" />
+    <Field Name="Field2" Type="ushort" />
   </Table>
   <Table Name="Commentatortrackedcooldown" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -978,7 +978,7 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field3" Type="int" />
     <Field Name="Field4" Type="int" ArraySize="4" />
-    <Field Name="Field5" Type="sbyte" />
+    <Field Name="Field5" Type="byte" />
   </Table>
   <Table Name="ConversationLine" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -1022,7 +1022,7 @@
     <Field Name="SizeClass" Type="byte" />
     <Field Name="Flags" Type="byte" />
     <Field Name="Gender" Type="byte" />
-    <Field Name="ExtendedDisplayInfoID" Type="int" />
+    <Field Name="ExtendedDisplayInfoID" Type="uint" />
     <Field Name="PortraitTextureFileDataID" Type="uint" />
     <Field Name="CreatureModelAlpha" Type="byte" />
     <Field Name="SoundID" Type="ushort" />
@@ -1053,7 +1053,7 @@
     <Field Name="FieldA" Type="byte" />
     <Field Name="FieldB" Type="byte" />
     <Field Name="FieldC" Type="byte" />
-    <Field Name="FieldD" Type="short" />
+    <Field Name="FieldD" Type="ushort" />
     <Field Name="FieldE" Type="int" ArraySize="3" />
   </Table>
   <Table Name="Creaturedisplayinfoevt" Build="25632">
@@ -1135,16 +1135,16 @@
     <Field Name="OverrideSelectionRadius" Type="float" />
     <Field Name="TamedPetBaseScale" Type="float" />
     <Field Name="HoverHeight" Type="float" />
-    <Field Name="Flags" Type="int" />
+    <Field Name="Flags" Type="uint" />
     <Field Name="FileDataID" Type="uint" />
     <Field Name="SizeClass" Type="byte" />
-    <Field Name="BloodID" Type="int" />
+    <Field Name="BloodID" Type="uint" />
     <Field Name="FootprintTextureID" Type="byte" />
     <Field Name="FoleyMaterialID" Type="byte" />
     <Field Name="FootstepEffectID" Type="byte" />
     <Field Name="DeathThudEffectID" Type="byte" />
-    <Field Name="SoundID" Type="int" />
-    <Field Name="CreatureGeosetDataID" Type="int" />
+    <Field Name="SoundID" Type="uint" />
+    <Field Name="CreatureGeosetDataID" Type="uint" />
   </Table>
   <Table Name="Creaturemovementinfo" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -1258,6 +1258,9 @@
     <Field Name="CurveID" Type="ushort" />
     <Field Name="Index" Type="byte" />
   </Table>
+  <Table Name="DBCache" Build="25632">
+	<Field Name="ID" Type="int" IsIndex="true" />
+  </Table>
   <Table Name="Deaththudlookups" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="byte" />
@@ -1278,11 +1281,11 @@
     <Field Name="Field09" Type="float" />
     <Field Name="Field0A" Type="byte" />
     <Field Name="Field0B" Type="byte" />
-    <Field Name="Field0C" Type="short" />
-    <Field Name="Field0D" Type="short" />
-    <Field Name="Field0E" Type="sbyte" />
-    <Field Name="Field0F" Type="sbyte" />
-    <Field Name="Field10" Type="sbyte" />
+    <Field Name="Field0C" Type="ushort" />
+    <Field Name="Field0D" Type="ushort" />
+    <Field Name="Field0E" Type="byte" />
+    <Field Name="Field0F" Type="byte" />
+    <Field Name="Field10" Type="byte" />
   </Table>
   <Table Name="DestructibleModelData" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -1348,7 +1351,7 @@
     <Field Name="Field8" Type="float" />
     <Field Name="Field9" Type="byte" />
     <Field Name="FieldA" Type="byte" />
-    <Field Name="FieldB" Type="short" />
+    <Field Name="FieldB" Type="ushort" />
     <Field Name="FieldC" Type="int" />
     <Field Name="FieldD" Type="int" />
     <Field Name="FieldE" Type="byte" />
@@ -1414,7 +1417,7 @@
     <Field Name="Field9" Type="float" />
     <Field Name="FieldA" Type="float" />
     <Field Name="FieldB" Type="byte" />
-    <Field Name="FieldC" Type="short" />
+    <Field Name="FieldC" Type="ushort" />
     <Field Name="FieldD" Type="int" />
   </Table>
   <Table Name="Emotes" Build="25632">
@@ -1501,8 +1504,8 @@
   </Table>
   <Table Name="Footprinttextures" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="short" />
-    <Field Name="Field2" Type="sbyte" />
+    <Field Name="Field1" Type="ushort" />
+    <Field Name="Field2" Type="byte" />
     <Field Name="Field3" Type="int" />
   </Table>
   <Table Name="Footstepterrainlookup" Build="25632">
@@ -1654,9 +1657,9 @@
     <Field Name="Flags" Type="byte" />
     <Field Name="MaxShipments" Type="byte" />
     <Field Name="GarrTypeID" Type="byte" />
-    <Field Name="BuildDuration" Type="short" />
+    <Field Name="BuildDuration" Type="ushort" />
     <Field Name="CostCurrencyAmount" Type="int" />
-    <Field Name="BonusAmount" Type="sbyte" />
+    <Field Name="BonusAmount" Type="byte" />
   </Table>
   <Table Name="Garrbuildingdoodadset" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -1798,16 +1801,16 @@
   </Table>
   <Table Name="Garritemlevelupgradedata" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="sbyte" />
+    <Field Name="Field1" Type="byte" />
     <Field Name="Field2" Type="int" />
-    <Field Name="Field3" Type="short" />
+    <Field Name="Field3" Type="ushort" />
     <Field Name="Field4" Type="int" />
   </Table>
   <Table Name="Garrmechanic" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="float" />
     <Field Name="Field2" Type="byte" />
-    <Field Name="Field3" Type="short" />
+    <Field Name="Field3" Type="ushort" />
   </Table>
   <Table Name="Garrmechanicsetxmechanic" Build="25632">
     <Field Name="Field0" Type="byte" />
@@ -1899,8 +1902,8 @@
   </Table>
   <Table Name="Garrmissionxfollower" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="short" />
-    <Field Name="Field2" Type="sbyte" />
+    <Field Name="Field1" Type="ushort" />
+    <Field Name="Field2" Type="byte" />
   </Table>
   <Table Name="Garrmssnbonusability" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2018,8 +2021,8 @@
     <Field Name="Field1" Type="ushort" />
     <Field Name="Field2" Type="byte" />
     <Field Name="Field3" Type="byte" />
-    <Field Name="Field4" Type="sbyte" />
-    <Field Name="Field5" Type="sbyte" />
+    <Field Name="Field4" Type="byte" />
+    <Field Name="Field5" Type="byte" />
   </Table>
   <Table Name="Garrtype" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2239,12 +2242,12 @@
     <Field Name="Field0" Type="string" />
     <Field Name="Field1" Type="float" ArraySize="2" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field3" Type="short" />
+    <Field Name="Field3" Type="ushort" />
     <Field Name="Field4" Type="int" />
     <Field Name="Field5" Type="int" />
     <Field Name="Field6" Type="ushort" />
-    <Field Name="Field7" Type="sbyte" />
-    <Field Name="Field8" Type="short" />
+    <Field Name="Field7" Type="byte" />
+    <Field Name="Field8" Type="ushort" />
   </Table>
   <Table Name="Item" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2322,7 +2325,7 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="byte" />
     <Field Name="Field2" Type="byte" />
-    <Field Name="Field3" Type="sbyte" />
+    <Field Name="Field3" Type="byte" />
     <Field Name="Field4" Type="byte" />
     <Field Name="Field5" Type="int" />
   </Table>
@@ -2395,8 +2398,8 @@
   <Table Name="ItemEffect" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="SpellID" Type="uint" />
-    <Field Name="Cooldown" Type="int" />
-    <Field Name="CategoryCooldown" Type="int" />
+    <Field Name="Cooldown" Type="uint" />
+    <Field Name="CategoryCooldown" Type="uint" />
     <Field Name="Charges" Type="short" />
     <Field Name="Category" Type="ushort" />
     <Field Name="ChrSpecializationID" Type="ushort" />
@@ -2452,7 +2455,7 @@
     <Field Name="AppearanceModID" Type="byte" />
     <Field Name="AppearanceID" Type="ushort" />
     <Field Name="Index" Type="byte" />
-    <Field Name="SourceType" Type="sbyte" />
+    <Field Name="SourceType" Type="byte" />
   </Table>
   <Table Name="Itemmodifiedappearanceextra" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2506,7 +2509,7 @@
     <Field Name="RequiredLevel" Type="byte" />
     <Field Name="RequiredReputationFaction" Type="ushort" />
     <Field Name="RequiredReputationRank" Type="byte" />
-    <Field Name="AllowableClass" Type="short" />
+    <Field Name="AllowableClass" Type="ushort" />
     <Field Name="RequiredSkill" Type="ushort" />
     <Field Name="RequiredSkillRank" Type="ushort" />
     <Field Name="RequiredSpell" Type="uint" />
@@ -2549,7 +2552,7 @@
     <Field Name="ArmorDamageModifier" Type="float" />
     <Field Name="Duration" Type="uint" />
     <Field Name="StatScalingFactor" Type="float" />
-    <Field Name="AllowableClass" Type="short" />
+    <Field Name="AllowableClass" Type="ushort" />
     <Field Name="ItemLevel" Type="ushort" />
     <Field Name="RequiredSkill" Type="ushort" />
     <Field Name="RequiredSkillRank" Type="ushort" />
@@ -2698,7 +2701,7 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="float" ArraySize="2" />
     <Field Name="Field2" Type="byte" />
-    <Field Name="Field3" Type="short" />
+    <Field Name="Field3" Type="ushort" />
     <Field Name="Field4" Type="int" />
     <Field Name="Field5" Type="int" />
   </Table>
@@ -2775,7 +2778,7 @@
     <Field Name="MinItemLevel" Type="float" />
     <Field Name="MaxLevel" Type="ushort" />
     <Field Name="TargetLevelMax" Type="ushort" />
-    <Field Name="MapID" Type="short" />
+    <Field Name="MapID" Type="ushort" />
     <Field Name="RandomID" Type="ushort" />
     <Field Name="ScenarioID" Type="ushort" />
     <Field Name="LastBossJournalEncounterID" Type="ushort" />
@@ -2799,9 +2802,9 @@
     <Field Name="MinCountDamage" Type="byte" />
     <Field Name="SubType" Type="byte" />
     <Field Name="MentorCharLevel" Type="byte" />
-    <Field Name="TextureFileDataID" Type="int" />
-    <Field Name="RewardIconFileDataID" Type="int" />
-    <Field Name="ProposalTextureFileDataID" Type="int" />
+    <Field Name="TextureFileDataID" Type="uint" />
+    <Field Name="RewardIconFileDataID" Type="uint" />
+    <Field Name="ProposalTextureFileDataID" Type="uint" />
   </Table>
   <Table Name="Lfgdungeonsgroupingmap" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2998,7 +3001,7 @@
   </Table>
   <Table Name="Managedworldstateinput" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="sbyte" />
+    <Field Name="Field1" Type="byte" />
     <Field Name="Field2" Type="int" />
     <Field Name="Field3" Type="int" />
   </Table>
@@ -3033,10 +3036,10 @@
     <Field Name="CorpsePos" Type="float" ArraySize="2" />
     <Field Name="AreaTableID" Type="ushort" />
     <Field Name="LoadingScreenID" Type="ushort" />
-    <Field Name="CorpseMapID" Type="short" />
+    <Field Name="CorpseMapID" Type="ushort" />
     <Field Name="TimeOfDayOverride" Type="ushort" />
-    <Field Name="ParentMapID" Type="short" />
-    <Field Name="CosmeticParentMapID" Type="short" />
+    <Field Name="ParentMapID" Type="ushort" />
+    <Field Name="CosmeticParentMapID" Type="ushort" />
     <Field Name="WindSettingsID" Type="ushort" />
     <Field Name="InstanceType" Type="byte" />
     <Field Name="unk5" Type="byte" />
@@ -3071,14 +3074,14 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="string" />
     <Field Name="Field2" Type="ushort" />
-    <Field Name="Field3" Type="sbyte" />
+    <Field Name="Field3" Type="byte" />
   </Table>
   <Table Name="Maploadingscreen" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="float" ArraySize="2" />
     <Field Name="Field2" Type="float" ArraySize="2" />
-    <Field Name="Field3" Type="short" />
-    <Field Name="Field4" Type="sbyte" />
+    <Field Name="Field3" Type="ushort" />
+    <Field Name="Field4" Type="byte" />
   </Table>
   <Table Name="Marketingpromotionsxlocale" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3151,7 +3154,7 @@
     <Field Name="Source" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="PlayerConditionId" Type="uint" />
-    <Field Name="UiModelSceneID" Type="sbyte" />
+    <Field Name="UiModelSceneID" Type="byte" />
   </Table>
   <Table Name="MountCapability" Build="25632">
     <Field Name="RequiredSpell" Type="uint" />
@@ -3171,7 +3174,7 @@
   </Table>
   <Table Name="MountXDisplay" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="DisplayID" Type="int" />
+    <Field Name="DisplayID" Type="uint" />
     <Field Name="PlayerConditionID" Type="uint" />
   </Table>
   <Table Name="Movie" Build="25632">
@@ -3213,7 +3216,7 @@
   <Table Name="Npcmodelitemslotdisplayinfo" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="DisplayID" Type="int" />
-    <Field Name="Slot" Type="sbyte" />
+    <Field Name="Slot" Type="byte" />
   </Table>
   <Table Name="Npcsounds" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3340,7 +3343,7 @@
     <Field Name="field03" Type="byte" />
     <Field Name="field04" Type="ushort" />
     <Field Name="field05" Type="ushort" />
-    <Field Name="field06" Type="short" />
+    <Field Name="field06" Type="ushort" />
     <Field Name="field07" Type="byte" />
     <Field Name="field08" Type="byte" />
     <Field Name="field09" Type="int" />
@@ -3545,7 +3548,7 @@
     <Field Name="PowerCostToken" Type="string" />
     <Field Name="RegenerationPeace" Type="float" />
     <Field Name="RegenerationCombat" Type="float" />
-    <Field Name="MaxPower" Type="short" />
+    <Field Name="MaxPower" Type="ushort" />
     <Field Name="RegenerationDelay" Type="ushort" />
     <Field Name="Flags" Type="ushort" />
     <Field Name="PowerTypeEnum" Type="byte" />
@@ -3579,15 +3582,15 @@
   </Table>
   <Table Name="PvpReward" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="HonorLevel" Type="sbyte" />
-    <Field Name="Prestige" Type="sbyte" />
-    <Field Name="RewardPackID" Type="short" />
+    <Field Name="HonorLevel" Type="byte" />
+    <Field Name="Prestige" Type="byte" />
+    <Field Name="RewardPackID" Type="ushort" />
   </Table>
   <Table Name="Pvpscalingeffect" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="float" />
-    <Field Name="Field2" Type="sbyte" />
-    <Field Name="Field3" Type="short" />
+    <Field Name="Field2" Type="byte" />
+    <Field Name="Field3" Type="ushort" />
   </Table>
   <Table Name="Pvpscalingeffecttype" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3600,17 +3603,17 @@
     <Field Name="Field3" Type="int" />
     <Field Name="Field4" Type="int" />
     <Field Name="Field5" Type="int" />
-    <Field Name="Field6" Type="sbyte" />
-    <Field Name="Field7" Type="sbyte" />
-    <Field Name="Field8" Type="sbyte" />
-    <Field Name="Field9" Type="short" />
-    <Field Name="FieldA" Type="sbyte" />
+    <Field Name="Field6" Type="byte" />
+    <Field Name="Field7" Type="byte" />
+    <Field Name="Field8" Type="byte" />
+    <Field Name="Field9" Type="ushort" />
+    <Field Name="FieldA" Type="byte" />
   </Table>
   <Table Name="Pvptalentunlock" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="sbyte" />
-    <Field Name="Field2" Type="sbyte" />
-    <Field Name="Field3" Type="sbyte" />
+    <Field Name="Field1" Type="byte" />
+    <Field Name="Field2" Type="byte" />
+    <Field Name="Field3" Type="byte" />
   </Table>
   <Table Name="QuestFactionReward" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3671,7 +3674,7 @@
     <Field Name="Field4" Type="byte" />
     <Field Name="Field5" Type="int" />
     <Field Name="Field6" Type="ushort" />
-    <Field Name="Field7" Type="sbyte" />
+    <Field Name="Field7" Type="byte" />
   </Table>
   <Table Name="Questpoipoint" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3738,9 +3741,9 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="ushort" />
     <Field Name="Field2" Type="byte" />
-    <Field Name="Field3" Type="sbyte" />
+    <Field Name="Field3" Type="byte" />
     <Field Name="Field4" Type="int" />
-    <Field Name="Field5" Type="sbyte" />
+    <Field Name="Field5" Type="byte" />
   </Table>
   <Table Name="Researchbranch" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3786,13 +3789,13 @@
     <Field Name="ArtifactXPMultiplier" Type="float" />
     <Field Name="ArtifactXPDifficulty" Type="byte" />
     <Field Name="ArtifactCategoryID" Type="byte" />
-    <Field Name="TitleID" Type="short" />
+    <Field Name="TitleID" Type="ushort" />
     <Field Name="Unused" Type="ushort" />
   </Table>
   <Table Name="Rewardpackxcurrencytype" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="ushort" />
-    <Field Name="Field2" Type="short" />
+    <Field Name="Field2" Type="ushort" />
   </Table>
   <Table Name="RewardPackXItem" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3846,7 +3849,7 @@
     <Field Name="Step" Type="byte" />
     <Field Name="Flags" Type="byte" />
     <Field Name="CriteriaTreeID" Type="ushort" />
-    <Field Name="BonusRequiredStepID" Type="sbyte" />
+    <Field Name="BonusRequiredStepID" Type="byte" />
   </Table>
   <Table Name="SceneScript" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3877,33 +3880,33 @@
   <Table Name="Scheduledinterval" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="int" />
-    <Field Name="Field2" Type="sbyte" />
+    <Field Name="Field2" Type="byte" />
     <Field Name="Field3" Type="int" />
     <Field Name="Field4" Type="int" />
-    <Field Name="Field5" Type="sbyte" />
+    <Field Name="Field5" Type="byte" />
   </Table>
   <Table Name="Scheduledworldstate" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="short" />
-    <Field Name="Field2" Type="short" />
+    <Field Name="Field1" Type="ushort" />
+    <Field Name="Field2" Type="ushort" />
     <Field Name="Field3" Type="int" />
     <Field Name="Field4" Type="int" />
-    <Field Name="Field5" Type="short" />
-    <Field Name="Field6" Type="sbyte" />
-    <Field Name="Field7" Type="sbyte" />
-    <Field Name="Field8" Type="sbyte" />
+    <Field Name="Field5" Type="ushort" />
+    <Field Name="Field6" Type="byte" />
+    <Field Name="Field7" Type="byte" />
+    <Field Name="Field8" Type="byte" />
   </Table>
   <Table Name="Scheduledworldstategroup" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="int" />
-    <Field Name="Field2" Type="sbyte" />
-    <Field Name="Field3" Type="sbyte" />
-    <Field Name="Field4" Type="sbyte" />
-    <Field Name="Field5" Type="short" />
+    <Field Name="Field2" Type="byte" />
+    <Field Name="Field3" Type="byte" />
+    <Field Name="Field4" Type="byte" />
+    <Field Name="Field5" Type="ushort" />
   </Table>
   <Table Name="Scheduledworldstatexuniqcat" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="short" />
+    <Field Name="Field1" Type="ushort" />
   </Table>
   <Table Name="Screeneffect" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3926,7 +3929,7 @@
   </Table>
   <Table Name="Seamlesssite" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field1" Type="short" />
+    <Field Name="Field1" Type="ushort" />
   </Table>
   <Table Name="Servermessages" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3945,7 +3948,7 @@
     <Field Name="Field9" Type="int" />
     <Field Name="FieldA" Type="byte" />
     <Field Name="FieldB" Type="byte" />
-    <Field Name="FieldC" Type="short" />
+    <Field Name="FieldC" Type="ushort" />
     <Field Name="FieldD" Type="byte" />
   </Table>
   <Table Name="SkillLine" Build="25632">
@@ -3956,7 +3959,7 @@
     <Field Name="Flags" Type="ushort" />
     <Field Name="CategoryID" Type="byte" />
     <Field Name="CanLink" Type="byte" />
-    <Field Name="IconFileDataID" Type="int" />
+    <Field Name="IconFileDataID" Type="uint" />
     <Field Name="ParentSkillLineID" Type="byte" />
   </Table>
   <Table Name="SkillLineAbility" Build="25632">
@@ -3983,7 +3986,7 @@
     <Field Name="SkillTierID" Type="ushort" />
     <Field Name="Availability" Type="byte" />
     <Field Name="MinLevel" Type="byte" />
-    <Field Name="ClassMask" Type="short" />
+    <Field Name="ClassMask" Type="ushort" />
   </Table>
   <Table Name="Soundambience" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -4012,7 +4015,7 @@
     <Field Name="Field2" Type="byte" />
     <Field Name="Field3" Type="byte" />
     <Field Name="Field4" Type="byte" />
-    <Field Name="Field5" Type="short" />
+    <Field Name="Field5" Type="ushort" />
     <Field Name="Field6" Type="ushort" />
   </Table>
   <Table Name="Soundemitterpillpoints" Build="25632">
@@ -4272,7 +4275,7 @@
     <Field Name="Flags" Type="byte" />
     <Field Name="UsesPerWeek" Type="byte" />
     <Field Name="MaxCharges" Type="byte" />
-    <Field Name="ChargeCategoryType" Type="sbyte" />
+    <Field Name="ChargeCategoryType" Type="byte" />
   </Table>
   <Table Name="Spellchaineffects" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -4372,7 +4375,7 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Effect" Type="int" />
     <Field Name="EffectBasePoints" Type="int" />
-    <Field Name="EffectIndex" Type="sbyte" />
+    <Field Name="EffectIndex" Type="byte" />
     <Field Name="EffectAura" Type="int" />
     <Field Name="DifficultyID" Type="int" />
     <Field Name="EffectAmplitude" Type="float" />
@@ -4409,8 +4412,8 @@
   <Table Name="SpellEquippedItems" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="SpellID" Type="uint" />
-    <Field Name="EquippedItemInventoryTypeMask" Type="int" />
-    <Field Name="EquippedItemSubClassMask" Type="int" />
+    <Field Name="EquippedItemInventoryTypeMask" Type="uint" />
+    <Field Name="EquippedItemSubClassMask" Type="uint" />
     <Field Name="EquippedItemClass" Type="byte" />
   </Table>
   <Table Name="Spellflyout" Build="25632">
@@ -4419,7 +4422,7 @@
     <Field Name="Field2" Type="string" />
     <Field Name="Field3" Type="string" />
     <Field Name="Field4" Type="byte" />
-    <Field Name="Field5" Type="short" />
+    <Field Name="Field5" Type="ushort" />
     <Field Name="Field6" Type="int" />
   </Table>
   <Table Name="Spellflyoutitem" Build="25632">
@@ -4434,7 +4437,7 @@
   <Table Name="SpellInterrupts" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="DifficultyID" Type="byte" />
-    <Field Name="InterruptFlags" Type="short" />
+    <Field Name="InterruptFlags" Type="ushort" />
     <Field Name="AuraInterruptFlags" Type="uint" ArraySize="2" />
     <Field Name="ChannelInterruptFlags" Type="uint" ArraySize="2" />
   </Table>
@@ -4549,7 +4552,7 @@
     <Field Name="Field4" Type="byte" />
   </Table>
   <Table Name="SpellPower" Build="25632">
-    <Field Name="ManaCost" Type="int" />
+    <Field Name="ManaCost" Type="uint" />
     <Field Name="ManaCostPercentage" Type="float" />
     <Field Name="ManaCostPercentagePerSecond" Type="float" />
     <Field Name="RequiredAura" Type="uint" />
@@ -4557,9 +4560,9 @@
     <Field Name="PowerIndex" Type="byte" />
     <Field Name="PowerType" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="ManaCostPerLevel" Type="sbyte" />
-    <Field Name="ManaCostPerSecond" Type="short" />
-    <Field Name="ManaCostAdditional" Type="int" />
+    <Field Name="ManaCostPerLevel" Type="byte" />
+    <Field Name="ManaCostPerSecond" Type="ushort" />
+    <Field Name="ManaCostAdditional" Type="uint" />
     <Field Name="PowerDisplayID" Type="uint" />
     <Field Name="UnitPowerBarID" Type="uint" />
   </Table>
@@ -4617,7 +4620,7 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="SpellID" Type="uint" />
     <Field Name="ScalesFromItemLevel" Type="ushort" />
-    <Field Name="ScalingClass" Type="sbyte" />
+    <Field Name="ScalingClass" Type="byte" />
     <Field Name="MinScalingLevel" Type="byte" />
     <Field Name="MaxScalingLevel" Type="uint" />
   </Table>
@@ -4713,17 +4716,17 @@
     <Field Name="FieldA" Type="byte" />
     <Field Name="FieldB" Type="int" />
     <Field Name="FieldC" Type="int" />
-    <Field Name="FieldD" Type="short" />
+    <Field Name="FieldD" Type="ushort" />
   </Table>
   <Table Name="Spellvisualevent" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="int" />
-    <Field Name="Field2" Type="short" />
+    <Field Name="Field2" Type="ushort" />
     <Field Name="Field3" Type="int" />
-    <Field Name="Field4" Type="sbyte" />
+    <Field Name="Field4" Type="byte" />
     <Field Name="Field5" Type="int" />
     <Field Name="Field6" Type="int" />
-    <Field Name="Field7" Type="sbyte" />
+    <Field Name="Field7" Type="byte" />
     <Field Name="Field8" Type="int" />
   </Table>
   <Table Name="Spellvisualkit" Build="25632">
@@ -4753,7 +4756,7 @@
     <Field Name="Field01" Type="float" ArraySize="3" />
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field03" Type="ushort" />
-    <Field Name="Field04" Type="sbyte" />
+    <Field Name="Field04" Type="byte" />
     <Field Name="Field05" Type="byte" />
     <Field Name="Field06" Type="ushort" />
     <Field Name="Field07" Type="float" />
@@ -4791,7 +4794,7 @@
   <Table Name="Spellxdescriptionvariables" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="int" />
-    <Field Name="Field2" Type="short" />
+    <Field Name="Field2" Type="ushort" />
   </Table>
   <Table Name="SpellXSpellVisual" Build="25632">
     <Field Name="SpellVisualID" Type="uint" />
@@ -4828,9 +4831,9 @@
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field1" Type="int" />
     <Field Name="Field2" Type="int" />
-    <Field Name="Field3" Type="short" />
-    <Field Name="Field4" Type="sbyte" />
-    <Field Name="Field5" Type="sbyte" />
+    <Field Name="Field3" Type="ushort" />
+    <Field Name="Field4" Type="byte" />
+    <Field Name="Field5" Type="byte" />
   </Table>
   <Table Name="TactKey" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -4864,7 +4867,7 @@
     <Field Name="ConditionID" Type="ushort" />
     <Field Name="LearnableIndex" Type="ushort" />
     <Field Name="Flags" Type="byte" />
-    <Field Name="UiTextureKitPrefixID" Type="int" />
+    <Field Name="UiTextureKitPrefixID" Type="uint" />
     <Field Name="SpecialAtlasIconPlayerConditionID" Type="uint" />
   </Table>
   <Table Name="TaxiPath" Build="25632">
@@ -4956,7 +4959,7 @@
   </Table>
   <Table Name="TransmogHoliday" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="HolidayID" Type="int" />
+    <Field Name="HolidayID" Type="uint" />
   </Table>
   <Table Name="TransmogSet" Build="25632">
     <Field Name="Name" Type="string" />
@@ -4964,7 +4967,7 @@
     <Field Name="UIOrder" Type="ushort" />
     <Field Name="ExpansionID" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Flags" Type="sbyte" />
+    <Field Name="Flags" Type="byte" />
     <Field Name="QuestID" Type="ushort" />
     <Field Name="ClassMask" Type="ushort" />
     <Field Name="ItemNameDescriptionID" Type="byte" />
@@ -5023,8 +5026,8 @@
     <Field Name="Field5" Type="ushort" />
     <Field Name="Field6" Type="byte" />
     <Field Name="Field7" Type="byte" />
-    <Field Name="Field8" Type="sbyte" />
-    <Field Name="Field9" Type="sbyte" />
+    <Field Name="Field8" Type="byte" />
+    <Field Name="Field9" Type="byte" />
   </Table>
   <Table Name="Uicameratype" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -5082,7 +5085,7 @@
     <Field Name="Field5" Type="float" />
     <Field Name="Field6" Type="byte" />
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field8" Type="sbyte" />
+    <Field Name="Field8" Type="byte" />
   </Table>
   <Table Name="Uimodelsceneactordisplay" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -5187,7 +5190,7 @@
     <Field Name="Field0F" Type="ushort" ArraySize="3" />
     <Field Name="Field10" Type="byte" />
     <Field Name="Field11" Type="byte" />
-    <Field Name="Field12" Type="short" />
+    <Field Name="Field12" Type="ushort" />
   </Table>
   <Table Name="VehicleSeat" Build="25632">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -5223,18 +5226,18 @@
     <Field Name="CameraSeatZoomMin" Type="float" />
     <Field Name="CameraSeatZoomMax" Type="float" />
     <Field Name="UISkinFileDataID" Type="uint" />
-    <Field Name="EnterAnimStart" Type="short" />
-    <Field Name="EnterAnimLoop" Type="short" />
-    <Field Name="RideAnimStart" Type="short" />
-    <Field Name="RideAnimLoop" Type="short" />
-    <Field Name="RideUpperAnimStart" Type="short" />
-    <Field Name="RideUpperAnimLoop" Type="short" />
-    <Field Name="ExitAnimStart" Type="short" />
-    <Field Name="ExitAnimLoop" Type="short" />
-    <Field Name="ExitAnimEnd" Type="short" />
-    <Field Name="VehicleEnterAnim" Type="short" />
-    <Field Name="VehicleExitAnim" Type="short" />
-    <Field Name="VehicleRideAnimLoop" Type="short" />
+    <Field Name="EnterAnimStart" Type="ushort" />
+    <Field Name="EnterAnimLoop" Type="ushort" />
+    <Field Name="RideAnimStart" Type="ushort" />
+    <Field Name="RideAnimLoop" Type="ushort" />
+    <Field Name="RideUpperAnimStart" Type="ushort" />
+    <Field Name="RideUpperAnimLoop" Type="ushort" />
+    <Field Name="ExitAnimStart" Type="ushort" />
+    <Field Name="ExitAnimLoop" Type="ushort" />
+    <Field Name="ExitAnimEnd" Type="ushort" />
+    <Field Name="VehicleEnterAnim" Type="ushort" />
+    <Field Name="VehicleExitAnim" Type="ushort" />
+    <Field Name="VehicleRideAnimLoop" Type="ushort" />
     <Field Name="EnterAnimKitID" Type="ushort" />
     <Field Name="RideAnimKitID" Type="ushort" />
     <Field Name="ExitAnimKitID" Type="ushort" />
@@ -5381,7 +5384,7 @@
   </Table>
   <Table Name="WMOAreaTable" Build="25632">
     <Field Name="AreaName" Type="string" />
-    <Field Name="WMOGroupID" Type="int" />
+    <Field Name="WMOGroupID" Type="uint" />
     <Field Name="AmbienceID" Type="ushort" />
     <Field Name="ZoneMusic" Type="ushort" />
     <Field Name="IntroSound" Type="ushort" />
@@ -5450,7 +5453,7 @@
     <Field Name="Flags" Type="uint" />
     <Field Name="MapID" Type="ushort" />
     <Field Name="AreaID" Type="ushort" />
-    <Field Name="DisplayMapID" Type="short" />
+    <Field Name="DisplayMapID" Type="ushort" />
     <Field Name="DefaultDungeonFloor" Type="short" />
     <Field Name="ParentWorldMapID" Type="ushort" />
     <Field Name="LevelRangeMin" Type="byte" />
@@ -5480,13 +5483,13 @@
     <Field Name="Field2" Type="ushort" />
     <Field Name="Field3" Type="ushort" />
     <Field Name="Field4" Type="ushort" />
-    <Field Name="Field5" Type="short" />
+    <Field Name="Field5" Type="ushort" />
     <Field Name="Field6" Type="int" />
-    <Field Name="Field7" Type="short" />
-    <Field Name="Field8" Type="short" />
-    <Field Name="Field9" Type="short" />
-    <Field Name="FieldA" Type="short" />
-    <Field Name="FieldB" Type="short" />
+    <Field Name="Field7" Type="ushort" />
+    <Field Name="Field8" Type="ushort" />
+    <Field Name="Field9" Type="ushort" />
+    <Field Name="FieldA" Type="ushort" />
+    <Field Name="FieldB" Type="ushort" />
     <Field Name="FieldC" Type="byte" />
     <Field Name="FieldD" Type="int" ArraySize="4" />
   </Table>
