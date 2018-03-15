@@ -115,7 +115,8 @@ namespace WDBXEditor
                         return DialogResult.Abort;
                     }
 
-                }).ContinueWith(x =>
+                })
+				.ContinueWith(x =>
                 {
                     this.Enabled = true;
                     this.DialogResult = x.Result;
