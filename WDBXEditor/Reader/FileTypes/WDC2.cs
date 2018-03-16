@@ -10,21 +10,19 @@ using static WDBXEditor.Common.Constants;
 
 namespace WDBXEditor.Reader.FileTypes
 {
-	public class WDC1 : WDB6
+	class WDC2 : WDC1
 	{
-		public int PackedDataOffset;
-		public uint RelationshipCount;
-		public int OffsetTableOffset;
-		public int IndexSize;
-		public int ColumnMetadataSize;
-		public int SparseDataSize;
-		public int PalletDataSize;
-		public int RelationshipDataSize;
 
-		public List<ColumnStructureEntry> ColumnMeta;
-		public RelationShipData RelationShipData;
-		public Dictionary<int, MinMax> MinMaxValues;
+		public int Unknown0; // always 1
+		public int Unknown1; // always 0
+		public int Unknown2; // always 0
+		public int RecordDataOffset;
+		public int RecordDataRowCount;
+		public int RecordDataStringSize;
 
+		protected int stringTableOffset;
+		protected List<int> recordOffsets;
+		protected List<int> columnOffsets;
 		private byte[] recordData;
 
 		#region Read
@@ -37,19 +35,30 @@ namespace WDBXEditor.Reader.FileTypes
 			MinId = dbReader.ReadInt32();
 			MaxId = dbReader.ReadInt32();
 			Locale = dbReader.ReadInt32();
-			CopyTableSize = dbReader.ReadInt32();
 			Flags = (HeaderFlags)dbReader.ReadUInt16();
 			IdIndex = dbReader.ReadUInt16();
 			TotalFieldSize = dbReader.ReadUInt32();
-
 			PackedDataOffset = dbReader.ReadInt32();
+
 			RelationshipCount = dbReader.ReadUInt32();
-			OffsetTableOffset = dbReader.ReadInt32();
-			IndexSize = dbReader.ReadInt32();
 			ColumnMetadataSize = dbReader.ReadInt32();
 			SparseDataSize = dbReader.ReadInt32();
 			PalletDataSize = dbReader.ReadInt32();
+
+			Unknown0 = dbReader.ReadInt32();
+			Unknown1 = dbReader.ReadInt32();
+			Unknown2 = dbReader.ReadInt32();
+			RecordDataOffset = dbReader.ReadInt32();
+			RecordDataRowCount = dbReader.ReadInt32();
+			RecordDataStringSize = dbReader.ReadInt32();
+
+			CopyTableSize = dbReader.ReadInt32();
+			OffsetTableOffset = dbReader.ReadInt32();
+			IndexSize = dbReader.ReadInt32();
 			RelationshipDataSize = dbReader.ReadInt32();
+
+			if (RecordCount == 0 || FieldCount == 0)
+				return;
 
 			//Gather field structures
 			FieldStructure = new List<FieldStructureEntry>();
@@ -57,74 +66,6 @@ namespace WDBXEditor.Reader.FileTypes
 			{
 				var field = new FieldStructureEntry(dbReader.ReadInt16(), dbReader.ReadUInt16());
 				FieldStructure.Add(field);
-			}
-
-			recordData = dbReader.ReadBytes((int)(RecordCount * RecordSize));
-			Array.Resize(ref recordData, recordData.Length + 8);
-		}
-
-		public new Dictionary<int, byte[]> ReadOffsetData(BinaryReader dbReader, long pos)
-		{
-			Dictionary<int, byte[]> CopyTable = new Dictionary<int, byte[]>();
-			List<Tuple<int, short>> offsetmap = new List<Tuple<int, short>>();
-			Dictionary<int, OffsetDuplicate> firstindex = new Dictionary<int, OffsetDuplicate>();
-			Dictionary<int, int> OffsetDuplicates = new Dictionary<int, int>();
-			Dictionary<int, List<int>> Copies = new Dictionary<int, List<int>>();
-
-			int[] m_indexes = null;
-
-			// OffsetTable
-			if (HasOffsetTable && OffsetTableOffset > 0)
-			{
-				dbReader.BaseStream.Position = OffsetTableOffset;
-				for (int i = 0; i < (MaxId - MinId + 1); i++)
-				{
-					int offset = dbReader.ReadInt32();
-					short length = dbReader.ReadInt16();
-
-					if (offset == 0 || length == 0)
-						continue;
-
-					// special case, may contain duplicates in the offset map that we don't want
-					if (CopyTableSize == 0)
-					{
-						if (!firstindex.ContainsKey(offset))
-						{
-							firstindex.Add(offset, new OffsetDuplicate(offsetmap.Count, firstindex.Count));
-						}							
-						else
-						{
-							OffsetDuplicates.Add(MinId + i, firstindex[offset].VisibleIndex);
-							continue;
-						}
-					}
-
-					offsetmap.Add(new Tuple<int, short>(offset, length));
-				}
-			}
-
-			// IndexTable
-			if (HasIndexTable)
-			{
-				m_indexes = new int[RecordCount];
-				for (int i = 0; i < RecordCount; i++)
-					m_indexes[i] = dbReader.ReadInt32();
-			}
-
-			// Copytable
-			if (CopyTableSize > 0)
-			{
-				long end = dbReader.BaseStream.Position + CopyTableSize;
-				while (dbReader.BaseStream.Position < end)
-				{
-					int id = dbReader.ReadInt32();
-					int idcopy = dbReader.ReadInt32();
-
-					if (!Copies.ContainsKey(idcopy))
-						Copies.Add(idcopy, new List<int>());
-
-					Copies[idcopy].Add(id);
-				}
 			}
 
 			// ColumnMeta
@@ -173,6 +114,71 @@ namespace WDBXEditor.Reader.FileTypes
 					ColumnMeta[i].SparseValues = new Dictionary<int, byte[]>();
 					for (int j = 0; j < ColumnMeta[i].AdditionalDataSize / 8; j++)
 						ColumnMeta[i].SparseValues[dbReader.ReadInt32()] = dbReader.ReadBytes(4);
+				}
+			}
+
+			// RecordData
+			recordData = dbReader.ReadBytes((int)(RecordCount * RecordSize));
+			Array.Resize(ref recordData, recordData.Length + 8);
+		}
+
+		public new Dictionary<int, byte[]> ReadOffsetData(BinaryReader dbReader, long pos)
+		{
+			Dictionary<int, byte[]> CopyTable = new Dictionary<int, byte[]>();
+			List<Tuple<int, short>> offsetmap = new List<Tuple<int, short>>();
+			Dictionary<int, OffsetDuplicate> firstindex = new Dictionary<int, OffsetDuplicate>();
+			Dictionary<int, List<int>> Copies = new Dictionary<int, List<int>>();
+
+			columnOffsets = new List<int>();
+			recordOffsets = new List<int>();
+			int[] m_indexes = null;
+
+			// OffsetTable
+			if (HasOffsetTable && OffsetTableOffset > 0)
+			{
+				dbReader.BaseStream.Position = OffsetTableOffset;
+				for (int i = 0; i < (MaxId - MinId + 1); i++)
+				{
+					int offset = dbReader.ReadInt32();
+					short length = dbReader.ReadInt16();
+
+					if (offset == 0 || length == 0)
+						continue;
+
+					// special case, may contain duplicates in the offset map that we don't want
+					if (CopyTableSize == 0)
+					{
+						if (!firstindex.ContainsKey(offset))
+							firstindex.Add(offset, new OffsetDuplicate(offsetmap.Count, firstindex.Count));
+						else
+							continue;
+					}
+
+					offsetmap.Add(new Tuple<int, short>(offset, length));
+				}
+			}
+
+			// IndexTable
+			if (HasIndexTable)
+			{
+				m_indexes = new int[RecordCount];
+				for (int i = 0; i < RecordCount; i++)
+					m_indexes[i] = dbReader.ReadInt32();
+			}
+
+			// Copytable
+			if (CopyTableSize > 0)
+			{
+				long end = dbReader.BaseStream.Position + CopyTableSize;
+				while (dbReader.BaseStream.Position < end)
+				{
+					int id = dbReader.ReadInt32();
+					int idcopy = dbReader.ReadInt32();
+
+					if (!Copies.ContainsKey(idcopy))
+						Copies.Add(idcopy, new List<int>());
+
+					Copies[idcopy].Add(id);
 				}
 			}
 
@@ -243,6 +249,9 @@ namespace WDBXEditor.Reader.FileTypes
 					bitStream.Seek(i * RecordSize, 0);
 					int idOffset = 0;
 
+					if (StringBlockSize > 0)
+						recordOffsets.Add((int)bitStream.Offset);
+
 					List<byte> data = new List<byte>();
 
 					if (HasIndexTable)
@@ -271,7 +280,12 @@ namespace WDBXEditor.Reader.FileTypes
 								else
 								{
 									for (int x = 0; x < ColumnMeta[f].ArraySize; x++)
+									{
+										if (i == 0)
+											columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
+
 										data.AddRange(bitStream.ReadBytesPadded(bitSize));
+									}
 								}
 								break;
 
@@ -285,11 +299,18 @@ namespace WDBXEditor.Reader.FileTypes
 								}
 								else
 								{
+									if (i == 0)
+										columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
+
 									data.AddRange(bitStream.ReadBytesPadded(bitWidth));
 								}
 								break;
 
 							case CompressionType.Sparse:
+
+								if (i == 0)
+									columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
+
 								if (ColumnMeta[f].SparseValues.TryGetValue(id, out byte[] valBytes))
 									data.AddRange(valBytes);
 								else
@@ -298,6 +319,10 @@ namespace WDBXEditor.Reader.FileTypes
 
 							case CompressionType.Pallet:
 							case CompressionType.PalletArray:
+
+								if (i == 0)
+									columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
+
 								palletIndex = bitStream.ReadUInt32(bitWidth);
 								data.AddRange(ColumnMeta[f].PalletValues[(int)palletIndex]);
 								break;
@@ -327,6 +352,9 @@ namespace WDBXEditor.Reader.FileTypes
 							byte[] newrecord = CopyTable[id].ToArray();
 							Buffer.BlockCopy(BitConverter.GetBytes(copy), 0, newrecord, idOffset, 4);
 							CopyTable.Add(copy, newrecord);
+
+							if (StringBlockSize > 0)
+								recordOffsets.Add(recordOffsets.Last());
 						}
 					}
 				}
@@ -337,7 +365,7 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 				ColumnMeta.Insert(0, new ColumnStructureEntry());
 			}
-			
+
 			offsetmap.Clear();
 			firstindex.Clear();
 			OffsetDuplicates.Clear();
@@ -358,84 +386,21 @@ namespace WDBXEditor.Reader.FileTypes
 			return CopyTable.Values.SelectMany(x => x).ToArray();
 		}
 
-		public virtual Dictionary<int, string> ReadStringTable(BinaryReader dbReader)
+		public override Dictionary<int, string> ReadStringTable(BinaryReader dbReader)
 		{
-			long pos = dbReader.BaseStream.Position;
-			return new StringTable().Read(dbReader, pos, pos + StringBlockSize);
+			stringTableOffset = (int)dbReader.BaseStream.Position;
+			return new StringTable().Read(dbReader, stringTableOffset, stringTableOffset + StringBlockSize, true);
 		}
 
-
-		public void SetColumnMinMaxValues(DBEntry entry)
+		public override int GetStringOffset(BinaryReader dbReader, int j, uint i)
 		{
-			MinMaxValues = new Dictionary<int, MinMax>();
-			int column = 0;
-			for (int i = 0; i < ColumnMeta.Count; i++)
-			{
-				// get the column type - skip strings
-				var type = entry.Data.Columns[column].DataType;
-				if (type == typeof(string))
-				{
-					column += ColumnMeta[i].ArraySize;
-					continue;
-				}
+			if (HasIndexTable)
+				j--;
 
-				int bits = ColumnMeta[i].CompressionType == CompressionType.None ? FieldStructure[i].BitCount : ColumnMeta[i].BitWidth;
-				if ((bits & (bits - 1)) == 0 && bits >= 8) // power of two and >= sizeof(byte) means a standard type
-				{
-					column += ColumnMeta[i].ArraySize;
-					continue;
-				}
-
-				// calculate the min and max values
-				bool signed = Convert.ToBoolean(type.GetField("MinValue").GetValue(null));
-				bool isfloat = type == typeof(float);
-
-				//bool metaSigned = ColumnMeta[i].CompressionType == CompressionType.Immediate && (ColumnMeta[i].Cardinality & 1) == 1;
-				//if (ColumnMeta[i].CompressionType == CompressionType.Immediate && metaSigned != signed && i != IdIndex && !isfloat)
-				//	throw new Exception($"Invalid sign for column {i}");
-
-				object max = signed ? long.MaxValue >> (64 - bits) : (object)(ulong.MaxValue >> (64 - bits));
-				object min = signed ? long.MinValue >> (64 - bits) : 0;
-				if (isfloat)
-				{
-					max = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)max), 0);
-					min = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)min), 0);
-				}
-
-				for (int j = 0; j < ColumnMeta[i].ArraySize; j++)
-				{
-					entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", max);
-					if (signed || isfloat)
-						entry.Data.Columns[column].ExtendedProperties.Add("MinValue", min);
-
-					MinMax minmax = new MinMax()
-					{
-						Signed = signed,
-						MaxVal = max,
-						MinVal = min,
-						IsSingle = isfloat
-					};
-
-					MinMaxValues[column] = minmax;
-					column++;
-				}
-			}
+			return dbReader.ReadInt32() + RecordDataOffset + columnOffsets[j] + recordOffsets[(int)i];
 		}
 
-		public void AddRelationshipColumn(DBEntry entry)
-		{
-			if (RelationShipData == null)
-				return;
-
-			if (!entry.Data.Columns.Cast<DataColumn>().Any(x => x.ExtendedProperties.ContainsKey("RELATIONSHIP")))
-			{
-				DataColumn dataColumn = new DataColumn("RelationshipData", typeof(uint));
-				dataColumn.ExtendedProperties.Add("RELATIONSHIP", true);
-				entry.Data.Columns.Add(dataColumn);
-			}
-		}
 		#endregion
-
 
 		#region Write
 
@@ -451,19 +416,31 @@ namespace WDBXEditor.Reader.FileTypes
 			bw.Write(minmax.Item1); //MinId
 			bw.Write(minmax.Item2); //MaxId
 			bw.Write(Locale);
-			bw.Write(0); //CopyTableSize
 			bw.Write((ushort)Flags); //Flags
 			bw.Write(IdIndex); //IdColumn
 			bw.Write(TotalFieldSize);
-
 			bw.Write(PackedDataOffset);
 			bw.Write(RelationshipCount);
-			bw.Write(0);  // OffsetTableOffset
-			bw.Write(0);  // IndexSize
+
 			bw.Write(0);  // ColumnMetadataSize
 			bw.Write(0);  // SparseDataSize
 			bw.Write(0);  // PalletDataSize
-			bw.Write(0);  // RelationshipDataSize
+			bw.Write(Unknown0);
+			bw.Write(Unknown1);
+			bw.Write(Unknown2);
+
+			bw.Write(0);  // RecordDataOffset					
+			if (entry.Header.CopyTableSize > 0) // RecordDataRowCount
+				bw.Write(entry.GetUniqueRows().Count());
+			else
+				bw.Write(entry.Data.Rows.Count);
+
+			bw.Write(0);  //RecordDataStringSize
+			bw.Write(0); //CopyTableSize
+			bw.Write(0); //OffsetTableOffset
+			bw.Write(0); //IndexSize
+			bw.Write(0); //RelationshipDataSize
+
 
 			// Write the field_structure bits
 			for (int i = 0; i < FieldStructure.Count; i++)
@@ -485,13 +462,15 @@ namespace WDBXEditor.Reader.FileTypes
 		/// <param name="bw"></param>
 		/// <param name="entry"></param>
 
-		public virtual void WriteData(BinaryWriter bw, DBEntry entry)
+		public override void WriteData(BinaryWriter bw, DBEntry entry)
 		{
 			List<Tuple<int, short>> offsetMap = new List<Tuple<int, short>>();
 			StringTable stringTable = new StringTable(true);
 			bool IsSparse = HasIndexTable && HasOffsetTable;
 			Dictionary<int, List<int>> copyRecords = new Dictionary<int, List<int>>();
 			List<int> copyIds = new List<int>();
+
+			Dictionary<Tuple<long, int>, int> stringLookup = new Dictionary<Tuple<long, int>, int>();
 
 			long pos = bw.BaseStream.Position;
 
@@ -564,8 +543,8 @@ namespace WDBXEditor.Reader.FileTypes
 					rowData.Dequeue();
 
 				bitStream.SeekNextOffset(); // each row starts at a 0 bit position
-
-				long offset = pos + bitStream.Offset; // used for offset map calcs
+				
+				long bitOffset = bitStream.Offset; // used for offset map calcs
 
 				for (int fieldIndex = 0; fieldIndex < FieldCount; fieldIndex++)
 				{
@@ -583,7 +562,12 @@ namespace WDBXEditor.Reader.FileTypes
 					{
 						case CompressionType.None:
 							for (int i = 0; i < arraySize; i++)
+							{
+								if (isString)
+									stringLookup.Add(new Tuple<long, int>(bitStream.Offset, bitStream.BitPosition), (int)values[i]);
+
 								bitStream.WriteBits(data[i], bitSize);
+							}
 							break;
 
 						case CompressionType.Immediate:
@@ -623,10 +607,10 @@ namespace WDBXEditor.Reader.FileTypes
 				}
 
 				bitStream.SeekNextOffset();
-				short size = (short)(pos + bitStream.Offset - offset);
+				short size = (short)(bitStream.Length - bitOffset);
 
 				if (IsSparse) // matches itemsparse padding
-				{					
+				{
 					int remaining = size % 8 == 0 ? 0 : 8 - (size % 8);
 					if (remaining > 0)
 					{
@@ -634,56 +618,13 @@ namespace WDBXEditor.Reader.FileTypes
 						bitStream.WriteBytes(new byte[remaining], remaining);
 					}
 
-					offsetMap.Add(new Tuple<int, short>((int)offset, size));
+					offsetMap.Add(new Tuple<int, short>((int)bitOffset, size));
 				}
 				else // needs to be padded to the record size regardless of the byte count - weird eh?
 				{
 					if (size < RecordSize)
 						bitStream.WriteBytes(new byte[RecordSize - size], RecordSize - size);
 				}
-			}
-			bitStream.CopyStreamTo(bw.BaseStream); // write to the filestream
-			bitStream.Dispose();
-
-			// OffsetTable / StringTable, either or
-			if (IsSparse)
-			{
-				// OffsetTable
-				OffsetTableOffset = (int)bw.BaseStream.Position;
-				WriteOffsetMap(bw, entry, offsetMap);
-				offsetMap.Clear();
-			}
-			else
-			{
-				// StringTable
-				StringBlockSize = (uint)stringTable.Size;
-				stringTable.CopyTo(bw.BaseStream);
-				stringTable.Dispose();
-			}
-
-			// IndexTable
-			if (HasIndexTable)
-			{
-				pos = bw.BaseStream.Position;
-				WriteIndexTable(bw, entry);
-				IndexSize = (int)(bw.BaseStream.Position - pos);
-			}
-
-			// Copytable
-			if (CopyTableSize > 0)
-			{
-				pos = bw.BaseStream.Position;
-				foreach (var c in copyRecords)
-				{
-					foreach (var v in c.Value)
-					{
-						bw.Write(v);
-						bw.Write(c.Key);
-					}
-				}
-				CopyTableSize = (int)(bw.BaseStream.Position - pos);
-				copyRecords.Clear();
-				copyIds.Clear();
 			}
 
 			// ColumnMeta
@@ -731,6 +672,64 @@ namespace WDBXEditor.Reader.FileTypes
 			}
 			SparseDataSize = (int)(bw.BaseStream.Position - pos);
 
+			// set record data offset
+			RecordDataOffset = (int)bw.BaseStream.Position;
+
+			// write string offsets
+			if(stringLookup.Count > 0)
+			{
+				foreach(var lk in stringLookup)
+				{
+					bitStream.Seek(lk.Key.Item1, lk.Key.Item2);
+					bitStream.WriteInt32((int)(lk.Value + bitStream.Length - lk.Key.Item1 - (lk.Key.Item2 >> 3)));
+				}
+			}
+
+			// push bitstream to 
+			bitStream.CopyStreamTo(bw.BaseStream);
+			bitStream.Dispose();
+
+			// OffsetTable / StringTable, either or
+			if (IsSparse)
+			{
+				// OffsetTable
+				OffsetTableOffset = (int)bw.BaseStream.Position;
+				WriteOffsetMap(bw, entry, offsetMap, RecordDataOffset);
+				offsetMap.Clear();
+			}
+			else
+			{
+				// StringTable
+				StringBlockSize = (uint)stringTable.Size;
+				stringTable.CopyTo(bw.BaseStream);
+				stringTable.Dispose();
+			}
+
+			// IndexTable
+			if (HasIndexTable)
+			{
+				pos = bw.BaseStream.Position;
+				WriteIndexTable(bw, entry);
+				IndexSize = (int)(bw.BaseStream.Position - pos);
+			}
+
+			// Copytable
+			if (CopyTableSize > 0)
+			{
+				pos = bw.BaseStream.Position;
+				foreach (var c in copyRecords)
+				{
+					foreach (var v in c.Value)
+					{
+						bw.Write(v);
+						bw.Write(c.Key);
+					}
+				}
+				CopyTableSize = (int)(bw.BaseStream.Position - pos);
+				copyRecords.Clear();
+				copyIds.Clear();
+			}
+
 			// Relationships
 			pos = bw.BaseStream.Position;
 			if (RelationShipData != null)
@@ -750,14 +749,20 @@ namespace WDBXEditor.Reader.FileTypes
 			// update header fields
 			bw.BaseStream.Position = 16;
 			bw.Write(StringBlockSize);
-			bw.BaseStream.Position = 40;
-			bw.Write(CopyTableSize);
-			bw.BaseStream.Position = 60;
-			bw.Write(OffsetTableOffset);
-			bw.Write(IndexSize);
+
+			bw.BaseStream.Position = 56;
 			bw.Write(ColumnMetadataSize);
 			bw.Write(SparseDataSize);
 			bw.Write(PalletDataSize);
+
+			bw.BaseStream.Position = 80;
+			bw.Write(RecordDataOffset);
+
+			bw.BaseStream.Position = 88;
+			bw.Write(StringBlockSize); // record_data_stringtable
+			bw.Write(CopyTableSize);
+			bw.Write(OffsetTableOffset);
+			bw.Write(IndexSize);
 			bw.Write(RelationshipDataSize);
 
 			// reset indextable stuff
@@ -773,42 +778,12 @@ namespace WDBXEditor.Reader.FileTypes
 			}
 		}
 
-		protected object[] ExtractFields(Queue<object> rowData, StringTable stringTable, BitStream bitStream, int fieldIndex, out bool isString)
-		{
-			object[] values = Enumerable.Range(0, ColumnMeta[fieldIndex].ArraySize).Select(x => rowData.Dequeue()).ToArray();
-			isString = false;
-
-			// deal with strings
-			if (values.Any(x => x.GetType() == typeof(string)))
-			{
-				isString = true;
-
-				if (HasIndexTable && HasOffsetTable)
-				{
-					foreach (var s in values)
-						bitStream.WriteCString((string)s);
-
-					return new object[0];
-				}
-				else
-				{
-					for (int i = 0; i < values.Length; i++)
-						values[i] = stringTable.Write((string)values[i], false, false);
-				}
-			}
-
-			return values;
-		}
-
 		#endregion
 
-	}
 
-	public class MinMax
-	{
-		public object MinVal;
-		public object MaxVal;
-		public bool Signed;
-		public bool IsSingle;
+		public override void Clear()
+		{
+			recordOffsets.Clear();
+		}
 	}
 }

@@ -187,7 +187,7 @@ namespace WDBXEditor.Reader.FileTypes
                 
         }
 
-        public override void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap)
+        public override void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap, int record_offset = 0)
         {
             bw.Scrub(OffsetMapOffset); //Scrub to after header
 

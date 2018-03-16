@@ -70,15 +70,16 @@ namespace WDBXEditor.Reader
 		/// <param name="stringTableStart"></param>
 		/// <param name="stringTableEnd"></param>
 		/// <returns></returns>
-		public Dictionary<int, string> Read(BinaryReader dbReader, long stringTableStart, long stringTableEnd)
+		public Dictionary<int, string> Read(BinaryReader dbReader, long stringTableStart, long stringTableEnd, bool absolute = false)
 		{
 			if (dbReader.BaseStream.Position > stringTableEnd)
 				return Table;
 
 			while (dbReader.BaseStream.Position < stringTableEnd)
 			{
-				int index = (int)(dbReader.BaseStream.Position - stringTableStart);
-				Table[index] = dbReader.ReadStringNull(); //Extract all the strings to the string table
+				int pos = (int)dbReader.BaseStream.Position;
+				int index = (int)(pos - stringTableStart);
+				Table[absolute ? pos : index] = dbReader.ReadStringNull();
 			}
 
 			return Table;

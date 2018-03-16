@@ -60,6 +60,9 @@ namespace WDBXEditor.Reader
 				case "WDC1":
 					header = new WDC1();
 					break;
+				case "WDC2":
+					header = new WDC2();
+					break;
 				case "WMOB":
 				case "WGOB":
 				case "WQST":
@@ -105,7 +108,7 @@ namespace WDBXEditor.Reader
 
 				if (header is WDC1 wdc1)
 				{
-					Dictionary<int, string> StringTable = new StringTable().Read(dbReader, pos, pos + header.StringBlockSize); //Get stringtable
+					Dictionary<int, string> StringTable = wdc1.ReadStringTable(dbReader);
 
 					//Read the data
 					using (MemoryStream ms = new MemoryStream(header.ReadData(dbReader, pos)))
@@ -268,7 +271,7 @@ namespace WDBXEditor.Reader
 							}
 							else
 							{
-								int stindex = dbReader.ReadInt32();
+								int stindex = entry.Header.GetStringOffset(dbReader, j, i);
 								if (StringTable.ContainsKey(stindex))
 								{
 									row.SetField(entry.Data.Columns[j], StringTable[stindex]);
@@ -281,8 +284,7 @@ namespace WDBXEditor.Reader
 							}
 							break;
 						default:
-							dbReader.BaseStream.Position += 4;
-							break;
+							throw new Exception($"Unknown field type at column {i}.");
 					}
 
 					dbReader.BaseStream.Position += padding[j];
@@ -297,6 +299,7 @@ namespace WDBXEditor.Reader
 					throw new Exception("Definition exceeds record size");
 			}
 
+			entry.Header.Clear();
 			entry.Data.EndLoadData();
 		}
 		#endregion
@@ -451,7 +454,7 @@ namespace WDBXEditor.Reader
 							throw new Exception($"Unknown TypeCode {columnTypes[j].ToString()}");
 					}
 
-					if(columnTypes[j] != TypeCode.String)
+					if (columnTypes[j] != TypeCode.String)
 						bw.BaseStream.Position += padding[j];
 				}
 

@@ -55,7 +55,10 @@ namespace WDBXEditor.Reader
 
         public Dictionary<int, int> OffsetDuplicates = new Dictionary<int, int>();
 
-        public virtual void ReadHeader(ref BinaryReader dbReader, string signature)
+
+		#region Read Functions
+
+		public virtual void ReadHeader(ref BinaryReader dbReader, string signature)
         {
             this.Signature = signature;
             RecordCount = dbReader.ReadUInt32();
@@ -68,9 +71,15 @@ namespace WDBXEditor.Reader
             StringBlockSize = dbReader.ReadUInt32();
 		}
 
-        public virtual byte[] ReadData(BinaryReader dbReader, long pos) { return new byte[0]; }
+        public virtual byte[] ReadData(BinaryReader dbReader, long pos) => new byte[0];
 
-        public virtual void WriteHeader(BinaryWriter bw, DBEntry entry)
+		public virtual int GetStringOffset(BinaryReader dbReader, int j, uint i) => dbReader.ReadInt32();
+
+		#endregion
+
+		#region Write Functions
+
+		public virtual void WriteHeader(BinaryWriter bw, DBEntry entry)
         {
             //Signature
             bw.Write(Encoding.UTF8.GetBytes(Signature));
@@ -101,7 +110,7 @@ namespace WDBXEditor.Reader
                 bw.Write((uint)1);
         }
 
-        public virtual void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap) { }
+        public virtual void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap, int record_offset = 0) { }
 
         public virtual void WriteIndexTable(BinaryWriter bw, DBEntry entry) { }
 
@@ -110,5 +119,9 @@ namespace WDBXEditor.Reader
             if (bw.BaseStream.Position - offset < RecordSize)
                 bw.BaseStream.Position += (RecordSize - (bw.BaseStream.Position - offset));
         }
+
+		#endregion
+
+		public virtual void Clear() { }
     }
 }

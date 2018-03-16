@@ -17,7 +17,7 @@ namespace WDBXEditor.Reader
 		private bool canWrite = true;
 
 		public long Length => stream.Length;
-		public long BitPosition => bit;
+		public int BitPosition => bit;
 		public long Offset => offset;
 
 
@@ -222,10 +222,14 @@ namespace WDBXEditor.Reader
 			return value;
 		}
 
-		public int ReadInt32()
+		public int ReadInt32(int bitWidth = 32)
 		{
-			int value = BitConverter.ToInt32(ReadBytes(32), 0);
-			return value;
+			if(bitWidth == 32)
+				return BitConverter.ToInt32(ReadBytes(32), 0);
+
+			bitWidth = Math.Min(Math.Max(bitWidth, 0), 32); // clamp values
+			byte[] data = ReadBytes(bitWidth, false, 4);
+			return BitConverter.ToInt32(data, 0);
 		}
 
 		public long ReadInt64()
@@ -242,8 +246,10 @@ namespace WDBXEditor.Reader
 
 		public uint ReadUInt32(int bitWidth = 32)
 		{
-			bitWidth = Math.Min(Math.Max(bitWidth, 0), 32); // clamp values
+			if (bitWidth == 32)
+				return BitConverter.ToUInt32(ReadBytes(32), 0);
 
+			bitWidth = Math.Min(Math.Max(bitWidth, 0), 32); // clamp values
 			byte[] data = ReadBytes(bitWidth, false, 4);
 			return BitConverter.ToUInt32(data, 0);
 		}

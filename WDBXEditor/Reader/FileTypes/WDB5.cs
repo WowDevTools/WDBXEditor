@@ -229,7 +229,7 @@ namespace WDBXEditor.Reader.FileTypes
             }
         }
 
-        public override void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap)
+        public override void WriteOffsetMap(BinaryWriter bw, DBEntry entry, List<Tuple<int, short>> OffsetMap, int record_offset = 0)
         {
             var minmax = entry.MinMax();
             var ids = new HashSet<int>(entry.GetPrimaryKeys());
@@ -241,14 +241,14 @@ namespace WDBXEditor.Reader.FileTypes
                 if (ids.Contains(x)) //Insert the offset map
                 {
                     var kvp = OffsetMap[m];
-                    bw.Write(kvp.Item1);
+                    bw.Write(kvp.Item1 + record_offset);
                     bw.Write(kvp.Item2);
                     m++;
                 }
                 else if (duplicates.ContainsKey(x)) //Reinsert our duplicates
                 {
                     var hiddenkvp = OffsetMap[duplicates[x]];
-                    bw.Write(hiddenkvp.Item1);
+                    bw.Write(hiddenkvp.Item1 + record_offset);
                     bw.Write(hiddenkvp.Item2);
                 }
                 else

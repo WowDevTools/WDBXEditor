@@ -287,6 +287,7 @@
     <Compile Include="Reader\FileTypes\WDBC.cs" />
     <Compile Include="Reader\FieldStructureEntry.cs" />
     <Compile Include="Reader\FileTypes\WDC1.cs" />
+    <Compile Include="Reader\FileTypes\WDC2.cs" />
     <Compile Include="Reader\MemoryReader.cs" />
     <Compile Include="Reader\RelationShipData.cs" />
     <Compile Include="Storage\DBEntry.cs" />
@@ -408,6 +409,9 @@
     <Content Include="Definitions\BfA 8.0.1 %2825902%29.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Definitions\BfA 8.0.1 %2826231%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Definitions\Cata 4.3.4 %2815595%29.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -438,6 +442,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Definitions\TBC 2.4.3 %288606%29.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Definitions\WDB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Definitions\WoD 6.2.4 %2821742%29.xml">
