@@ -13,7 +13,7 @@ namespace WDBXEditor.Reader.FileTypes
 	class WDC2 : WDC1
 	{
 
-		public int Unknown0; // always 1
+		public int SectionCount; // always 1
 		public int Unknown1; // always 0
 		public int Unknown2; // always 0
 		public int RecordDataOffset;
@@ -45,13 +45,14 @@ namespace WDBXEditor.Reader.FileTypes
 			SparseDataSize = dbReader.ReadInt32();
 			PalletDataSize = dbReader.ReadInt32();
 
-			Unknown0 = dbReader.ReadInt32();
+			SectionCount = dbReader.ReadInt32();
+
+			// TODO convert to array when the time comes
 			Unknown1 = dbReader.ReadInt32();
 			Unknown2 = dbReader.ReadInt32();
 			RecordDataOffset = dbReader.ReadInt32();
 			RecordDataRowCount = dbReader.ReadInt32();
 			RecordDataStringSize = dbReader.ReadInt32();
-
 			CopyTableSize = dbReader.ReadInt32();
 			OffsetTableOffset = dbReader.ReadInt32();
 			IndexSize = dbReader.ReadInt32();
@@ -425,7 +426,7 @@ namespace WDBXEditor.Reader.FileTypes
 			bw.Write(0);  // ColumnMetadataSize
 			bw.Write(0);  // SparseDataSize
 			bw.Write(0);  // PalletDataSize
-			bw.Write(Unknown0);
+			bw.Write(SectionCount);
 			bw.Write(Unknown1);
 			bw.Write(Unknown2);
 
