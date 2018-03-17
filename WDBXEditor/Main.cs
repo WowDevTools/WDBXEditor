@@ -389,6 +389,12 @@ namespace WDBXEditor
 				row = ((DataRowView)advancedDataGridView.CurrentRow.DataBoundItem);
 				if (row?.Row != null)
 					advancedDataGridView.PasteCopyData(row.Row); //Update all fields
+
+				if (!LoadedEntry.Changed)
+				{
+					LoadedEntry.Changed = true;
+					UpdateListBox();
+				}
 			}
 		}
 
@@ -405,6 +411,12 @@ namespace WDBXEditor
 		private void clearLineToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			DefaultRowValues();
+
+			if (!LoadedEntry.Changed)
+			{
+				LoadedEntry.Changed = true;
+				UpdateListBox();
+			}
 		}
 
 		private void deleteLineToolStripMenuItem_Click(object sender, EventArgs e)
@@ -418,8 +430,11 @@ namespace WDBXEditor
 				advancedDataGridView.SelectRow(advancedDataGridView.CurrentCell.OwningRow.Index);
 
 			SendKeys.Send("{delete}");
-			LoadedEntry.Changed = true;
-			UpdateListBox();
+			if (!LoadedEntry.Changed)
+			{
+				LoadedEntry.Changed = true;
+				UpdateListBox();
+			}
 		}
 
 		private void viewInEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1223,8 +1238,11 @@ namespace WDBXEditor
 
 						advancedDataGridView.OnUserAddedRow(advancedDataGridView.Rows[index]);
 
-						LoadedEntry.Changed = true;
-						UpdateListBox();
+						if(!LoadedEntry.Changed)
+						{
+							LoadedEntry.Changed = true;
+							UpdateListBox();
+						}						
 					}
 
 					advancedDataGridView.SelectRow(index);
@@ -1252,8 +1270,11 @@ namespace WDBXEditor
 
 				advancedDataGridView.Rows[index].Cells[i].Value = advancedDataGridView.Columns[i].ValueType.DefaultValue();
 
-				LoadedEntry.Changed = true;
-				UpdateListBox();
+				if (!LoadedEntry.Changed)
+				{
+					LoadedEntry.Changed = true;
+					UpdateListBox();
+				}
 			}
 		}
 

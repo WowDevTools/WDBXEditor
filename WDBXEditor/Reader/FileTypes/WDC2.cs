@@ -379,6 +379,9 @@ namespace WDBXEditor.Reader.FileTypes
 
 			InternalRecordSize = (uint)CopyTable.First().Value.Length;
 
+			if (CopyTableSize > 0)
+				CopyTable = CopyTable.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+
 			return CopyTable;
 		}
 
