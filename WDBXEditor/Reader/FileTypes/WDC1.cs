@@ -25,7 +25,8 @@ namespace WDBXEditor.Reader.FileTypes
 		public RelationShipData RelationShipData;
 		public Dictionary<int, MinMax> MinMaxValues;
 
-		private byte[] recordData;
+		protected int[] columnSizes;
+		protected byte[] recordData;
 
 		#region Read
 		public override void ReadHeader(ref BinaryReader dbReader, string signature)
@@ -91,7 +92,7 @@ namespace WDBXEditor.Reader.FileTypes
 						if (!firstindex.ContainsKey(offset))
 						{
 							firstindex.Add(offset, new OffsetDuplicate(offsetmap.Count, firstindex.Count));
-						}							
+						}
 						else
 						{
 							OffsetDuplicates.Add(MinId + i, firstindex[offset].VisibleIndex);
@@ -251,6 +252,7 @@ namespace WDBXEditor.Reader.FileTypes
 						data.AddRange(BitConverter.GetBytes(id));
 					}
 
+					int c = HasIndexTable ? 1 : 0;
 					for (int f = 0; f < FieldCount; f++)
 					{
 						int bitOffset = ColumnMeta[f].BitOffset;
@@ -267,11 +269,12 @@ namespace WDBXEditor.Reader.FileTypes
 									idOffset = data.Count;
 									id = bitStream.ReadInt32(bitSize); // always read Ids as ints
 									data.AddRange(BitConverter.GetBytes(id));
+									c++;
 								}
 								else
 								{
 									for (int x = 0; x < ColumnMeta[f].ArraySize; x++)
-										data.AddRange(bitStream.ReadBytesPadded(bitSize));
+										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c++]));									
 								}
 								break;
 
@@ -281,25 +284,26 @@ namespace WDBXEditor.Reader.FileTypes
 									idOffset = data.Count;
 									id = bitStream.ReadInt32(bitWidth); // always read Ids as ints
 									data.AddRange(BitConverter.GetBytes(id));
-									continue;
+									c++;
 								}
 								else
 								{
-									data.AddRange(bitStream.ReadBytesPadded(bitWidth));
+									data.AddRange(bitStream.ReadBytes(bitWidth, false, columnSizes[c++]));
 								}
 								break;
 
 							case CompressionType.Sparse:
 								if (ColumnMeta[f].SparseValues.TryGetValue(id, out byte[] valBytes))
-									data.AddRange(valBytes);
+									data.AddRange(valBytes.Take(columnSizes[c++]));
 								else
-									data.AddRange(BitConverter.GetBytes(ColumnMeta[f].BitOffset));
+									data.AddRange(BitConverter.GetBytes(ColumnMeta[f].BitOffset).Take(columnSizes[c++]));
 								break;
 
 							case CompressionType.Pallet:
 							case CompressionType.PalletArray:
 								palletIndex = bitStream.ReadUInt32(bitWidth);
 								data.AddRange(ColumnMeta[f].PalletValues[(int)palletIndex]);
+								c++;
 								break;
 
 							default:
@@ -337,7 +341,7 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Insert(0, new FieldStructureEntry(0, 0));
 				ColumnMeta.Insert(0, new ColumnStructureEntry());
 			}
-			
+
 			offsetmap.Clear();
 			firstindex.Clear();
 			OffsetDuplicates.Clear();
@@ -364,6 +368,27 @@ namespace WDBXEditor.Reader.FileTypes
 			return new StringTable().Read(dbReader, pos, pos + StringBlockSize);
 		}
 
+
+		public void LoadDefinitionSizes(DBEntry entry)
+		{
+			if (HasOffsetTable)
+				return;
+
+			Dictionary<TypeCode, int> typeLookup = new Dictionary<TypeCode, int>()
+			{
+				{ TypeCode.Byte, 1 },
+				{ TypeCode.SByte, 1 },
+				{ TypeCode.UInt16, 2 },
+				{ TypeCode.Int16, 2 },
+				{ TypeCode.Int32, 4 },
+				{ TypeCode.UInt32, 4 },
+				{ TypeCode.Int64, 8 },
+				{ TypeCode.UInt64, 8 },
+				{ TypeCode.String, 4 },
+				{ TypeCode.Single, 4 }
+			};
+			columnSizes = entry.Data.Columns.Cast<DataColumn>().Select(x => typeLookup[Type.GetTypeCode(x.DataType)]).ToArray();
+		}
 
 		public void SetColumnMinMaxValues(DBEntry entry)
 		{
@@ -626,7 +651,7 @@ namespace WDBXEditor.Reader.FileTypes
 				short size = (short)(pos + bitStream.Offset - offset);
 
 				if (IsSparse) // matches itemsparse padding
-				{					
+				{
 					int remaining = size % 8 == 0 ? 0 : 8 - (size % 8);
 					if (remaining > 0)
 					{

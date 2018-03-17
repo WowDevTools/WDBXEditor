@@ -23,7 +23,6 @@ namespace WDBXEditor.Reader.FileTypes
 		protected int stringTableOffset;
 		protected List<int> recordOffsets;
 		protected List<int> columnOffsets;
-		private byte[] recordData;
 
 		#region Read
 		public override void ReadHeader(ref BinaryReader dbReader, string signature)
@@ -261,6 +260,7 @@ namespace WDBXEditor.Reader.FileTypes
 						data.AddRange(BitConverter.GetBytes(id));
 					}
 
+					int c = HasIndexTable ? 1 : 0;
 					for (int f = 0; f < FieldCount; f++)
 					{
 						int bitOffset = ColumnMeta[f].BitOffset;
@@ -277,6 +277,7 @@ namespace WDBXEditor.Reader.FileTypes
 									idOffset = data.Count;
 									id = bitStream.ReadInt32(bitSize); // always read Ids as ints
 									data.AddRange(BitConverter.GetBytes(id));
+									c++;
 								}
 								else
 								{
@@ -285,7 +286,7 @@ namespace WDBXEditor.Reader.FileTypes
 										if (i == 0)
 											columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
-										data.AddRange(bitStream.ReadBytesPadded(bitSize));
+										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c++]));
 									}
 								}
 								break;
@@ -296,14 +297,14 @@ namespace WDBXEditor.Reader.FileTypes
 									idOffset = data.Count;
 									id = bitStream.ReadInt32(bitWidth); // always read Ids as ints
 									data.AddRange(BitConverter.GetBytes(id));
-									continue;
+									c++;
 								}
 								else
 								{
 									if (i == 0)
 										columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
-									data.AddRange(bitStream.ReadBytesPadded(bitWidth));
+									data.AddRange(bitStream.ReadBytes(bitWidth, false, columnSizes[c++]));
 								}
 								break;
 
@@ -313,9 +314,9 @@ namespace WDBXEditor.Reader.FileTypes
 									columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
 								if (ColumnMeta[f].SparseValues.TryGetValue(id, out byte[] valBytes))
-									data.AddRange(valBytes);
+									data.AddRange(valBytes.Take(columnSizes[c++]));
 								else
-									data.AddRange(BitConverter.GetBytes(ColumnMeta[f].BitOffset));
+									data.AddRange(BitConverter.GetBytes(ColumnMeta[f].BitOffset).Take(columnSizes[c++]));
 								break;
 
 							case CompressionType.Pallet:
@@ -326,6 +327,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 								palletIndex = bitStream.ReadUInt32(bitWidth);
 								data.AddRange(ColumnMeta[f].PalletValues[(int)palletIndex]);
+								c++;
 								break;
 
 							default:

@@ -109,6 +109,7 @@ namespace WDBXEditor.Reader
 				if (header is WDC1 wdc1)
 				{
 					Dictionary<int, string> StringTable = wdc1.ReadStringTable(dbReader);
+					wdc1.LoadDefinitionSizes(entry);
 
 					//Read the data
 					using (MemoryStream ms = new MemoryStream(header.ReadData(dbReader, pos)))
@@ -202,7 +203,7 @@ namespace WDBXEditor.Reader
 				return;
 
 			TypeCode[] columnTypes = entry.Data.Columns.Cast<DataColumn>().Select(x => Type.GetTypeCode(x.DataType)).ToArray();
-			int[] padding = entry.GetPadding();
+			//int[] padding = entry.GetPadding();
 
 			FieldStructureEntry[] bits = entry.GetBits();
 			int recordcount = Math.Max(entry.Header.OffsetLengths.Length, (int)entry.Header.RecordCount);
@@ -287,7 +288,7 @@ namespace WDBXEditor.Reader
 							throw new Exception($"Unknown field type at column {i}.");
 					}
 
-					dbReader.BaseStream.Position += padding[j];
+					//dbReader.BaseStream.Position += padding[j];
 				}
 
 				entry.Data.Rows.Add(row);
@@ -383,7 +384,7 @@ namespace WDBXEditor.Reader
 		private void WriteIntoFile(DBEntry entry, BinaryWriter bw, IEnumerable<DataRow> rows, ref StringTable st)
 		{
 			TypeCode[] columnTypes = entry.Data.Columns.Cast<DataColumn>().Select(x => Type.GetTypeCode(x.DataType)).ToArray();
-			int[] padding = entry.GetPadding();
+			//int[] padding = entry.GetPadding();
 			var bits = entry.GetBits();
 
 			bool duplicates = false;
@@ -454,8 +455,7 @@ namespace WDBXEditor.Reader
 							throw new Exception($"Unknown TypeCode {columnTypes[j].ToString()}");
 					}
 
-					if (columnTypes[j] != TypeCode.String)
-						bw.BaseStream.Position += padding[j];
+					//bw.BaseStream.Position += padding[j];
 				}
 
 				//Calculate and write the row's padding
