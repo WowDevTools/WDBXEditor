@@ -1,3 +1,12 @@
+## 1.1.7
+
+### Changes
+* Added WDC2 read and write support
+* Changed WDC1 to be definition/meta driven (in anticipation for DBD)
+* Removed awful old 25902 BfA Definitions
+* Added latest BfA definitions
+* Various fixes and tweaks
+
 ## 1.1.6
 
 ### Changes
