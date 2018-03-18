@@ -380,8 +380,12 @@ namespace WDBXEditor.Reader.FileTypes
 			InternalRecordSize = (uint)CopyTable.First().Value.Length;
 
 			if (CopyTableSize > 0)
-				CopyTable = CopyTable.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
-
+			{
+				var sort = CopyTable.Select((x, i) => new { CT = x, Off = recordOffsets[i] }).OrderBy(x => x.CT.Key);
+				recordOffsets = sort.Select(x => x.Off).ToList();
+				CopyTable = sort.ToDictionary(x => x.CT.Key, x => x.CT.Value);
+			}
+			
 			return CopyTable;
 		}
 
@@ -549,7 +553,7 @@ namespace WDBXEditor.Reader.FileTypes
 					rowData.Dequeue();
 
 				bitStream.SeekNextOffset(); // each row starts at a 0 bit position
-				
+
 				long bitOffset = bitStream.Offset; // used for offset map calcs
 
 				for (int fieldIndex = 0; fieldIndex < FieldCount; fieldIndex++)
@@ -682,9 +686,9 @@ namespace WDBXEditor.Reader.FileTypes
 			RecordDataOffset = (int)bw.BaseStream.Position;
 
 			// write string offsets
-			if(stringLookup.Count > 0)
+			if (stringLookup.Count > 0)
 			{
-				foreach(var lk in stringLookup)
+				foreach (var lk in stringLookup)
 				{
 					bitStream.Seek(lk.Key.Item1, lk.Key.Item2);
 					bitStream.WriteInt32((int)(lk.Value + bitStream.Length - lk.Key.Item1 - (lk.Key.Item2 >> 3)));
@@ -790,6 +794,7 @@ namespace WDBXEditor.Reader.FileTypes
 		public override void Clear()
 		{
 			recordOffsets.Clear();
+			columnOffsets.Clear();
 		}
 	}
 }
