@@ -274,7 +274,7 @@ namespace WDBXEditor.Reader.FileTypes
 								else
 								{
 									for (int x = 0; x < ColumnMeta[f].ArraySize; x++)
-										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c++]));									
+										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c++]));
 								}
 								break;
 
@@ -471,6 +471,9 @@ namespace WDBXEditor.Reader.FileTypes
 		{
 			Tuple<int, int> minmax = entry.MinMax();
 			bw.BaseStream.Position = 0;
+
+			// fix the bitlimits
+			RemoveBitLimits();
 
 			WriteBaseHeader(bw, entry);
 
@@ -830,6 +833,37 @@ namespace WDBXEditor.Reader.FileTypes
 
 		#endregion
 
+
+		protected void RemoveBitLimits()
+		{
+			if (HasOffsetTable)
+				return;
+
+			int c = HasIndexTable ? 1 : 0;
+			int cm = ColumnMeta.Count - (RelationShipData != null ? 1 : 0);
+
+			for (int i = c; i < cm; i++)
+			{
+				var col = ColumnMeta[i];
+				int oldsize = col.BitWidth;
+				ushort newsize = (ushort)(columnSizes[c] * 8 * col.ArraySize);
+
+				c += col.ArraySize;
+
+				if (col.CompressionType == CompressionType.None || newsize == oldsize)
+					continue;
+				
+				col.BitWidth = newsize;
+				col.Size = newsize;
+				for(int x = i + 1; x < cm; x++)
+				{
+					ColumnMeta[x].RecordOffset += (ushort)(newsize - oldsize);
+					ColumnMeta[x].BitOffset = ColumnMeta[x].RecordOffset - (PackedDataOffset * 8);
+				}					
+			}
+
+			RecordSize = (uint)((ColumnMeta.Sum(x => x.Size) + 7) / 8);
+		}
 	}
 
 	public class MinMax
