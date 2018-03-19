@@ -3,8 +3,8 @@ image: Visual Studio 2017
 configuration:
   - Release
 before_build:
-  - nuget restore
   - git submodule update --init --recursive
+  - nuget restore
 build:
   parallel: true
   project: WDBXEditor.sln
