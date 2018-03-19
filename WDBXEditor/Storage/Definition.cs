@@ -149,6 +149,8 @@ namespace WDBXEditor.Storage
 					table.BuildText = DBDefsLib.Utils.BuildToString(dbdbuild);
 					table.Fields = new List<Field>();
 					table.Name = dbName;
+
+					Field relation = null;
 					foreach (var dbdfield in dbdversion.definitions)
 					{
 						var field = new Field();
@@ -160,17 +162,43 @@ namespace WDBXEditor.Storage
 						if (dbdfield.isID || dbdfield.name == "ID")
 						{
 							field.IsIndex = true;
+							field.NonInline = dbdfield.isNonInline;
 						}
 
 						field.Name = formatFieldName(dbdfield.name);
 						field.Type = DBDTypeToWDBXType(dbdef.columnDefinitions[dbdfield.name].type, dbdfield.size);
-						field.AutoGenerate = dbdfield.isNonInline;
 
-						if (field.AutoGenerate && !field.IsIndex) 
-							continue; // skip relationship data columns but keep parent columns
+						if (dbdfield.isNonInline && dbdfield.isRelation)
+						{
+							field.Relationship = true; // append relations to the end
+							relation = field;
+							continue;
+						}
+						else if (dbdfield.isRelation)
+						{
+							relation = field.Clone() as Field;
+							relation.Relationship = true;
+							relation.Name = field.Name + "_RelationShip"; // append parents to the end
+						}
 
 						table.Fields.Add(field);
 					}
+
+					// WDBX requires an ID column - dbd apparently doesn't
+					if (!table.Fields.Any(x => x.IsIndex))
+					{
+						Field autoGenerate = new Field()
+						{
+							Name = "ID",
+							AutoGenerate = true,
+							IsIndex = true
+						};
+
+						table.Fields.Insert(0, autoGenerate);
+					}
+
+					if (relation != null) // force to the end
+						table.Fields.Add(relation);
 
 					newtables.Add(table);
 				}
@@ -207,7 +235,7 @@ namespace WDBXEditor.Storage
 	}
 
 	[Serializable]
-	public class Field
+	public class Field : ICloneable
 	{
 		[XmlAttribute]
 		public string Name { get; set; }
@@ -223,7 +251,13 @@ namespace WDBXEditor.Storage
 		public string DefaultValue { get; set; } = "";
 		[XmlAttribute, DefaultValue("")]
 		public string ColumnNames { get; set; } = "";
+		[XmlAnyAttribute, DefaultValue(false)]
+		public bool Relationship { get; set; } = false;
+		[XmlAnyAttribute, DefaultValue(false)]
+		public bool NonInline { get; set; } = false;
 		[XmlIgnore]
 		public string InternalName { get; set; }
+
+		public object Clone() => this.MemberwiseClone();
 	}
 }

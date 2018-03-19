@@ -274,7 +274,7 @@ namespace WDBXEditor.Reader.FileTypes
 								else
 								{
 									for (int x = 0; x < ColumnMeta[f].ArraySize; x++)
-										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c++]));									
+										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c++]));
 								}
 								break;
 
@@ -457,9 +457,8 @@ namespace WDBXEditor.Reader.FileTypes
 
 			if (!entry.Data.Columns.Cast<DataColumn>().Any(x => x.ExtendedProperties.ContainsKey("RELATIONSHIP")))
 			{
-				DataColumn dataColumn = new DataColumn("RelationshipData", typeof(uint));
-				dataColumn.ExtendedProperties.Add("RELATIONSHIP", true);
-				entry.Data.Columns.Add(dataColumn);
+				var col = entry.TableStructure.Fields.FirstOrDefault(x => x.Relationship);
+				entry.Data.Columns.Cast<DataColumn>().First(x => x.ColumnName == col.Name).ExtendedProperties.Add("RELATIONSHIP", true);
 			}
 		}
 		#endregion

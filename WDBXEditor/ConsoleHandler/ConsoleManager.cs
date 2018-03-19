@@ -17,7 +17,7 @@ namespace WDBXEditor.ConsoleHandler
 
         public static void ConsoleMain(string[] args)
         {
-            Database.LoadDefinitions().Wait();
+            Database.LoadDefinitions();
 
             if (CommandHandlers.ContainsKey(args[0].ToLower()))
                 InvokeHandler(args[0], args.Skip(1).ToArray());

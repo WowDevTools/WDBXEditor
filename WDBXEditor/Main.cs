@@ -68,8 +68,8 @@ namespace WDBXEditor
 			Parallel.ForEach(this.Controls.Cast<Control>(), c => c.KeyDown += new KeyEventHandler(KeyDownEvent));
 
 			//Load definitions
-			Task.Run(() => Database.LoadDefinitions())
-				.ContinueWith(x => AutoRun(), TaskScheduler.FromCurrentSynchronizationContext());
+			Database.LoadDefinitions();
+			AutoRun();
 
 			//Start FileWatcher
 			Watcher();

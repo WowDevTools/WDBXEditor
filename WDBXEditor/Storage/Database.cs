@@ -168,7 +168,7 @@ namespace WDBXEditor.Storage
         #endregion
 
         #region Defintions
-        public static async Task LoadDefinitions()
+        public static void LoadDefinitions()
         {
 			foreach (var file in Directory.GetFiles(DEFINITION_DIR, "*.dbd"))
 				Definitions.LoadDBDefinition(file);
