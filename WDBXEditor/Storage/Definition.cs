@@ -128,6 +128,16 @@ namespace WDBXEditor.Storage
 			var dbdef = reader.Read(path);
 			var dbName = Path.GetFileNameWithoutExtension(path);
 
+			Func<string, string> formatFieldName = (s) =>
+			{
+				string[] parts = s.Split('_');
+				for (int i = 0; i < parts.Length; i++)
+					parts[i] = char.ToUpper(parts[i][0]) + parts[i].Substring(1);
+
+				return string.Join("_", parts);
+			};
+
+
 			var newtables = new List<Table>();
 
 			foreach (var dbdversion in dbdef.versionDefinitions)
@@ -152,12 +162,11 @@ namespace WDBXEditor.Storage
 							field.IsIndex = true;
 						}
 
-						field.Name = dbdfield.name;
+						field.Name = formatFieldName(dbdfield.name);
 						field.Type = DBDTypeToWDBXType(dbdef.columnDefinitions[dbdfield.name].type, dbdfield.size);
 						field.AutoGenerate = dbdfield.isNonInline;
 
-						if (!dbdfield.isRelation) // skip for now
-							table.Fields.Add(field);
+						table.Fields.Add(field);
 					}
 
 					newtables.Add(table);
