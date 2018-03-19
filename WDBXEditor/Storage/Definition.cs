@@ -130,7 +130,7 @@ namespace WDBXEditor.Storage
 
 			Func<string, string> formatFieldName = (s) =>
 			{
-				string[] parts = s.Split('_');
+				string[] parts = s.Split(new[] { "_" }, StringSplitOptions.RemoveEmptyEntries);
 				for (int i = 0; i < parts.Length; i++)
 					parts[i] = char.ToUpper(parts[i][0]) + parts[i].Substring(1);
 
