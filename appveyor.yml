@@ -4,6 +4,7 @@ configuration:
   - Release
 before_build:
   - nuget restore
+  - git submodule update --init --recursive
 build:
   parallel: true
   project: WDBXEditor.sln
