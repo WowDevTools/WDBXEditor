@@ -166,6 +166,9 @@ namespace WDBXEditor.Storage
 						field.Type = DBDTypeToWDBXType(dbdef.columnDefinitions[dbdfield.name].type, dbdfield.size);
 						field.AutoGenerate = dbdfield.isNonInline;
 
+						if (field.AutoGenerate && !field.IsIndex) 
+							continue; // skip relationship data columns but keep parent columns
+
 						table.Fields.Add(field);
 					}
 
