@@ -106,6 +106,9 @@ namespace WDBXEditor.Reader
 				if (header.CheckTableStructure && entry.TableStructure == null)
 					throw new Exception("Definition missing.");
 
+				if (header.FieldCount != entry.TableStructure.Fields.Where(x => !x.AutoGenerate).Sum(x => x.ArraySize))
+					throw new Exception("Column mismatch.");
+
 				if (header is WDC1 wdc1)
 				{
 					Dictionary<int, string> StringTable = wdc1.ReadStringTable(dbReader);

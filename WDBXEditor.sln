@@ -1,16 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WDBXEditor", "WDBXEditor\WDBXEditor.csproj", "{E1F42B5C-7A40-4539-AD92-E24CAD7041F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedDataGridView", "AdvancedDataGridView\AdvancedDataGridView.csproj", "{6EBA0A55-B390-4479-A564-58D46094998D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBDefsLib", "WoWDBDefs\code\C#\DBDefsLib\DBDefsLib.csproj", "{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -34,11 +33,22 @@ Global
 		{6EBA0A55-B390-4479-A564-58D46094998D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6EBA0A55-B390-4479-A564-58D46094998D}.Release|x64.ActiveCfg = Release|x64
 		{6EBA0A55-B390-4479-A564-58D46094998D}.Release|x64.Build.0 = Release|x64
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Debug|x64.Build.0 = Debug|Any CPU
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Release|x64.ActiveCfg = Release|Any CPU
+		{5B81CDAC-339F-4CA9-B484-C38AE0C226DC}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {645EB3D9-4619-4DF0-BDC5-9A0B95065969}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

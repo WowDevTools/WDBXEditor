@@ -378,6 +378,10 @@
       <Name>AdvancedDataGridView</Name>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\WoWDBDefs\code\C#\DBDefsLib\DBDefsLib.csproj">
+      <Project>{5b81cdac-339f-4ca9-b484-c38ae0c226dc}</Project>
+      <Name>DBDefsLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\csv.png" />

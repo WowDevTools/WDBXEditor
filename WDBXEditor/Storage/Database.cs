@@ -170,15 +170,18 @@ namespace WDBXEditor.Storage
         #region Defintions
         public static async Task LoadDefinitions()
         {
-            await Task.Factory.StartNew(() =>
-            {
-                foreach (var file in Directory.GetFiles(DEFINITION_DIR, "*.xml"))
-                    Definitions.LoadDefinition(file);
-            });
-        }
-        #endregion
+			foreach (var file in Directory.GetFiles(DEFINITION_DIR, "*.dbd"))
+				Definitions.LoadDBDefinition(file);
 
-        public static void ForceGC()
+			//await Task.Factory.StartNew(() =>
+			//{
+			//    foreach (var file in Directory.GetFiles(DEFINITION_DIR, "*.xml"))
+			//        Definitions.LoadDefinition(file);
+			//});
+		}
+		#endregion
+
+		public static void ForceGC()
         {
             GC.Collect();
             GC.WaitForFullGCComplete();
