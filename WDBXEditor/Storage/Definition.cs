@@ -120,8 +120,10 @@ namespace WDBXEditor.Storage
 			}
 		}
 
-		public bool LoadDBDefinition(string path)
+		public bool LoadDBDefinition(string path, out List<string> errors)
 		{
+			errors = new List<string>();
+
 			if (_loading) return true;
 
 			var reader = new DBDefsLib.DBDReader();
@@ -185,17 +187,17 @@ namespace WDBXEditor.Storage
 					}
 
 					// WDBX requires an ID column - dbd apparently doesn't
-					if (!table.Fields.Any(x => x.IsIndex))
-					{
-						Field autoGenerate = new Field()
-						{
-							Name = "ID",
-							AutoGenerate = true,
-							IsIndex = true
-						};
+					//if (!table.Fields.Any(x => x.IsIndex))
+					//{
+					//	Field autoGenerate = new Field()
+					//	{
+					//		Name = "ID",
+					//		AutoGenerate = true,
+					//		IsIndex = true
+					//	};
 
-						table.Fields.Insert(0, autoGenerate);
-					}
+					//	table.Fields.Insert(0, autoGenerate);
+					//}
 
 					if (relation != null) // force to the end
 						table.Fields.Add(relation);
@@ -205,6 +207,7 @@ namespace WDBXEditor.Storage
 			}
 
 			newtables.ForEach(x => x.Load());
+			errors.AddRange(newtables.Where(x => x.Key == null).Select(x => $"{x.Name} {x.BuildText} missing ID."));
 			Tables.UnionWith(newtables.Where(x => x.Key != null));
 
 			return true;

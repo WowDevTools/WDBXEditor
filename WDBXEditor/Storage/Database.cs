@@ -10,6 +10,8 @@ using System.Data;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Windows.Forms;
+using WDBXEditor.Common;
+using WDBXEditor.Forms;
 
 namespace WDBXEditor.Storage
 {
@@ -170,8 +172,18 @@ namespace WDBXEditor.Storage
         #region Defintions
         public static void LoadDefinitions()
         {
+			List<string> errors = new List<string>();
+
 			foreach (var file in Directory.GetFiles(DEFINITION_DIR, "*.dbd"))
-				Definitions.LoadDBDefinition(file);
+			{
+				Definitions.LoadDBDefinition(file, out List<string> error);
+				errors.AddRange(error);
+			}
+
+			if(errors.Count > 0)
+			{
+				new ErrorReport(errors).ShowDialog(FormHandler.GetForm<Main>());
+			}				
 
 			//await Task.Factory.StartNew(() =>
 			//{
