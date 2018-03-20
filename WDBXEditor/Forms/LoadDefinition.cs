@@ -95,7 +95,8 @@ namespace WDBXEditor
             bool db2 = Files.Any(x => Path.GetExtension(x).IndexOf("db2", IGNORECASE) >= 0);
             bool adb = Files.Any(x => Path.GetExtension(x).IndexOf("adb", IGNORECASE) >= 0);
 
-            var files = Files.Select(x => Path.GetFileNameWithoutExtension(x).ToLower());
+			// dbd filename fix
+            var files = Files.Select(x => Path.GetFileNameWithoutExtension(x).ToLower().Replace("-",""));
             var datasource = Database.Definitions.Tables
                                                  .Where(x => files.Contains(x.Name.ToLower()))
                                                  .Select(x => new { Key = x.Build, Value = x.BuildText })
