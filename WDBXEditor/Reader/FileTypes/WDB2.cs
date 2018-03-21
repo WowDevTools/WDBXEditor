@@ -31,7 +31,7 @@ namespace WDBXEditor.Reader.FileTypes
             Locale = dbReader.ReadInt32();
             CopyTableSize = dbReader.ReadInt32();
 
-            if (MaxId != 0 && Build > 12880)
+            if (MaxId != 0 && Build > 12880 && !IsTypeOf<WDB3>())
             {
                 int diff = MaxId - MinId + 1; //Calculate the array sizes
                 IndexMap = new int[diff];

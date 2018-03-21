@@ -282,6 +282,8 @@
     <Compile Include="Reader\FileTypes\WCH8.cs" />
     <Compile Include="Reader\FileTypes\WDB.cs" />
     <Compile Include="Reader\FileTypes\WDB2.cs" />
+    <Compile Include="Reader\FileTypes\WDB3.cs" />
+    <Compile Include="Reader\FileTypes\WDB4.cs" />
     <Compile Include="Reader\FileTypes\WDB5.cs" />
     <Compile Include="Reader\FileTypes\WDB6.cs" />
     <Compile Include="Reader\FileTypes\WDBC.cs" />

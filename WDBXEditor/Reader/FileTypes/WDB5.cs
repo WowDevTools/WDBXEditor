@@ -21,10 +21,6 @@ namespace WDBXEditor.Reader.FileTypes
         public override bool HasSecondIndex => Flags.HasFlag(HeaderFlags.SecondIndex);
 
         #region Read
-        public void ReadHeader(BinaryReader dbReader, string signature)
-        {
-            ReadHeader(ref dbReader, signature);
-        }
 
         public void ReadBaseHeader(ref BinaryReader dbReader, string signature)
         {

@@ -42,6 +42,12 @@ namespace WDBXEditor.Reader
 				case "WCH2":
 					header = new WDB2();
 					break;
+				case "WDB3":
+					header = new WDB3();
+					break;
+				case "WDB4":
+					header = new WDB4();
+					break;
 				case "WDB5":
 					header = new WDB5();
 					break;
@@ -125,19 +131,8 @@ namespace WDBXEditor.Reader
 
 					stream.Dispose();
 					return entry;
-				}
-				else if (header.IsTypeOf<WDBC>() || header.IsTypeOf<WDB2>())
-				{
-					long stringTableStart = dbReader.BaseStream.Position += header.RecordCount * header.RecordSize;
-					Dictionary<int, string> StringTable = new StringTable().Read(dbReader, stringTableStart); //Get stringtable
-					dbReader.Scrub(pos);
-
-					ReadIntoTable(ref entry, dbReader, StringTable); //Read data
-
-					stream.Dispose();
-					return entry;
-				}
-				else if (header.IsTypeOf<WDB5>() || header.IsTypeOf<WCH5>() || header.IsTypeOf<WDB6>())
+				}				
+				else if (header.IsTypeOf<WDB3>() || header.IsTypeOf<WDB5>() || header.IsTypeOf<WCH5>() || header.IsTypeOf<WDB6>())
 				{
 					int CopyTableSize = header.CopyTableSize; //Only WDB5 has a copy table
 					uint CommonDataTableSize = header.CommonDataTableSize; //Only WDB6 has a CommonDataTable
@@ -165,6 +160,17 @@ namespace WDBXEditor.Reader
 
 					//Cleanup
 					header.OffsetLengths = null;
+
+					stream.Dispose();
+					return entry;
+				}
+				else if (header.IsTypeOf<WDBC>() || header.IsTypeOf<WDB2>())
+				{
+					long stringTableStart = dbReader.BaseStream.Position += header.RecordCount * header.RecordSize;
+					Dictionary<int, string> StringTable = new StringTable().Read(dbReader, stringTableStart); //Get stringtable
+					dbReader.Scrub(pos);
+
+					ReadIntoTable(ref entry, dbReader, StringTable); //Read data
 
 					stream.Dispose();
 					return entry;

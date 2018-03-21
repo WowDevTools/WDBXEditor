@@ -177,17 +177,18 @@ namespace WDBXEditor.Storage
 			}
 
 			// WDBX requires an ID column
-			//if (!table.Fields.Any(x => x.IsIndex))
-			//{
-			//	Field autoGenerate = new Field()
-			//	{
-			//		Name = "ID",
-			//		AutoGenerate = true,
-			//		IsIndex = true
-			//	};
+			if (!table.Fields.Any(x => x.IsIndex))
+			{
+				Field autoGenerate = new Field()
+				{
+					Name = "ID",
+					AutoGenerate = true,
+					IsIndex = true,
+					Type = "int"
+				};
 
-			//	table.Fields.Insert(0, autoGenerate);
-			//}
+				table.Fields.Insert(0, autoGenerate);
+			}
 
 			if (relation != null) // force to the end
 				table.Fields.Add(relation);
