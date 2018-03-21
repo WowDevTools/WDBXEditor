@@ -54,7 +54,7 @@ namespace WDBXEditor.Reader.FileTypes
 			}
 
 			//Index table
-			if (HasOffsetTable)
+			if (HasIndexTable)
 			{
 				dbReader.BaseStream.Position = indexOffset;
 
@@ -99,7 +99,6 @@ namespace WDBXEditor.Reader.FileTypes
 			}
 
 			//CopyTable
-			dbReader.BaseStream.Position += StringBlockSize;
 			long copyTablePos = pos + (HasIndexTable ? 4 * RecordCount : 0);
 			if (CopyTableSize != 0 && copyTablePos != dbReader.BaseStream.Length)
 			{

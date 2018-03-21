@@ -5,23 +5,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static WDBXEditor.Common.Constants;
+using static WDBXEditor.Reader.FileTypes.WDB5;
 
 namespace WDBXEditor.Reader.FileTypes
 {
 	public class WDB3 : WDB2
 	{
+		public override bool HasOffsetTable => Flags.HasFlag(HeaderFlags.OffsetMap);
+		public override bool HasIndexTable => Flags.HasFlag(HeaderFlags.IndexMap);
+
+		private readonly uint[] offsetMapDBs = new uint[] { 1344507586 };
+
 		private Dictionary<int, byte[]> ReadOffsetData(BinaryReader dbReader, long pos)
 		{
 			Dictionary<int, byte[]> CopyTable = new Dictionary<int, byte[]>();
+			List<Tuple<int, short>> offsetmap = new List<Tuple<int, short>>();
 
 			int[] m_indexes = null;
-			long indexOffset = pos + (RecordCount * RecordSize) + StringBlockSize + CopyTableSize;
 			
-			//Index table
-			if (indexOffset < dbReader.BaseStream.Length)
-			{
+			long knownSize = pos + (RecordCount * RecordSize) + StringBlockSize + CopyTableSize;
+
+			if (knownSize + (RecordCount * 4) == dbReader.BaseStream.Length) // rough index table check
 				Flags |= HeaderFlags.IndexMap;
-				dbReader.BaseStream.Position = indexOffset;
+			else if (knownSize + (RecordCount * 4) < dbReader.BaseStream.Length) // rough offset map check, should parse meta ideally
+				Flags |= HeaderFlags.OffsetMap | HeaderFlags.IndexMap;
+			else if (offsetMapDBs.Contains(TableHash))
+				Flags |= HeaderFlags.OffsetMap | HeaderFlags.IndexMap; // override above check with hardcoded known list 
+
+			//Offset map
+			if (HasOffsetTable)
+			{
+				for (int i = 0; i < (MaxId - MinId + 1); i++)
+				{
+					int offset = dbReader.ReadInt32();
+					short length = dbReader.ReadInt16();
+
+					if (offset == 0 || length == 0) continue;
+
+					offsetmap.Add(new Tuple<int, short>(offset, length));
+				}
+
+				pos = dbReader.BaseStream.Position;
+			}
+
+			//Index table
+			if (HasIndexTable)
+			{
+				dbReader.Scrub(dbReader.BaseStream.Length - CopyTableSize - (RecordCount * 4));
 
 				m_indexes = new int[RecordCount];
 				for (int i = 0; i < RecordCount; i++)
@@ -33,24 +63,37 @@ namespace WDBXEditor.Reader.FileTypes
 			//Extract record data
 			for (int i = 0; i < RecordCount; i++)
 			{
-				dbReader.Scrub(pos + i * RecordSize);
-				byte[] recordbytes = dbReader.ReadBytes((int)RecordSize);
-
-				if (HasIndexTable)
+				if (HasOffsetTable)
 				{
-					IEnumerable<byte> newrecordbytes = BitConverter.GetBytes(m_indexes[i]).Concat(recordbytes);
-					CopyTable.Add(m_indexes[i], newrecordbytes.ToArray());
+					int id = m_indexes[CopyTable.Count];
+					var map = offsetmap[i];
+
+					dbReader.Scrub(map.Item1);
+
+					IEnumerable<byte> recordbytes = BitConverter.GetBytes(id).Concat(dbReader.ReadBytes(map.Item2));
+					CopyTable.Add(id, recordbytes.ToArray());
 				}
 				else
 				{
-					CopyTable.Add(BitConverter.ToInt32(recordbytes, 0), recordbytes);
+					dbReader.Scrub(pos + i * RecordSize);
+					byte[] recordbytes = dbReader.ReadBytes((int)RecordSize);
+
+					if (HasIndexTable)
+					{
+						IEnumerable<byte> newrecordbytes = BitConverter.GetBytes(m_indexes[i]).Concat(recordbytes);
+						CopyTable.Add(m_indexes[i], newrecordbytes.ToArray());
+					}
+					else
+					{
+						CopyTable.Add(BitConverter.ToInt32(recordbytes, 0), recordbytes);
+					}
 				}
 			}
-			
+
 			//CopyTable
-			dbReader.BaseStream.Position += StringBlockSize;
+			dbReader.Scrub(dbReader.BaseStream.Length - CopyTableSize);
 			long copyTablePos = pos + (HasIndexTable ? 4 * RecordCount : 0);
-			if (CopyTableSize != 0 && copyTablePos != dbReader.BaseStream.Length)
+			if (CopyTableSize != 0 && copyTablePos < dbReader.BaseStream.Length)
 			{
 				dbReader.Scrub(copyTablePos);
 				while (dbReader.BaseStream.Position != dbReader.BaseStream.Length)
