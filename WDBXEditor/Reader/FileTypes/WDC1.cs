@@ -62,6 +62,8 @@ namespace WDBXEditor.Reader.FileTypes
 
 			recordData = dbReader.ReadBytes((int)(RecordCount * RecordSize));
 			Array.Resize(ref recordData, recordData.Length + 8);
+
+			Flags &= ~HeaderFlags.SecondIndex; // appears to be obsolete now
 		}
 
 		public new Dictionary<int, byte[]> ReadOffsetData(BinaryReader dbReader, long pos)
@@ -200,6 +202,8 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Add(new FieldStructureEntry(0, 0));
 				ColumnMeta.Add(new ColumnStructureEntry());
 			}
+
+			var max = offsetmap.OrderByDescending(x => x.Item1).First();
 
 			// Record Data
 			BitStream bitStream = new BitStream(recordData);

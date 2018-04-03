@@ -120,6 +120,8 @@ namespace WDBXEditor.Reader.FileTypes
 			// RecordData
 			recordData = dbReader.ReadBytes((int)(RecordCount * RecordSize));
 			Array.Resize(ref recordData, recordData.Length + 8);
+
+			Flags &= ~HeaderFlags.SecondIndex; // appears to be obsolete now
 		}
 
 		public new Dictionary<int, byte[]> ReadOffsetData(BinaryReader dbReader, long pos)
@@ -418,6 +420,9 @@ namespace WDBXEditor.Reader.FileTypes
 		{
 			Tuple<int, int> minmax = entry.MinMax();
 			bw.BaseStream.Position = 0;
+
+			// fix the bitlimits
+			RemoveBitLimits();
 
 			WriteBaseHeader(bw, entry);
 

@@ -5606,4 +5606,8 @@
 		<Field Name="DisplayWorldMapAreaId" Type="int" />
 		<Field Name="PlayerFactionGroupId" Type="byte" />
 	</Table>
+	<Table Name="Unknown" Build="26231">
+		<Field Name="ID" Type="int" IsIndex="true" />
+		<Field Name="Status" Type="string" />
+	</Table>
 </Definition>
