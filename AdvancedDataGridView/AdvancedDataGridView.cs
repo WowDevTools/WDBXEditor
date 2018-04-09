@@ -165,27 +165,27 @@ namespace ADGV
             base.OnCellValueChanged(e);
         }
 
-		protected override void OnCellValidating(DataGridViewCellValidatingEventArgs e)
-		{
-			if(BitCounts.ContainsKey(e.ColumnIndex))
-			{
-				var bitcount = BitCounts[e.ColumnIndex];
-				if(bitcount.IsSingle &&  float.TryParse(e.FormattedValue.ToString(), out float fVal))
-				{
-					e.Cancel = fVal < (float)bitcount.MinVal || fVal > (float)bitcount.MaxVal;
-				}
-				if(bitcount.Signed && long.TryParse(e.FormattedValue.ToString(), out long val))
-				{
-					e.Cancel = val < (long)bitcount.MinVal || val > (long)bitcount.MaxVal;
-				}
-				else if(ulong.TryParse(e.FormattedValue.ToString(), out ulong val2))
-				{
-					e.Cancel = val2 > (ulong)bitcount.MaxVal;
-				}
-			}
+		//protected override void OnCellValidating(DataGridViewCellValidatingEventArgs e)
+		//{
+		//	if(BitCounts.ContainsKey(e.ColumnIndex))
+		//	{
+		//		var bitcount = BitCounts[e.ColumnIndex];
+		//		if(bitcount.IsSingle &&  float.TryParse(e.FormattedValue.ToString(), out float fVal))
+		//		{
+		//			e.Cancel = fVal < (float)bitcount.MinVal || fVal > (float)bitcount.MaxVal;
+		//		}
+		//		if(bitcount.Signed && long.TryParse(e.FormattedValue.ToString(), out long val))
+		//		{
+		//			e.Cancel = val < (long)bitcount.MinVal || val > (long)bitcount.MaxVal;
+		//		}
+		//		else if(ulong.TryParse(e.FormattedValue.ToString(), out ulong val2))
+		//		{
+		//			e.Cancel = val2 > (ulong)bitcount.MaxVal;
+		//		}
+		//	}
 
-			base.OnCellValidating(e);
-		}
+		//	base.OnCellValidating(e);
+		//}
 
 		public bool ValidValue(int index, object value)
 		{

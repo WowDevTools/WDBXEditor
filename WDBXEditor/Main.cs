@@ -1223,7 +1223,7 @@ namespace WDBXEditor
 			{
 				int keyIndex = advancedDataGridView.Columns[LoadedEntry.Key].Index;
 
-				if(!int.TryParse(res, out int id) || id < 0 || !advancedDataGridView.ValidValue(keyIndex, id))
+				if(!int.TryParse(res, out int id) || id < 0 /*|| !advancedDataGridView.ValidValue(keyIndex, id)*/)
 				{
 					MessageBox.Show($"Invalid Id. Out of range of the column min/max value.");
 				}

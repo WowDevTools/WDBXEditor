@@ -770,8 +770,8 @@ namespace WDBXEditor.Storage
 					return false;
 			}
 
-			if (!ValidateMinMaxValues(importTable, out error))
-				return false;
+			//if (!ValidateMinMaxValues(importTable, out error))
+			//	return false;
 
 			UpdateData(importTable, mode);
 			return true;
@@ -826,8 +826,8 @@ namespace WDBXEditor.Storage
 					return false;
 			}
 
-			if (!ValidateMinMaxValues(importTable, out error))
-				return false;
+			//if (!ValidateMinMaxValues(importTable, out error))
+			//	return false;
 
 			UpdateData(importTable, mode);
 			return true;
