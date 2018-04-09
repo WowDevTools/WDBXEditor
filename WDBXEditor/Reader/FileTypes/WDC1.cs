@@ -23,7 +23,7 @@ namespace WDBXEditor.Reader.FileTypes
 
 		public List<ColumnStructureEntry> ColumnMeta;
 		public RelationShipData RelationShipData;
-		public Dictionary<int, MinMax> MinMaxValues;
+		//public Dictionary<int, MinMax> MinMaxValues;
 
 		protected int[] columnSizes;
 		protected byte[] recordData;
@@ -202,9 +202,7 @@ namespace WDBXEditor.Reader.FileTypes
 				FieldStructure.Add(new FieldStructureEntry(0, 0));
 				ColumnMeta.Add(new ColumnStructureEntry());
 			}
-
-			var max = offsetmap.OrderByDescending(x => x.Item1).First();
-
+			
 			// Record Data
 			BitStream bitStream = new BitStream(recordData);
 			for (int i = 0; i < RecordCount; i++)
@@ -399,59 +397,59 @@ namespace WDBXEditor.Reader.FileTypes
 
 		public void SetColumnMinMaxValues(DBEntry entry)
 		{
-			MinMaxValues = new Dictionary<int, MinMax>();
-			int column = 0;
-			for (int i = 0; i < ColumnMeta.Count; i++)
-			{
-				// get the column type - skip strings
-				var type = entry.Data.Columns[column].DataType;
-				if (type == typeof(string))
-				{
-					column += ColumnMeta[i].ArraySize;
-					continue;
-				}
+			//MinMaxValues = new Dictionary<int, MinMax>();
+			//int column = 0;
+			//for (int i = 0; i < ColumnMeta.Count; i++)
+			//{
+			//	// get the column type - skip strings
+			//	var type = entry.Data.Columns[column].DataType;
+			//	if (type == typeof(string))
+			//	{
+			//		column += ColumnMeta[i].ArraySize;
+			//		continue;
+			//	}
 
-				int bits = ColumnMeta[i].CompressionType == CompressionType.None ? FieldStructure[i].BitCount : ColumnMeta[i].BitWidth;
-				if ((bits & (bits - 1)) == 0 && bits >= 8) // power of two and >= sizeof(byte) means a standard type
-				{
-					column += ColumnMeta[i].ArraySize;
-					continue;
-				}
+			//	int bits = ColumnMeta[i].CompressionType == CompressionType.None ? FieldStructure[i].BitCount : ColumnMeta[i].BitWidth;
+			//	if ((bits & (bits - 1)) == 0 && bits >= 8) // power of two and >= sizeof(byte) means a standard type
+			//	{
+			//		column += ColumnMeta[i].ArraySize;
+			//		continue;
+			//	}
 
-				// calculate the min and max values
-				bool signed = Convert.ToBoolean(type.GetField("MinValue").GetValue(null));
-				bool isfloat = type == typeof(float);
+			//	// calculate the min and max values
+			//	bool signed = Convert.ToBoolean(type.GetField("MinValue").GetValue(null));
+			//	bool isfloat = type == typeof(float);
 
-				//bool metaSigned = ColumnMeta[i].CompressionType == CompressionType.Immediate && (ColumnMeta[i].Cardinality & 1) == 1;
-				//if (ColumnMeta[i].CompressionType == CompressionType.Immediate && metaSigned != signed && i != IdIndex && !isfloat)
-				//	throw new Exception($"Invalid sign for column {i}");
+			//	//bool metaSigned = ColumnMeta[i].CompressionType == CompressionType.Immediate && (ColumnMeta[i].Cardinality & 1) == 1;
+			//	//if (ColumnMeta[i].CompressionType == CompressionType.Immediate && metaSigned != signed && i != IdIndex && !isfloat)
+			//	//	throw new Exception($"Invalid sign for column {i}");
 
-				object max = signed ? long.MaxValue >> (64 - bits) : (object)(ulong.MaxValue >> (64 - bits));
-				object min = signed ? long.MinValue >> (64 - bits) : 0;
-				if (isfloat)
-				{
-					max = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)max), 0);
-					min = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)min), 0);
-				}
+			//	object max = signed ? long.MaxValue >> (64 - bits) : (object)(ulong.MaxValue >> (64 - bits));
+			//	object min = signed ? long.MinValue >> (64 - bits) : 0;
+			//	if (isfloat)
+			//	{
+			//		max = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)max), 0);
+			//		min = BitConverter.ToSingle(BitConverter.GetBytes((dynamic)min), 0);
+			//	}
 
-				for (int j = 0; j < ColumnMeta[i].ArraySize; j++)
-				{
-					entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", max);
-					if (signed || isfloat)
-						entry.Data.Columns[column].ExtendedProperties.Add("MinValue", min);
+			//	for (int j = 0; j < ColumnMeta[i].ArraySize; j++)
+			//	{
+			//		entry.Data.Columns[column].ExtendedProperties.Add("MaxValue", max);
+			//		if (signed || isfloat)
+			//			entry.Data.Columns[column].ExtendedProperties.Add("MinValue", min);
 
-					MinMax minmax = new MinMax()
-					{
-						Signed = signed,
-						MaxVal = max,
-						MinVal = min,
-						IsSingle = isfloat
-					};
+			//		MinMax minmax = new MinMax()
+			//		{
+			//			Signed = signed,
+			//			MaxVal = max,
+			//			MinVal = min,
+			//			IsSingle = isfloat
+			//		};
 
-					MinMaxValues[column] = minmax;
-					column++;
-				}
-			}
+			//		MinMaxValues[column] = minmax;
+			//		column++;
+			//	}
+			//}
 		}
 
 		public void AddRelationshipColumn(DBEntry entry)
