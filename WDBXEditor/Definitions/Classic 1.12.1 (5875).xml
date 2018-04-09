@@ -289,8 +289,8 @@
     <Field Name="SoundWingFlapID" Type="int" />
     <Field Name="SoundWingGlideID" Type="int" />
     <Field Name="SoundAlertID" Type="int" />
-    <Field Name="SoundFiget" Type="int" />
-    <Field Name="CustomAttack" Type="int" />
+    <Field Name="SoundFidget" Type="int" ArraySize="4" />
+    <Field Name="CustomAttack" Type="int" ArraySize="4" />
     <Field Name="NPCSoundID" Type="int" />
     <Field Name="LoopSoundID" Type="int" />
     <Field Name="CreatureImpactType" Type="int" />
@@ -299,12 +299,6 @@
     <Field Name="SoundPetAttackID" Type="int" />
     <Field Name="SoundPetOrderID" Type="int" />
     <Field Name="SoundPetDismissID" Type="int" />
-    <Field Name="FidgetDelaySecondsMin" Type="int" />
-    <Field Name="FidgetDelaySecondsMax" Type="int" />
-    <Field Name="BirthSoundID" Type="int" />
-    <Field Name="SpellCastDirectedSoundID" Type="int" />
-    <Field Name="SubmergeSoundID" Type="int" />
-    <Field Name="SubmergedSoundID" Type="int" />
   </Table>
   <Table Name="CreatureSpellData" Build="5875">
     <Field Name="ID" Type="int" IsIndex="true" />
