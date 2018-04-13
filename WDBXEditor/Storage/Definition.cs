@@ -208,18 +208,13 @@ namespace WDBXEditor.Storage
 
 			var newtables = new List<Table>();
 
-			// hacky range code to test the loading of 18179
+			// going to need some form of build lookup or summat for ranges...
 			foreach (var dbdversion in dbdef.versionDefinitions)
 			{
 				foreach (var dbdbuild in dbdversion.buildRanges)
 				{
-					if (dbdbuild.minBuild.expansion <= 6 && 
-						dbdbuild.maxBuild.expansion >= 6 && 
-						dbdbuild.minBuild.build <= 18179 && 
-						dbdbuild.maxBuild.build >= 18179)
-					{
-						newtables.Add(BuildTable(dbdversion, dbdef, dbName, "6.0.1.18179", 18179));
-					}
+					newtables.Add(BuildTable(dbdversion, dbdef, dbName, DBDefsLib.Utils.BuildToString(dbdbuild.minBuild), dbdbuild.minBuild.build));
+					newtables.Add(BuildTable(dbdversion, dbdef, dbName, DBDefsLib.Utils.BuildToString(dbdbuild.maxBuild), dbdbuild.maxBuild.build));
 				}
 
 				foreach (var dbdbuild in dbdversion.builds)
