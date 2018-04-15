@@ -281,6 +281,7 @@ namespace WDBXEditor.Reader.FileTypes
 								break;
 
 							case CompressionType.Immediate:
+							case CompressionType.SignedImmediate:
 								if (!HasIndexTable && f == IdIndex)
 								{
 									idOffset = data.Count;
@@ -620,6 +621,7 @@ namespace WDBXEditor.Reader.FileTypes
 							break;
 
 						case CompressionType.Immediate:
+						case CompressionType.SignedImmediate:
 							bitStream.WriteBits(data[0], bitWidth);
 							break;
 

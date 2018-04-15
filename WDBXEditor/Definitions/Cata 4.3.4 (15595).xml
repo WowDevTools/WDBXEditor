@@ -612,14 +612,14 @@
     <Field Name="Field20" Type="int" />
     <Field Name="Field21" Type="int" />
     <Field Name="Field22" Type="int" />
-    <Field Name="Field23" Type="int" />
-    <Field Name="Field24" Type="int" />
+    <Field Name="Field23" Type="float" />
+    <Field Name="Field24" Type="float" />
     <Field Name="Field25" Type="int" />
     <Field Name="Field26" Type="int" />
     <Field Name="Field27" Type="int" />
     <Field Name="Field28" Type="int" />
     <Field Name="Field29" Type="int" />
-    <Field Name="Field30" Type="int" />
+    <Field Name="Field30" Type="float" />
   </Table>
   <Table Name="CreatureMovementInfo" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
