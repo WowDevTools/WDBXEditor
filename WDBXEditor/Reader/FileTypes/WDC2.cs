@@ -269,6 +269,7 @@ namespace WDBXEditor.Reader.FileTypes
 						int bitWidth = ColumnMeta[f].BitWidth;
 						int cardinality = ColumnMeta[f].Cardinality;
 						uint palletIndex;
+						int take = columnSizes[c++] * ColumnMeta[f].ArraySize;
 
 						switch (ColumnMeta[f].CompressionType)
 						{
@@ -279,7 +280,6 @@ namespace WDBXEditor.Reader.FileTypes
 									idOffset = data.Count;
 									id = bitStream.ReadInt32(bitSize); // always read Ids as ints
 									data.AddRange(BitConverter.GetBytes(id));
-									c++;
 								}
 								else
 								{
@@ -288,7 +288,7 @@ namespace WDBXEditor.Reader.FileTypes
 										if (i == 0)
 											columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
-										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c++]));
+										data.AddRange(bitStream.ReadBytes(bitSize, false, take));
 									}
 								}
 								break;
@@ -300,14 +300,13 @@ namespace WDBXEditor.Reader.FileTypes
 									idOffset = data.Count;
 									id = bitStream.ReadInt32(bitWidth); // always read Ids as ints
 									data.AddRange(BitConverter.GetBytes(id));
-									c++;
 								}
 								else
 								{
 									if (i == 0)
 										columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
-									data.AddRange(bitStream.ReadBytes(bitWidth, false, columnSizes[c++]));
+									data.AddRange(bitStream.ReadBytes(bitWidth, false, take));
 								}
 								break;
 
@@ -317,9 +316,9 @@ namespace WDBXEditor.Reader.FileTypes
 									columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
 								if (ColumnMeta[f].SparseValues.TryGetValue(id, out byte[] valBytes))
-									data.AddRange(valBytes.Take(columnSizes[c++]));
+									data.AddRange(valBytes.Take(take));
 								else
-									data.AddRange(BitConverter.GetBytes(ColumnMeta[f].BitOffset).Take(columnSizes[c++]));
+									data.AddRange(BitConverter.GetBytes(ColumnMeta[f].BitOffset).Take(take));
 								break;
 
 							case CompressionType.Pallet:
@@ -329,8 +328,7 @@ namespace WDBXEditor.Reader.FileTypes
 									columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
 								palletIndex = bitStream.ReadUInt32(bitWidth);
-								data.AddRange(ColumnMeta[f].PalletValues[(int)palletIndex]);
-								c++;
+								data.AddRange(ColumnMeta[f].PalletValues[(int)palletIndex].Take(take));
 								break;
 
 							default:
@@ -480,11 +478,11 @@ namespace WDBXEditor.Reader.FileTypes
 
 		public override void WriteData(BinaryWriter bw, DBEntry entry)
 		{
-			List<Tuple<int, short>> offsetMap = new List<Tuple<int, short>>();
-			StringTable stringTable = new StringTable(true);
-			bool IsSparse = HasIndexTable && HasOffsetTable;
-			Dictionary<int, List<int>> copyRecords = new Dictionary<int, List<int>>();
-			List<int> copyIds = new List<int>();
+			var offsetMap = new List<Tuple<int, short>>();
+			var stringTable = new StringTable(true);
+			var IsSparse = HasIndexTable && HasOffsetTable;
+			var copyRecords = new Dictionary<int, IEnumerable<int>>();
+			var copyIds = new HashSet<int>();
 
 			Dictionary<Tuple<long, int>, int> stringLookup = new Dictionary<Tuple<long, int>, int>();
 
@@ -493,12 +491,16 @@ namespace WDBXEditor.Reader.FileTypes
 			// get a list of identical records			
 			if (CopyTableSize > 0)
 			{
+				var copyids = Enumerable.Empty<int>();
 				var copies = entry.GetCopyRows();
 				foreach (var c in copies)
 				{
-					copyRecords.Add(c.First(), c.Skip(1).ToList());
-					copyIds.AddRange(c.Skip(1));
+					int id = c.First();
+					copyRecords.Add(id, c.Skip(1).ToList());
+					copyids = copyids.Concat(copyRecords[id]);
 				}
+
+				copyIds = new HashSet<int>(copyids);
 			}
 
 			// get relationship data
@@ -548,12 +550,7 @@ namespace WDBXEditor.Reader.FileTypes
 				Queue<object> rowData = new Queue<object>(entry.Data.Rows[rowIndex].ItemArray);
 
 				int id = entry.Data.Rows[rowIndex].Field<int>(entry.Key);
-
-				if (CopyTableSize > 0) // skip copy records
-				{
-					if (copyIds.Contains(id))
-						continue;
-				}
+				bool isCopyRecord = copyIds.Contains(id);
 
 				if (HasIndexTable) // dump the id from the row data
 					rowData.Dequeue();
@@ -574,7 +571,11 @@ namespace WDBXEditor.Reader.FileTypes
 					if (data.Length == 0)
 						continue;
 
-					switch (ColumnMeta[fieldIndex].CompressionType)
+					CompressionType compression = ColumnMeta[fieldIndex].CompressionType;
+					if (isCopyRecord && compression != CompressionType.Sparse) // copy records still store the sparse data
+						continue;
+
+					switch (compression)
 					{
 						case CompressionType.None:
 							for (int i = 0; i < arraySize; i++)
@@ -622,6 +623,9 @@ namespace WDBXEditor.Reader.FileTypes
 
 					}
 				}
+
+				if (isCopyRecord)
+					continue; // copy records aren't real rows so skip the padding
 
 				bitStream.SeekNextOffset();
 				short size = (short)(bitStream.Length - bitOffset);
