@@ -41,12 +41,12 @@ namespace WDBXEditor.Storage
 
         public bool SaveDefinitions()
         {
-            Func<string, string> ValidFilename = b =>
-            {
-                return string.Join("_", b.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.') + ".xml";
-            };
+			string ValidFilename(string b)
+			{
+				return string.Join("_", b.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.') + ".xml";
+			}
 
-            try
+			try
             {
                 _loading = true;
 
@@ -54,11 +54,13 @@ namespace WDBXEditor.Storage
                 Tables.Clear();
                 foreach (var build in builds)
                 {
-                    Definition _def = new Definition();
-                    _def.Build = build.Key;
-                    _def.Tables = new HashSet<Table>(build);
+					Definition _def = new Definition
+					{
+						Build = build.Key,
+						Tables = new HashSet<Table>(build)
+					};
 
-                    XmlSerializer ser = new XmlSerializer(typeof(Definition));
+					XmlSerializer ser = new XmlSerializer(typeof(Definition));
                     using (var fs = new FileStream(Path.Combine(DEFINITION_DIR, ValidFilename(BuildText(build.Key))), FileMode.Create))
                         ser.Serialize(fs, _def);
                 }

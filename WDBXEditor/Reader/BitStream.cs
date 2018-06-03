@@ -14,7 +14,7 @@ namespace WDBXEditor.Reader
 		private int bit;
 		private Stream stream;
 		private Encoding encoding = Encoding.UTF8;
-		private bool canWrite = true;
+		private readonly bool canWrite = true;
 
 		public long Length => stream.Length;
 		public int BitPosition => bit;
