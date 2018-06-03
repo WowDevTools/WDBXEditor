@@ -4538,20 +4538,20 @@
 	</Table>
 	<Table Name="Spellvisual" Build="25632">
 		<Field Name="ID" Type="int" IsIndex="true" />
-		<Field Name="Field1" Type="float" ArraySize="3" />
-		<Field Name="Field2" Type="float" ArraySize="3" />
-		<Field Name="Field3" Type="int" />
-		<Field Name="Field4" Type="ushort" />
-		<Field Name="Field5" Type="byte" />
-		<Field Name="Field6" Type="byte" />
-		<Field Name="Field7" Type="int" />
-		<Field Name="Field8" Type="int" />
-		<Field Name="Field9" Type="int" />
-		<Field Name="FieldA" Type="int" />
-		<Field Name="FieldB" Type="int" />
-		<Field Name="FieldC" Type="int" />
-		<Field Name="FieldD" Type="int" />
-		<Field Name="FieldE" Type="int" />
+		<Field Name="MissileCastOffset" Type="float" ArraySize="3" />
+		<Field Name="MissileImpactOffset" Type="float" ArraySize="3" />
+		<Field Name="Flags" Type="int" />
+		<Field Name="SpellVisualMissileSetID" Type="ushort" />
+		<Field Name="MissileDestinationAttachment" Type="byte" />
+		<Field Name="MissileAttachment" Type="byte" />
+		<Field Name="MissileCastPositionerID" Type="int" />
+		<Field Name="MissileImpactPositionerID" Type="int" />
+		<Field Name="MissileTargetingKit" Type="int" />
+		<Field Name="AnimEventSoundID" Type="int" />
+		<Field Name="DamageNumberDelay" Type="ushort" />
+		<Field Name="HostileSpellVisualID" Type="int" />
+		<Field Name="CasterSpellVisualID" Type="int" />
+		<Field Name="LowViolenceSpellVisualID" Type="int" />
 	</Table>
 	<Table Name="Spellvisualanim" Build="25632">
 		<Field Name="ID" Type="int" IsIndex="true" />

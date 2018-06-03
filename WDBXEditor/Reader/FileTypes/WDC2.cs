@@ -269,7 +269,7 @@ namespace WDBXEditor.Reader.FileTypes
 						int bitWidth = ColumnMeta[f].BitWidth;
 						int cardinality = ColumnMeta[f].Cardinality;
 						uint palletIndex;
-						int take = columnSizes[c++] * ColumnMeta[f].ArraySize;
+						int take = columnSizes[c] * ColumnMeta[f].ArraySize;
 
 						switch (ColumnMeta[f].CompressionType)
 						{
@@ -288,7 +288,7 @@ namespace WDBXEditor.Reader.FileTypes
 										if (i == 0)
 											columnOffsets.Add((int)(bitStream.Offset + (bitStream.BitPosition >> 3)));
 
-										data.AddRange(bitStream.ReadBytes(bitSize, false, take));
+										data.AddRange(bitStream.ReadBytes(bitSize, false, columnSizes[c]));
 									}
 								}
 								break;
@@ -335,6 +335,8 @@ namespace WDBXEditor.Reader.FileTypes
 								throw new Exception($"Unknown compression {ColumnMeta[f].CompressionType}");
 
 						}
+
+						c += ColumnMeta[f].ArraySize;
 					}
 
 					// append relationship id
