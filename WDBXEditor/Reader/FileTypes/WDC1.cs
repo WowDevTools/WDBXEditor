@@ -795,21 +795,27 @@ namespace WDBXEditor.Reader.FileTypes
 			int c = HasIndexTable ? 1 : 0;
 			int cm = ColumnMeta.Count - (RelationShipData != null ? 1 : 0);
 
+			var skipType = new HashSet<CompressionType>(new[] { CompressionType.None, CompressionType.Sparse });
+
 			for (int i = c; i < cm; i++)
 			{
 				var col = ColumnMeta[i];
+				var type = col.CompressionType;
 				int oldsize = col.BitWidth;
-				ushort newsize = (ushort)(columnSizes[c] * 8 * col.ArraySize);
+				ushort newsize = (ushort)(columnSizes[c] * 8);
 
 				c += col.ArraySize;
 
-				if (col.CompressionType == CompressionType.None || newsize == oldsize)
+				if (skipType.Contains(col.CompressionType) || newsize == oldsize)
 					continue;
 
 				col.BitWidth = newsize;
 				col.Size = newsize;
 				for (int x = i + 1; x < cm; x++)
 				{
+					if (skipType.Contains(ColumnMeta[x].CompressionType))
+						continue;
+
 					ColumnMeta[x].RecordOffset += (ushort)(newsize - oldsize);
 					ColumnMeta[x].BitOffset = ColumnMeta[x].RecordOffset - (PackedDataOffset * 8);
 				}
