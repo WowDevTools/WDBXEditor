@@ -299,7 +299,9 @@ namespace WDBXEditor.Common
             {24492,"Legion 7.3.0"},
 			{25326,"Legion 7.3.2"},
 			{25600,"Legion 7.3.5"},
-			{25902,"BfA 8.0.1"}
+			{25902,"BfA 8.0.1"},
+			{26654,"Legion 7.3.5"},
+			{26683,"BfA 8.0.1"}
 		};
         #endregion
 

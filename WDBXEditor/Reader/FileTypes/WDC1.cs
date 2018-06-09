@@ -809,8 +809,8 @@ namespace WDBXEditor.Reader.FileTypes
 				if (skipType.Contains(col.CompressionType) || newsize == oldsize)
 					continue;
 
-				col.BitWidth = newsize;
-				col.Size = newsize;
+				col.BitWidth = col.Size = newsize;
+
 				for (int x = i + 1; x < cm; x++)
 				{
 					if (skipType.Contains(ColumnMeta[x].CompressionType))
