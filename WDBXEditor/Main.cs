@@ -59,7 +59,7 @@ namespace WDBXEditor
 				Directory.CreateDirectory(TEMP_FOLDER);
 
 			//Check for Update
-			CheckForUpdate();
+			Task.Run(CheckForUpdate);
 
 			//Set open dialog filters
 			openFileDialog.Filter = string.Join("|", SupportedFileTypes.Select(x => $"{x.Key} ({x.Value})|{x.Value}"));
@@ -110,7 +110,7 @@ namespace WDBXEditor
 			}
 		}
 
-		private void CheckForUpdate()
+		private async Task CheckForUpdate()
 		{
 			using (var client = new WebClient())
 			{
@@ -121,7 +121,7 @@ namespace WDBXEditor
 
 				try
 				{
-					string json = client.DownloadString(realaseAPI);
+					string json = await client.DownloadStringTaskAsync(realaseAPI);
 					var serializer = new JavaScriptSerializer();
 					IList<GithubReleaseModel> model = serializer.Deserialize<IList<GithubReleaseModel>>(json);
 					if (model.Count > 0 && model[0].tag_name != VERSION)
@@ -146,7 +146,7 @@ namespace WDBXEditor
 				}
 				catch (WebException ex)
 				{
-					MessageBox.Show("Version check failed:\n" + ex.ToString());
+					//MessageBox.Show("Version check failed:\n" + ex.ToString());
 				}
 			}
 		}
