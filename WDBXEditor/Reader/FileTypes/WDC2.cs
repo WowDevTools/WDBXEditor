@@ -121,7 +121,7 @@ namespace WDBXEditor.Reader.FileTypes
 			recordData = dbReader.ReadBytes((int)(RecordCount * RecordSize));
 			Array.Resize(ref recordData, recordData.Length + 8);
 
-			Flags &= ~HeaderFlags.SecondIndex; // appears to be obsolete now
+			Flags &= ~HeaderFlags.RelationshipData; // appears to be obsolete now
 		}
 
 		public new Dictionary<int, byte[]> ReadOffsetData(BinaryReader dbReader, long pos)

@@ -18,7 +18,7 @@ namespace WDBXEditor.Reader.FileTypes
 
         public override bool HasOffsetTable => Flags.HasFlag(HeaderFlags.OffsetMap);
         public override bool HasIndexTable => Flags.HasFlag(HeaderFlags.IndexMap);
-        public override bool HasSecondIndex => Flags.HasFlag(HeaderFlags.SecondIndex);
+        public override bool HasRelationshipData => Flags.HasFlag(HeaderFlags.RelationshipData);
 
         #region Read
         public void ReadHeader(BinaryReader dbReader, string signature)
@@ -104,11 +104,14 @@ namespace WDBXEditor.Reader.FileTypes
                 }
             }
 
+			if(HasRelationshipData)
+				dbReader.BaseStream.Position += (MaxId - MinId + 1) * 4;
+
             //Index table
             if (HasIndexTable)
             {
                 //Offset map alone reads straight into this others may not
-                if (!HasOffsetTable || HasSecondIndex)
+                if (!HasOffsetTable || HasRelationshipData)
                     dbReader.Scrub(indexTablePos);
 
                 m_indexes = new int[RecordCount];
@@ -271,7 +274,7 @@ namespace WDBXEditor.Reader.FileTypes
             else
                 ids = entry.GetPrimaryKeys().ToArray();
 
-            if (entry.Header.HasSecondIndex)
+            if (entry.Header.HasRelationshipData)
             {
                 //TODO figure out if it is always the 2nd column
                 ushort[] secondids = entry.Data.Rows.Cast<DataRow>().Select(x => x.Field<ushort>(2)).ToArray();

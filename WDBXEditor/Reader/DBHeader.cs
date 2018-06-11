@@ -47,7 +47,7 @@ namespace WDBXEditor.Reader
         public virtual bool ExtendedStringTable => false;
         public virtual bool HasIndexTable => false;
         public virtual bool HasOffsetTable => false;
-        public virtual bool HasSecondIndex => false;
+        public virtual bool HasRelationshipData => false;
 
         public virtual bool CheckRecordCount => true;
         public virtual bool CheckRecordSize => true;

@@ -75,7 +75,7 @@ namespace WDBXEditor.Reader.FileTypes
             //Index table
             if (HasIndexTable)
             {
-                if (!HasOffsetTable || HasSecondIndex)
+                if (!HasOffsetTable || HasRelationshipData)
                     dbReader.Scrub(indexTablePos);
 
                 m_indexes = new int[RecordCount];

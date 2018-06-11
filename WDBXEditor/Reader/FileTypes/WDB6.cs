@@ -95,11 +95,14 @@ namespace WDBXEditor.Reader.FileTypes
                 }
             }
 
-            //Index table
-            if (HasIndexTable)
+			if (HasRelationshipData)
+				dbReader.BaseStream.Position += (MaxId - MinId + 1) * 4;
+
+			//Index table
+			if (HasIndexTable)
             {
                 //Offset map alone reads straight into this others may not
-                if (!HasOffsetTable || HasSecondIndex)
+                if (!HasOffsetTable || HasRelationshipData)
                     dbReader.Scrub(indexTablePos);
 
                 m_indexes = new int[RecordCount];

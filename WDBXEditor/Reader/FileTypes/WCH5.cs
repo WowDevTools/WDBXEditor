@@ -20,7 +20,7 @@ namespace WDBXEditor.Reader.FileTypes
         public string FileName { get; set; }
         public override bool HasOffsetTable => Flags.HasFlag(HeaderFlags.OffsetMap);
         public override bool HasIndexTable => Flags.HasFlag(HeaderFlags.IndexMap);
-        public override bool HasSecondIndex => Flags.HasFlag(HeaderFlags.SecondIndex);
+        public override bool HasRelationshipData => Flags.HasFlag(HeaderFlags.RelationshipData);
 
         protected WDB5 WDB5CounterPart;
         protected int OffsetMapOffset = 0x30;
@@ -94,7 +94,7 @@ namespace WDBXEditor.Reader.FileTypes
             //Index table
             if (HasIndexTable)
             {
-                if (!HasOffsetTable || HasSecondIndex)
+                if (!HasOffsetTable || HasRelationshipData)
                     dbReader.Scrub(indexTablePos);
 
                 m_indexes = new int[RecordCount];
@@ -214,7 +214,7 @@ namespace WDBXEditor.Reader.FileTypes
             int m = 0;
             int[] ids = entry.GetPrimaryKeys().ToArray();
 
-            if (entry.Header.HasSecondIndex)
+            if (entry.Header.HasRelationshipData)
             {
                 ushort[] secondids = entry.Data.Rows.Cast<DataRow>().Select(x => x.Field<ushort>(2)).ToArray();
 
