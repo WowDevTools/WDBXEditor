@@ -22,6 +22,8 @@ namespace WDBXEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+			UpdateManager.Clean();
+
             if (args != null && args.Length > 0)
             {
                 ConsoleManager.LoadCommandDefinitions();

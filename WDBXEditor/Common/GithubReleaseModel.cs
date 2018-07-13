@@ -28,7 +28,8 @@ namespace WDBXEditor.Common
         public string url { get; set; }
         public int id { get; set; }
         public string name { get; set; }
-        public object uploader { get; set; } // placeholder
+		public object label { get; set; }
+		public object uploader { get; set; } // placeholder
         public string content_type { get; set; }
         public string state { get; set; }
         public int size { get; set; }

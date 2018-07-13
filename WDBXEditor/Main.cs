@@ -27,8 +27,8 @@ namespace WDBXEditor
 		private BindingSource _bindingsource = new BindingSource();
 		private FileSystemWatcher watcher = new FileSystemWatcher();
 
-		private bool isLoaded => (LoadedEntry != null && _bindingsource.DataSource != null);
-		private DBEntry getEntry() => Database.Entries.FirstOrDefault(x => x.FileName == txtCurEntry.Text && x.BuildName == txtCurDefinition.Text);
+		private bool IsLoaded => (LoadedEntry != null && _bindingsource.DataSource != null);
+		private DBEntry GetEntry() => Database.Entries.FirstOrDefault(x => x.FileName == txtCurEntry.Text && x.BuildName == txtCurDefinition.Text);
 
 		public Main()
 		{
@@ -58,21 +58,24 @@ namespace WDBXEditor
 			if (!Directory.Exists(TEMP_FOLDER))
 				Directory.CreateDirectory(TEMP_FOLDER);
 
-			//Check for Update
-			Task.Run(CheckForUpdate);
-
 			//Set open dialog filters
 			openFileDialog.Filter = string.Join("|", SupportedFileTypes.Select(x => $"{x.Key} ({x.Value})|{x.Value}"));
 
 			//Allow keyboard shortcuts
 			Parallel.ForEach(this.Controls.Cast<Control>(), c => c.KeyDown += new KeyEventHandler(KeyDownEvent));
 
-			//Load definitions
-			Task.Run(() => Database.LoadDefinitions())
-				.ContinueWith(x => AutoRun(), TaskScheduler.FromCurrentSynchronizationContext());
+			//Load definitions + Start FileWatcher
+			Task.Run(Database.LoadDefinitions)
+				.ContinueWith(x =>
+				{
+					// Check for Update, enable watcher after completion
+					Task.Run(UpdateManager.CheckForUpdate).ContinueWith(y => Watcher(), TaskScheduler.FromCurrentSynchronizationContext());
 
-			//Start FileWatcher
-			Watcher();
+					// Run preloaded files
+					AutoRun();
+				}, 
+				TaskScheduler.FromCurrentSynchronizationContext());
+
 
 			//Setup Single Instance Delegate
 			InstanceManager.AutoRunAdded += delegate
@@ -107,47 +110,6 @@ namespace WDBXEditor
 				InstanceManager.Stop();
 				watcher.EnableRaisingEvents = false;
 				FormHandler.Close();
-			}
-		}
-
-		private async Task CheckForUpdate()
-		{
-			using (var client = new WebClient())
-			{
-				string realaseURL = Properties.Settings.Default["ReleaseURL"].ToString();
-				string realaseAPI = Properties.Settings.Default["ReleaseAPI"].ToString();
-				string userAgent = Properties.Settings.Default["UserAgent"].ToString();
-				client.Headers["User-Agent"] = userAgent + VERSION;
-
-				try
-				{
-					string json = await client.DownloadStringTaskAsync(realaseAPI);
-					var serializer = new JavaScriptSerializer();
-					IList<GithubReleaseModel> model = serializer.Deserialize<IList<GithubReleaseModel>>(json);
-					if (model.Count > 0 && model[0].tag_name != VERSION)
-					{
-						string text = $"Your {this.Text} version is outdated.";
-
-						if (model[0].assets.Count > 0)
-						{
-							text += $" Click on \"Yes\" to download the new version {model[0].tag_name}.";
-							realaseURL = model[0].assets[0].browser_download_url;
-						}
-						else
-						{
-							text += " Click on \"Yes\" to open the github release page.";
-						}
-
-						DialogResult dialogResult = MessageBox.Show(text, this.Text, MessageBoxButtons.YesNo);
-
-						if (dialogResult == DialogResult.Yes)
-							System.Diagnostics.Process.Start(realaseURL);
-					}
-				}
-				catch (WebException ex)
-				{
-					//MessageBox.Show("Version check failed:\n" + ex.ToString());
-				}
 			}
 		}
 
@@ -250,13 +212,13 @@ namespace WDBXEditor
 
 		private void advancedDataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
 		{
-			if (isLoaded && LoadedEntry.Data != null)
+			if (IsLoaded && LoadedEntry.Data != null)
 				txtStats.Text = $"{LoadedEntry.Data.Columns.Count} fields, {LoadedEntry.Data.Rows.Count} rows";
 		}
 
 		private void advancedDataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
-			if (isLoaded && LoadedEntry.Data != null)
+			if (IsLoaded && LoadedEntry.Data != null)
 				txtStats.Text = $"{LoadedEntry.Data.Columns.Count} fields, {LoadedEntry.Data.Rows.Count} rows";
 		}
 
@@ -267,7 +229,7 @@ namespace WDBXEditor
 
 		private void columnFilter_HideEmptyPressed(object sender, EventArgs e)
 		{
-			if (!isLoaded)
+			if (!IsLoaded)
 				return;
 
 			foreach (var c in advancedDataGridView.GetEmptyColumns())
@@ -421,7 +383,7 @@ namespace WDBXEditor
 
 		private void deleteLineToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			if (advancedDataGridView.SelectedRows.Count == 0 && advancedDataGridView.SelectedCells.Count == 0)
 				return;
@@ -578,13 +540,13 @@ namespace WDBXEditor
 
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 			SaveFile(false);
 		}
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 			SaveFile();
 		}
 
@@ -673,7 +635,7 @@ namespace WDBXEditor
 		/// <param name="e"></param>
 		private void toSQLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			using (var sql = new LoadSQL() { Entry = LoadedEntry, ConnectionOnly = true })
 			{
@@ -701,7 +663,7 @@ namespace WDBXEditor
 		/// <param name="e"></param>
 		private void toSQLFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			using (var sfd = new SaveFileDialog() { FileName = LoadedEntry.TableStructure.Name + ".sql", Filter = "SQL Files|*.sql" })
 			{
@@ -738,7 +700,7 @@ namespace WDBXEditor
 		/// <param name="e"></param>
 		private void toCSVToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			using (var sfd = new SaveFileDialog())
 			{
@@ -778,7 +740,7 @@ namespace WDBXEditor
 		/// <param name="e"></param>
 		private void toMPQToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			//Get the correct save settings
 			using (var sfd = new SaveFileDialog())
@@ -812,7 +774,7 @@ namespace WDBXEditor
 		/// <param name="e"></param>
 		private void toJSONToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			using (var sfd = new SaveFileDialog())
 			{
@@ -855,14 +817,14 @@ namespace WDBXEditor
 		/// <param name="e"></param>
 		private void fromCSVToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			using (var loadCsv = new LoadCSV() { Entry = LoadedEntry })
 			{
 				switch (loadCsv.ShowDialog(this))
 				{
 					case DialogResult.OK:
-						SetSource(getEntry(), false);
+						SetSource(GetEntry(), false);
 						advancedDataGridView.CacheData();
 						MessageBox.Show("CSV import succeeded.");
 						break;
@@ -886,14 +848,14 @@ namespace WDBXEditor
 		/// <param name="e"></param>
 		private void fromSQLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			using (var importSql = new LoadSQL() { Entry = LoadedEntry })
 			{
 				switch (importSql.ShowDialog(this))
 				{
 					case DialogResult.OK:
-						SetSource(getEntry(), false);
+						SetSource(GetEntry(), false);
 						advancedDataGridView.CacheData();
 						MessageBox.Show("SQL import succeeded.");
 						break;
@@ -986,7 +948,7 @@ namespace WDBXEditor
 				txtCurEntry.Text = entry.FileName;
 				txtCurDefinition.Text = entry.BuildName;
 
-				SetSource(getEntry());
+				SetSource(GetEntry());
 			}
 		}
 		#endregion
@@ -1008,11 +970,11 @@ namespace WDBXEditor
 				txtCurDefinition.Text = entry.BuildName;
 				txtStats.Text = $"{entry.Data.Columns.Count} fields, {entry.Data.Rows.Count} rows";
 
-				SetSource(getEntry());
+				SetSource(GetEntry());
 			}
 
 			//Current file is no longer open
-			if (getEntry() == null)
+			if (GetEntry() == null)
 			{
 				LoadedEntry = null;
 				SetSource(null);
@@ -1028,7 +990,7 @@ namespace WDBXEditor
 				txtCurDefinition.Text = entry.BuildName;
 				txtStats.Text = $"{entry.Data.Columns.Count} fields, {entry.Data.Rows.Count} rows";
 
-				SetSource(getEntry());
+				SetSource(GetEntry());
 			}
 
 			//Preset options
@@ -1038,7 +1000,7 @@ namespace WDBXEditor
 
 		private void SaveFile(bool saveas = true)
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 			bool save = !saveas;
 
 			//Get the correct save settings if save as
@@ -1119,7 +1081,7 @@ namespace WDBXEditor
 
 		private void GotoLine()
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			int id = 0;
 			string res = "";
@@ -1140,19 +1102,19 @@ namespace WDBXEditor
 
 		private void Find()
 		{
-			if (isLoaded)
+			if (IsLoaded)
 				FormHandler.Show<FindReplace>(false);
 		}
 
 		private void Replace()
 		{
-			if (isLoaded)
+			if (IsLoaded)
 				FormHandler.Show<FindReplace>(true);
 		}
 
 		private void Reload()
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			ProgressBarHandle(true, "Reloading file...");
 			Task.Run(() => Database.LoadFiles(new string[] { LoadedEntry.FilePath }))
@@ -1216,14 +1178,14 @@ namespace WDBXEditor
 
 		private void InsertLine()
 		{
-			if (!isLoaded) return;
+			if (!IsLoaded) return;
 
 			string res = "";
 			if (ShowInputDialog("Id:", "Id to insert", "1", ref res) == DialogResult.OK)
 			{
 				int keyIndex = advancedDataGridView.Columns[LoadedEntry.Key].Index;
 
-				if(!int.TryParse(res, out int id) || id < 0 /*|| !advancedDataGridView.ValidValue(keyIndex, id)*/)
+				if (!int.TryParse(res, out int id) || id < 0 /*|| !advancedDataGridView.ValidValue(keyIndex, id)*/)
 				{
 					MessageBox.Show($"Invalid Id. Out of range of the column min/max value.");
 				}
@@ -1238,11 +1200,11 @@ namespace WDBXEditor
 
 						advancedDataGridView.OnUserAddedRow(advancedDataGridView.Rows[index]);
 
-						if(!LoadedEntry.Changed)
+						if (!LoadedEntry.Changed)
 						{
 							LoadedEntry.Changed = true;
 							UpdateListBox();
-						}						
+						}
 					}
 
 					advancedDataGridView.SelectRow(index);
@@ -1252,7 +1214,7 @@ namespace WDBXEditor
 
 		private void DefaultRowValues(int index = -1)
 		{
-			if (!isLoaded)
+			if (!IsLoaded)
 				return;
 
 			if (advancedDataGridView.SelectedRows.Count == 1)
@@ -1280,7 +1242,7 @@ namespace WDBXEditor
 
 		private int NewLine()
 		{
-			if (!isLoaded) return 0;
+			if (!IsLoaded) return 0;
 
 			var row = LoadedEntry.Data.NewRow();
 			LoadedEntry.Data.Rows.Add(row);
@@ -1453,11 +1415,13 @@ namespace WDBXEditor
 
 		private void Watcher()
 		{
-			watcher = new FileSystemWatcher();
-			watcher.Path = Path.GetDirectoryName(DEFINITION_DIR);
-			watcher.NotifyFilter = NotifyFilters.LastWrite;
-			watcher.Filter = "*.xml";
-			watcher.EnableRaisingEvents = true;
+			watcher = new FileSystemWatcher
+			{
+				Path = Path.GetDirectoryName(DEFINITION_DIR),
+				NotifyFilter = NotifyFilters.LastWrite,
+				Filter = "*.xml",
+				EnableRaisingEvents = true
+			};
 			watcher.Changed += delegate { Task.Run(() => Database.LoadDefinitions()); };
 		}
 
@@ -1481,9 +1445,11 @@ namespace WDBXEditor
 				if (!File.Exists(recent))
 					continue;
 
-				ToolStripMenuItem menuItem = new ToolStripMenuItem(recent, null, loadRecentFilesToolStripMenuItem_Click);
-				menuItem.Tag = recent;
-				menuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
+				ToolStripMenuItem menuItem = new ToolStripMenuItem(recent, null, loadRecentFilesToolStripMenuItem_Click)
+				{
+					Tag = recent,
+					DisplayStyle = ToolStripItemDisplayStyle.Text
+				};
 				recentToolStripMenuItem.DropDownItems.Add(menuItem);
 			}
 		}
