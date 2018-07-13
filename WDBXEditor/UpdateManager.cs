@@ -135,7 +135,7 @@ namespace WDBXEditor
 			if (state != UPDATE_STATE.SUCCESS && RestartOnComplete)
 			{
 				MessageBox.Show(
-					"Updating failed. WDBX will try again next restart, failing that, you can extract `Update.zip`.",
+					"Updating failed.\r\n WDBX Editor will try again next restart. You can also manually extract `Update.zip`.",
 					"Update Failed",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Exclamation
