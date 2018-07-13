@@ -336,7 +336,7 @@
     <Field Name="Datestamp" Type="int" />
     <Field Name="ContinentId" Type="int" />
     <Field Name="ZoneId" Type="int" />
-    <Field Name="TextureId" Type="int" />
+    <Field Name="TextureId" Type="uint" />
     <Field Name="TextureName" Type="string" />
     <Field Name="DoodadId" Type="int" ArraySize="4" />
     <Field Name="Density" Type="int" />
