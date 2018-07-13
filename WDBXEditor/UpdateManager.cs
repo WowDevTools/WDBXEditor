@@ -124,8 +124,7 @@ namespace WDBXEditor
 			}
 
 			// remove the update folder regardless of success/broken zip
-			if (state != UPDATE_STATE.FAILED_FILE)
-				File.Delete(TEMP_UPDATE_ZIP);
+			File.Delete(TEMP_UPDATE_ZIP);
 
 			// either rollback if an error or restart
 			if (state == UPDATE_STATE.SUCCESS && RestartOnComplete)
@@ -134,7 +133,14 @@ namespace WDBXEditor
 				Rollback(fileMap);
 
 			if (state != UPDATE_STATE.SUCCESS && RestartOnComplete)
-				MessageBox.Show("Update Failed", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			{
+				MessageBox.Show(
+					"Updating failed. WDBX will try again next restart, failing that, you can extract `Update.zip`.",
+					"Update Failed",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Exclamation
+				);
+			}
 		}
 
 		private static void Rollback(Dictionary<string, string> fileMap)
