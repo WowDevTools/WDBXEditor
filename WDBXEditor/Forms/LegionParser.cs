@@ -65,6 +65,7 @@ namespace WDBXEditor.Forms
 			ParseWDC1(stream, file);
 			return;
 
+#pragma warning disable CS0162 // Unreachable code detected
 			stream.Position = 0;
 
 			using (var dbReader = new BinaryReader(stream, Encoding.UTF8))
@@ -280,6 +281,7 @@ namespace WDBXEditor.Forms
 				tables.Add(table);
 				Database.ForceGC();
 			}
+#pragma warning restore CS0162 // Unreachable code detected
 		}
 
 

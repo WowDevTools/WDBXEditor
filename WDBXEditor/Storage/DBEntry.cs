@@ -749,7 +749,7 @@ namespace WDBXEditor.Storage
 					}
 				}
 			}
-			catch (FormatException ex)
+			catch (FormatException)
 			{
 				error = $"Mismatch of data to datatype in row index {usedids.Count + 1}";
 				return false;

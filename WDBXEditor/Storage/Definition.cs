@@ -68,7 +68,7 @@ namespace WDBXEditor.Storage
                 _loading = false;
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _loading = false;
                 return false;

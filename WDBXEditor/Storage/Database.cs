@@ -62,7 +62,7 @@ namespace WDBXEditor.Storage
 								_errors.Add(FormatError(file, ErrorType.Warning, reader.ErrorMessage));
 						}
 					}
-					catch (ConstraintException ex) { _errors.Add(FormatError(file, ErrorType.Error, "Id column contains duplicates.")); }
+					catch (ConstraintException) { _errors.Add(FormatError(file, ErrorType.Error, "Id column contains duplicates.")); }
 					catch (Exception ex) { _errors.Add(FormatError(file, ErrorType.Error, ex.Message)); }
 				}
 
@@ -107,7 +107,7 @@ namespace WDBXEditor.Storage
 								_errors.Add(FormatError(s.Key, ErrorType.Warning, reader.ErrorMessage));
 						}
 					}
-					catch (ConstraintException ex)
+					catch (ConstraintException)
 					{
 						_errors.Add(FormatError(s.Key, ErrorType.Error, "Id column contains duplicates."));
 					}
