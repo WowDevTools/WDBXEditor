@@ -1546,7 +1546,7 @@ namespace WDBXEditor.Common
 				catch { return; }
 			}
 
-			ClientDBFileNames = File.ReadAllLines("listfile.txt").AsParallel()
+			ClientDBFileNames = File.ReadAllLines(listfile).AsParallel()
 									.Where(x => x.EndsWith("dbc") || x.EndsWith("db2"))
 									.Select(x => x.ToUpper().Replace("/", "\\"))
 									.ToList();
