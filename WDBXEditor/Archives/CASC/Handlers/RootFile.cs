@@ -8,12 +8,11 @@ namespace WDBXEditor.Archives.CASC.Handlers
 {
     public class RootFile
     {
-        public ILookup<ulong, RootEntry> Entries => entries;
-        public RootEntry[] this[ulong hash] => entries.Contains(hash) ? entries[hash].ToArray() : new RootEntry[0];
+		public ILookup<ulong, RootEntry> Entries { get; private set; }
 
-        ILookup<ulong, RootEntry> entries;
+		public RootEntry[] this[ulong hash] => Entries.Contains(hash) ? Entries[hash].ToArray() : new RootEntry[0];
 
-        public void LoadEntries(DataFile file, IndexEntry indexEntry)
+		public void LoadEntries(DataFile file, IndexEntry indexEntry)
         {
             var list = new List<RootEntry>();
             var blteEntry = new BinaryReader(DataFile.LoadBLTEEntry(indexEntry, file.readStream));
@@ -39,7 +38,7 @@ namespace WDBXEditor.Archives.CASC.Handlers
                 }
             }
 
-            entries = list.ToLookup(re => re.Hash);
+            Entries = list.ToLookup(re => re.Hash);
         }
     }
 }

@@ -144,11 +144,11 @@ namespace WDBXEditor.Archives.CASC.Handlers
             }
         }
 
-        public MemoryStream ReadFile(RootEntry[] rootEntries, Locales locales = Locales.enUS)
+        public MemoryStream ReadFile(RootEntry[] rootEntries, Locales locales = Locales.EnUS)
         {
             for (var i = 0; i < rootEntries.Length; i++)
             {
-                if ((rootEntries[i].Locales & locales) == locales)
+                if ((rootEntries[i].Locales & locales) == locales || rootEntries[i].Locales == Locales.All_WoW)
                 {
                     var encodingEntry = encodingFile[rootEntries[i].MD5];
 
@@ -201,14 +201,14 @@ namespace WDBXEditor.Archives.CASC.Handlers
             return null;
         }
 
-        public MemoryStream ReadFile(string name, Locales locales = Locales.enUS)
+        public MemoryStream ReadFile(string name, Locales locales = Locales.EnUS)
         {
             var hash = lookup3.Hash(name.ToUpperInvariant());
 
             return ReadFile(rootFile[hash], locales);
         }
 
-        public IEnumerable<Tuple<ulong, MemoryStream>> ReadFile(Locales locales = Locales.enUS)
+        public IEnumerable<Tuple<ulong, MemoryStream>> ReadFile(Locales locales = Locales.EnUS)
         {
             foreach (var entry in rootFile.Entries)
             {
@@ -269,7 +269,7 @@ namespace WDBXEditor.Archives.CASC.Handlers
             //return null;
         }
 
-        public ConcurrentDictionary<ulong, MemoryStream> ReadFiles(byte[] signature, Locales locales = Locales.enUS)
+        public ConcurrentDictionary<ulong, MemoryStream> ReadFiles(byte[] signature, Locales locales = Locales.EnUS)
         {
             var files = new ConcurrentDictionary<ulong, MemoryStream>();
 
@@ -341,7 +341,7 @@ namespace WDBXEditor.Archives.CASC.Handlers
             return files;
         }
 
-        public IEnumerable<Tuple<string, MemoryStream>> ReadFiles(string[] names, Locales locales = Locales.enUS)
+        public IEnumerable<Tuple<string, MemoryStream>> ReadFiles(string[] names, Locales locales = Locales.EnUS)
         {
             for (var i = 0; i < names.Length; i++)
                 yield return Tuple.Create(names[i], ReadFile(names[i], locales));

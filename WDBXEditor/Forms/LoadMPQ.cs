@@ -9,6 +9,7 @@ using WDBXEditor.Archives.Misc;
 using WDBXEditor.Archives.CASC.Handlers;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using WDBXEditor.Archives.CASC.Constants;
 
 namespace WDBXEditor
 {
@@ -18,6 +19,7 @@ namespace WDBXEditor
 		public ConcurrentDictionary<string, MemoryStream> Streams = new ConcurrentDictionary<string, MemoryStream>();
 		public bool IsMPQ { get; set; } = true;
 
+		private Locales locale = Locales.EnUS;
 		private string filePath;
 		private readonly string[] fileExtensions = new[] { ".dbc", ".db2" };
 
@@ -77,6 +79,7 @@ namespace WDBXEditor
 
 		private void btnParse_Click(object sender, EventArgs e)
 		{
+			locale = (Locales)Enum.Parse(typeof(Locales), cbLocales.Text);
 			filePath = txtFilePath.Text;
 
 			LoadStart();
@@ -88,7 +91,7 @@ namespace WDBXEditor
 			else
 			{
 				Task.Run(LoadCASCDBFiles).ContinueWith(x => LoadComplete(), TaskScheduler.FromCurrentSynchronizationContext());
-			}			
+			}
 		}
 		#endregion
 
@@ -141,10 +144,9 @@ namespace WDBXEditor
 				{
 					using (var casc = new CASCHandler(filePath))
 					{
-
 						Parallel.ForEach(ClientDBFileNames, file =>
 						{
-							var stream = casc.ReadFile(file);
+							var stream = casc.ReadFile(file, locale);
 							if (stream != null)
 							{
 								FileNames.TryAdd(file, Path.GetFileName(file));
@@ -166,15 +168,19 @@ namespace WDBXEditor
 		{
 			if (IsMPQ)
 			{
+				cbLocales.Enabled = false;
+
 				if (File.Exists(Properties.Settings.Default.RecentMPQ))
 				{
 					openFileDialog.FileName = Properties.Settings.Default.RecentMPQ;
 					txtFilePath.Text = Properties.Settings.Default.RecentMPQ;
 					btnParse.Enabled = true;
-				}					
+				}
 			}
 			else
 			{
+				cbLocales.Text = Locales.EnUS.ToString();
+
 				if (Directory.Exists(Properties.Settings.Default.RecentCASC))
 				{
 					folderBrowserDialog.SelectedPath = Properties.Settings.Default.RecentCASC;

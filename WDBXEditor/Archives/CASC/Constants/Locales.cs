@@ -2,25 +2,26 @@
 
 namespace WDBXEditor.Archives.CASC.Constants
 {
-    [Flags]
-    public enum Locales
-    {
-        All = -1,
-        None = 0,
-        enUS = 0x2,
-        koKR = 0x4,
-        frFR = 0x10,
-        deDE = 0x20,
-        zhCN = 0x40,
-        esES = 0x80,
-        zhTW = 0x100,
-        enGB = 0x200,
-        enCN = 0x400,
-        enTW = 0x800,
-        esMX = 0x1000,
-        ruRU = 0x2000,
-        ptBR = 0x4000,
-        itIT = 0x8000,
-        ptPT = 0x10000,
-    }
+	[Flags]
+	public enum Locales : uint
+	{
+		All = 0xFFFFFFFF,
+		None = 0,
+		EnUS = 0x2,
+		KoKR = 0x4,
+		FrFR = 0x10,
+		DeDE = 0x20,
+		ZhCN = 0x40,
+		EsES = 0x80,
+		ZhTW = 0x100,
+		EnGB = 0x200,
+		EnCN = 0x400,
+		EnTW = 0x800,
+		EsMX = 0x1000,
+		RuRU = 0x2000,
+		PtBR = 0x4000,
+		ItIT = 0x8000,
+		PtPT = 0x10000,
+		All_WoW = EnUS | KoKR | FrFR | DeDE | ZhCN | EsES | ZhTW | EnGB | EsMX | RuRU | PtBR | ItIT | PtPT
+	}
 }
