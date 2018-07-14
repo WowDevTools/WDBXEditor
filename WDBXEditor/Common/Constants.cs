@@ -1536,7 +1536,7 @@ namespace WDBXEditor.Common
 					string url = "https://bnet.marlam.in/listfile.php?t=" + DateTime.Now.Ticks;
 
 					HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-					req.UserAgent = "CASCBruteforcer/1.0 (+https://github.com/WowDevTools/WDBXEditor)"; // for tracking purposes
+					req.UserAgent = "WDBXEditor/1.0 (+https://github.com/WowDevTools/WDBXEditor)"; // for tracking purposes
 
 					using (WebResponse resp = await req.GetResponseAsync())
 					using (FileStream fs = File.Create(listfile))
