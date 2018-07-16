@@ -3630,6 +3630,7 @@
 	<Table Name="PvpTalent" Build="27075">
 		<Field Name="Description_Lang" Type="string" />
 		<Field Name="ID" Type="int" IsIndex="true" />
+		<Field Name="SpecId" Type="int" />
 		<Field Name="SpellID" Type="int" />
 		<Field Name="OverridesSpellID" Type="int" />
 		<Field Name="Flags" Type="int" />
