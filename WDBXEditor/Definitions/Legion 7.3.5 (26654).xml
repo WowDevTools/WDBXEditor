@@ -642,6 +642,7 @@
 	<Table Name="CharacterLoadoutItem" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
 		<Field Name="ItemID" Type="int" />
+		<Field Name="CharacterLoadoutID" Type="short" />
 	</Table>
 	<Table Name="CharacterServiceInfo" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
@@ -1509,6 +1510,7 @@
 		<Field Name="ID" Type="int" IsIndex="true" />
 		<Field Name="Reaction_Lang" Type="string" />
 		<Field Name="ReactionThreshold" Type="short" />
+		<Field Name="FriendshipRepID" Type="byte" />
 	</Table>
 	<Table Name="FriendshipReputation" Build="26654">
 		<Field Name="Description_Lang" Type="string" />
@@ -2277,6 +2279,7 @@
 	</Table>
 	<Table Name="ItemCurrencyCost" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
+		<Field Name="ItemID" Type="int" />
 	</Table>
 	<Table Name="ItemDamageAmmo" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
@@ -3012,6 +3015,7 @@
 	<Table Name="ModelFileData" Build="26654">
 		<Field Name="LodCount" Type="byte" />
 		<Field Name="FileDataID" Type="int" IsIndex="true" />
+		<Field Name="ModelResourcesID" Type="int" />
 	</Table>
 	<Table Name="ModelRibbonQuality" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
@@ -3159,6 +3163,7 @@
 		<Field Name="ID" Type="int" IsIndex="true" />
 		<Field Name="LevelThreshold" Type="int" />
 		<Field Name="QuestID" Type="int" />
+		<Field Name="FactionID" Type="int" />
 	</Table>
 	<Table Name="ParticleColor" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
@@ -3722,6 +3727,7 @@
 	</Table>
 	<Table Name="SeamlessSite" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
+		<Field Name="MapID" Type="int" />
 	</Table>
 	<Table Name="ServerMessages" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
@@ -3813,6 +3819,7 @@
 	<Table Name="SoundEmitterPillPoints" Build="26654">
 		<Field Name="ID" Type="int" IsIndex="true" />
 		<Field Name="Position" Type="float" ArraySize="3" />
+		<Field Name="SoundEmittersID" Type="short" />
 	</Table>
 	<Table Name="SoundEmitters" Build="26654">
 		<Field Name="Name" Type="string" />
