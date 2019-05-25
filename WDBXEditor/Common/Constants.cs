@@ -1529,7 +1529,7 @@ namespace WDBXEditor.Common
 
 		private static async Task LoadListFile()
 		{
-			string listfile = "listfile.txt";
+			string listfile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "listfile.txt");
 
 			if (!File.Exists(listfile) || (DateTime.Now - File.GetLastWriteTime(listfile)).TotalHours > 24)
 			{
