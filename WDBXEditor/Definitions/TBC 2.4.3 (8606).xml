@@ -113,7 +113,7 @@
   </Table>
   <Table Name="CharacterFacialHairStyles" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
-    <Field Name="Race" Type="int" IsIndex="true" />
+    <Field Name="Race" Type="int" />
     <Field Name="SexID" Type="int" />
     <Field Name="VariationID" Type="int" />
     <Field Name="Geoset" Type="int" ArraySize="6" />
