@@ -63,6 +63,9 @@ namespace WDBXEditor.Reader
 				case "WDC2":
 					header = new WDC2();
 					break;
+				case "WDC3":
+                    			header = new WDC3();
+                    			break;
 				case "WMOB":
 				case "WGOB":
 				case "WQST":
