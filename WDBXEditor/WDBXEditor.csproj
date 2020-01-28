@@ -291,6 +291,7 @@
     <Compile Include="Reader\FieldStructureEntry.cs" />
     <Compile Include="Reader\FileTypes\WDC1.cs" />
     <Compile Include="Reader\FileTypes\WDC2.cs" />
+    <Compile Include="Reader\FileTypes\WDC3.cs" />
     <Compile Include="Reader\MemoryReader.cs" />
     <Compile Include="Reader\RelationShipData.cs" />
     <Compile Include="Storage\DBEntry.cs" />
