@@ -415,7 +415,7 @@ namespace WDBXEditor.Reader.FileTypes
             bw.BaseStream.Position = 0;
 
             // fix the bitlimits
-            // RemoveBitLimits(); // Эта строчка убивает RecordSize
+            // RemoveBitLimits(); // This line kills RecordSize
 
             WriteBaseHeader(bw, entry);
 
@@ -779,7 +779,7 @@ namespace WDBXEditor.Reader.FileTypes
             bw.Write(StringBlockSize); // record_data_stringtable
             bw.Write(CopyTableSize);
             bw.Write(OffsetTableOffset);
-            bw.Write(0);// здесь был IndexSize, но в оригинальном файле он равен 0...
+            bw.Write(0);// here was IndexSize, but in original file it is 0 ...
             bw.Write(RelationshipDataSize);
 
             // reset indextable stuff
