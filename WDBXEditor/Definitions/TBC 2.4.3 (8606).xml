@@ -614,6 +614,7 @@
     <Field Name="ArenaPoints" Type="int" />
     <Field Name="ItemID" Type="int" ArraySize="5" />
     <Field Name="ItemCount" Type="int" ArraySize="5" />
+    <Field Name="PersonalArenaRating" Type="int" />
   </Table>
   <Table Name="ItemGroupSounds" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" />
