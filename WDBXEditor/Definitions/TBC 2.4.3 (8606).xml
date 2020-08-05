@@ -1253,7 +1253,6 @@
     <Field Name="CastKit" Type="int" />
     <Field Name="ImpactKit" Type="int" />
     <Field Name="StateKit" Type="int" />
-    <Field Name="StateDoneKit" Type="int" />
     <Field Name="ChannelKit" Type="int" />
     <Field Name="HasMissile" Type="int" />
     <Field Name="MissileModel" Type="int" />
@@ -1264,6 +1263,16 @@
     <Field Name="Flags" Type="int" />
     <Field Name="CasterImpactKit" Type="int" />
     <Field Name="TargetImpactKit" Type="int" />
+    <Field Name="MissileAttachment" Type="int" />
+    <Field Name="MissileFollowGroundHeight" Type="int" />
+    <Field Name="MissileFollowGroundDropSpeed" Type="int" />
+    <Field Name="MissileFollowGroundApproach" Type="int" />
+    <Field Name="MissileFollowGroundFlags" Type="int" />
+    <Field Name="MissileMotion" Type="int" />
+    <Field Name="MissileTargetingKit" Type="int" />
+    <Field Name="InstantAreaKit" Type="int" />
+    <Field Name="ImpactAreaKit" Type="int" />
+    <Field Name="PersistentAreaKit" Type="int" />
   </Table>
   <Table Name="SpellVisualEffectName" Build="8606">
     <Field Name="ID" Type="int" IsIndex="true" />
