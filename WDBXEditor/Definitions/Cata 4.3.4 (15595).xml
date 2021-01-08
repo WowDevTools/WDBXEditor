@@ -49,71 +49,71 @@
   </Table>
   <Table Name="AnimationData" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="string" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
+    <Field Name="Name" Type="string" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="Fallback" Type="int" />
+    <Field Name="BehaviorID" Type="int" />
+    <Field Name="BehaviorTier" Type="int" />
   </Table>
   <Table Name="AnimKit" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
+    <Field Name="OneShotDuration" Type="int" />
+    <Field Name="OneShotStopAnimKitID" Type="int" />
   </Table>
   <Table Name="AnimKitBoneSet" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="string" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="uint" />
-    <Field Name="Field05" Type="int" />
+    <Field Name="Name" Type="string" />
+    <Field Name="BoneDataID" Type="int" />
+    <Field Name="ParentAnimKitBoneSetID" Type="int" />
+    <Field Name="ExtraBoneCount" Type="uint" />
+    <Field Name="AltAnimKitBoneSetID" Type="int" />
   </Table>
   <Table Name="AnimKitBoneSetAlias" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
+    <Field Name="BoneDataID" Type="int" />
+    <Field Name="AnimKitBoneSetID" Type="int" />
   </Table>
   <Table Name="AnimKitConfig" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
+    <Field Name="ConfigFlags" Type="int" />
   </Table>
   <Table Name="AnimKitConfigBoneSet" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
+    <Field Name="ParentAnimKitConfigID" Type="int" />
+    <Field Name="AnimKitBoneSetID" Type="int" />
+    <Field Name="AnimKitPriorityID" Type="int" />
   </Table>
   <Table Name="AnimKitPriority" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
+    <Field Name="Priority" Type="int" />
   </Table>
   <Table Name="AnimKitSegment" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
-    <Field Name="Field10" Type="int" />
-    <Field Name="Field11" Type="int" />
-    <Field Name="Field12" Type="int" />
-    <Field Name="Field13" Type="int" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field15" Type="int" />
+    <Field Name="ParentAnimKitID" Type="int" />
+    <Field Name="AnimID" Type="int" />
+    <Field Name="AnimStartTime" Type="int" />
+    <Field Name="AnimKitConfigID" Type="int" />
+    <Field Name="StartCondition" Type="int" />
+    <Field Name="StartConditionParam" Type="int" />
+    <Field Name="StartConditionDelay" Type="int" />
+    <Field Name="EndCondition" Type="int" />
+    <Field Name="EndConditionParam" Type="int" />
+    <Field Name="EndConditionDelay" Type="int" />
+    <Field Name="Speed" Type="int" />
+    <Field Name="SegmentFlags" Type="int" />
+    <Field Name="ForcedVariation" Type="int" />
+    <Field Name="OverrideConfigFlags" Type="int" />
+    <Field Name="LoopToSegmentIndex" Type="int" />
   </Table>
   <Table Name="AnimReplacement" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
+    <Field Name="SrcAnimID" Type="int" />
+    <Field Name="DstAnimID" Type="int" />
+    <Field Name="ParentAnimReplacementSetID" Type="int" />
   </Table>
   <Table Name="AnimReplacementSet" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
+    <Field Name="ExecOrder" Type="int" />
   </Table>
   <Table Name="AreaAssignment" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -2744,68 +2744,50 @@
   </Table>
   <Table Name="SoundEntries" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="string" />
-    <Field Name="Field03" Type="string" />
-    <Field Name="Field04" Type="string" />
-    <Field Name="Field05" Type="string" />
-    <Field Name="Field06" Type="string" />
-    <Field Name="Field07" Type="string" />
-    <Field Name="Field08" Type="string" />
-    <Field Name="Field09" Type="string" />
-    <Field Name="Field10" Type="string" />
-    <Field Name="Field11" Type="string" />
-    <Field Name="Field12" Type="string" />
-    <Field Name="Field13" Type="int" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field15" Type="int" />
-    <Field Name="Field16" Type="int" />
-    <Field Name="Field17" Type="int" />
-    <Field Name="Field18" Type="int" />
-    <Field Name="Field19" Type="int" />
-    <Field Name="Field20" Type="int" />
-    <Field Name="Field21" Type="int" />
-    <Field Name="Field22" Type="int" />
-    <Field Name="Field23" Type="string" />
-    <Field Name="Field24" Type="float" />
-    <Field Name="Field25" Type="int" />
-    <Field Name="Field26" Type="float" />
-    <Field Name="Field27" Type="float" />
-    <Field Name="Field28" Type="int" />
-    <Field Name="Field29" Type="int" />
-    <Field Name="Field30" Type="int" />
-    <Field Name="Field31" Type="int" />
-    <Field Name="Field32" Type="int" />
-    <Field Name="Field33" Type="int" />
-    <Field Name="Field34" Type="int" />
+    <Field Name="SoundType" Type="int" />
+    <Field Name="Name" Type="string" />
+    <Field Name="File" Type="string" ArraySize="10" />
+	<Field Name="Freq" Type="int" ArraySize="10" />
+    <Field Name="DirectoryBase" Type="string" />
+    <Field Name="VolumeFloat" Type="float" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="MinDistance" Type="float" />
+    <Field Name="DistanceCutoff" Type="float" />
+    <Field Name="EAXDef" Type="int" />
+    <Field Name="SoundEntriesAdvancedID" Type="int" />
+    <Field Name="Volumevariationplus" Type="float" />
+    <Field Name="Volumevariationminus" Type="float" />
+    <Field Name="Pitchvariationplus" Type="float" />
+    <Field Name="Pitchvariationminus" Type="float" />
+    <Field Name="Dialogtype" Type="int" />
   </Table>
   <Table Name="SoundEntriesAdvanced" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
-    <Field Name="Field10" Type="int" />
-    <Field Name="Field11" Type="int" />
-    <Field Name="Field12" Type="int" />
-    <Field Name="Field13" Type="int" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field15" Type="int" />
-    <Field Name="Field16" Type="int" />
-    <Field Name="Field17" Type="int" />
-    <Field Name="Field18" Type="int" />
-    <Field Name="Field19" Type="float" />
-    <Field Name="Field20" Type="float" />
-    <Field Name="Field21" Type="int" />
-    <Field Name="Field22" Type="int" />
-    <Field Name="Field23" Type="int" />
-    <Field Name="Field24" Type="int" />
-    <Field Name="Field25" Type="float" />
+    <Field Name="SoundEntryID" Type="int" />
+    <Field Name="InnerRadius2D" Type="float" />
+    <Field Name="TimeA" Type="int" />
+    <Field Name="TimeB" Type="int" />
+    <Field Name="TimeC" Type="int" />
+    <Field Name="TimeD" Type="int" />
+    <Field Name="RandomOffsetRange" Type="int" />
+    <Field Name="Usage" Type="int" />
+    <Field Name="TimeIntervalMin" Type="int" />
+    <Field Name="TimeIntervalMax" Type="int" />
+    <Field Name="VolumeSliderCategory" Type="int" />
+    <Field Name="DuckToSFX" Type="float" />
+    <Field Name="DuckToMusic" Type="float" />
+    <Field Name="DuckToAmbience" Type="float" />
+    <Field Name="InnerRadiusOfInfluence" Type="float" />
+    <Field Name="OuterRadiusOfInfluence" Type="float" />
+    <Field Name="TimeToDuck" Type="int" />
+    <Field Name="TimeToUnduck" Type="int" />
+    <Field Name="InsideAngle" Type="float" />
+    <Field Name="OutsideAngle" Type="float" />
+    <Field Name="OutsideVolume" Type="float" />
+    <Field Name="OuterRadius2D" Type="float" />
+    <Field Name="MinRandomPosOffset" Type="int" />
+    <Field Name="MaxRandomPosOffset" Type="int" />
+    <Field Name="DuckToDialog" Type="float" />
   </Table>
   <Table Name="SoundEntriesFallbacks" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3332,31 +3314,31 @@
   </Table>
   <Table Name="SpellVisual" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
-    <Field Name="Field10" Type="int" />
-    <Field Name="Field11" Type="int" />
-    <Field Name="Field12" Type="int" />
-    <Field Name="Field13" Type="int" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field15" Type="int" />
-    <Field Name="Field16" Type="int" />
-    <Field Name="Field17" Type="int" />
-    <Field Name="Field18" Type="int" />
-    <Field Name="Field19" Type="int" />
-    <Field Name="Field20" Type="int" />
-    <Field Name="Field21" Type="int" />
-    <Field Name="Field22" Type="int" />
-    <Field Name="Field23" Type="int" />
-    <Field Name="Field24" Type="int" />
-    <Field Name="Field25" Type="int" />
+    <Field Name="PrecastKit" Type="int" />
+    <Field Name="CastKit" Type="int" />
+    <Field Name="ImpactKit" Type="int" />
+    <Field Name="StateKit" Type="int" />
+    <Field Name="StateDoneKit" Type="int" />
+    <Field Name="ChannelKit" Type="int" />
+    <Field Name="HasMissile" Type="int" />
+    <Field Name="MissileModel" Type="int" />
+    <Field Name="MissilePathType" Type="int" />
+    <Field Name="MissileDestinationAttachment" Type="int" />
+    <Field Name="MissileSound" Type="int" />
+    <Field Name="AnimEventSoundID" Type="int" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="CasterImpactKit" Type="int" />
+    <Field Name="TargetImpactKit" Type="int" />
+    <Field Name="MissileAttachment" Type="int" />
+    <Field Name="MissileFollowGroundHeight" Type="int" />
+    <Field Name="MissileFollowGroundDropSpeed" Type="int" />
+    <Field Name="MissileFollowGroundApproach" Type="int" />
+    <Field Name="MissileFollowGroundFlags" Type="int" />
+    <Field Name="MissileMotion" Type="int" />
+    <Field Name="MissileTargetingKit" Type="int" />
+    <Field Name="InstantAreaKit" Type="int" />
+    <Field Name="ImpactAreaKit" Type="int" />
+    <Field Name="PersistentAreaKit" Type="int" />
     <Field Name="Field26" Type="int" />
     <Field Name="Field27" Type="int" />
     <Field Name="Field28" Type="int" />
@@ -3367,80 +3349,62 @@
   </Table>
   <Table Name="SpellVisualEffectName" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="string" />
-    <Field Name="Field02" Type="string" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
+    <Field Name="Name" Type="string" />
+    <Field Name="FileName" Type="string" />
+    <Field Name="AreaEffectSize" Type="int" />
+    <Field Name="Scale" Type="int" />
+    <Field Name="MinAllowedScale" Type="int" />
+    <Field Name="MaxAllowedScale" Type="int" />
+    <Field Name="Type" Type="int" />
+    <Field Name="Alpha" Type="int" />
   </Table>
   <Table Name="SpellVisualKit" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
-    <Field Name="Field10" Type="int" />
-    <Field Name="Field11" Type="int" />
-    <Field Name="Field12" Type="int" />
-    <Field Name="Field13" Type="int" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field15" Type="int" />
-    <Field Name="Field16" Type="int" />
-    <Field Name="Field17" Type="int" />
-    <Field Name="Field18" Type="int" />
-    <Field Name="Field19" Type="int" />
-    <Field Name="Field20" Type="int" />
-    <Field Name="Field21" Type="int" />
-    <Field Name="Field22" Type="int" />
-    <Field Name="Field23" Type="int" />
-    <Field Name="Field24" Type="int" />
-    <Field Name="Field25" Type="int" />
-    <Field Name="Field26" Type="int" />
-    <Field Name="Field27" Type="int" />
-    <Field Name="Field28" Type="int" />
-    <Field Name="Field29" Type="int" />
-    <Field Name="Field30" Type="int" />
-    <Field Name="Field31" Type="int" />
-    <Field Name="Field32" Type="int" />
-    <Field Name="Field33" Type="int" />
-    <Field Name="Field34" Type="int" />
-    <Field Name="Field35" Type="int" />
-    <Field Name="Field36" Type="int" />
-    <Field Name="Field37" Type="int" />
-    <Field Name="Field38" Type="int" />
+    <Field Name="StartAnimID" Type="int" />
+    <Field Name="AnimKitID" Type="int" />
+    <Field Name="HeadEffect" Type="int" />
+    <Field Name="ChestEffect" Type="int" />
+    <Field Name="BaseEffect" Type="int" />
+    <Field Name="LeftHandEffect" Type="int" />
+    <Field Name="RightHandEffect" Type="int" />
+    <Field Name="BreathEffect" Type="int" />
+    <Field Name="LeftWeaponEffect" Type="int" />
+    <Field Name="RightWeaponEffect" Type="int" />
+    <Field Name="SpecialEffect" Type="int" ArraySize="3" />
+    <Field Name="WorldEffect" Type="int" />
+    <Field Name="SoundID" Type="int" />
+    <Field Name="ShakeID" Type="int" />
+    <Field Name="CharProc" Type="int" ArraySize="4" />
+    <Field Name="CharParamZero" Type="float" ArraySize="4" />
+    <Field Name="CharParamOne" Type="float" ArraySize="4" />
+    <Field Name="CharParamTwo" Type="float" ArraySize="4" />
+    <Field Name="CharParamThree" Type="float" ArraySize="4" />
+    <Field Name="Flags" Type="int" />
   </Table>
   <Table Name="SpellVisualKitAreaModel" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="string" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="float" />
+    <Field Name="Name" Type="string" />
+    <Field Name="Flags" Type="int" />
+    <Field Name="LifeTime" Type="int" />
+    <Field Name="EmissionRate" Type="int" />
+    <Field Name="Spacing" Type="int" />
+    <Field Name="ModelScale" Type="float" />
   </Table>
   <Table Name="SpellVisualKitModelAttach" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
-    <Field Name="Field10" Type="int" />
-    <Field Name="Field11" Type="int" />
-    <Field Name="Field12" Type="int" />
-    <Field Name="Field13" Type="int" />
+    <Field Name="ParentSpellVisualKitID" Type="int" />
+    <Field Name="SpellVisualEffectNameID" Type="int" />
+    <Field Name="AttachmentID" Type="int" />
+    <Field Name="OffsetX" Type="float" />
+    <Field Name="OffsetY" Type="float" />
+    <Field Name="OffsetZ" Type="float" />
+    <Field Name="Yaw" Type="float" />
+    <Field Name="Pitch" Type="float" />
+    <Field Name="Roll" Type="float" />
+    <Field Name="Field_3205223131" Type="int" />
+    <Field Name="StartAnimID" Type="int" />
+    <Field Name="AnimID" Type="int" />
+    <Field Name="EndAnimID" Type="int" />
   </Table>
   <Table Name="SpellVisualPrecastTransitions" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
@@ -3646,113 +3610,102 @@
   </Table>
   <Table Name="Vehicle" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="float" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="int" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
-    <Field Name="Field10" Type="int" />
-    <Field Name="Field11" Type="int" />
-    <Field Name="Field12" Type="int" />
-    <Field Name="Field13" Type="int" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field15" Type="int" />
-    <Field Name="Field16" Type="int" />
-    <Field Name="Field17" Type="int" />
-    <Field Name="Field18" Type="int" />
-    <Field Name="Field19" Type="int" />
-    <Field Name="Field20" Type="int" />
-    <Field Name="Field21" Type="int" />
-    <Field Name="Field22" Type="int" />
-    <Field Name="Field23" Type="int" />
-    <Field Name="Field24" Type="int" />
-    <Field Name="Field25" Type="int" />
-    <Field Name="Field26" Type="int" />
-    <Field Name="Field27" Type="int" />
-    <Field Name="Field28" Type="int" />
-    <Field Name="Field29" Type="string" />
-    <Field Name="Field30" Type="string" />
-    <Field Name="Field31" Type="string" />
-    <Field Name="Field32" Type="string" />
-    <Field Name="Field33" Type="int" />
-    <Field Name="Field34" Type="int" />
-    <Field Name="Field35" Type="int" />
-    <Field Name="Field36" Type="int" />
-    <Field Name="Field37" Type="int" />
-    <Field Name="Field38" Type="int" />
-    <Field Name="Field39" Type="int" />
+    <Field Name="Flags" Type="uint" />
+    <Field Name="TurnSpeed" Type="float" />
+    <Field Name="PitchSpeed" Type="float" />
+    <Field Name="PitchMin" Type="float" />
+    <Field Name="PitchMax" Type="float" />
+    <Field Name="SeatID" Type="uint" ArraySize="8" />
+    <Field Name="MouseLookOffsetPitch" Type="float" />
+    <Field Name="CameraFadeDistScalarMin" Type="float" />
+    <Field Name="CameraFadeDistScalarMax" Type="float" />
+    <Field Name="CameraPitchOffset" Type="float" />
+    <Field Name="FacingLimitRight" Type="float" />
+    <Field Name="FacingLimitLeft" Type="float" />
+    <Field Name="MsslTrgtTurnLingering" Type="float" />
+    <Field Name="MsslTrgtPitchLingering" Type="float" />
+    <Field Name="MsslTrgtMouseLingering" Type="float" />
+    <Field Name="MsslTrgtEndOpacity" Type="float" />
+    <Field Name="MsslTrgtArcSpeed" Type="float" />
+    <Field Name="MsslTrgtArcRepeat" Type="float" />
+    <Field Name="MsslTrgtArcWidth" Type="float" />
+    <Field Name="MsslTrgtImpactRadius" Type="float" ArraySize="2" />
+    <Field Name="MsslTrgtArcTexture" Type="string" />
+    <Field Name="MsslTrgtImpactTexture" Type="string" />
+    <Field Name="MsslTrgtImpactModel" Type="string" ArraySize="2" />
+    <Field Name="CameraYawOffset" Type="float" />
+    <Field Name="UiLocomotionType" Type="uint" />
+    <Field Name="MsslTrgtImpactTexRadius" Type="float" />
+    <Field Name="VehicleUIIndicatorID" Type="uint" />
+    <Field Name="PowerDisplayID" Type="int" ArraySize="3"  />
   </Table>
   <Table Name="VehicleSeat" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
-    <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="int" />
-    <Field Name="Field03" Type="int" />
-    <Field Name="Field04" Type="int" />
-    <Field Name="Field05" Type="int" />
-    <Field Name="Field06" Type="int" />
-    <Field Name="Field07" Type="float" />
-    <Field Name="Field08" Type="int" />
-    <Field Name="Field09" Type="int" />
-    <Field Name="Field10" Type="int" />
-    <Field Name="Field11" Type="int" />
-    <Field Name="Field12" Type="int" />
-    <Field Name="Field13" Type="int" />
-    <Field Name="Field14" Type="int" />
-    <Field Name="Field15" Type="int" />
-    <Field Name="Field16" Type="int" />
-    <Field Name="Field17" Type="int" />
-    <Field Name="Field18" Type="int" />
-    <Field Name="Field19" Type="int" />
-    <Field Name="Field20" Type="int" />
-    <Field Name="Field21" Type="int" />
-    <Field Name="Field22" Type="int" />
-    <Field Name="Field23" Type="int" />
-    <Field Name="Field24" Type="int" />
-    <Field Name="Field25" Type="int" />
-    <Field Name="Field26" Type="int" />
-    <Field Name="Field27" Type="int" />
-    <Field Name="Field28" Type="int" />
-    <Field Name="Field29" Type="int" />
-    <Field Name="Field30" Type="int" />
-    <Field Name="Field31" Type="int" />
-    <Field Name="Field32" Type="int" />
-    <Field Name="Field33" Type="int" />
-    <Field Name="Field34" Type="int" />
-    <Field Name="Field35" Type="int" />
-    <Field Name="Field36" Type="int" />
-    <Field Name="Field37" Type="int" />
-    <Field Name="Field38" Type="int" />
-    <Field Name="Field39" Type="int" />
-    <Field Name="Field40" Type="int" />
-    <Field Name="Field41" Type="int" />
-    <Field Name="Field42" Type="int" />
-    <Field Name="Field43" Type="int" />
-    <Field Name="Field44" Type="int" />
-    <Field Name="Field45" Type="int" />
-    <Field Name="Field46" Type="int" />
-    <Field Name="Field47" Type="int" />
-    <Field Name="Field48" Type="int" />
-    <Field Name="Field49" Type="int" />
-    <Field Name="Field50" Type="int" />
-    <Field Name="Field51" Type="int" />
-    <Field Name="Field52" Type="int" />
-    <Field Name="Field53" Type="int" />
-    <Field Name="Field54" Type="int" />
-    <Field Name="Field55" Type="int" />
-    <Field Name="Field56" Type="int" />
-    <Field Name="Field57" Type="int" />
-    <Field Name="Field58" Type="int" />
-    <Field Name="Field59" Type="int" />
-    <Field Name="Field60" Type="int" />
-    <Field Name="Field61" Type="int" />
-    <Field Name="Field62" Type="int" />
-    <Field Name="Field63" Type="int" />
-    <Field Name="Field64" Type="int" />
-    <Field Name="Field65" Type="int" />
+    <Field Name="Flags" Type="uint" />
+    <Field Name="AttachmentID" Type="int" />
+    <Field Name="AttachmentOffsetX" Type="float" />
+    <Field Name="AttachmentOffsetY" Type="float" />
+    <Field Name="AttachmentOffsetZ" Type="float" />
+    <Field Name="EnterPreDelay" Type="float" />
+    <Field Name="EnterSpeed" Type="float" />
+    <Field Name="EnterGravity" Type="float" />
+    <Field Name="EnterMinDuration" Type="float" />
+    <Field Name="EnterMaxDuration" Type="float" />
+    <Field Name="EnterMinArcHeight" Type="float" />
+    <Field Name="EnterMaxArcHeight" Type="float" />
+    <Field Name="EnterAnimStart" Type="int" />
+    <Field Name="EnterAnimLoop" Type="int" />
+    <Field Name="RideAnimStart" Type="int" />
+    <Field Name="RideAnimLoop" Type="int" />
+    <Field Name="RideUpperAnimStart" Type="int" />
+    <Field Name="RideUpperAnimLoop" Type="int" />
+    <Field Name="ExitPreDelay" Type="float" />
+    <Field Name="ExitSpeed" Type="float" />
+    <Field Name="ExitGravity" Type="float" />
+    <Field Name="ExitMinDuration" Type="float" />
+    <Field Name="ExitMaxDuration" Type="float" />
+    <Field Name="ExitMinArcHeight" Type="float" />
+    <Field Name="ExitMaxArcHeight" Type="float" />
+    <Field Name="ExitAnimStart" Type="int" />
+    <Field Name="ExitAnimLoop" Type="int" />
+    <Field Name="ExitAnimEnd" Type="int" />
+    <Field Name="PassengerYaw" Type="float" />
+    <Field Name="PassengerPitch" Type="float" />
+    <Field Name="PassengerRoll" Type="float" />
+    <Field Name="PassengerAttachmentID" Type="int" />
+    <Field Name="VehicleEnterAnim" Type="int" />
+    <Field Name="VehicleExitAnim" Type="int" />
+    <Field Name="VehicleRideAnimLoop" Type="int" />
+    <Field Name="VehicleEnterAnimBone" Type="int" />
+    <Field Name="VehicleExitAnimBone" Type="int" />
+    <Field Name="VehicleRideAnimLoopBone" Type="int" />
+    <Field Name="VehicleEnterAnimDelay" Type="float" />
+    <Field Name="VehicleExitAnimDelay" Type="float" />
+    <Field Name="VehicleAbilityDisplay" Type="int" />
+    <Field Name="EnterUISoundID" Type="int" />
+    <Field Name="ExitUISoundID" Type="int" />
+	<Field Name="UISkin" Type="int" />
+	<Field Name="FlagsB" Type="uint" />
+    <Field Name="CameraEnteringDelay" Type="float" />
+    <Field Name="CameraEnteringDuration" Type="float" />
+    <Field Name="CameraExitingDelay" Type="float" />
+    <Field Name="CameraExitingDuration" Type="float" />
+    <Field Name="CameraOffsetX" Type="float" />
+    <Field Name="CameraOffsetY" Type="float" />
+    <Field Name="CameraOffsetZ" Type="float" />
+    <Field Name="CameraPosChaseRate" Type="float" />
+    <Field Name="CameraFacingChaseRate" Type="float" />
+    <Field Name="CameraEnteringZoom" Type="float" />
+    <Field Name="CameraSeatZoomMin" Type="float" />
+    <Field Name="CameraSeatZoomMax" Type="float" />
+    <Field Name="EnterAnimKitID" Type="uint" />
+    <Field Name="RideAnimKitID" Type="uint" />
+    <Field Name="ExitAnimKitID" Type="uint" />
+    <Field Name="VehicleEnterAnimKitID" Type="uint" />
+    <Field Name="VehicleRideAnimKitID" Type="uint" />
+    <Field Name="VehicleExitAnimKitID" Type="uint" />
+    <Field Name="CameraModeID" Type="uint" />
+    <Field Name="FlagsC" Type="uint" />
   </Table>
   <Table Name="VehicleUIIndicator" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
