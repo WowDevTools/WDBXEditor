@@ -1357,8 +1357,10 @@
   <Table Name="ItemClass" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
     <Field Name="Field01" Type="int" />
-    <Field Name="Field02" Type="float" />
+    <Field Name="Field02" Type="int" />
     <Field Name="Field03" Type="string" />
+    <Field Name="Field04" Type="float" />
+    <Field Name="ClassName" Type="string" />
   </Table>
   <Table Name="ItemCondExtCosts" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
