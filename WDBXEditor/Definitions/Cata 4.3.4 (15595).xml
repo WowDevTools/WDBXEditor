@@ -326,11 +326,11 @@
     <Field Name="Field07" Type="int" />
     <Field Name="Field08" Type="int" />
   </Table>
-  <Table Name="CharBaseInfo" Build="18414">
-	<Field Name="ID" Type="int" IsIndex="true" />
-	<Field Name="RaceID" Type="byte" />
-	<Field Name="ClassID" Type="byte" />
-	<Field Name="Padding" Type="byte" ArraySize="2" />
+  <Table Name="CharBaseInfo" Build="15595">
+    <Field Name="ID" Type="int" IsIndex="true" />
+    <Field Name="RaceID" Type="byte" />
+    <Field Name="ClassID" Type="byte" />
+    <Field Name="Padding" Type="byte" ArraySize="2" />
   </Table>
   <Table Name="CharHairGeosets" Build="15595">
     <Field Name="ID" Type="int" IsIndex="true" />
