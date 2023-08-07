@@ -1572,9 +1572,9 @@
     <Field Name="AttributesExE" Type="uint" />
     <Field Name="AttributesExF" Type="uint" />
     <Field Name="AttributesExG" Type="uint" />
-    <Field Name="ShapeshiftMask" Type="uint" />
+    <Field Name="Stances" Type="uint" />
     <Field Name="unk_320_2" Type="uint" />
-    <Field Name="ShapeshiftExclude" Type="uint" />
+    <Field Name="StancesNot" Type="uint" />
     <Field Name="unk_320_3" Type="uint" />
     <Field Name="Targets" Type="uint" />
     <Field Name="TargetCreatureType" Type="uint" />
