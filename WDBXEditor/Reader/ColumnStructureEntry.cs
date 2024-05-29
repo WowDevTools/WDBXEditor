@@ -12,7 +12,7 @@ namespace WDBXEditor.Reader
 		public ushort RecordOffset { get; set; }
 		public ushort Size { get; set; }
 		public uint AdditionalDataSize { get; set; }
-		public CompressionType CompressionType { get; set; }
+		public CompressionTypeWDBX CompressionTypeWDBX { get; set; }
 		public int BitOffset { get; set; }  // used as common data column for Sparse
 		public int BitWidth { get; set; }
 		public int Cardinality { get; set; } // flags for Immediate, &1: Signed

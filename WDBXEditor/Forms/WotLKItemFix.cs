@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static WDBXEditor.Common.Constants;
+using MySqlX.XDevAPI.Relational;
 
 namespace WDBXEditor
 {
@@ -109,15 +110,17 @@ namespace WDBXEditor
 					{
 						connection.Open();
 						MySqlCommand command = new MySqlCommand(sql, connection);
-						using (var rdr = command.ExecuteReader())
-						{
-							ddlTable.Items.Add("");
-							while (rdr.Read())
-								ddlTable.Items.Add(rdr[0].ToString());
+						using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                ddlTable.Items.Add(reader.GetString(0));
+								MessageBox.Show(reader.GetString(0));
+                            }
 						}
 					}
 				}
-				catch { return; }
+				catch (Exception ex) { MessageBox.Show(ex.Message); }
 			}
 
 			btnLoad.Enabled = !string.IsNullOrWhiteSpace(ddlDatabases.Text) && //Database selected

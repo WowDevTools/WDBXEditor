@@ -322,12 +322,12 @@ namespace WDBXEditor.Forms
 						continue;
 					}
 
-					if (header.ColumnMeta[f].CompressionType == CompressionType.None)
+					if (header.ColumnMeta[f].CompressionTypeWDBX == CompressionTypeWDBX.None)
 					{
 						int bitSize = header.FieldStructure[f].BitCount;
 						byteType = FieldTypes[NextPow2(~~(bitSize + 7) / 8)];
 					}
-					else if (header.ColumnMeta[f].CompressionType > CompressionType.Immediate)
+					else if (header.ColumnMeta[f].CompressionTypeWDBX > CompressionTypeWDBX.Immediate)
 					{
 						byteType = FieldType.INT;
 					}
@@ -400,7 +400,7 @@ namespace WDBXEditor.Forms
 						fields[i].Type = FieldType.FLOAT;
 					else if (options.Contains(FieldType.STRING))
 						fields[i].Type = FieldType.STRING;
-					else if (header.ColumnMeta[i].CompressionType == CompressionType.Immediate && header.ColumnMeta[i].Cardinality == 0)
+					else if (header.ColumnMeta[i].CompressionTypeWDBX == CompressionTypeWDBX.Immediate && header.ColumnMeta[i].Cardinality == 0)
 						fields[i].Type = FieldType.UINT;
 					else
 						fields[i].Type = FieldType.INT;

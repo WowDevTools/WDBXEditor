@@ -11,12 +11,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static WDBXEditor.Common.Constants;
+using MySqlX.XDevAPI.Relational;
 
 namespace WDBXEditor
 {
     public partial class LoadSQL : Form
     {
-        public string ConnectionString => $"Server={txtHost.Text};Port={txtPort.Text};Database={ddlDatabases.Text};Uid={txtUser.Text};Pwd={txtPass.Text};";
+        public string ConnectionString => $"Server={txtHost.Text};Port={txtPort.Text};Database={ddlDatabases.Text};Uid={txtUser.Text};Pwd={txtPass.Text};AllowLoadLocalInfile=true;";
         public bool ConnectionOnly { get; set; } = false;
         public DBEntry Entry { get; set; }
         public string ErrorMessage = string.Empty;
@@ -143,16 +144,19 @@ namespace WDBXEditor
                     using (MySqlConnection connection = new MySqlConnection(ConnectionString))
                     {
                         connection.Open();
-                        MySqlCommand command = new MySqlCommand($"USE {ddlDatabases.Text}; SHOW TABLES;", connection);
-                        using (var rdr = command.ExecuteReader())
+                        //string sql = $"SELECT table_name FROM information_schema.tables WHERE table_schema = {ddlDatabases.Text}";
+                        string sql = $"USE {ddlDatabases.Text}; SHOW TABLES;";
+                        MySqlCommand command = new MySqlCommand(sql, connection);
+                        using (var reader = command.ExecuteReader())
                         {
-                            ddlTable.Items.Add("");
-                            while (rdr.Read())
-                                ddlTable.Items.Add(rdr[0].ToString());
+                            while (reader.Read())
+                            {
+                                ddlTable.Items.Add(reader.GetString(0));
+                            }
                         }
                     }
                 }
-                catch { return; }
+                catch(Exception ex) { MessageBox.Show(ex.Message); return; }
             }
 
             btnLoad.Enabled = !string.IsNullOrWhiteSpace(ddlDatabases.Text) && //Database selected

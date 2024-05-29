@@ -641,17 +641,25 @@ namespace WDBXEditor
 			{
 				if (sql.ShowDialog(this) == DialogResult.OK)
 				{
-					ProgressBarHandle(true, "Exporting to SQL...");
-					Task.Factory.StartNew(() => { LoadedEntry.ToSQLTable(sql.ConnectionString); })
-					.ContinueWith(x =>
+					try
 					{
-						if (x.IsFaulted)
-							MessageBox.Show("An error occured exporting to SQL.");
-						else
-							MessageBox.Show("Sucessfully exported to SQL.");
+                        ProgressBarHandle(true, "Exporting to SQL...");
+                        Task.Factory.StartNew(() => { LoadedEntry.ToSQLTable(sql.ConnectionString); })
+                        .ContinueWith(x =>
+                        {
+							if (x.IsFaulted)
+								MessageBox.Show("An error occured exporting to SQL. ");
+							else
+								MessageBox.Show("Sucessfully exported to SQL.");
 
-						ProgressBarHandle(false);
-					}, TaskScheduler.FromCurrentSynchronizationContext());
+                            ProgressBarHandle(false);
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
+					}
+					catch (Exception ex)
+					{
+                        MessageBox.Show("An error occured exporting to SQL. " + ex.Message);
+                    }
+					
 				}
 			}
 		}

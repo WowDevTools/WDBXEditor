@@ -17,16 +17,12 @@ using static WDBXEditor.Common.Extensions;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Web.Script.Serialization;
-using System.Diagnostics;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO.MemoryMappedFiles;
-using System.Security.AccessControl;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace WDBXEditor.Storage
 {
-	public class DBEntry : IDisposable
+    public class DBEntry : IDisposable
 	{
 		public DBHeader Header { get; private set; }
 		public DataTable Data { get; set; }
@@ -298,7 +294,7 @@ namespace WDBXEditor.Storage
 				foreach (var field in header.ColumnMeta)
 				{
 					Type type = Data.Columns[c].DataType;
-					bool isneeded = field.CompressionType >= CompressionType.Sparse;
+					bool isneeded = field.CompressionTypeWDBX >= CompressionTypeWDBX.Sparse;
 
 					if (bytecounts.ContainsKey(type) && isneeded)
 					{
@@ -500,22 +496,22 @@ namespace WDBXEditor.Storage
 		/// <param name="connectionstring"></param>
 		public void ToSQLTable(string connectionstring)
 		{
-			string tableName = $"db_{TableStructure.Name}_{Build}";
-			string csvName = Path.Combine(TEMP_FOLDER, tableName + ".csv");
-			StringBuilder sb = new StringBuilder();
-			sb.AppendLine("SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION';");
-			sb.AppendLine($"DROP TABLE IF EXISTS `{tableName}`; ");
-			sb.AppendLine($"CREATE TABLE `{tableName}` ({Data.Columns.ToSql(Key)}) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci; ");
+            string tableName = $"db_{TableStructure.Name}_{Build}";
+            string csvName = Path.Combine(TEMP_FOLDER, tableName + ".csv");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION';");
+            sb.AppendLine($"DROP TABLE IF EXISTS `{tableName}`; ");
+            sb.AppendLine($"CREATE TABLE `{tableName}` ({Data.Columns.ToSql(Key)}) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci; ");
 
-			using (StreamWriter csv = new StreamWriter(csvName))
-				csv.Write(ToCSV());
+            using (StreamWriter csv = new StreamWriter(csvName))
+                csv.Write(ToCSV());
 
-			using (MySqlConnection connection = new MySqlConnection(connectionstring))
-			{
-				connection.Open();
+            using (MySqlConnection connection = new MySqlConnection(connectionstring))
+            {
+                connection.Open();
 
-				using (MySqlCommand command = new MySqlCommand(sb.ToString(), connection))
-					command.ExecuteNonQuery();
+                using (MySqlCommand command = new MySqlCommand(sb.ToString(), connection))
+                    command.ExecuteNonQuery();
 
 				new MySqlBulkLoader(connection)
 				{
@@ -525,13 +521,14 @@ namespace WDBXEditor.Storage
 					NumberOfLinesToSkip = 1,
 					FileName = csvName,
 					FieldQuotationCharacter = '"',
-					CharacterSet = "UTF8"
-				}.Load();
-			}
+					CharacterSet = "UTF8",
+					Local = true
+                }.Load();
+            }
 
-			try { File.Delete(csvName); }
-			catch { }
-		}
+            try { File.Delete(csvName); }
+            catch { }
+        }
 
 		/// <summary>
 		/// Generates a CSV file string

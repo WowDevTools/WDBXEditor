@@ -139,16 +139,16 @@ namespace WDBXEditor.Reader.FileTypes
 					RecordOffset = dbReader.ReadUInt16(),
 					Size = dbReader.ReadUInt16(),
 					AdditionalDataSize = dbReader.ReadUInt32(), // size of pallet / sparse values
-					CompressionType = (CompressionType)dbReader.ReadUInt32(),
+					CompressionTypeWDBX = (CompressionTypeWDBX)dbReader.ReadUInt32(),
 					BitOffset = dbReader.ReadInt32(),
 					BitWidth = dbReader.ReadInt32(),
 					Cardinality = dbReader.ReadInt32()
 				};
 
 				// preload arraysizes
-				if (column.CompressionType == CompressionType.None)
+				if (column.CompressionTypeWDBX == CompressionTypeWDBX.None)
 					column.ArraySize = Math.Max(column.Size / FieldStructure[i].BitCount, 1);
-				else if (column.CompressionType == CompressionType.PalletArray)
+				else if (column.CompressionTypeWDBX == CompressionTypeWDBX.PalletArray)
 					column.ArraySize = Math.Max(column.Cardinality, 1);
 
 				ColumnMeta.Add(column);
@@ -157,7 +157,7 @@ namespace WDBXEditor.Reader.FileTypes
 			// Pallet values
 			for (int i = 0; i < ColumnMeta.Count; i++)
 			{
-				if (ColumnMeta[i].CompressionType == CompressionType.Pallet || ColumnMeta[i].CompressionType == CompressionType.PalletArray)
+				if (ColumnMeta[i].CompressionTypeWDBX == CompressionTypeWDBX.Pallet || ColumnMeta[i].CompressionTypeWDBX == CompressionTypeWDBX.PalletArray)
 				{
 					int elements = (int)ColumnMeta[i].AdditionalDataSize / 4;
 					int cardinality = Math.Max(ColumnMeta[i].Cardinality, 1);
@@ -171,7 +171,7 @@ namespace WDBXEditor.Reader.FileTypes
 			// Sparse values
 			for (int i = 0; i < ColumnMeta.Count; i++)
 			{
-				if (ColumnMeta[i].CompressionType == CompressionType.Sparse)
+				if (ColumnMeta[i].CompressionTypeWDBX == CompressionTypeWDBX.Sparse)
 				{
 					ColumnMeta[i].SparseValues = new Dictionary<int, byte[]>();
 					for (int j = 0; j < ColumnMeta[i].AdditionalDataSize / 8; j++)
@@ -263,9 +263,9 @@ namespace WDBXEditor.Reader.FileTypes
 						uint palletIndex;
 						int take = columnSizes[c] * ColumnMeta[f].ArraySize;
 
-						switch (ColumnMeta[f].CompressionType)
+						switch (ColumnMeta[f].CompressionTypeWDBX)
 						{
-							case CompressionType.None:
+							case CompressionTypeWDBX.None:
 								int bitSize = FieldStructure[f].BitCount;
 								if (!HasIndexTable && f == IdIndex)
 								{
@@ -279,8 +279,8 @@ namespace WDBXEditor.Reader.FileTypes
 								}
 								break;
 
-							case CompressionType.Immediate:
-							case CompressionType.SignedImmediate:
+							case CompressionTypeWDBX.Immediate:
+							case CompressionTypeWDBX.SignedImmediate:
 								if (!HasIndexTable && f == IdIndex)
 								{
 									idOffset = data.Count;
@@ -293,21 +293,21 @@ namespace WDBXEditor.Reader.FileTypes
 								}
 								break;
 
-							case CompressionType.Sparse:
+							case CompressionTypeWDBX.Sparse:
 								if (ColumnMeta[f].SparseValues.TryGetValue(id, out byte[] valBytes))
 									data.AddRange(valBytes.Take(take));
 								else
 									data.AddRange(BitConverter.GetBytes(ColumnMeta[f].BitOffset).Take(take));
 								break;
 
-							case CompressionType.Pallet:
-							case CompressionType.PalletArray:
+							case CompressionTypeWDBX.Pallet:
+							case CompressionTypeWDBX.PalletArray:
 								palletIndex = bitStream.ReadUInt32(bitWidth);
 								data.AddRange(ColumnMeta[f].PalletValues[(int)palletIndex].Take(take));
 								break;
 
 							default:
-								throw new Exception($"Unknown compression {ColumnMeta[f].CompressionType}");
+								throw new Exception($"Unknown compression {ColumnMeta[f].CompressionTypeWDBX}");
 
 						}
 
@@ -554,24 +554,24 @@ namespace WDBXEditor.Reader.FileTypes
 					if (data.Length == 0)
 						continue;
 
-					CompressionType compression = ColumnMeta[fieldIndex].CompressionType;
+                    CompressionTypeWDBX compression = ColumnMeta[fieldIndex].CompressionTypeWDBX;
 
-					if (isCopyRecord && compression != CompressionType.Sparse) // copy records still store the sparse data
+					if (isCopyRecord && compression != CompressionTypeWDBX.Sparse) // copy records still store the sparse data
 						continue;
 
 					switch (compression)
 					{
-						case CompressionType.None:
+						case CompressionTypeWDBX.None:
 							for (int i = 0; i < arraySize; i++)
 								bitStream.WriteBits(data[i], bitSize);
 							break;
 
-						case CompressionType.Immediate:
-						case CompressionType.SignedImmediate:
+						case CompressionTypeWDBX.Immediate:
+						case CompressionTypeWDBX.SignedImmediate:
 							bitStream.WriteBits(data[0], bitWidth);
 							break;
 
-						case CompressionType.Sparse:
+						case CompressionTypeWDBX.Sparse:
 							{
 								Array.Resize(ref data[0], 4);
 								if (BitConverter.ToInt32(data[0], 0) != ColumnMeta[fieldIndex].BitOffset)
@@ -579,8 +579,8 @@ namespace WDBXEditor.Reader.FileTypes
 							}
 							break;
 
-						case CompressionType.Pallet:
-						case CompressionType.PalletArray:
+						case CompressionTypeWDBX.Pallet:
+						case CompressionTypeWDBX.PalletArray:
 							{
 								byte[] combined = data.SelectMany(x => x.Concat(new byte[4]).Take(4)).ToArray(); // enforce int size rule
 
@@ -598,7 +598,7 @@ namespace WDBXEditor.Reader.FileTypes
 							break;
 
 						default:
-							throw new Exception("Unsupported compression type " + ColumnMeta[fieldIndex].CompressionType);
+							throw new Exception("Unsupported compression type " + ColumnMeta[fieldIndex].CompressionTypeWDBX);
 
 					}
 				}
@@ -684,7 +684,7 @@ namespace WDBXEditor.Reader.FileTypes
 				else
 					bw.WriteUInt32(0);
 
-				bw.Write((uint)meta.CompressionType);
+				bw.Write((uint)meta.CompressionTypeWDBX);
 				bw.Write(meta.BitOffset);
 				bw.Write(meta.BitWidth);
 				bw.Write(meta.Cardinality);
@@ -695,7 +695,7 @@ namespace WDBXEditor.Reader.FileTypes
 			pos = bw.BaseStream.Position;
 			foreach (var meta in ColumnMeta)
 			{
-				if (meta.CompressionType == CompressionType.Pallet || meta.CompressionType == CompressionType.PalletArray)
+				if (meta.CompressionTypeWDBX == CompressionTypeWDBX.Pallet || meta.CompressionTypeWDBX == CompressionTypeWDBX.PalletArray)
 					bw.WriteArray(meta.PalletValues.SelectMany(x => x).ToArray());
 			}
 			PalletDataSize = (int)(bw.BaseStream.Position - pos);
@@ -704,7 +704,7 @@ namespace WDBXEditor.Reader.FileTypes
 			pos = bw.BaseStream.Position;
 			foreach (var meta in ColumnMeta)
 			{
-				if (meta.CompressionType == CompressionType.Sparse)
+				if (meta.CompressionTypeWDBX == CompressionTypeWDBX.Sparse)
 				{
 					foreach (var sparse in meta.SparseValues)
 					{
@@ -795,25 +795,25 @@ namespace WDBXEditor.Reader.FileTypes
 			int c = HasIndexTable ? 1 : 0;
 			int cm = ColumnMeta.Count - (RelationShipData != null ? 1 : 0);
 
-			var skipType = new HashSet<CompressionType>(new[] { CompressionType.None, CompressionType.Sparse });
+			var skipType = new HashSet<CompressionTypeWDBX>(new[] { CompressionTypeWDBX.None, CompressionTypeWDBX.Sparse });
 
 			for (int i = c; i < cm; i++)
 			{
 				var col = ColumnMeta[i];
-				var type = col.CompressionType;
+				var type = col.CompressionTypeWDBX;
 				int oldsize = col.BitWidth;
 				ushort newsize = (ushort)(columnSizes[c] * 8);
 
 				c += col.ArraySize;
 
-				if (skipType.Contains(col.CompressionType) || newsize == oldsize)
+				if (skipType.Contains(col.CompressionTypeWDBX) || newsize == oldsize)
 					continue;
 
 				col.BitWidth = col.Size = newsize;
 
 				for (int x = i + 1; x < cm; x++)
 				{
-					if (skipType.Contains(ColumnMeta[x].CompressionType))
+					if (skipType.Contains(ColumnMeta[x].CompressionTypeWDBX))
 						continue;
 
 					ColumnMeta[x].RecordOffset += (ushort)(newsize - oldsize);

@@ -64,7 +64,7 @@ namespace WDBXEditor.Common
 			TakeNewest
 		}
 
-		public enum CompressionType
+		public enum CompressionTypeWDBX
 		{
 			None = 0,
 			Immediate = 1,

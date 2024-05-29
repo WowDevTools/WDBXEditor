@@ -47,3 +47,41 @@ This means any and all contribution in the form of commits, change requests, iss
 ### Credits:
 Credits go to Ladislav Zezula for the awesome StormLib and thanks to all those that contribute to the WoWDev wiki.
 I've also patched the definitions together for various sources across the internet, there are too many to name, but thanks to all.
+
+### MySQL Setup:
+LOAD DATA LOCAL INFILE is not enabled by default.Normally, it should be enabled by placing local-infile=1 in my.cnf. But it does not work for all installations.
+Connect to your server using MySQL or any console client using the following command:
+```
+mysql -u root -p 
+```
+It should echo the following:
+```
+Enter password:
+```
+Now you have to enter your root password.
+After you are connected, paste the following command:
+```
+SHOW GLOBAL VARIABLES LIKE 'local_infile';
+```
+It should echo the following:
+```
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| local_infile  | OFF   |
++---------------+-------+
+1 row in set (0.00 sec)
+```
+If local_infile = OFF, you need to paste the following command, otherwise if it is ON, you are good to go!
+```
+SET GLOBAL local_infile = 'ON'
+```
+It should echo the following:
+```
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| local_infile  | ON    |
++---------------+-------+
+1 row in set (0.00 sec)
+```
