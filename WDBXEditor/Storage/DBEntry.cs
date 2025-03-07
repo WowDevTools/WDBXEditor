@@ -1,6 +1,6 @@
 ﻿using WDBXEditor.Common;
 using WDBXEditor.Reader;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using WDBXEditor.Archives.MPQ;
 using System;
 using System.Collections.Generic;
