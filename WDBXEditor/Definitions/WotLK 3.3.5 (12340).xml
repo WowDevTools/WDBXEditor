@@ -245,7 +245,6 @@
   </Table>
   <Table Name="Cfg_Configs" Build="12340">
     <Field Name="ID" Type="int" IsIndex="true" AutoGenerate="true" />
-    <Field Name="ID" Type="int" />
     <Field Name="RealmType" Type="int" />
     <Field Name="PlayerKillingAllowed" Type="int" />
     <Field Name="Roleplaying" Type="int" />
