@@ -1,0 +1,40 @@
+name: Ascension WDBXEditor Windows build
+on:
+  push:
+    branches:
+      - feature/ascension-custom-dbc
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: NuGet/setup-nuget@v2
+      - uses: microsoft/setup-msbuild@v2
+      - name: Ensure .NET Framework 4.6.1 targeting pack
+        shell: pwsh
+        run: |
+          $root = "${env:ProgramFiles(x86)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1"
+          if (-not (Test-Path (Join-Path $root 'mscorlib.dll'))) {
+            $installer = Join-Path $env:RUNNER_TEMP 'NDP461-DevPack-KB3105179-ENU.exe'
+            Invoke-WebRequest 'https://download.microsoft.com/download/F/1/D/F1DEB8DB-D277-4EF9-9F48-3A65D4D8F965/NDP461-DevPack-KB3105179-ENU.exe' -OutFile $installer
+            $result = Start-Process $installer -ArgumentList '/q', '/norestart' -Wait -PassThru
+            if ($result.ExitCode -ne 0 -and $result.ExitCode -ne 3010) {
+              throw "Targeting pack install failed: $($result.ExitCode)"
+            }
+          }
+      - name: Restore packages
+        run: nuget restore WDBXEditor.sln -NonInteractive
+      - name: Build Release
+        run: msbuild WDBXEditor.sln /t:Rebuild /p:Configuration=Release "/p:Platform=Any CPU" /m /v:minimal
+      - name: Round-trip raw WDBC smoke test
+        shell: powershell
+        run: .\\tests\\Test-RawWdbcRoundTrip.ps1
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: WDBXEditor-Ascension-Windows
+          path: WDBXEditor/bin/Release/
+          if-no-files-found: error

@@ -105,8 +105,16 @@ namespace WDBXEditor
 			if (mostRecent)
 				datasource = datasource.GroupBy(x => x.Value.Split('(').First()).Select(x => x.Aggregate((a, b) => a.Key > b.Key ? a : b));
 
-			// order
-			datasource = datasource.OrderBy(x => x.Key);
+            // Unknown custom .dbc files are not present in the stock XML.
+            // Offer WotLK 12340 so they can be inspected via the raw WDBC fallback.
+            if (Files != null && Files.Any(x => Path.GetExtension(x).Equals(".dbc", IGNORECASE)))
+                datasource = datasource.Concat(new[]
+                {
+                    new { Key = (int)ExpansionFinalBuild.WotLK, Value = BuildText((int)ExpansionFinalBuild.WotLK) }
+                }).Distinct();
+
+            // order
+            datasource = datasource.OrderBy(x => x.Key);
 
 
 			lbDefinitions.BeginUpdate();
